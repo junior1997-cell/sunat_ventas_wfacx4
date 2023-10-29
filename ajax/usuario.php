@@ -348,9 +348,27 @@ switch ($_GET["op"]) {
         $fetch3 = $rspta3->fetch_object();
 
         if (isset($fetch)) {
+
+            // Mapear el valor numérico a su respectiva descripción
+            $cargo = '';
+            switch ($fetch->cargo) {
+                case 0:
+                    $cargo = "Administrador";
+                    break;
+                case 1:
+                    $cargo = "Ventas";
+                    break;
+                case 2:
+                    $cargo = "Logistica";
+                    break;
+                case 3:
+                    $cargo = "Contabilidad";
+                    break;
+            }  
             //Declaramos las variables de sesión
             $_SESSION['idusuario'] = $fetch->idusuario;
             $_SESSION['nombre'] = $fetch->nombre;
+            $_SESSION['cargo'] = $cargo;
             $_SESSION['imagen'] = $fetch->imagen;
             $_SESSION['login'] = $fetch->login;
 

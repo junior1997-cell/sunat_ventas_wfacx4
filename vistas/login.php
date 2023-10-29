@@ -63,12 +63,12 @@ require_once '../config/global.php';
 			<form method="post" id="frmAcceso" name="frmAcceso" onload="document.frmAcceso.logina.focus()"
 				action="../config/global.php">
 				<div class="input-box animation" style="--i:1; --j:22;">
-					<input value="admin" id="logina" name="logina" type="text" required />
+					<input value="" id="logina" name="logina" type="text" required />
 					<label>Usuario</label>
 					<i class="bx bxs-user"></i>
 				</div>
 				<div class="input-box animation" style="--i:2; --j:23;">
-					<input value="chezter31" id="clavea" name="clavea" type="password" required />
+					<input value="" id="clavea" name="clavea" type="password" required />
 					<label>Password</label>
 					<i class="bx bxs-lock-alt"></i>
 				</div>

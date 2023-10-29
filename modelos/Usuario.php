@@ -164,7 +164,7 @@ class Usuario
 
 		//$sql="select u.idusuario, u.nombre, u.tipo_documento, u.num_documento, u.telefono, u.email, u.cargo, u.imagen, u.login, e.nombre_razon_social, e.idempresa, co.igv  from usuario u inner join usuario_empresa ue on u.idusuario=ue.idusuario inner join empresa e on ue.idempresa=e.idempresa inner join configuraciones co on e.idempresa=co.idempresa where u.login='$login' and u.clave='$clave' and  e.idempresa='$empresa' and u.condicion='1'";
 
-		$sql = "select 
+		$sql = "SELECT
 		u.idusuario, 
 		u.nombre, 
 		u.tipo_documento, 
@@ -180,8 +180,11 @@ class Usuario
 		e.nombre_comercial,
 		e.numero_ruc,
 		e.domicilio_fiscal  
-		from 
-		usuario u inner join usuario_empresa ue on u.idusuario=ue.idusuario inner join empresa e on ue.idempresa=e.idempresa inner join configuraciones co on e.idempresa=co.idempresa where u.login='$login' and u.clave='$clave' and u.condicion='1'";
+		from usuario u 
+		inner join usuario_empresa ue on u.idusuario=ue.idusuario 
+		inner join empresa e on ue.idempresa=e.idempresa 
+		inner join configuraciones co on e.idempresa=co.idempresa 
+		where u.login='$login' and u.clave='$clave' and u.condicion='1'";
 
 		return ejecutarConsulta($sql);
 	}

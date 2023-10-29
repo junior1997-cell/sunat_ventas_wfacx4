@@ -177,7 +177,7 @@ class Consultas
 
 
 
-    public function listadodb()
+    /*public function listadodb()
     {
         $enlace = mysql_connect(DB_HOST, DB_USERNAME, DB_PASSWORD);
         $resultado = mysql_query("SHOW DATABASES");
@@ -186,7 +186,7 @@ class Consultas
             $dbs[] = $fila[0];
         }
         return $dbs;
-    }
+    }*/
 
 
     public function conectar($login, $clave, $empresa)
@@ -547,26 +547,24 @@ as tabla group by dia";
     //ProductosMas ventidos
     public function productosmasvendidos()
     {
-        $sql = "
-        select
-    a.codigo,
-    a.nombre,
-    a.imagen,
-    a.estado,
-    sum(union_tablas.cantidad) as total_unidades_vendidas,
-    count(union_tablas.idarticulo) as total_ventas
-from (
-    select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_notapedido_producto
-    union all
-    select idfactura as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_fac_art
-    union all
-    select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_boleta_producto
-) as union_tablas
-join articulo a on union_tablas.idarticulo = a.idarticulo
-group by union_tablas.idarticulo, a.codigo, a.nombre, a.imagen, a.estado
-order by total_ventas desc, total_unidades_vendidas DESC
-limit 7;
-        ";
+        $sql = "SELECT
+            a.codigo,
+            a.nombre,
+            a.imagen,
+            a.estado,
+            sum(union_tablas.cantidad) as total_unidades_vendidas,
+            count(union_tablas.idarticulo) as total_ventas
+        from (
+            select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_notapedido_producto
+            union all
+            select idfactura as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_fac_art
+            union all
+            select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_boleta_producto
+        ) as union_tablas
+        join articulo a on union_tablas.idarticulo = a.idarticulo
+        group by union_tablas.idarticulo, a.codigo, a.nombre, a.imagen, a.estado
+        order by total_ventas desc, total_unidades_vendidas DESC
+        limit 7; ";
         return ejecutarconsulta($sql);
     }
 
@@ -626,5 +624,3 @@ limit 7;
 
 
 }
-
-?>

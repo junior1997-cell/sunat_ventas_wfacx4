@@ -231,7 +231,7 @@
                                 <?php echo $_SESSION['nombre']; ?>
                             </p>
                             <span class="op-7 fw-normal d-block fs-11">
-                                <?php echo $_SESSION['estado']; ?>
+                                <?php echo $_SESSION['cargo']; ?>
                             </span>
                         </div>
                     </div>
@@ -243,7 +243,7 @@
                                 class="ti ti-user-circle fs-18 me-2 op-7"></i>Perfil</a></li>
                     <li><a class="dropdown-item d-flex" href="../vistas/empresa"><i
                                 class="ti ti-adjustments-horizontal fs-18 me-2 op-7"></i>Ajustes</a></li>
-                    <li><a class="dropdown-item d-flex" href="https://wa.link/8t3z9r"><i
+                    <li><a class="dropdown-item d-flex" href="https://wa.link/oetgkf"  target="_blank"><i
                                 class="ti ti-headset fs-18 me-2 op-7"></i>Soporte</a></li>
                     <li><a class="dropdown-item d-flex" href="../ajax/usuario?op=salir"><i
                                 class="ti ti-logout fs-18 me-2 op-7"></i>Salir</a></li>

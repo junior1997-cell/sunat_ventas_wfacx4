@@ -6,8 +6,6 @@ ob_start();
 
 session_start();
 
-
-
 if (!isset($_SESSION["nombre"])) {
 
   header("Location: ../vistas/login.php");
@@ -19,12 +17,7 @@ if (!isset($_SESSION["nombre"])) {
   if ($_SESSION['Configuracion'] == 1) {
 
     ?>
-
-
-
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
-
-
 
         <!--Contenido-->
 
@@ -43,9 +36,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       <div class="col-md-12">
 
-                          <div class="">
-
-    
+                          <div class="">   
 
                             <div class="panel-body table-responsive" id="listadoregistros">
 
@@ -64,15 +55,9 @@ if (!isset($_SESSION["nombre"])) {
 
                                     <th>Web</th>
 
-                                    <th>Logo</th>
-
-                            
-
-                            
+                                    <th>Logo</th>                        
 
                                   </thead>
-
-
 
                                   <tbody>                            
 
@@ -98,22 +83,13 @@ if (!isset($_SESSION["nombre"])) {
 
                           </tfoot> -->
 
-
-
                               </table>
 
                             </div>
 
-
-
-
-
-
-
                        <div class="panel-body" id="formularioregistros">
 
                          <form name="formulario" id="formulario" method="post">
-
                  
                               <div class="card-body">
                                 <div class="row">
@@ -224,8 +200,6 @@ if (!isset($_SESSION["nombre"])) {
 
                                     <img src="" width="80px" height="80px" id="imagenmuestra">
 
-
-
                                     <hr>
 
                                     <div id="preview" ></div>
@@ -251,7 +225,6 @@ if (!isset($_SESSION["nombre"])) {
                                 <input class="form-control" type="text" name="cuentacci1" id="cuentacci1">
                               </div>
 
-
                             </div>
 
                             <div class="row">
@@ -270,7 +243,6 @@ if (!isset($_SESSION["nombre"])) {
                                 <label>CCI</label>
                                 <input class="form-control" type="text" name="cuentacci2" id="cuentacci2">
                               </div>
-
 
                             </div>
 
@@ -291,7 +263,6 @@ if (!isset($_SESSION["nombre"])) {
                                 <input class="form-control" type="text" name="cuentacci3" id="cuentacci3">
                               </div>
 
-
                             </div>
 
                             <div class="row mb-4">
@@ -311,7 +282,6 @@ if (!isset($_SESSION["nombre"])) {
                                 <input class="form-control" type="text" name="cuentacci4" id="cuentacci4">
                               </div>
 
-
                             </div>
 
                                 </div>
@@ -324,17 +294,9 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
                          </div>
 
-
-
-
-
-
-
                   </div><!-- /.row -->
 
               </section><!-- /.content -->
-
-
 
             </div><!-- /.content-wrapper -->
 
@@ -347,8 +309,6 @@ if (!isset($_SESSION["nombre"])) {
     require 'noacceso.php';
 
   }
-
-
 
   require 'footer.php';
 
