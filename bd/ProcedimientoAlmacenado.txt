@@ -1,0 +1,61 @@
+DELIMITER //
+CREATE PROCEDURE InsertarDatos(
+    IN p_codigo VARCHAR(255), 
+    IN p_familia_descripcion VARCHAR(45), 
+    IN p_nombre VARCHAR(500),
+    IN p_marca VARCHAR(100),
+    IN p_descrip VARCHAR(500),
+    IN p_costo_compra FLOAT(12,2),
+    IN p_precio_venta DECIMAL(12,2),
+    IN p_stock FLOAT(12,2),
+    IN p_saldo_iniu FLOAT(12,2),
+    IN p_valor_iniu FLOAT(12,2),
+    IN p_tipoitem VARCHAR(50),
+    IN p_codigott VARCHAR(50),
+    IN p_desctt VARCHAR(50),
+    IN p_codigointtt VARCHAR(50),
+    IN p_nombrett VARCHAR(50),
+    IN p_nombre_almacen VARCHAR(45)
+)
+BEGIN
+    DECLARE fam_id INT;
+    DECLARE alm_id INT;
+
+    -- Insertar en familia si no existe, o recuperar ID si existe
+    INSERT INTO familia (descripcion, estado) 
+    VALUES (p_familia_descripcion, 1)
+    ON DUPLICATE KEY UPDATE idfamilia=LAST_INSERT_ID(idfamilia), descripcion=p_familia_descripcion;
+
+    SET fam_id = LAST_INSERT_ID();
+
+    -- Insertar en almacén si no existe, o recuperar ID si existe
+    INSERT INTO almacen (nombre, estado) 
+    VALUES (p_nombre_almacen, 1)
+    ON DUPLICATE KEY UPDATE idalmacen=LAST_INSERT_ID(idalmacen), nombre=p_nombre_almacen;
+
+    SET alm_id = LAST_INSERT_ID();
+
+    -- Insertar en articulo
+    INSERT INTO articulo (
+        idalmacen, codigo, nombre, idfamilia, unidad_medida, costo_compra, saldo_iniu, 
+        valor_iniu, stock, precio_venta, estado, codigott, desctt, codigointtt, nombrett, 
+        marca, descrip, fecharegistro, tipoitem, umedidacompra, factorc,
+        fechafabricacion, fechavencimiento, fechaingalm, fechafinalma, proveedor, limitestock, lote, procedencia,
+        fabricante, registrosanitario, codigo_proveedor, seriefaccompra, numerofaccompra,
+        fechafacturacompra, saldo_finu, valor_finu, comprast, ventast, portador, merma, 
+        imagen, valor_fin_kardex, precio_final_kardex, codigosunat, ccontable, precio2, 
+        precio3, costofinal, cicbper, nticbperi, ctticbperi, mticbperu
+    ) 
+    VALUES (
+        alm_id, p_codigo, p_nombre, fam_id, 58, p_costo_compra, p_saldo_iniu, p_valor_iniu, 
+        p_stock, p_precio_venta, 1, p_codigott, p_desctt, p_codigointtt, p_nombrett,
+        p_marca, p_descrip, NOW(), p_tipoitem, 58, 1.00, 
+        '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '0.00', '', '',
+        '', '', '-', '', '', 
+        '0000-00-00', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 
+        '', 0.00, 0.00, '', '', 0.00, 
+        0.00, NULL, '', '', '', 0.00
+    );
+
+END //
+DELIMITER ;

@@ -1,0 +1,729 @@
+[14-Oct-2023 00:28:03 America/Lima] PHP Parse error:  syntax error, unexpected ',' in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 236
+[14-Oct-2023 00:31:03 America/Lima] PHP Fatal error:  Cannot redeclare Persona::mostrarId() in /home1/ticom/wfacx.com/sistema/modelos/Persona.php on line 119
+[14-Oct-2023 02:42:11 America/Lima] PHP Fatal error:  Call to a member function insertarVentaDiaria() on null in /home1/ticom/wfacx.com/sistema/ajax/guardarVentaDiaria.php on line 8
+[14-Oct-2023 02:42:25 America/Lima] PHP Fatal error:  Call to a member function insertarVentaDiaria() on null in /home1/ticom/wfacx.com/sistema/ajax/guardarVentaDiaria.php on line 8
+[14-Oct-2023 02:43:27 America/Lima] PHP Fatal error:  Call to a member function insertarVentaDiaria() on null in /home1/ticom/wfacx.com/sistema/ajax/guardarVentaDiaria.php on line 8
+[14-Oct-2023 18:52:04 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[14-Oct-2023 18:52:33 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[14-Oct-2023 18:57:19 America/Lima] PHP Warning:  Missing argument 73 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:57:19 America/Lima] PHP Warning:  Missing argument 74 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:57:19 America/Lima] PHP Warning:  Missing argument 75 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:57:19 America/Lima] PHP Warning:  Missing argument 76 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:57:19 America/Lima] PHP Warning:  Missing argument 77 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:57:19 America/Lima] PHP Warning:  Missing argument 78 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:59:35 America/Lima] PHP Warning:  Missing argument 73 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:59:35 America/Lima] PHP Warning:  Missing argument 74 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:59:35 America/Lima] PHP Warning:  Missing argument 75 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:59:35 America/Lima] PHP Warning:  Missing argument 76 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:59:35 America/Lima] PHP Warning:  Missing argument 77 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 18:59:35 America/Lima] PHP Warning:  Missing argument 78 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 19:02:46 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[14-Oct-2023 19:04:51 America/Lima] PHP Warning:  Missing argument 73 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 19:04:51 America/Lima] PHP Warning:  Missing argument 74 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 19:04:51 America/Lima] PHP Warning:  Missing argument 75 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 19:04:51 America/Lima] PHP Warning:  Missing argument 76 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 19:04:51 America/Lima] PHP Warning:  Missing argument 77 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[14-Oct-2023 19:04:51 America/Lima] PHP Warning:  Missing argument 78 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[17-Oct-2023 01:31:01 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[17-Oct-2023 01:34:49 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[17-Oct-2023 01:58:30 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[18-Oct-2023 07:43:32 America/Lima] PHP Fatal error:  Call to undefined method Cajachica::resetearValoresCierreCaja() in /home1/ticom/wfacx.com/sistema/ajax/cajachica.php on line 132
+[18-Oct-2023 07:56:15 America/Lima] PHP Fatal error:  Call to undefined method Cajachica::resetearValoresCierreCaja() in /home1/ticom/wfacx.com/sistema/ajax/cajachica.php on line 132
+[18-Oct-2023 07:56:17 America/Lima] PHP Fatal error:  Call to undefined method Cajachica::resetearValoresCierreCaja() in /home1/ticom/wfacx.com/sistema/ajax/cajachica.php on line 132
+[18-Oct-2023 23:11:59 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[18-Oct-2023 23:14:56 America/Lima] PHP Warning:  Missing argument 73 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[18-Oct-2023 23:14:56 America/Lima] PHP Warning:  Missing argument 74 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[18-Oct-2023 23:14:56 America/Lima] PHP Warning:  Missing argument 75 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[18-Oct-2023 23:14:56 America/Lima] PHP Warning:  Missing argument 76 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[18-Oct-2023 23:14:56 America/Lima] PHP Warning:  Missing argument 77 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[18-Oct-2023 23:14:56 America/Lima] PHP Warning:  Missing argument 78 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[24-Oct-2023 03:54:16 America/Lima] PHP Fatal error:  Call to undefined method Boleta::correo() in /home1/ticom/wfacx.com/sistema/modelos/Notacd.php on line 3476
+[24-Oct-2023 03:54:29 America/Lima] PHP Fatal error:  Call to undefined method Boleta::correo() in /home1/ticom/wfacx.com/sistema/modelos/Notacd.php on line 3476
+[24-Oct-2023 20:54:44 America/Lima] PHP Warning:  Missing argument 5 for Venta::regventaagruxdia(), called in /home1/ticom/wfacx.com/sistema/ajax/inventarios.php on line 180 and defined in /home1/ticom/wfacx.com/sistema/modelos/Venta.php on line 47
+[24-Oct-2023 21:02:08 America/Lima] PHP Fatal error:  Call to undefined method Venta::regventaagruxdia() in /home1/ticom/wfacx.com/sistema/ajax/ajaxReporteVenta.php on line 62
+[24-Oct-2023 21:02:10 America/Lima] PHP Fatal error:  Call to undefined method Venta::regventaagruxdia() in /home1/ticom/wfacx.com/sistema/ajax/ajaxReporteVenta.php on line 62
+[24-Oct-2023 21:02:12 America/Lima] PHP Fatal error:  Call to undefined method Venta::regventaagruxdia() in /home1/ticom/wfacx.com/sistema/ajax/ajaxReporteVenta.php on line 62
+[25-Oct-2023 21:26:15 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 21:29:54 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 21:32:24 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 21:41:29 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 21:42:46 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 21:43:29 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 21:44:50 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 21:45:51 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[25-Oct-2023 22:12:20 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[26-Oct-2023 10:25:24 America/Lima] PHP Fatal error:  Call to undefined method Cajachica::resetearValoresCierreCaja() in /home1/ticom/wfacx.com/sistema/ajax/cajachica.php on line 132
+[26-Oct-2023 11:24:44 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[26-Oct-2023 20:50:27 America/Lima] PHP Warning:  Missing argument 28 for Cotizacion::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/cotizacion.php on line 58 and defined in /home1/ticom/wfacx.com/sistema/modelos/Cotizacion.php on line 37
+[27-Oct-2023 08:34:55 America/Lima] PHP Fatal error:  Call to undefined method Cajachica::resetearValoresCierreCaja() in /home1/ticom/wfacx.com/sistema/ajax/cajachica.php on line 132
+[27-Oct-2023 08:35:04 America/Lima] PHP Fatal error:  Call to undefined method Cajachica::resetearValoresCierreCaja() in /home1/ticom/wfacx.com/sistema/ajax/cajachica.php on line 132
+[27-Oct-2023 13:13:44 America/Lima] PHP Warning:  Missing argument 73 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[27-Oct-2023 13:13:44 America/Lima] PHP Warning:  Missing argument 74 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[27-Oct-2023 13:13:44 America/Lima] PHP Warning:  Missing argument 75 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[27-Oct-2023 13:13:44 America/Lima] PHP Warning:  Missing argument 76 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[27-Oct-2023 13:13:44 America/Lima] PHP Warning:  Missing argument 77 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[27-Oct-2023 13:13:44 America/Lima] PHP Warning:  Missing argument 78 for Factura::insertar(), called in /home1/ticom/wfacx.com/sistema/ajax/factura.php on line 584 and defined in /home1/ticom/wfacx.com/sistema/modelos/Factura.php on line 115
+[28-Oct-2023 11:55:24 America/Lima] PHP Fatal error:  Call to undefined method Cajachica::resetearValoresCierreCaja() in /home1/ticom/wfacx.com/sistema/ajax/cajachica.php on line 132
+[28-Oct-2023 20:30:03 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:30:03 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:33:29 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:33:29 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:04 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:04 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:12 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:13 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:13 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:13 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:17 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:17 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:17 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:39:17 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:41:35 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:41:35 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:41:36 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:41:36 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:35 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:35 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:36 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:36 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:38 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:38 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:41 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:41 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:41 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:41 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:50 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:44:50 America/Lima] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'bdusuario'@'localhost' (using password: YES) in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 4
+[28-Oct-2023 20:45:48 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:45:59 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:48:42 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:48:42 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:48:43 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:48:43 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:48:43 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:13 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:13 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:17 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:17 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:24 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:49:25 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:25 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:35 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:35 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:38 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:38 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:39 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:39 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:40 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:40 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:46 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:49:47 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:47 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:49:55 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:50:07 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:51:07 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 20:51:18 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 20:51:34 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:34 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:40 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:40 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:43 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:43 America/Lima] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:47 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:47 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:53 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:51:54 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:54 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:51:58 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:51:58 America/Lima] PHP Fatal error:  Uncaught mysqli_sql_exception: Lost connection to MySQL server during query in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php:15
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php(15): mysqli->query()
+#1 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Usuario.php(193): ejecutarConsulta()
+#2 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php(345): Usuario->onoffTempo()
+#3 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 15
+[28-Oct-2023 20:52:02 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:52:02 America/Lima] PHP Fatal error:  Uncaught mysqli_sql_exception: Lost connection to MySQL server during query in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php:15
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php(15): mysqli->query()
+#1 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Usuario.php(193): ejecutarConsulta()
+#2 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php(345): Usuario->onoffTempo()
+#3 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 15
+[28-Oct-2023 20:52:08 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:52:12 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:52:12 America/Lima] PHP Fatal error:  Uncaught mysqli_sql_exception: Lost connection to MySQL server during query in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php:15
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php(15): mysqli->query()
+#1 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Usuario.php(193): ejecutarConsulta()
+#2 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php(345): Usuario->onoffTempo()
+#3 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 15
+[28-Oct-2023 20:52:18 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:52:18 America/Lima] PHP Fatal error:  Uncaught mysqli_sql_exception: Lost connection to MySQL server during query in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php:15
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php(15): mysqli->query()
+#1 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Usuario.php(193): ejecutarConsulta()
+#2 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php(345): Usuario->onoffTempo()
+#3 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 15
+[28-Oct-2023 20:52:37 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:52:37 America/Lima] PHP Fatal error:  Uncaught mysqli_sql_exception: Lost connection to MySQL server during query in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php:15
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php(15): mysqli->query()
+#1 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Usuario.php(193): ejecutarConsulta()
+#2 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php(345): Usuario->onoffTempo()
+#3 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/config/Conexion.php on line 15
+[28-Oct-2023 20:53:50 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:53:50 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:18 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:18 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:20 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:21 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:21 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:21 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:22 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:22 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:24 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:24 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:24 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:30 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:30 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:32 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:32 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:32 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:36 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:37 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:37 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:38 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:39 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:39 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:40 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:41 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:41 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:42 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:43 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:43 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:44 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:45 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:45 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:46 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:46 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:46 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:54 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:55 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:55 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:56 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:54:57 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:54:57 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:55:41 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:55:41 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:55:41 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:57:26 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:57:26 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:21 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:59:22 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:22 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:23 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:59:23 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:23 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:35 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:35 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:38 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:59:39 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:39 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:42 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:59:43 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:43 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:44 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:59:45 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:45 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:46 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 20:59:46 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 20:59:46 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:00:51 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:00:52 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:00:52 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:01:24 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:01:43 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:03:06 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:08:01 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:08:39 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/ajaxstock.php on line 50
+[28-Oct-2023 21:08:54 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/articulo.php on line 141
+[28-Oct-2023 21:09:25 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:09:36 America/Lima] PHP Warning:  Undefined array key "descdet" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:09:36 America/Lima] PHP Warning:  Undefined array key "ncuotahiden" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:09:36 America/Lima] PHP Warning:  Undefined array key "montocuotacre" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:09:36 America/Lima] PHP Warning:  Undefined array key "fechapago" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:09:36 America/Lima] PHP Warning:  Trying to access array offset on value of type null in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 307
+[28-Oct-2023 21:09:37 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:09:37 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:09:46 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:09:46 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:09:56 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:09:56 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:10:06 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:10:06 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:10:16 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:10:16 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:10:26 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:10:26 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:10:36 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:10:36 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:11:09 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:11:09 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:11:15 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:11:15 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:11:25 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:11:25 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:11:35 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:11:35 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:11:46 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:11:46 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:11:56 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:11:56 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:12:06 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:12:06 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:12:15 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:12:15 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:12:17 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:12:17 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:12:17 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:12:27 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:12:27 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:13:35 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:13:35 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:13:35 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:13:46 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:13:46 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:13:47 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:13:47 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:13:47 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:13:49 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:13:49 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:13:49 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:13:59 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:13:59 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:13:59 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:14:43 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:5391
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(1301): Boleta->mostrarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 5391
+[28-Oct-2023 21:15:03 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Venta.php:5643
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/ventas.php(528): Venta->mostrarxmlboleta()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Venta.php on line 5643
+[28-Oct-2023 21:16:35 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:16:35 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:17:48 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:18:07 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:18:07 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:18:07 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:18:17 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:18:17 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:18:21 America/Lima] PHP Warning:  Undefined array key "descdet" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:18:21 America/Lima] PHP Warning:  Undefined array key "ncuotahiden" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:18:21 America/Lima] PHP Warning:  Undefined array key "montocuotacre" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:18:21 America/Lima] PHP Warning:  Undefined array key "fechapago" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php on line 129
+[28-Oct-2023 21:18:21 America/Lima] PHP Warning:  Trying to access array offset on value of type null in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 307
+[28-Oct-2023 21:18:21 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:18:21 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:19:09 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/articulo.php on line 141
+[28-Oct-2023 21:19:45 America/Lima] PHP Warning:  Undefined array key "ncuotahiden" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php on line 199
+[28-Oct-2023 21:19:45 America/Lima] PHP Warning:  Undefined array key "montocuotacre" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php on line 200
+[28-Oct-2023 21:19:45 America/Lima] PHP Warning:  Undefined array key "fechapago" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php on line 201
+[28-Oct-2023 21:19:46 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:19:50 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:19:59 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:20:00 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:20:02 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:20:11 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:20:21 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:20:32 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:20:42 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:23:40 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php:1531
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/factura.php(1271): Factura->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Factura.php on line 1531
+[28-Oct-2023 21:23:49 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:23:49 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:23:49 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:24:09 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, string given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Notapedido.php:242
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/notapedido.php(105): Notapedido->insertar()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Notapedido.php on line 242
+[28-Oct-2023 21:25:55 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:25:55 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:25:57 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:25:57 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:25:58 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:25:59 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:25:59 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:30 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:30 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:33 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:34 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:34 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:34 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:34 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:35 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:35 America/Lima] PHP Notice:  Trying to get property of non-object in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 359
+[28-Oct-2023 21:26:42 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:42 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:44 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:46 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:46 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:46 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:46 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:47 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:47 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:48 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:49 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:49 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:50 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:50 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:50 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:51 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:52 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:52 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:52 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:53 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:53 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:55 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:55 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:56 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:26:56 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:26:56 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:05 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:05 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:07 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:07 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:09 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:27:09 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:09 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:11 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:27:11 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:11 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:25 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:25 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:26 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:26 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:27 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:27 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:28 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:27:28 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:28 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:39 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:39 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:40 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:40 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:41 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:27:41 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:27:41 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:12 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:12 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:12 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:28:13 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:13 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:24 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:24 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:25 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:28:26 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:26 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:28:45 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:28:53 America/Lima] PHP Warning:  Undefined array key "op" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:28:53 America/Lima] PHP Warning:  Undefined variable $i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:28:53 America/Lima] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($value) must be of type Countable|array, mysqli_result given in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php:2480
+Stack trace:
+#0 /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/boleta.php(921): Boleta->generarxml()
+#1 {main}
+  thrown in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2480
+[28-Oct-2023 21:28:59 America/Lima] PHP Warning:  Undefined array key "st" in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:29:29 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:29 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:31 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:31 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:32 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:29:33 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:33 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:42 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:42 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:43 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:29:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:29:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:03 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:03 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:04 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:05 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:05 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:21 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:21 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:21 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:22 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:22 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:23 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:24 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:24 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:27 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:27 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:28 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:28 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:29 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:29 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:30 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:31 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:31 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:33 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:33 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:34 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:34 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:34 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:34 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:35 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:35 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:36 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:36 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:37 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:37 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:37 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:37 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:38 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:38 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:39 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:40 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:40 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:44 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:45 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:45 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:45 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:47 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:47 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:48 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:49 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:49 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:50 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:51 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:51 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:56 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:56 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:56 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:30:57 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:30:57 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:31:23 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:31:23 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:31:25 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:31:25 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:31:25 America/Lima] PHP Fatal error:  Call to undefined method mysqli_result::fetch_all() in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/enlacebd.php on line 9
+[28-Oct-2023 21:31:40 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:31:46 America/Lima] PHP Notice:  Undefined variable: i in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2435
+[28-Oct-2023 21:31:46 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:31:46 America/Lima] PHP Fatal error:  Class 'ZipArchive' not found in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/modelos/Boleta.php on line 2646
+[28-Oct-2023 21:32:00 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:32:13 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/ajaxstock.php on line 50
+[28-Oct-2023 21:34:08 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:34:13 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:34:51 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 21:35:02 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[28-Oct-2023 21:35:37 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
+[28-Oct-2023 22:05:04 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[29-Oct-2023 00:07:27 America/Lima] PHP Notice:  Undefined index: st in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/usuario.php on line 338
+[29-Oct-2023 00:26:27 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/ajaxstock.php on line 50
+[29-Oct-2023 00:26:32 America/Lima] PHP Notice:  Undefined index: op in /home/qsjtkvq326yd/public_html/shop.sevensingenieros.com/ajax/catalogo6.php on line 39
