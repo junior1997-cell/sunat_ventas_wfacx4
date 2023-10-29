@@ -29,7 +29,7 @@
                 <?php
                 if ($_SESSION['Dashboard'] == 1) {
                     echo '<li class="slide">
-                            <a href="escritorio" class="side-menu__item">
+                            <a href="escritorio.php" class="side-menu__item">
                                 <i class="bx bx-home side-menu__icon"></i>
                                 <span class="side-menu__label">Dashoard</span>
                             </a>
@@ -44,21 +44,21 @@
 
                     echo '<li class="slide__category"><span class="category-name">Logística</span></li>
                             <li class="slide">
-                            <a href="almacen" class="side-menu__item">
+                            <a href="almacen.php" class="side-menu__item">
                                 <i class="bx bx-package side-menu__icon"></i>
                                 <span class="side-menu__label">Almacen</span>
                             </a>
                                </li>
 
                                <li class="slide">
-                            <a href="familia" class="side-menu__item">
+                            <a href="familia.php" class="side-menu__item">
                                 <i class="bx bx-category side-menu__icon"></i>
                                 <span class="side-menu__label">Categoria</span>
                             </a>
                                </li>
                                
                                <li class="slide">
-                            <a href="umedida" class="side-menu__item">
+                            <a href="umedida.php" class="side-menu__item">
                                 <i class="bx bx-underline side-menu__icon"></i>
                                 <span class="side-menu__label">Unidad de medida</span>
                             </a>
@@ -75,13 +75,13 @@
                                     <a href="javascript:void(0)">Compras</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="proveedor" class="side-menu__item">Registrar proveedor</a>
+                                    <a href="proveedor.php" class="side-menu__item">Registrar proveedor</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="compra" class="side-menu__item">Ingresar compras</a>
+                                    <a href="compra.php" class="side-menu__item">Ingresar compras</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="compralistas" class="side-menu__item">Ver lista de compras</a>
+                                    <a href="compralistas.php" class="side-menu__item">Ver lista de compras</a>
                                 </li>
                                 
                             </ul>
@@ -98,17 +98,17 @@
                                     <a href="javascript:void(0)">Artículos</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="articulo" class="side-menu__item">Agregar producto</a>
+                                    <a href="articulo.php" class="side-menu__item">Agregar producto</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="servicios" class="side-menu__item">Agregar servicio</a>
+                                    <a href="servicios.php" class="side-menu__item">Agregar servicio</a>
                                 </li>
                                 
                             </ul>
                         </li>
         
                             <li class="slide">
-                            <a href="stock" class="side-menu__item">
+                            <a href="stock.php" class="side-menu__item">
                                 <i class="bx bx-dollar side-menu__icon"></i>
                                 <span class="side-menu__label">Stock / Precios</span>
                             </a>
@@ -125,10 +125,10 @@
                                     <a href="javascript:void(0)">Artículos</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="transferencias" class="side-menu__item">Agregar transferencia</a>
+                                    <a href="transferencias.php" class="side-menu__item">Agregar transferencia</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="listatransferencias" class="side-menu__item">Lista transferencias</a>
+                                    <a href="listatransferencias.php" class="side-menu__item">Lista transferencias</a>
                                 </li>
                                
                                 
@@ -136,7 +136,7 @@
                         </li>
 
                         <li class="slide">
-                            <a href="registroinventario" class="side-menu__item">
+                            <a href="registroinventario.php" class="side-menu__item">
                                 <i class="bx bx-home side-menu__icon"></i>
                                 <span class="side-menu__label">Registro inventario</span>
                             </a>
@@ -159,24 +159,24 @@
                                     <a href="javascript:void(0)">Caja</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="cajachica" class="side-menu__item">Caja chica</a>
+                                    <a href="cajachica.php" class="side-menu__item">Caja chica</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="insumos" class="side-menu__item">Gastos/Ingresos</a>
+                                    <a href="insumos.php" class="side-menu__item">Gastos/Ingresos</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="ventadiaria" class="side-menu__item">Ingreso diario</a>
+                                    <a href="ventadiaria.php" class="side-menu__item">Ingreso diario</a>
                                 </li>
                                 
                                 <li class="slide">
-                                <a href="utilidadsemana" class="side-menu__item">Utilidad semanal</a>
+                                <a href="utilidadsemana.php" class="side-menu__item">Utilidad semanal</a>
                                 </li>
                                 
                             </ul>
                         </li>
 
                             <li class="slide">
-                            <a href="pos" class="side-menu__item">
+                            <a href="pos.php" class="side-menu__item">
                                 <i class="bx bx-shape-square side-menu__icon"></i>
                                 <span class="side-menu__label">POS</span>
                             </a>
@@ -193,25 +193,25 @@
                                     <a href="javascript:void(0)">Realizar venta</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="guiaremision" class="side-menu__item">Guía de remisión</a>
+                                    <a href="guiaremision.php" class="side-menu__item">Guía de remisión</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="boleta" class="side-menu__item">Boleta</a>
+                                    <a href="boleta.php" class="side-menu__item">Boleta</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="factura" class="side-menu__item">Factura</a>
+                                    <a href="factura.php" class="side-menu__item">Factura</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="notapedido" class="side-menu__item">Nota de venta</a>
+                                    <a href="notapedido.php" class="side-menu__item">Nota de venta</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="cotizacion" class="side-menu__item">Cotización</a>
+                                    <a href="cotizacion.php" class="side-menu__item">Cotización</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="notac" class="side-menu__item">Nota de Crédito</a>
+                                    <a href="notac.php" class="side-menu__item">Nota de Crédito</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="notad" class="side-menu__item">Nota de Débito</a>
+                                    <a href="notad.php" class="side-menu__item">Nota de Débito</a>
                                 </li>
                                 
                             </ul>
@@ -228,16 +228,16 @@
                                     <a href="javascript:void(0)">Comprobantes</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="consultacomprobantes" class="side-menu__item">Estado de envio</a>
+                                    <a href="consultacomprobantes.php" class="side-menu__item">Estado de envio</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="documentosrelacionados" class="side-menu__item">Anulados</a>
+                                    <a href="documentosrelacionados.php" class="side-menu__item">Anulados</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="validafactura" class="side-menu__item">Validar solo facturas</a>
+                                    <a href="validafactura.php" class="side-menu__item">Validar solo facturas</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="validaboleta" class="side-menu__item">Validar solo boletas</a>
+                                    <a href="validaboleta.php" class="side-menu__item">Validar solo boletas</a>
                                 </li>
                               
                                 
@@ -256,13 +256,13 @@
                                     <a href="javascript:void(0)">Resumen de baja</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="resumend" class="side-menu__item">Anular Boletas</a>
+                                    <a href="resumend.php" class="side-menu__item">Anular Boletas</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="cbaja" class="side-menu__item">Anular Facturas</a>
+                                    <a href="cbaja.php" class="side-menu__item">Anular Facturas</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="bajanc" class="side-menu__item">Anular nota de crédito</a>
+                                    <a href="bajanc.php" class="side-menu__item">Anular nota de crédito</a>
                                 </li>
                                 
                               
@@ -271,7 +271,7 @@
                         </li>
                         
                         <li class="slide">
-                            <a href="creditospendiente" class="side-menu__item">
+                            <a href="creditospendiente.php" class="side-menu__item">
                                 <i class="bx bx-credit-card-front side-menu__icon"></i>
                                 <span class="side-menu__label">Créditos Pendientes</span>
                             </a>
@@ -286,7 +286,7 @@
                 if ($_SESSION['Contabilidad'] == 1) {
                     echo '<li class="slide__category"><span class="category-name">Contabilidad</span></li>
                             <li class="slide">
-                            <a href="kardexArticulo" class="side-menu__item">
+                            <a href="kardexArticulo.php" class="side-menu__item">
                                 <i class="bx bx-barcode side-menu__icon"></i>
                                 <span class="side-menu__label">Kardex por artículo</span>
                             </a>
@@ -303,30 +303,30 @@
                                     <a href="javascript:void(0)">Reportes</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="ventasxdia" class="side-menu__item">Venta día/mes</a>
+                                    <a href="ventasxdia.php" class="side-menu__item">Venta día/mes</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="ventasvendedor" class="side-menu__item">Ventas por vendedor</a>
+                                    <a href="ventasvendedor.php" class="side-menu__item">Ventas por vendedor</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="regventas" class="side-menu__item">Ventas agrupados</a>
+                                    <a href="regventas.php" class="side-menu__item">Ventas agrupados</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="ventasxcliente" class="side-menu__item">Ventas por clientes</a>
+                                    <a href="ventasxcliente.php" class="side-menu__item">Ventas por clientes</a>
                                 </li>
                                 <li class="slide">
-                                <a href="ple" class="side-menu__item">Ple Ventas</a>
+                                <a href="ple.php" class="side-menu__item">Ple Ventas</a>
                                 </li>
                                 <li class="slide">
-                                <a href="regcompras" class="side-menu__item">Reporte compras</a>
+                                <a href="regcompras.php" class="side-menu__item">Reporte compras</a>
                                 </li>
                                 
                                 <li class="slide">
-                                <a href="repmargenganancia" class="side-menu__item">Margen de ganancia</a>
+                                <a href="repmargenganancia.php" class="side-menu__item">Margen de ganancia</a>
                                 </li>
 
                                 <li class="slide">
-                                <a href="enviocorreo" class="side-menu__item">Correos enviados</a>
+                                <a href="enviocorreo.php" class="side-menu__item">Correos enviados</a>
                                 </li>
                                 
                             </ul>
@@ -352,10 +352,10 @@
                                     <a href="javascript:void(0)">Administración</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="usuario" class="side-menu__item">Registro de usuarios</a>
+                                    <a href="usuario.php" class="side-menu__item">Registro de usuarios</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="cliente" class="side-menu__item">Registro de clientes</a>
+                                    <a href="cliente.php" class="side-menu__item">Registro de clientes</a>
                                 </li>
                              
                             </ul>
@@ -372,13 +372,13 @@
                                     <a href="javascript:void(0)">Planilla personal</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="empleadoboleta" class="side-menu__item">Registrar trabajador</a>
+                                    <a href="empleadoboleta.php" class="side-menu__item">Registrar trabajador</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="tipoSeguro" class="side-menu__item">Tipos de seguro</a>
+                                    <a href="tipoSeguro.php" class="side-menu__item">Tipos de seguro</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="boletapago" class="side-menu__item">Generar boleta de pago</a>
+                                    <a href="boletapago.php" class="side-menu__item">Generar boleta de pago</a>
                                 </li>
                                 
                             </ul>
@@ -402,19 +402,19 @@
                                     <a href="javascript:void(0)">Configuración Sunat</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="catalogo5" class="side-menu__item">Tipos de tributos</a>
+                                    <a href="catalogo5.php" class="side-menu__item">Tipos de tributos</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="catalogo6" class="side-menu__item">Documentos de identidad</a>
+                                    <a href="catalogo6.php" class="side-menu__item">Documentos de identidad</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="tipoafectacionigv" class="side-menu__item">Tipo Afectación IGV</a>
+                                    <a href="tipoafectacionigv.php" class="side-menu__item">Tipo Afectación IGV</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="cargarcertificado" class="side-menu__item">Cargar Certificado</a>
+                                    <a href="cargarcertificado.php" class="side-menu__item">Cargar Certificado</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="configNum" class="side-menu__item">Correlativo/Numeración</a>
+                                    <a href="configNum.php" class="side-menu__item">Correlativo/Numeración</a>
                                 </li>
                             </ul>
                              </li>
@@ -430,13 +430,13 @@
                                     <a href="javascript:void(0)">Empresa</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="empresa" class="side-menu__item">Configuración General</a>
+                                    <a href="empresa.php" class="side-menu__item">Configuración General</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="correo" class="side-menu__item">SMTP / Envios</a>
+                                    <a href="correo.php" class="side-menu__item">SMTP / Envios</a>
                                 </li>
                                 <li class="slide">
-                                    <a href="notificaciones" class="side-menu__item">Notificaciones</a>
+                                    <a href="notificaciones.php" class="side-menu__item">Notificaciones</a>
                                 </li>
                                 
                             </ul>
