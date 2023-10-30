@@ -54,7 +54,9 @@ $(function () {
     var logina = $("#logina").val();
     var clavea = $("#clavea").val();
     var empresa = $("#empresa").val();
-    var st = $("#estadot").val();
+    // var st = $("#estadot").val();
+    var st = 0;
+
 
     btnIngresar.prop("disabled", true).html("Validando datos...");
 

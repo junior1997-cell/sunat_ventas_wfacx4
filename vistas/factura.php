@@ -39,7 +39,7 @@ if (!isset($_SESSION["nombre"])) {
                                     </div>
                                     <div class="table-responsive" id="listadoregistros">
                                       <table id="tbllistado" class="table table-striped"
-                                        style="font-size: 14px; max-width: 100%; !important;">
+                                        style="font-size: 14px; max-width: 100% !important;">
                                         <thead style="text-align:center;">
                                           <th>Opciones</th>
                                           <!--  <th><i class="fa fa-send"></i></th> -->

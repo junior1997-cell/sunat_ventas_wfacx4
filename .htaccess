@@ -1,5 +1,5 @@
-#SetEnv TZ America/Lima
-#php_value date.timezone 'America/Lima'
+SetEnv TZ America/Lima
+php_value date.timezone 'America/Lima'
 
 #RewriteEngine On
 #RewriteCond %{HTTPS} off

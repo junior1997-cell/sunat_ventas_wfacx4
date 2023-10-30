@@ -69,7 +69,7 @@ if (!isset($_SESSION["nombre"])) {
               </div>
             </div>
 
-            <a class="btn btn-warning d-flex align-items-center" href="boleta"><i class="fa fa-backward"></i></a>
+            <a class="btn btn-warning d-flex align-items-center" href="boleta.php"><i class="fa fa-backward"></i></a>
 
             <button type="button" id="btn_modalventas" data-bs-toggle="modal" data-bs-target="#ModalListaVentas"
               class="btn btn-warning"><i class="fa-solid fa-boxes-stacked"></i></button>

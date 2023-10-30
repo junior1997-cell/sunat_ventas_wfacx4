@@ -9,7 +9,7 @@ if (!isset($_SESSION["nombre"])) {
   require 'header.php';
 
   if ($_SESSION['Logistica'] == 1) {
-    ?>
+?>
 
 
     <div class="content-header">
@@ -49,7 +49,7 @@ if (!isset($_SESSION["nombre"])) {
 
 
 
-    <?php
+  <?php
   } else {
     require 'noacceso.php';
   }
@@ -58,7 +58,7 @@ if (!isset($_SESSION["nombre"])) {
 
   ?>
   <script type="text/javascript" src="scripts/compra.js"></script>
-  <?php
+<?php
 
 
 }

@@ -9,7 +9,7 @@ if (!isset($_SESSION["nombre"])) {
   require 'header.php';
 
   if ($_SESSION['Ventas'] == 1) {
-    ?>
+?>
     <style>
       input[type=number].hidebutton::-webkit-inner-spin-button,
       input[type=number].hidebutton::-webkit-outer-spin-button {
@@ -25,19 +25,16 @@ if (!isset($_SESSION["nombre"])) {
       <!-- Main content -->
       <section class="">
         <div class="content-header">
-          <h1>Boleta electrónica <button class="btn btn-secondary btn-sm" id="btnagregar"
-              onclick="mostrarform(true); limpiar()">Nuevo</button> <button class="btn btn-success btn-sm"
-              id="refrescartabla" onclick="refrescartabla()">Refrescar</button></h1>
+          <h1>Boleta electrónica <button class="btn btn-secondary btn-sm" id="btnagregar" onclick="mostrarform(true); limpiar()">Nuevo</button> <button class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar</button></h1>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="automaticoboleta" hidden>
-              OFF <input checked type="checkbox" name="chk1" id="chk1" onclick="pause()" data-toggle="tooltip"
-                title="Mostrar estado de enviados a SUNAT"> ON
+              OFF <input checked type="checkbox" name="chk1" id="chk1" onclick="pause()" data-toggle="tooltip" title="Mostrar estado de enviados a SUNAT"> ON
             </div>
             <!-- centro -->
             <div class="table-responsive" id="listadoregistros">
-              <table id="tbllistado" class="table table-striped" style="font-size: 14px; max-width: 100%; !important;">
+              <table id="tbllistado" class="table table-striped" style="font-size: 14px; max-width: 100% !important;">
                 <thead style="text-align:center;">
                   <th>Exportar</th>
                   <!--  <th><i class="fa fa-send"></i></th> -->
@@ -75,8 +72,7 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
                           <div class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Número:</label>
-                            <input type="text" name="numero_boleta" id="numero_boleta" class="form-control" required="true"
-                              readonly>
+                            <input type="text" name="numero_boleta" id="numero_boleta" class="form-control" required="true" readonly>
                           </div>
                           <div class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Tipo de
@@ -92,9 +88,8 @@ if (!isset($_SESSION["nombre"])) {
                           <input type="hidden" name="idboleta" id="idboleta">
                           <input type="hidden" name="firma_digital_36" id="firma_digital_36" value="44477344">
                           <!--Datos de empresa -->
-                          <input type="hidden" name="idempresa" id="idempresa"
-                            value="<?php echo $_SESSION['idempresa']; ?>">
-                          
+                          <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
+
 
                           <input type="hidden" name="tipo_documento_06" id="tipo_documento_06" value="03">
                           <input type="hidden" name="numeracion_07" id="numeracion_07" value="">
@@ -119,20 +114,16 @@ if (!isset($_SESSION["nombre"])) {
                           <!--DETALLE-->
                           <div class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Fe. emisión:</label>
-                            <input type="date" disabled="true" style="font-size: 12pt;" class="form-control"
-                              name="fecha_emision_01" id="fecha_emision_01" disabled="true" required="true"
-                              onchange="focusTdoc()">
+                            <input type="date" disabled="true" style="font-size: 12pt;" class="form-control" name="fecha_emision_01" id="fecha_emision_01" disabled="true" required="true" onchange="focusTdoc()">
                           </div>
                           <div class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">F.
                               vencimiento:</label>
-                            <input type="date" class="form-control" name="fechavenc" id="fechavenc" required="true"
-                              min="<?php echo date('Y-m-d'); ?>">
+                            <input type="date" class="form-control" name="fechavenc" id="fechavenc" required="true" min="<?php echo date('Y-m-d'); ?>">
                           </div>
                           <div class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Moneda:</label>
-                            <select class="form-control" name="tipo_moneda_24" id="tipo_moneda_24"
-                              onchange="tipodecambiosunat();">
+                            <select class="form-control" name="tipo_moneda_24" id="tipo_moneda_24" onchange="tipodecambiosunat();">
                               <option value="PEN" selected="true">PEN</option>
                               <option value="USD">USD</option>
                             </select>
@@ -154,25 +145,20 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="mb-3 col-lg-12">
                             <label for="recipient-name" class="col-form-label">Nro (Presione
                               Enter):</label>
-                            <input type="text" class="form-control" name="numero_documento" id="numero_documento"
-                              placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)"
-                              onchange="agregarClientexDocCha();">
+                            <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)" onchange="agregarClientexDocCha();">
                             <div id="suggestions">
                             </div>
                           </div>
                           <div class="mb-3 col-lg-12">
                             <label for="recipient-name" class="col-form-label">Nombres y
                               apellidos:</label>
-                            <input type="text" class="form-control" name="razon_social" id="razon_social" maxlength="50"
-                              placeholder="NOMBRE COMERCIAL" width="50x" value="-" required="true" onkeyup="mayus(this);"
-                              onkeypress="focusDir(event)" onblur="quitasuge2()">
+                            <input type="text" class="form-control" name="razon_social" id="razon_social" maxlength="50" placeholder="NOMBRE COMERCIAL" width="50x" value="-" required="true" onkeyup="mayus(this);" onkeypress="focusDir(event)" onblur="quitasuge2()">
                             <div id="suggestions2">
                             </div>
                           </div>
                           <div class="mb-3 col-lg-12">
                             <label for="recipient-name" class="col-form-label">Dirección:</label>
-                            <input type="text" class="form-control" name="domicilio_fiscal" id="domicilio_fiscal" value="-"
-                              onkeyup="mayus(this);" placeholder="Dirección" onkeypress="agregarArt(event)">
+                            <input type="text" class="form-control" name="domicilio_fiscal" id="domicilio_fiscal" value="-" onkeyup="mayus(this);" placeholder="Dirección" onkeypress="agregarArt(event)">
                           </div>
                           <div class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Vendedor:</label>
@@ -181,23 +167,19 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
                           <div hidden class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Nro Guia:</label>
-                            <input type="text" name="guia_remision_25" id="guia_remision_25" class="form-control"
-                              placeholder="NRO DE GUÍA">
+                            <input type="text" name="guia_remision_25" id="guia_remision_25" class="form-control" placeholder="NRO DE GUÍA">
                           </div>
                           <div class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Impuesto:</label>
-                            <select class="form-control" name="codigo_tributo_18_3" id="codigo_tributo_18_3"
-                              onchange="tributocodnon()">TRIBUTO</select>
+                            <select class="form-control" name="codigo_tributo_18_3" id="codigo_tributo_18_3" onchange="tributocodnon()">TRIBUTO</select>
                           </div>
                           <div hidden class="mb-3 col-lg-6">
                             <label for="recipient-name" class="col-form-label">Nro
                               transferencia:</label>
-                            <input type="text" name="nroreferencia" id="nroreferencia" class="form-control"
-                              style="color: blue;" placeholder="N° Operación">
+                            <input type="text" name="nroreferencia" id="nroreferencia" class="form-control" style="color: blue;" placeholder="N° Operación">
                           </div>
                           <div class="mt-2 mb-3 col-lg-12">
-                            <textarea name="descripcion_leyenda_26_2" id="descripcion_leyenda_26_2" cols="5" rows="3"
-                              class="form-control" placeholder="Observaciones"></textarea>
+                            <textarea name="descripcion_leyenda_26_2" id="descripcion_leyenda_26_2" cols="5" rows="3" class="form-control" placeholder="Observaciones"></textarea>
                           </div>
                           <div class="mb-3 col-lg-12">
                             <label for="recipient-name" class="col-form-label">Tipo de pago:</label>
@@ -216,12 +198,9 @@ if (!isset($_SESSION["nombre"])) {
                               <label for="recipient-name" class="col-form-label">N° de
                                 cuotas:</label>
                               <div class="input-group">
-                                <span style="cursor:pointer;" class="input-group-text" data-bs-toggle="modal"
-                                  title="mostrar cuotas" data-bs-target="#modalcuotas" id="basic-addon1">&#9769;</span>
-                                <span style="cursor:pointer;" class="input-group-text" onclick="borrarcuotas()"
-                                  title="Editar cuotas">&#10000;</span>
-                                <input name="ccuotas" id="ccuotas" onchange="focusnroreferencia()" class="form-control"
-                                  value="1" onkeypress="return NumCheck(event, this)">
+                                <span style="cursor:pointer;" class="input-group-text" data-bs-toggle="modal" title="mostrar cuotas" data-bs-target="#modalcuotas" id="basic-addon1">&#9769;</span>
+                                <span style="cursor:pointer;" class="input-group-text" onclick="borrarcuotas()" title="Editar cuotas">&#10000;</span>
+                                <input name="ccuotas" id="ccuotas" onchange="focusnroreferencia()" class="form-control" value="1" onkeypress="return NumCheck(event, this)">
                               </div>
                             </div>
                           </div>
@@ -231,20 +210,16 @@ if (!isset($_SESSION["nombre"])) {
                             <input type="hidden" name="tadc" id="tadc">
                           </div>
                           <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12" hidden>
-                            <img src="../files/articulos/transferencia.png" data-toggle="tooltip"
-                              title="Pago por transferencia"> <input type="checkbox" name="transferencia" id="transferencia"
-                              onclick="activartransferencia();">
+                            <img src="../files/articulos/transferencia.png" data-toggle="tooltip" title="Pago por transferencia"> <input type="checkbox" name="transferencia" id="transferencia" onclick="activartransferencia();">
                             <input type="hidden" name="trans" id="trans">
                           </div>
-                          <div class="modal fade text-left" id="modalcuotas" tabindex="-1" role="dialog"
-                            aria-labelledby="modalcuotas" aria-hidden="true">
+                          <div class="modal fade text-left" id="modalcuotas" tabindex="-1" role="dialog" aria-labelledby="modalcuotas" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <h5 class="modal-title" id="modalcuotas">Pago al crédito
                                   </h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                   <div class="container">
@@ -265,8 +240,7 @@ if (!isset($_SESSION["nombre"])) {
                                     <i class="bx bx-x d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Cancelar</span>
                                   </button>
-                                  <button id="btnGuardar" type="submit" class="btn btn-primary ml-1"
-                                    data-bs-dismiss="modal">
+                                  <button id="btnGuardar" type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                                     <i class="bx bx-check d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Agregar</span>
                                   </button>
@@ -274,19 +248,16 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
-                          <div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                            aria-hidden="true">
+                          <div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog" style="width: 70% !important;">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true">&times;</button>
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                   <h4 class="modal-title">CUOTAS Y FECHAS DE PAGO</h4>
                                 </div>
                                 <h2 id="totalcomp"></h2>
                                 <div class="table-responsive">
-                                  <table
-                                    class="table table-sm table-striped table-bordered table-condensed table-hover nowrap">
+                                  <table class="table table-sm table-striped table-bordered table-condensed table-hover nowrap">
                                     <tr>
                                       <td>CUOTAS</td>
                                       <td>
@@ -322,28 +293,23 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="card">
                       <div class="card-body">
                         <input type="hidden" name="itemno" id="itemno" value="0">
-                        <button style="margin-left:0px;" type="button" data-bs-toggle="modal" data-bs-target="#myModalArt"
-                          id="btnAgregarArt" class="btn btn-danger btn-sm mb-3" onclick="cambiarlistadoum2()">
+                        <button style="margin-left:0px;" type="button" data-bs-toggle="modal" data-bs-target="#myModalArt" id="btnAgregarArt" class="btn btn-danger btn-sm mb-3" onclick="cambiarlistadoum2()">
                           Agregar Productos o serivicios
                         </button>
                         <div class="mb-3 col-lg-12">
                           <!-- <label for="recipient-name" class="col-form-label">Código barra:</label> -->
-                          <input type="text" name="codigob" id="codigob" class="form-control"
-                            onkeypress="agregarArticuloxCodigo(event)" onkeyup="mayus(this);"
-                            placeholder="Digite o escanee el código de barras" onchange="quitasuge3()"
-                            style="background-color: #F5F589;">
+                          <input type="text" name="codigob" id="codigob" class="form-control" onkeypress="agregarArticuloxCodigo(event)" onkeyup="mayus(this);" placeholder="Digite o escanee el código de barras" onchange="quitasuge3()" style="background-color: #F5F589;">
                           <div id="suggestions3">
                           </div>
                         </div>
                         <!-- <button data-bs-toggle="modal" data-bs-target="#myModalnuevoitem" id="btnAgregarArt" type="button" class="btn btn-danger btn-sm" onclick="cambiarlistadoum()"> Otra u. medida </button> -->
                         <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <label style="font-size: 16pt; color: red;" hidden="true" id="mensaje700"
-                            name="mensaje700">Agregar DNI o C.E. del
+                          <label style="font-size: 16pt; color: red;" hidden="true" id="mensaje700" name="mensaje700">Agregar DNI o C.E. del
                             cliente.</label>
                         </div>
                         <div class="table-responsive">
                           <table id="detalles" class="table table-striped" style="text-align:center;">
-                            <thead align="center" style="">
+                            <thead align="center" >
                               <th>Sup.</th>
                               <th>Item</th>
                               <th>Artículo</th>
@@ -396,7 +362,7 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
                         </div>
 
-                
+
 
 
                         <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
@@ -409,28 +375,20 @@ if (!isset($_SESSION["nombre"])) {
                                     <div style="display:flex;">
                                       <label for="">SubT. : </label>
                                       <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" id="subtotal"> 0.00</h6> -->
-                                      <input placeholder="0.00" readonly
-                                        style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none;width: 95px;"
-                                        name="subtotal_boleta" id="subtotal_boleta">
+                                      <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none;width: 95px;" name="subtotal_boleta" id="subtotal_boleta">
                                     </div>
                                     <div style="display:flex;">
                                       <label for="">IGV : </label>
-                                      <input placeholder="0.00" readonly
-                                        style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none; width: 95px;"
-                                        name="total_igv" id="total_igv">
+                                      <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none; width: 95px;" name="total_igv" id="total_igv">
                                     </div>
                                     <div style="display:flex;">
                                       <label for="">Descuento : </label>
-                                      <h6
-                                        style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; "
-                                        name="" id="tdescuentoL"> 0.00</h6>
+                                      <h6 style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; " name="" id="tdescuentoL"> 0.00</h6>
                                       <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" name="total_dcto" id="total_dcto"> 0.00</h6> -->
                                     </div>
                                     <div style="display:flex;">
                                       <label for="">Total a pagar : </label>
-                                      <h6
-                                        style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;"
-                                        id="total"> 0.00</h6>
+                                      <h6 style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" id="total"> 0.00</h6>
                                     </div>
                                     <br>
                                     <h5 class="card-title">Calcular vuelto</h5>
@@ -439,14 +397,12 @@ if (!isset($_SESSION["nombre"])) {
                                       <!-- <h6 name="ipagado" id="ipagado"
                                   style="font-weight: bold; margin: 0 auto; top: 10px; margin-right: 0px;">
                                   0.00</h6> -->
-                                      <input type="number" class="form-control text-end hidebutton" name="ipagado"
-                                        id="ipagado" value="0.00" style="width: 100px;">
+                                      <input type="number" class="form-control text-end hidebutton" name="ipagado" id="ipagado" value="0.00" style="width: 100px;">
                                       <!-- <input hidden name="ipagado_final" id="ipagado_final" style="font-weight: bold; margin-left: 75px; width: 100px;"> -->
                                     </div>
                                     <div class="d-flex align-items-center">
                                       <label for="" id="vuelto_text">Vuelto : </label>
-                                      <h6 style="font-weight: bold; margin: 0 auto; margin-right: 0px;" name="saldo"
-                                        id="saldo"> 0.00</h6>
+                                      <h6 style="font-weight: bold; margin: 0 auto; margin-right: 0px;" name="saldo" id="saldo"> 0.00</h6>
                                       <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" name="saldo_final" id="saldo_final"> 0.00</h6> -->
                                     </div>
                                     <input type="hidden" name="total_final" id="total_final">
@@ -468,13 +424,10 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
                           </div>
                         </div>
-                        <button style="margin-left:0px;" class="btn btn-primary btn-sm" type="submit" id="btnGuardar"
-                          data-toggle="tooltip" title="Guardar boleta"><i class="fa fa-save"></i>
+                        <button style="margin-left:0px;" class="btn btn-primary btn-sm" type="submit" id="btnGuardar" data-toggle="tooltip" title="Guardar boleta"><i class="fa fa-save"></i>
                           Guardar
                         </button>
-                        <button style="margin-left:0px;" id="btnCancelar" class="btn btn-danger btn-sm"
-                          onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left" data-toggle="tooltip"
-                            title="Cancelar"></i> Cancelar</button>
+                        <button style="margin-left:0px;" id="btnCancelar" class="btn btn-danger btn-sm" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left" data-toggle="tooltip" title="Cancelar"></i> Cancelar</button>
                       </div>
                     </div>
                   </div>
@@ -525,8 +478,7 @@ if (!isset($_SESSION["nombre"])) {
     </div>
     <!-- Fin modal -->
     <!-- Modal   SELECCION DE PRODUCTO O SERVICIO -->
-    <div class="modal fade" id="myModalnuevoitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true" role="Documento">
+    <div class="modal fade" id="myModalnuevoitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" role="Documento">
       <div class="modal-dialog" style="width: 50% !important;">
         <div class="modal-content">
           <div class="modal-header">
@@ -538,8 +490,7 @@ if (!isset($_SESSION["nombre"])) {
               <div class="form-group">
                 <table>
                   <tr>
-                    <td align="center"><a onclick="cargarbien()" name="tipoitem" id="tipoitem" value="bien"><img
-                          src="../public/images/producto.png"><br>Productos</a>
+                    <td align="center"><a onclick="cargarbien()" name="tipoitem" id="tipoitem" value="bien"><img src="../public/images/producto.png"><br>Productos</a>
                     </td>
                     <!-- <td align="center"><a onclick="cargarservicio()" name="tipoitem" id="tipoitem" value="servicio"><img src="../public/images/servicio.png"><br>Servicios</a></td> -->
                     <input type="hidden" name="familia" id="familia">
@@ -555,8 +506,7 @@ if (!isset($_SESSION["nombre"])) {
                     <td>Articulo:</td>
                     <td> <input type="text" name="nombrearti" id="nombrearti" readonly></td>
                     <td>Cantidad:</td>
-                    <td><input type="text" name="icantidad" id="icantidad" class="" onkeyup="calculartotalitem();"
-                        value="1">
+                    <td><input type="text" name="icantidad" id="icantidad" class="" onkeyup="calculartotalitem();" value="1">
                     </td>
                   </tr>
                   <tr>
@@ -620,8 +570,7 @@ if (!isset($_SESSION["nombre"])) {
                   </tr>
                   <tr>
                     <td align="justify">
-                      <button type="button" class="btn btn-success" data-dismiss="modal" onclick="agregarItemdetalle()"><i
-                          class="fa fa-check"></i> Aceptar </button>
+                      <button type="button" class="btn btn-success" data-dismiss="modal" onclick="agregarItemdetalle()"><i class="fa fa-check"></i> Aceptar </button>
                     </td>
                     <td align="justify">
                       <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Cancelar
@@ -639,8 +588,7 @@ if (!isset($_SESSION["nombre"])) {
     </div>
     <!-- Fin modal -->
     <!-- Modal -->
-    <div class="modal fade text-left" id="myModalArt" tabindex="-1" role="dialog" aria-labelledby="myModalArt"
-      aria-hidden="true">
+    <div class="modal fade text-left" id="myModalArt" tabindex="-1" role="dialog" aria-labelledby="myModalArt" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -663,8 +611,7 @@ if (!isset($_SESSION["nombre"])) {
                 </select>
               </div>
               <div class="mb-3 col-lg-6">
-                <button class="btn btn-danger" id="refrescartabla" data-bs-target="#modalnuevoarticulo"
-                  data-bs-toggle="modal" onclick="nuevoarticulo()">
+                <button class="btn btn-danger" id="refrescartabla" data-bs-target="#modalnuevoarticulo" data-bs-toggle="modal" onclick="nuevoarticulo()">
                   <span class="sr-only"></span>Agregar producto al inventario</button>
               </div>
               <div class="mb-3 col-lg-6">
@@ -743,8 +690,7 @@ if (!isset($_SESSION["nombre"])) {
     </div>
     <!-- Fin modal -->
     <!-- Modal -->
-    <div class="modal fade" id="myModalArtItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+    <div class="modal fade" id="myModalArtItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="width: 65% !important;">
         <div class="modal-content">
           <div class="modal-header">
@@ -755,8 +701,7 @@ if (!isset($_SESSION["nombre"])) {
               <option value='2'>PRECIO POR MAYOR</option>
               <option value='3'>PRECIO DISTRIBUIDOR</option>
             </select>
-            <button class="btn btn-success" id="refrescartabla" onclick="refrescartabla2()"><i
-                class="fa fa-refresh fa-spin fa-1x fa-fw"></i>
+            <button class="btn btn-success" id="refrescartabla" onclick="refrescartabla2()"><i class="fa fa-refresh fa-spin fa-1x fa-fw"></i>
               <span class="sr-only"></span>Actualizar</button>
           </div>
           <div class="table-responsive">
@@ -835,8 +780,7 @@ if (!isset($_SESSION["nombre"])) {
     </div>
     <!-- Fin modal -->
     <!-- Modal a4-->
-    <div class="modal fade text-left" id="modalPreview2" tabindex="-1" role="dialog" aria-labelledby="modalPreview2"
-      aria-hidden="true">
+    <div class="modal fade text-left" id="modalPreview2" tabindex="-1" role="dialog" aria-labelledby="modalPreview2" aria-hidden="true">
       <div class="modal-dialog modal-lg" style="width: 100% !important;">
         <div class="modal-content">
           <div class="modal-header">
@@ -844,8 +788,7 @@ if (!isset($_SESSION["nombre"])) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <iframe name="modalCom" id="modalCom" border="0" frameborder="0" width="100%" style="height: 800px;"
-              marginwidth="1" src="">
+            <iframe name="modalCom" id="modalCom" border="0" frameborder="0" width="100%" style="height: 800px;" marginwidth="1" src="">
             </iframe>
           </div>
           <div class="modal-footer">
@@ -858,8 +801,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- modal ticket -->
-    <div class="modal fade text-left" id="modalPreviewticket" tabindex="-1" role="dialog"
-      aria-labelledby="modalPreviewticket" aria-hidden="true">
+    <div class="modal fade text-left" id="modalPreviewticket" tabindex="-1" role="dialog" aria-labelledby="modalPreviewticket" aria-hidden="true">
       <div class="modal-dialog modal-lg" style="width: 100% !important;">
         <div class="modal-content">
           <div class="modal-header">
@@ -868,8 +810,7 @@ if (!isset($_SESSION["nombre"])) {
           </div>
           <div class="modal-body">
             <div class="printMe" id="printSection">
-              <iframe name="modalComticket" id="modalComticket" border="0" frameborder="0" width="100%"
-                style="height: 800px;" marginwidth="1" src="">
+              <iframe name="modalComticket" id="modalComticket" border="0" frameborder="0" width="100%" style="height: 800px;" marginwidth="1" src="">
               </iframe>
             </div>
           </div>
@@ -883,8 +824,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="ModalNcliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
+    <div class="modal fade" id="ModalNcliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="width: 100% !important;">
         <div class="modal-content">
           <div class="modal-header">
@@ -895,9 +835,7 @@ if (!isset($_SESSION["nombre"])) {
             <div class="container">
               <form role="form" method="post" name="busqueda" id="busqueda">
                 <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                  <input type="number" class="" name="nruc" id="nruc" placeholder="Ingrese RUC o DNI"
-                    pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"
-                    autofocus>
+                  <input type="number" class="" name="nruc" id="nruc" placeholder="Ingrese RUC o DNI" pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])" autofocus>
                 </div>
                 <button type="submit" class="btn btn-success" name="btn-submit" id="btn-submit" value="burcarclientesunat">
                   <i class="fa fa-search"></i> Buscar SUNAT
@@ -917,31 +855,24 @@ if (!isset($_SESSION["nombre"])) {
               </div>
               <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12">
                 <label>N. Doc.:</label>
-                <input type="text" class="" name="numero_documento3" id="numero_documento3" maxlength="20"
-                  placeholder="Documento" onkeypress="return focusRsocial(event, this)">
+                <input type="text" class="" name="numero_documento3" id="numero_documento3" maxlength="20" placeholder="Documento" onkeypress="return focusRsocial(event, this)">
               </div>
               <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
                 <label>Razón social:</label>
-                <input type="text" class="" name="razon_social3" id="razon_social3" maxlength="100"
-                  placeholder="Razón social" required onkeypress="return focusDomi(event, this)">
+                <input type="text" class="" name="razon_social3" id="razon_social3" maxlength="100" placeholder="Razón social" required onkeypress="return focusDomi(event, this)">
               </div>
               <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <label>Domicilio:</label>
-                <input type="text" class="" name="domicilio_fiscal3" id="domicilio_fiscal3" maxlength="100"
-                  placeholder="Domicilio fiscal" required onkeypress="focustel(event, this)">
+                <input type="text" class="" name="domicilio_fiscal3" id="domicilio_fiscal3" maxlength="100" placeholder="Domicilio fiscal" required onkeypress="focustel(event, this)">
               </div>
               <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                <input type="number" class="" name="telefono1" id="telefono1" maxlength="15" placeholder="Teléfono 1"
-                  pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"
-                  onkeypress="return focusemail(event, this)">
+                <input type="number" class="" name="telefono1" id="telefono1" maxlength="15" placeholder="Teléfono 1" pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])" onkeypress="return focusemail(event, this)">
               </div>
               <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <input type="text" class="" name="email" id="email" maxlength="50" placeholder="CORREO" required="true"
-                  onkeypress="return focusguardar(event, this)">
+                <input type="text" class="" name="email" id="email" maxlength="50" placeholder="CORREO" required="true" onkeypress="return focusguardar(event, this)">
               </div>
               <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                <button class="btn btn-primary" type="submit" id="btnguardarncliente" name="btnguardarncliente"
-                  value="btnGuardarcliente">
+                <button class="btn btn-primary" type="submit" id="btnguardarncliente" name="btnguardarncliente" value="btnGuardarcliente">
                   <i class="fa fa-save"></i> Guardar
                 </button>
               </div>
@@ -952,20 +883,18 @@ if (!isset($_SESSION["nombre"])) {
             </div> -->
             </form>
             <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-              integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-              crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
             <script src="scripts/ajaxview.js"></script>
             <script>
               //============== original ===========================================================
-              $(document).ready(function () {
-                $("#btn-submit").click(function (e) {
+              $(document).ready(function() {
+                $("#btn-submit").click(function(e) {
                   var $this = $(this);
                   e.preventDefault();
                   //============== original ===========================================================
 
                   var documento = $("#nruc").val();
-                  $.post("../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + documento, function (data, status) {
+                  $.post("../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + documento, function(data, status) {
                     data = JSON.parse(data);
                     if (data != null) {
                       alert("Ya esta registrado cliente, se agregarán sus datos!");
@@ -977,8 +906,7 @@ if (!isset($_SESSION["nombre"])) {
                       document.getElementById("btnAgregarArt").style.backgroundColor = '#367fa9';
                       document.getElementById("btnAgregarArt").focus();
                       $("#ModalNcliente").modal('hide');
-                    }
-                    else {
+                    } else {
 
                       $.ajax({
                         type: 'POST',
@@ -986,12 +914,11 @@ if (!isset($_SESSION["nombre"])) {
                         dataType: 'json',
                         //data:parametros,
 
-                        beforeSend: function () {
-                        },
-                        complete: function (data) {
+                        beforeSend: function() {},
+                        complete: function(data) {
 
                         },
-                        success: function (data) {
+                        success: function(data) {
                           $('.before-send').fadeOut(500);
                           if (!jQuery.isEmptyObject(data.error)) {
                             alert(data.error);
@@ -1002,7 +929,7 @@ if (!isset($_SESSION["nombre"])) {
                           }
                           $.ajaxunblock();
                         },
-                        error: function (data) {
+                        error: function(data) {
                           alert("Problemas al tratar de enviar el formulario");
                           $.ajaxunblock();
                         }
@@ -1024,8 +951,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Fin modal -->
-    <div class="modal fade text-left" id="modalPreviewXml" tabindex="-1" role="dialog" aria-labelledby="modalPreviewXml"
-      aria-hidden="true">
+    <div class="modal fade text-left" id="modalPreviewXml" tabindex="-1" role="dialog" aria-labelledby="modalPreviewXml" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -1034,8 +960,7 @@ if (!isset($_SESSION["nombre"])) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <iframe name="modalxml" id="modalxml" border="0" frameborder="0" width="100%" style="height: 800px;"
-              marginwidth="1" src="">
+            <iframe name="modalxml" id="modalxml" border="0" frameborder="0" width="100%" style="height: 800px;" marginwidth="1" src="">
             </iframe>
           </div>
           <div class="modal-footer">
@@ -1051,8 +976,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
-    <div class="modal fade text-left" id="modalPreviewCdr" tabindex="-1" role="dialog" aria-labelledby="modalPreviewCdr"
-      aria-hidden="true">
+    <div class="modal fade text-left" id="modalPreviewCdr" tabindex="-1" role="dialog" aria-labelledby="modalPreviewCdr" aria-hidden="true">
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -1061,8 +985,7 @@ if (!isset($_SESSION["nombre"])) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <iframe name="modalcdr" id="modalcdr" border="0" frameborder="0" width="100%" style="height: 800px;"
-              marginwidth="1" src="">
+            <iframe name="modalcdr" id="modalcdr" border="0" frameborder="0" width="100%" style="height: 800px;" marginwidth="1" src="">
             </iframe>
           </div>
           <div class="modal-footer">
@@ -1079,8 +1002,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Modal  nuevo articulo -->
-    <div class="modal fade text-left" id="modalnuevoarticulo" tabindex="-1" role="dialog"
-      aria-labelledby="modalnuevoarticulo" aria-hidden="true">
+    <div class="modal fade text-left" id="modalnuevoarticulo" tabindex="-1" role="dialog" aria-labelledby="modalnuevoarticulo" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -1093,14 +1015,12 @@ if (!isset($_SESSION["nombre"])) {
                 <input type="hidden" name="idarticulonuevo" id="idarticulonuevo">
                 <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
                 <label for="recipient-name" class="col-form-label">Selecciona el almacen:</label>
-                <select class="form-control" name="idalmacennarticulo" id="idalmacennarticulo" required
-                  data-live-search="true">
+                <select class="form-control" name="idalmacennarticulo" id="idalmacennarticulo" required data-live-search="true">
                 </select>
               </div>
               <div class="mb-3 col-lg-6">
                 <label for="recipient-name" class="col-form-label">Selecciona tu categoria:</label>
-                <select class="form-control" name="idfamilianarticulo" id="idfamilianarticulo" required
-                  data-live-search="true">
+                <select class="form-control" name="idfamilianarticulo" id="idfamilianarticulo" required data-live-search="true">
                 </select>
               </div>
               <div hidden class="mb-3 col-lg-6">
@@ -1111,18 +1031,15 @@ if (!isset($_SESSION["nombre"])) {
               </div>
               <div class="mb-3 col-lg-6">
                 <label for="recipient-name" class="col-form-label">Nombre del producto:</label>
-                <input type="text" class="form-control" name="nombrenarticulo" id="nombrenarticulo" onkeyup="mayus(this);"
-                  onkeypress=" return limitestockf(event, this)" autofocus="true" onchange="generarcodigonarti()">
+                <input type="text" class="form-control" name="nombrenarticulo" id="nombrenarticulo" onkeyup="mayus(this);" onkeypress=" return limitestockf(event, this)" autofocus="true" onchange="generarcodigonarti()">
               </div>
               <div class="mb-3 col-lg-6">
                 <label for="recipient-name" class="col-form-label">Cantidad del stock</label>
-                <input type="text" class="form-control" name="stocknarticulo" id="stocknarticulo" maxlength="100"
-                  required="true" onkeypress="return NumCheck(event, this)">
+                <input type="text" class="form-control" name="stocknarticulo" id="stocknarticulo" maxlength="100" required="true" onkeypress="return NumCheck(event, this)">
               </div>
               <div class="mb-3 col-lg-6">
                 <label for="recipient-name" class="col-form-label">Precio de venta:</label>
-                <input type="text" class="form-control" name="precioventanarticulo" id="precioventanarticulo"
-                  onkeypress="return NumCheck(event, this)">
+                <input type="text" class="form-control" name="precioventanarticulo" id="precioventanarticulo" onkeypress="return NumCheck(event, this)">
               </div>
               <div class="mb-3 col-lg-6">
                 <label for="recipient-name" class="col-form-label">Codigo del interno del producto:</label>
@@ -1134,18 +1051,15 @@ if (!isset($_SESSION["nombre"])) {
                 </select>
               </div>
               <div hidden class="mb-3 col-lg-6">
-                <textarea class="form-control" id="descripcionnarticulo" name="descripcionnarticulo" rows="3" cols="70"
-                  onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)"> </textarea>
+                <textarea class="form-control" id="descripcionnarticulo" name="descripcionnarticulo" rows="3" cols="70" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)"> </textarea>
               </div>
             </div>
             <div class="modal-footer">
-              <button data-bs-target="#myModalArt" data-bs-toggle="modal" type="button" class="btn btn-danger"
-                data-bs-dismiss="modal">
+              <button data-bs-target="#myModalArt" data-bs-toggle="modal" type="button" class="btn btn-danger" data-bs-dismiss="modal">
                 <i class="bx bx-x d-block d-sm-none"></i>
                 <span class="d-none d-sm-block">Cancelar</span>
               </button>
-              <button id="btnguardarncliente" name="btnguardarncliente" value="btnGuardarcliente" type="submit"
-                class="btn btn-primary ml-1">
+              <button id="btnguardarncliente" name="btnguardarncliente" value="btnGuardarcliente" type="submit" class="btn btn-primary ml-1">
                 <i class="bx bx-check d-block d-sm-none"></i>
                 <span class="d-none d-sm-block">Guardar</span>
               </button>
@@ -1155,7 +1069,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Fin modal -->
-    <?php
+  <?php
   } else {
     require 'noacceso.php';
   }
@@ -1163,7 +1077,7 @@ if (!isset($_SESSION["nombre"])) {
   require 'footer.php';
   ?>
   <script type="text/javascript" src="scripts/boleta.js"></script>
-  <?php
+<?php
 }
 ob_end_flush();
 ?>

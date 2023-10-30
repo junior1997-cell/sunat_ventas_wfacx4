@@ -1,48 +1,48 @@
 <aside class="app-sidebar sticky" id="sidebar">
 
-    <input type="hidden" name="iva" id="iva" value='<?php echo $_SESSION[' iva']; ?>'>
-    <!-- Start::main-sidebar-header -->
-    <div class="main-sidebar-header">
-        <a href="#" class="header-logo">
-            <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
-            <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
-            <img src="../assets/images/brand-logos/desktop-dark.png" alt="logo" class="desktop-dark">
-            <img src="../assets/images/brand-logos/toggle-dark.png" alt="logo" class="toggle-dark">
-            <img src="../assets/images/brand-logos/desktop-white.png" alt="logo" class="desktop-white">
-            <img src="../assets/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
-        </a>
-    </div>
-    <!-- End::main-sidebar-header -->
+  <input type="hidden" name="iva" id="iva" value='<?php echo $_SESSION[' iva']; ?>'>
+  <!-- Start::main-sidebar-header -->
+  <div class="main-sidebar-header">
+    <a href="#" class="header-logo">
+      <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
+      <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
+      <img src="../assets/images/brand-logos/desktop-dark.png" alt="logo" class="desktop-dark">
+      <img src="../assets/images/brand-logos/toggle-dark.png" alt="logo" class="toggle-dark">
+      <img src="../assets/images/brand-logos/desktop-white.png" alt="logo" class="desktop-white">
+      <img src="../assets/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
+    </a>
+  </div>
+  <!-- End::main-sidebar-header -->
 
-    <!-- Start::main-sidebar -->
-    <div class="main-sidebar" id="sidebar-scroll">
+  <!-- Start::main-sidebar -->
+  <div class="main-sidebar" id="sidebar-scroll">
 
-        <!-- Start::nav -->
-        <nav class="main-menu-container nav nav-pills flex-column sub-open">
-            <div class="slide-left" id="slide-left">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
-                </svg>
-            </div>
-            <ul class="main-menu">
+    <!-- Start::nav -->
+    <nav class="main-menu-container nav nav-pills flex-column sub-open">
+      <div class="slide-left" id="slide-left">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
+        </svg>
+      </div>
+      <ul class="main-menu">
 
-                <?php
-                if ($_SESSION['Dashboard'] == 1) {
-                    echo '<li class="slide">
+        <?php
+        if ($_SESSION['Dashboard'] == 1) {
+          echo '<li class="slide">
                             <a href="escritorio.php" class="side-menu__item">
                                 <i class="bx bx-home side-menu__icon"></i>
                                 <span class="side-menu__label">Dashoard</span>
                             </a>
                                </li>';
-                }
-                ?>
+        }
+        ?>
 
-                <!-- Start::slide -->
+        <!-- Start::slide -->
 
-                <?php
-                if ($_SESSION['Logistica'] == 1) {
+        <?php
+        if ($_SESSION['Logistica'] == 1) {
 
-                    echo '<li class="slide__category"><span class="category-name">Logística</span></li>
+          echo '<li class="slide__category"><span class="category-name">Logística</span></li>
                             <li class="slide">
                             <a href="almacen.php" class="side-menu__item">
                                 <i class="bx bx-package side-menu__icon"></i>
@@ -142,12 +142,12 @@
                             </a>
                          </li>                    
                     ';
-                }
-                ?>
+        }
+        ?>
 
-                <?php
-                if ($_SESSION['Ventas'] == 1) {
-                    echo '<li class="slide__category"><span class="category-name">Gestión de Ventas</span></li>
+        <?php
+        if ($_SESSION['Ventas'] == 1) {
+          echo '<li class="slide__category"><span class="category-name">Gestión de Ventas</span></li>
                             <li class="slide has-sub">
                             <a href="javascript:void(0);" class="side-menu__item">
                                 <i class="bx bx-basket side-menu__icon"></i>
@@ -278,13 +278,13 @@
                         </li>             
                         
                         ';
-                }
-                ?>
+        }
+        ?>
 
 
-                <?php
-                if ($_SESSION['Contabilidad'] == 1) {
-                    echo '<li class="slide__category"><span class="category-name">Contabilidad</span></li>
+        <?php
+        if ($_SESSION['Contabilidad'] == 1) {
+          echo '<li class="slide__category"><span class="category-name">Contabilidad</span></li>
                             <li class="slide">
                             <a href="kardexArticulo.php" class="side-menu__item">
                                 <i class="bx bx-barcode side-menu__icon"></i>
@@ -333,14 +333,14 @@
                              </li>
 
                             ';
-                }
-                ?>
+        }
+        ?>
 
 
 
-                <?php
-                if ($_SESSION['RRHH'] == 1) {
-                    echo '<li class="slide__category"><span class="category-name">Gestión RRHH</span></li> 
+        <?php
+        if ($_SESSION['RRHH'] == 1) {
+          echo '<li class="slide__category"><span class="category-name">Gestión RRHH</span></li> 
                             <li class="slide has-sub">
                             <a href="javascript:void(0);" class="side-menu__item">
                                 <i class="bx bx-group side-menu__icon"></i>
@@ -383,13 +383,13 @@
                                 
                             </ul>
                              </li>';
-                }
-                ?>
+        }
+        ?>
 
 
-                <?php
-                if ($_SESSION['Configuracion'] == 1) {
-                    echo '<li class="slide__category"><span class="category-name">Configuracion del sistema</span></li> 
+        <?php
+        if ($_SESSION['Configuracion'] == 1) {
+          echo '<li class="slide__category"><span class="category-name">Configuracion del sistema</span></li> 
 
                             <li class="slide has-sub">
                             <a href="javascript:void(0);" class="side-menu__item">
@@ -443,19 +443,18 @@
                              </li>
 
                             ';
-                }
-                ?>
+        }
+        ?>
 
 
-            </ul>
-            <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24"
-                    height="24" viewBox="0 0 24 24">
-                    <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
-                </svg></div>
-        </nav>
-        <!-- End::nav -->
+      </ul>
+      <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+        </svg></div>
+    </nav>
+    <!-- End::nav -->
 
-    </div>
-    <!-- End::main-sidebar -->
+  </div>
+  <!-- End::main-sidebar -->
 
 </aside>

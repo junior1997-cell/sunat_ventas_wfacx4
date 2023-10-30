@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.11
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 28-10-2023 a las 22:20:17
--- Versión del servidor: 5.7.43-cll-lve
--- Versión de PHP: 7.4.33
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 30-10-2023 a las 00:16:12
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,14 +18,14 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `jdl_base_de_datos`
+-- Base de datos: `sunat_ventas_wfacx4`
 --
 
 DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`qsjtkvq326yd`@`localhost` PROCEDURE `InsertarDatos` (IN `p_codigo` VARCHAR(255), IN `p_familia_descripcion` VARCHAR(45), IN `p_nombre` VARCHAR(500), IN `p_marca` VARCHAR(100), IN `p_descrip` VARCHAR(500), IN `p_costo_compra` FLOAT(12,2), IN `p_precio_venta` DECIMAL(12,2), IN `p_stock` FLOAT(12,2), IN `p_saldo_iniu` FLOAT(12,2), IN `p_valor_iniu` FLOAT(12,2), IN `p_tipoitem` VARCHAR(50), IN `p_codigott` VARCHAR(50), IN `p_desctt` VARCHAR(50), IN `p_codigointtt` VARCHAR(50), IN `p_nombrett` VARCHAR(50), IN `p_nombre_almacen` VARCHAR(45))   BEGIN
+CREATE PROCEDURE `InsertarDatos` (IN `p_codigo` VARCHAR(255), IN `p_familia_descripcion` VARCHAR(45), IN `p_nombre` VARCHAR(500), IN `p_marca` VARCHAR(100), IN `p_descrip` VARCHAR(500), IN `p_costo_compra` FLOAT(12,2), IN `p_precio_venta` DECIMAL(12,2), IN `p_stock` FLOAT(12,2), IN `p_saldo_iniu` FLOAT(12,2), IN `p_valor_iniu` FLOAT(12,2), IN `p_tipoitem` VARCHAR(50), IN `p_codigott` VARCHAR(50), IN `p_desctt` VARCHAR(50), IN `p_codigointtt` VARCHAR(50), IN `p_nombrett` VARCHAR(50), IN `p_nombre_almacen` VARCHAR(45))   BEGIN
     DECLARE fam_id INT;
     DECLARE alm_id INT;
 
@@ -78,10 +77,10 @@ DELIMITER ;
 
 CREATE TABLE `almacen` (
   `idalmacen` int(11) NOT NULL,
-  `nombre` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `direccion` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
   `idempresa` int(11) DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -100,9 +99,9 @@ INSERT INTO `almacen` (`idalmacen`, `nombre`, `direccion`, `idempresa`, `estado`
 CREATE TABLE `articulo` (
   `idarticulo` int(11) NOT NULL,
   `idalmacen` int(11) NOT NULL,
-  `codigo_proveedor` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `nombre` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_proveedor` varchar(45) DEFAULT NULL,
+  `codigo` varchar(255) NOT NULL,
+  `nombre` varchar(500) NOT NULL,
   `idfamilia` int(11) NOT NULL,
   `unidad_medida` int(11) DEFAULT NULL,
   `costo_compra` float(12,2) NOT NULL,
@@ -116,42 +115,42 @@ CREATE TABLE `articulo` (
   `portador` float(12,2) DEFAULT NULL,
   `merma` float(12,2) DEFAULT NULL,
   `precio_venta` decimal(12,2) DEFAULT NULL,
-  `imagen` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '1',
+  `imagen` varchar(50) DEFAULT NULL,
+  `estado` tinyint(4) DEFAULT 1,
   `valor_fin_kardex` float(12,2) DEFAULT NULL,
   `precio_final_kardex` float(12,2) DEFAULT NULL,
   `fecharegistro` datetime NOT NULL,
-  `codigosunat` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ccontable` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigosunat` varchar(50) DEFAULT NULL,
+  `ccontable` char(20) DEFAULT NULL,
   `precio2` float(14,2) DEFAULT NULL,
   `precio3` float(14,2) DEFAULT NULL,
   `costofinal` float(14,2) DEFAULT NULL,
-  `cicbper` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nticbperi` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ctticbperi` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cicbper` varchar(4) DEFAULT NULL,
+  `nticbperi` varchar(20) DEFAULT NULL,
+  `ctticbperi` varchar(20) DEFAULT NULL,
   `mticbperu` float(14,2) DEFAULT NULL,
-  `codigott` varchar(50) COLLATE utf8_unicode_ci DEFAULT '1000',
-  `desctt` varchar(50) COLLATE utf8_unicode_ci DEFAULT 'IGV Impuesto general a las ventas',
-  `codigointtt` varchar(50) COLLATE utf8_unicode_ci DEFAULT 'VAT',
-  `nombrett` varchar(50) COLLATE utf8_unicode_ci DEFAULT 'IGV',
-  `lote` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `marca` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigott` varchar(50) DEFAULT '1000',
+  `desctt` varchar(50) DEFAULT 'IGV Impuesto general a las ventas',
+  `codigointtt` varchar(50) DEFAULT 'VAT',
+  `nombrett` varchar(50) DEFAULT 'IGV',
+  `lote` varchar(100) DEFAULT NULL,
+  `marca` varchar(100) DEFAULT NULL,
   `fechafabricacion` date DEFAULT NULL,
   `fechavencimiento` date DEFAULT NULL,
-  `procedencia` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fabricante` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `registrosanitario` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `procedencia` varchar(500) DEFAULT NULL,
+  `fabricante` varchar(100) DEFAULT NULL,
+  `registrosanitario` varchar(100) DEFAULT NULL,
   `fechaingalm` date DEFAULT NULL,
   `fechafinalma` date DEFAULT NULL,
-  `proveedor` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `seriefaccompra` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `numerofaccompra` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `proveedor` varchar(100) DEFAULT NULL,
+  `seriefaccompra` char(10) DEFAULT NULL,
+  `numerofaccompra` char(10) DEFAULT NULL,
   `fechafacturacompra` date DEFAULT NULL,
   `limitestock` float(14,2) DEFAULT NULL,
-  `tipoitem` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipoitem` varchar(50) DEFAULT NULL,
   `umedidacompra` int(11) DEFAULT NULL,
   `factorc` float(14,2) DEFAULT NULL,
-  `descrip` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL
+  `descrip` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -164,57 +163,57 @@ CREATE TABLE `boleta` (
   `idboleta` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `fecha_emision_01` datetime NOT NULL,
-  `firma_digital_36` varchar(3000) COLLATE utf8_unicode_ci NOT NULL,
+  `firma_digital_36` varchar(3000) NOT NULL,
   `idempresa` int(11) NOT NULL,
-  `tipo_documento_06` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `numeracion_07` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_documento_06` varchar(2) NOT NULL,
+  `numeracion_07` varchar(20) NOT NULL,
   `idcliente` int(11) DEFAULT NULL,
-  `codigo_tipo_15_1` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tipo_15_1` varchar(4) DEFAULT NULL,
   `monto_15_2` float(12,2) DEFAULT NULL,
   `sumatoria_igv_18_1` float(12,2) DEFAULT NULL,
   `sumatoria_igv_18_2` float(12,2) DEFAULT NULL,
-  `codigo_tributo_18_3` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nombre_tributo_18_4` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo_internacional_18_5` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tributo_18_3` varchar(4) DEFAULT NULL,
+  `nombre_tributo_18_4` varchar(6) DEFAULT NULL,
+  `codigo_internacional_18_5` varchar(3) DEFAULT NULL,
   `importe_total_23` decimal(12,2) DEFAULT NULL,
-  `codigo_leyenda_26_1` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion_leyenda_26_2` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_leyenda_26_1` varchar(4) NOT NULL,
+  `descripcion_leyenda_26_2` varchar(100) NOT NULL,
   `tipo_documento_25_1` int(11) DEFAULT NULL,
-  `guia_remision_25` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_ubl_37` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_estructura_38` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipo_moneda_24` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tasa_igv` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `tipodocuCliente` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rucCliente` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `RazonSocial` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `guia_remision_25` varchar(30) DEFAULT NULL,
+  `version_ubl_37` varchar(10) DEFAULT NULL,
+  `version_estructura_38` varchar(10) DEFAULT NULL,
+  `tipo_moneda_24` varchar(3) DEFAULT NULL,
+  `tasa_igv` varchar(5) DEFAULT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `tipodocuCliente` varchar(1) DEFAULT NULL,
+  `rucCliente` varchar(15) DEFAULT NULL,
+  `RazonSocial` varchar(50) DEFAULT NULL,
   `fecha_baja` datetime DEFAULT NULL,
-  `comentario_baja` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comentario_baja` varchar(30) DEFAULT NULL,
   `tdescuento` float(12,2) DEFAULT NULL,
-  `vendedorsitio` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vendedorsitio` varchar(250) DEFAULT NULL,
   `tcambio` float(14,2) DEFAULT NULL,
-  `tipopago` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nroreferencia` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipopago` char(100) DEFAULT NULL,
+  `nroreferencia` char(100) DEFAULT NULL,
   `ipagado` float(14,2) DEFAULT NULL,
   `saldo` float(14,2) DEFAULT NULL,
   `icbper` float(14,2) NOT NULL,
-  `CodigoRptaSunat` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DetalleSunat` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipoboleta` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hashc` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CodigoRptaSunat` varchar(4) DEFAULT NULL,
+  `DetalleSunat` varchar(200) DEFAULT NULL,
+  `tipoboleta` char(50) DEFAULT NULL,
+  `hashc` varchar(500) DEFAULT NULL,
   `idguia` int(11) DEFAULT NULL,
-  `formapago` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `formapago` char(50) DEFAULT NULL,
   `montofpago` float(14,2) DEFAULT NULL,
-  `monedafpago` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ccuotas` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `monedafpago` char(10) DEFAULT NULL,
+  `ccuotas` char(10) DEFAULT NULL,
   `montocuota` float(14,2) DEFAULT NULL,
   `fechavecredito` date DEFAULT NULL,
-  `transferencia` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `transferencia` char(2) DEFAULT NULL,
   `montotransferencia` float(14,2) DEFAULT NULL,
-  `tarjetadc` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tarjetadc` char(2) DEFAULT NULL,
   `montotarjetadc` float(14,2) DEFAULT NULL,
-  `ntrans` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ntrans` char(100) DEFAULT NULL,
   `fechavenc` date DEFAULT NULL,
   `efectivo` decimal(14,2) DEFAULT NULL,
   `visa` decimal(14,2) DEFAULT NULL,
@@ -236,7 +235,7 @@ CREATE TABLE `boletaempresa` (
   `rucEmpresa` char(11) DEFAULT NULL,
   `essalud` float(14,2) DEFAULT NULL,
   `serieBoleta` char(10) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -266,7 +265,7 @@ CREATE TABLE `boletapago` (
   `nroBoleta` char(20) DEFAULT NULL,
   `conceptoadicional` char(50) DEFAULT NULL,
   `importeconcepto` float(14,2) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -278,35 +277,35 @@ CREATE TABLE `boletaservicio` (
   `idboleta` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `fecha_emision_01` datetime NOT NULL,
-  `firma_digital_36` varchar(3000) COLLATE utf8_unicode_ci NOT NULL,
+  `firma_digital_36` varchar(3000) NOT NULL,
   `idempresa` int(11) NOT NULL,
-  `tipo_documento_06` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `numeracion_07` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_documento_06` varchar(2) NOT NULL,
+  `numeracion_07` varchar(20) NOT NULL,
   `idcliente` int(11) DEFAULT NULL,
-  `codigo_tipo_15_1` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tipo_15_1` varchar(4) DEFAULT NULL,
   `monto_15_2` float(12,2) DEFAULT NULL,
   `sumatoria_igv_18_1` float(12,2) DEFAULT NULL,
   `sumatoria_igv_18_2` float(12,2) DEFAULT NULL,
-  `codigo_tributo_18_3` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nombre_tributo_18_4` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo_internacional_18_5` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tributo_18_3` varchar(4) DEFAULT NULL,
+  `nombre_tributo_18_4` varchar(6) DEFAULT NULL,
+  `codigo_internacional_18_5` varchar(3) DEFAULT NULL,
   `importe_total_23` float(12,2) NOT NULL,
-  `codigo_leyenda_26_1` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion_leyenda_26_2` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_leyenda_26_1` varchar(4) NOT NULL,
+  `descripcion_leyenda_26_2` varchar(100) NOT NULL,
   `tipo_documento_25_1` int(11) DEFAULT NULL,
-  `guia_remision_25` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_ubl_37` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_estructura_38` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipo_moneda_24` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tasa_igv` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `tipodocuCliente` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rucCliente` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `RazonSocial` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `guia_remision_25` varchar(30) DEFAULT NULL,
+  `version_ubl_37` varchar(10) DEFAULT NULL,
+  `version_estructura_38` varchar(10) DEFAULT NULL,
+  `tipo_moneda_24` varchar(3) DEFAULT NULL,
+  `tasa_igv` varchar(5) DEFAULT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `tipodocuCliente` varchar(1) DEFAULT NULL,
+  `rucCliente` varchar(15) DEFAULT NULL,
+  `RazonSocial` varchar(50) DEFAULT NULL,
   `fecha_baja` datetime DEFAULT NULL,
-  `comentario_baja` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comentario_baja` varchar(30) DEFAULT NULL,
   `tdescuento` float(12,2) DEFAULT NULL,
-  `vendedorsitio` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vendedorsitio` varchar(250) DEFAULT NULL,
   `tcambio` float(14,2) DEFAULT NULL,
   `icbper` float(14,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -322,9 +321,9 @@ CREATE TABLE `caja` (
   `fecha` date DEFAULT NULL,
   `montoi` float(14,2) DEFAULT NULL,
   `montof` decimal(14,2) DEFAULT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
   `idempresa` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -333,9 +332,9 @@ CREATE TABLE `caja` (
 --
 
 CREATE TABLE `catalogo1` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `un1001` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(200) DEFAULT NULL,
+  `un1001` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -367,10 +366,10 @@ INSERT INTO `catalogo1` (`codigo`, `descripcion`, `un1001`) VALUES
 
 CREATE TABLE `catalogo5` (
   `id` int(11) NOT NULL,
-  `codigo` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `unece5153` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `codigo` varchar(5) NOT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
+  `unece5153` varchar(3) DEFAULT NULL,
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -394,10 +393,10 @@ INSERT INTO `catalogo5` (`id`, `codigo`, `descripcion`, `unece5153`, `estado`) V
 
 CREATE TABLE `catalogo6` (
   `id` int(11) NOT NULL,
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `abrev` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
+  `abrev` varchar(15) DEFAULT NULL,
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -419,9 +418,9 @@ INSERT INTO `catalogo6` (`id`, `codigo`, `descripcion`, `abrev`, `estado`) VALUE
 
 CREATE TABLE `catalogo7` (
   `id` int(11) NOT NULL,
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(45) NOT NULL,
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -455,8 +454,8 @@ INSERT INTO `catalogo7` (`id`, `codigo`, `descripcion`, `estado`) VALUES
 --
 
 CREATE TABLE `catalogo8` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -466,8 +465,8 @@ CREATE TABLE `catalogo8` (
 --
 
 CREATE TABLE `catalogo9` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -493,8 +492,8 @@ INSERT INTO `catalogo9` (`codigo`, `descripcion`) VALUES
 --
 
 CREATE TABLE `catalogo10` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -513,8 +512,8 @@ INSERT INTO `catalogo10` (`codigo`, `descripcion`) VALUES
 --
 
 CREATE TABLE `catalogo11` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -524,8 +523,8 @@ CREATE TABLE `catalogo11` (
 --
 
 CREATE TABLE `catalogo12` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -535,8 +534,8 @@ CREATE TABLE `catalogo12` (
 --
 
 CREATE TABLE `catalogo14` (
-  `codigo` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(4) NOT NULL,
+  `descripcion` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -546,8 +545,8 @@ CREATE TABLE `catalogo14` (
 --
 
 CREATE TABLE `catalogo15` (
-  `codigo` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(4) NOT NULL,
+  `descripcion` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -557,8 +556,8 @@ CREATE TABLE `catalogo15` (
 --
 
 CREATE TABLE `catalogo16` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -568,8 +567,8 @@ CREATE TABLE `catalogo16` (
 --
 
 CREATE TABLE `catalogo17` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -579,8 +578,8 @@ CREATE TABLE `catalogo17` (
 --
 
 CREATE TABLE `catalogo18` (
-  `codigo` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(2) NOT NULL,
+  `descripcion` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -598,8 +597,8 @@ INSERT INTO `catalogo18` (`codigo`, `descripcion`) VALUES
 --
 
 CREATE TABLE `catalogo19` (
-  `codigo` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
+  `codigo` varchar(1) NOT NULL,
+  `descripcion` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -612,7 +611,7 @@ CREATE TABLE `catalogo20` (
   `idcatalogo` int(10) UNSIGNED NOT NULL,
   `codigo` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `descripcion` varchar(100) CHARACTER SET utf32 COLLATE utf32_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `catalogo20`
@@ -637,8 +636,8 @@ INSERT INTO `catalogo20` (`idcatalogo`, `codigo`, `descripcion`) VALUES
 
 CREATE TABLE `categoriainsumos` (
   `idcategoriai` int(10) UNSIGNED NOT NULL,
-  `descripcionc` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `descripcionc` char(100) DEFAULT NULL,
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -649,7 +648,7 @@ CREATE TABLE `categoriainsumos` (
 
 CREATE TABLE `categoria_plato` (
   `idcategoria` int(10) UNSIGNED NOT NULL,
-  `nombreCategoria` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombreCategoria` varchar(100) DEFAULT NULL,
   `estado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -673,7 +672,7 @@ CREATE TABLE `cierrecaja` (
 
 CREATE TABLE `ciudad` (
   `idciudad` int(11) NOT NULL,
-  `nombre` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(45) NOT NULL,
   `iddepartamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -769,20 +768,20 @@ CREATE TABLE `compra` (
   `idcompra` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `fecha` datetime NOT NULL,
-  `tipo_documento` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_documento` varchar(45) NOT NULL,
   `idproveedor` int(11) NOT NULL,
-  `serie` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
-  `numero` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `guia` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `serie` varchar(5) NOT NULL,
+  `numero` varchar(20) NOT NULL,
+  `guia` varchar(20) DEFAULT NULL,
   `subtotal` float(12,2) NOT NULL,
   `igv` float(12,2) NOT NULL,
   `total` float(12,2) NOT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
   `subtotal_$` float(14,2) DEFAULT NULL,
   `igv_$` float(14,2) DEFAULT NULL,
   `total_$` float(14,2) DEFAULT NULL,
   `tcambio` float(14,3) DEFAULT NULL,
-  `moneda` char(5) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `moneda` char(5) DEFAULT NULL,
   `idempresa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -814,14 +813,14 @@ INSERT INTO `configuraciones` (`idconfiguracion`, `idempresa`, `porDesc`, `igv`)
 
 CREATE TABLE `correo` (
   `idcorreo` int(11) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `host` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `smtpsecure` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `host` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `smtpsecure` char(10) DEFAULT NULL,
   `port` int(11) DEFAULT NULL,
-  `mensaje` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `correoavisos` char(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `mensaje` varchar(300) DEFAULT NULL,
+  `correoavisos` char(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -835,19 +834,19 @@ CREATE TABLE `cotizacion` (
   `idempresa` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idcliente` int(11) NOT NULL,
-  `serienota` char(20) COLLATE utf8_unicode_ci NOT NULL,
-  `moneda` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `serienota` char(20) NOT NULL,
+  `moneda` char(20) DEFAULT NULL,
   `fechaemision` datetime NOT NULL,
-  `tipocotizacion` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipocotizacion` char(20) DEFAULT NULL,
   `subtotal` float(14,2) NOT NULL,
   `impuesto` float(14,2) NOT NULL,
   `total` float(14,2) NOT NULL,
-  `observacion` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `vendedor` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `observacion` varchar(500) NOT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `vendedor` char(20) DEFAULT NULL,
   `tipocambio` float(14,2) DEFAULT NULL,
   `fechavalidez` date DEFAULT NULL,
-  `nrofactura` char(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `nrofactura` char(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
@@ -863,8 +862,8 @@ CREATE TABLE `cuotas` (
   `ncuota` int(11) NOT NULL,
   `montocuota` decimal(12,2) DEFAULT NULL,
   `fechacuota` date NOT NULL,
-  `estadocuota` tinyint(4) DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `estadocuota` tinyint(4) DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -874,7 +873,7 @@ CREATE TABLE `cuotas` (
 
 CREATE TABLE `departamento` (
   `iddepartamento` int(11) NOT NULL,
-  `nombre` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL
+  `nombre` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -930,10 +929,10 @@ CREATE TABLE `detalle_articulo_cotizacion` (
   `id` int(11) NOT NULL,
   `idcotizacion` int(11) NOT NULL,
   `iditem` int(11) NOT NULL,
-  `codigo` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo` char(20) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` float(14,2) NOT NULL,
-  `descdet` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `descdet` varchar(500) DEFAULT NULL,
   `norden` int(11) DEFAULT NULL,
   `valorunitario` float(14,5) NOT NULL,
   `valorventa` float(14,2) NOT NULL,
@@ -953,20 +952,20 @@ CREATE TABLE `detalle_boleta_producto` (
   `idarticulo` int(11) NOT NULL,
   `numero_orden_item_29` int(11) DEFAULT NULL,
   `cantidad_item_12` float(12,2) NOT NULL,
-  `codigo_precio_14_1` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_precio_14_1` varchar(2) NOT NULL,
   `precio_uni_item_14_2` decimal(12,2) DEFAULT NULL,
   `afectacion_igv_item_monto_27_1` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_monto_27_2` float(12,2) DEFAULT NULL,
-  `afectacion_igv_3` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_4` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_5` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_6` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `afectacion_igv_3` varchar(2) DEFAULT NULL,
+  `afectacion_igv_4` varchar(4) DEFAULT NULL,
+  `afectacion_igv_5` varchar(6) DEFAULT NULL,
+  `afectacion_igv_6` varchar(3) DEFAULT NULL,
   `igv_item` float(12,2) NOT NULL,
   `valor_uni_item_31` float(12,5) NOT NULL,
   `valor_venta_item_32` float(12,2) NOT NULL,
   `dcto_item` float(12,2) DEFAULT NULL,
-  `descdet` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `umedida` char(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `descdet` varchar(500) DEFAULT NULL,
+  `umedida` char(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -981,19 +980,19 @@ CREATE TABLE `detalle_boleta_producto_ser` (
   `idarticulo` int(11) NOT NULL,
   `numero_orden_item_29` int(11) DEFAULT NULL,
   `cantidad_item_12` float(12,2) NOT NULL,
-  `codigo_precio_14_1` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_precio_14_1` varchar(2) NOT NULL,
   `precio_uni_item_14_2` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_monto_27_1` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_monto_27_2` float(12,2) DEFAULT NULL,
-  `afectacion_igv_3` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_4` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_5` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_6` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `afectacion_igv_3` varchar(2) DEFAULT NULL,
+  `afectacion_igv_4` varchar(4) DEFAULT NULL,
+  `afectacion_igv_5` varchar(6) DEFAULT NULL,
+  `afectacion_igv_6` varchar(3) DEFAULT NULL,
   `igv_item` float(12,2) NOT NULL,
   `valor_uni_item_31` float(12,5) NOT NULL,
   `valor_venta_item_32` float(12,2) NOT NULL,
   `dcto_item` float(12,2) DEFAULT NULL,
-  `descdet` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL
+  `descdet` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1011,7 +1010,7 @@ CREATE TABLE `detalle_compra_producto` (
   `subtotal` float(12,2) DEFAULT NULL,
   `valor_unitario_$` float(14,2) DEFAULT NULL,
   `subtotal_$` float(14,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1023,10 +1022,10 @@ CREATE TABLE `detalle_doccobranza` (
   `id` int(11) NOT NULL,
   `iddoccobranza` int(11) NOT NULL,
   `iditem` int(11) NOT NULL,
-  `codigo` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo` char(20) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` float(14,2) NOT NULL,
-  `descdet` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `descdet` varchar(500) DEFAULT NULL,
   `norden` int(11) DEFAULT NULL,
   `igvvalorventa` float(14,2) DEFAULT NULL,
   `igvitem` float(14,2) DEFAULT NULL,
@@ -1046,20 +1045,20 @@ CREATE TABLE `detalle_fac_art` (
   `idarticulo` int(11) NOT NULL,
   `numero_orden_item_33` int(11) NOT NULL,
   `cantidad_item_12` float(12,2) NOT NULL,
-  `codigo_precio_15_1` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_precio_15_1` varchar(2) NOT NULL,
   `precio_venta_item_15_2` decimal(12,2) DEFAULT NULL,
   `afectacion_igv_item_16_1` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_16_2` float(12,2) DEFAULT NULL,
-  `afectacion_igv_item_16_3` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_item_16_4` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_item_16_5` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_item_16_6` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `afectacion_igv_item_16_3` varchar(2) DEFAULT NULL,
+  `afectacion_igv_item_16_4` varchar(4) DEFAULT NULL,
+  `afectacion_igv_item_16_5` varchar(6) DEFAULT NULL,
+  `afectacion_igv_item_16_6` varchar(3) DEFAULT NULL,
   `igv_item` float(12,2) NOT NULL,
   `valor_uni_item_14` float(12,5) NOT NULL,
   `valor_venta_item_21` float(12,2) NOT NULL,
   `dcto_item` float(12,2) DEFAULT NULL,
-  `descdet` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `umedida` char(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `descdet` varchar(500) DEFAULT NULL,
+  `umedida` char(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1074,19 +1073,19 @@ CREATE TABLE `detalle_fac_art_ser` (
   `idarticulo` int(11) NOT NULL,
   `numero_orden_item_33` int(11) NOT NULL,
   `cantidad_item_12` float(12,2) NOT NULL,
-  `codigo_precio_15_1` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_precio_15_1` varchar(2) NOT NULL,
   `precio_venta_item_15_2` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_16_1` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_16_2` float(12,2) DEFAULT NULL,
-  `afectacion_igv_item_16_3` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_item_16_4` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_item_16_5` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_item_16_6` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `afectacion_igv_item_16_3` varchar(2) DEFAULT NULL,
+  `afectacion_igv_item_16_4` varchar(4) DEFAULT NULL,
+  `afectacion_igv_item_16_5` varchar(6) DEFAULT NULL,
+  `afectacion_igv_item_16_6` varchar(3) DEFAULT NULL,
   `igv_item` float(12,2) NOT NULL,
   `valor_uni_item_14` float(12,5) NOT NULL,
   `valor_venta_item_21` float(12,2) NOT NULL,
   `dcto_item` float(12,2) DEFAULT NULL,
-  `descdet` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL
+  `descdet` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1127,7 +1126,7 @@ CREATE TABLE `detalle_notacd_art` (
   `coditrib` varchar(20) DEFAULT NULL,
   `numorden` varchar(20) DEFAULT NULL,
   `descripitem` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1141,20 +1140,20 @@ CREATE TABLE `detalle_notapedido_producto` (
   `idarticulo` int(11) NOT NULL,
   `numero_orden_item_29` int(11) DEFAULT NULL,
   `cantidad_item_12` float(12,2) NOT NULL,
-  `codigo_precio_14_1` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_precio_14_1` varchar(2) NOT NULL,
   `precio_uni_item_14_2` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_monto_27_1` float(12,2) DEFAULT NULL,
   `afectacion_igv_item_monto_27_2` float(12,2) DEFAULT NULL,
-  `afectacion_igv_3` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_4` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_5` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `afectacion_igv_6` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `afectacion_igv_3` varchar(2) DEFAULT NULL,
+  `afectacion_igv_4` varchar(4) DEFAULT NULL,
+  `afectacion_igv_5` varchar(6) DEFAULT NULL,
+  `afectacion_igv_6` varchar(3) DEFAULT NULL,
   `igv_item` float(12,2) NOT NULL,
   `valor_uni_item_31` float(12,5) NOT NULL,
   `valor_venta_item_32` float(12,2) NOT NULL,
   `dcto_item` float(12,2) DEFAULT NULL,
-  `descdet` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `umedida` char(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `descdet` varchar(100) DEFAULT NULL,
+  `umedida` char(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1167,7 +1166,7 @@ CREATE TABLE `detalle_ordenservicio_articulo` (
   `iddetalle` int(11) NOT NULL,
   `idorden` int(11) NOT NULL,
   `idarticulo` int(11) NOT NULL,
-  `descripcion` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
   `cantidad` float(12,2) NOT NULL,
   `valorcosto` float(12,5) NOT NULL,
   `totalunitario` float(12,2) NOT NULL
@@ -1205,7 +1204,7 @@ CREATE TABLE `detalle_servicio_cotizacion` (
   `codigo` char(20) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` float(14,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -1219,7 +1218,7 @@ CREATE TABLE `detalle_tablaxml_comprobante` (
   `idcomprobante` int(11) NOT NULL,
   `tipocomprobante` char(4) DEFAULT NULL,
   `estado` tinyint(4) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1231,23 +1230,22 @@ CREATE TABLE `detalle_usuario_numeracion` (
   `iddetalle` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idnumeracion` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `detalle_usuario_numeracion`
 --
 
 INSERT INTO `detalle_usuario_numeracion` (`iddetalle`, `idusuario`, `idnumeracion`) VALUES
-(12, 1, 1),
-(13, 1, 2),
-(14, 1, 3),
-(15, 1, 4),
-(16, 1, 5),
-(17, 1, 6),
-(18, 1, 7),
-(19, 1, 8),
-(20, 1, 9),
-(21, 1, 10);
+(22, 1, 1),
+(23, 1, 2),
+(24, 1, 3),
+(25, 1, 4),
+(26, 1, 5),
+(27, 1, 6),
+(28, 1, 7),
+(29, 1, 8),
+(30, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -1258,7 +1256,7 @@ INSERT INTO `detalle_usuario_numeracion` (`iddetalle`, `idusuario`, `idnumeracio
 CREATE TABLE `detalle_usuario_sesion` (
   `iddetalle` int(10) UNSIGNED NOT NULL,
   `idusuario` int(11) DEFAULT NULL,
-  `tcomprobante` char(5) COLLATE utf32_unicode_ci DEFAULT NULL,
+  `tcomprobante` char(5) DEFAULT NULL,
   `idcomprobante` int(11) DEFAULT NULL,
   `fechahora` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
@@ -1274,7 +1272,16 @@ INSERT INTO `detalle_usuario_sesion` (`iddetalle`, `idusuario`, `tcomprobante`, 
 (4, 1, '', 0, '2023-10-10 10:37:46'),
 (5, 1, '', 0, '2023-10-28 19:35:02'),
 (6, 1, '', 0, '2023-10-28 20:05:04'),
-(7, 1, '', 0, '2023-10-28 22:07:27');
+(7, 1, '', 0, '2023-10-28 22:07:27'),
+(8, 1, '', 0, '2023-10-29 11:11:02'),
+(9, 1, '', 0, '2023-10-29 11:20:38'),
+(10, 1, '', 0, '2023-10-29 11:52:15'),
+(11, 1, '', 0, '2023-10-29 14:23:03'),
+(12, 1, '', 0, '2023-10-29 15:09:25'),
+(13, 1, '', 0, '2023-10-29 15:49:09'),
+(14, 1, '', 0, '2023-10-29 16:23:54'),
+(15, 1, '', 0, '2023-10-29 17:34:57'),
+(16, 1, '', 0, '2023-10-29 18:15:31');
 
 -- --------------------------------------------------------
 
@@ -1284,8 +1291,8 @@ INSERT INTO `detalle_usuario_sesion` (`iddetalle`, `idusuario`, `tcomprobante`, 
 
 CREATE TABLE `distrito` (
   `iddistrito` int(11) NOT NULL,
-  `nombre` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `codigo_postal` char(5) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `codigo_postal` char(5) DEFAULT NULL,
   `idciudad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1504,21 +1511,21 @@ CREATE TABLE `doccobranza` (
   `idempresa` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idcliente` int(11) NOT NULL,
-  `condicion` char(15) COLLATE utf8_unicode_ci NOT NULL,
+  `condicion` char(15) NOT NULL,
   `fechaemision` datetime NOT NULL,
-  `serienumero` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `serienumero` char(20) NOT NULL,
   `tarifa` float(14,2) NOT NULL,
   `neta` float(14,2) NOT NULL,
   `igv` float(14,2) NOT NULL,
   `otros` float(14,2) NOT NULL,
   `deduccion` float(14,2) NOT NULL,
   `total` float(14,2) NOT NULL,
-  `observacion` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `observacion` varchar(500) NOT NULL,
   `tcambio` float(14,2) NOT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `tipo_moneda` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipodoccobranza` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nfactura` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `tipo_moneda` char(15) DEFAULT NULL,
+  `tipodoccobranza` char(20) DEFAULT NULL,
+  `nfactura` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1544,7 +1551,7 @@ CREATE TABLE `empleadoboleta` (
   `trabNoct` float(14,2) DEFAULT NULL,
   `idtipoSeguro` int(11) NOT NULL,
   `nombreSeguro` char(50) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1554,40 +1561,40 @@ CREATE TABLE `empleadoboleta` (
 
 CREATE TABLE `empresa` (
   `idempresa` int(11) NOT NULL,
-  `nombre_razon_social` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `nombre_comercial` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `domicilio_fiscal` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `numero_ruc` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `telefono1` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `telefono2` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `correo` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `web` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `webconsul` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `logo` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nresolucion` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ubigueo` char(5) COLLATE utf8_unicode_ci DEFAULT '0000',
-  `codubigueo` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ciudad` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `distrito` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `interior` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigopais` char(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuenta1` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `banco1` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuenta2` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `banco2` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuenta3` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `banco3` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuenta4` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `banco4` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuentacci1` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuentacci2` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuentacci3` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cuentacci4` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipoimpresion` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre_razon_social` varchar(100) NOT NULL,
+  `nombre_comercial` varchar(100) NOT NULL,
+  `domicilio_fiscal` varchar(100) NOT NULL,
+  `numero_ruc` varchar(15) DEFAULT NULL,
+  `telefono1` char(50) DEFAULT NULL,
+  `telefono2` char(50) DEFAULT NULL,
+  `correo` varchar(50) DEFAULT NULL,
+  `web` varchar(50) DEFAULT NULL,
+  `webconsul` varchar(50) DEFAULT NULL,
+  `logo` varchar(50) DEFAULT NULL,
+  `nresolucion` varchar(30) DEFAULT NULL,
+  `ubigueo` char(5) DEFAULT '0000',
+  `codubigueo` char(10) DEFAULT NULL,
+  `ciudad` char(50) DEFAULT NULL,
+  `distrito` char(50) DEFAULT NULL,
+  `interior` char(50) DEFAULT NULL,
+  `codigopais` char(5) DEFAULT NULL,
+  `cuenta1` varchar(100) DEFAULT NULL,
+  `banco1` varchar(100) DEFAULT NULL,
+  `cuenta2` varchar(100) DEFAULT NULL,
+  `banco2` varchar(100) DEFAULT NULL,
+  `cuenta3` varchar(100) DEFAULT NULL,
+  `banco3` varchar(100) DEFAULT NULL,
+  `cuenta4` varchar(100) DEFAULT NULL,
+  `banco4` varchar(100) DEFAULT NULL,
+  `cuentacci1` varchar(100) DEFAULT NULL,
+  `cuentacci2` varchar(100) DEFAULT NULL,
+  `cuentacci3` varchar(100) DEFAULT NULL,
+  `cuentacci4` varchar(100) DEFAULT NULL,
+  `tipoimpresion` char(2) DEFAULT NULL,
   `essalud` float(14,2) DEFAULT NULL,
-  `seriebolteapago` char(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `textolibre` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `observacion` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL
+  `seriebolteapago` char(5) DEFAULT NULL,
+  `textolibre` char(100) DEFAULT NULL,
+  `observacion` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -1605,10 +1612,10 @@ INSERT INTO `empresa` (`idempresa`, `nombre_razon_social`, `nombre_comercial`, `
 
 CREATE TABLE `enviocorreo` (
   `id` int(11) NOT NULL,
-  `numero_documento` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cliente` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `correo` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `comprobante` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `numero_documento` char(15) DEFAULT NULL,
+  `cliente` varchar(50) DEFAULT NULL,
+  `correo` varchar(60) DEFAULT NULL,
+  `comprobante` varchar(20) DEFAULT NULL,
   `fecha_envio` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1622,62 +1629,62 @@ CREATE TABLE `factura` (
   `idfactura` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `fecha_emision_01` datetime NOT NULL,
-  `firmadigital_02` varchar(3000) COLLATE utf8_unicode_ci NOT NULL,
+  `firmadigital_02` varchar(3000) NOT NULL,
   `idempresa` int(11) NOT NULL,
-  `tipo_documento_07` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `numeracion_08` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_documento_07` varchar(2) NOT NULL,
+  `numeracion_08` varchar(20) NOT NULL,
   `idcliente` int(11) NOT NULL,
-  `total_operaciones_gravadas_codigo_18_1` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `total_operaciones_gravadas_codigo_18_1` varchar(4) DEFAULT NULL,
   `total_operaciones_gravadas_monto_18_2` float(12,2) DEFAULT NULL,
   `sumatoria_igv_22_1` float(12,2) NOT NULL,
   `sumatoria_igv_22_2` float(12,2) DEFAULT NULL,
-  `codigo_tributo_22_3` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nombre_tributo_22_4` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo_internacional_22_5` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tributo_22_3` varchar(4) DEFAULT NULL,
+  `nombre_tributo_22_4` varchar(6) DEFAULT NULL,
+  `codigo_internacional_22_5` varchar(3) DEFAULT NULL,
   `importe_total_venta_27` decimal(12,2) DEFAULT NULL,
   `tipo_documento_29_1` int(11) DEFAULT NULL,
-  `guia_remision_29_2` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo_leyenda_31_1` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `descripcion_leyenda_31_2` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_ubl_36` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `version_estructura_37` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `tipo_moneda_28` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
-  `tasa_igv` float(12,2) DEFAULT '0.18',
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `tipodocuCliente` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rucCliente` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `RazonSocial` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `guia_remision_29_2` varchar(30) DEFAULT NULL,
+  `codigo_leyenda_31_1` varchar(4) DEFAULT NULL,
+  `descripcion_leyenda_31_2` varchar(100) DEFAULT NULL,
+  `version_ubl_36` varchar(10) NOT NULL,
+  `version_estructura_37` varchar(10) NOT NULL,
+  `tipo_moneda_28` varchar(3) NOT NULL,
+  `tasa_igv` float(12,2) DEFAULT 0.18,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `tipodocuCliente` varchar(1) DEFAULT NULL,
+  `rucCliente` varchar(15) DEFAULT NULL,
+  `RazonSocial` varchar(50) DEFAULT NULL,
   `idguia` int(11) DEFAULT NULL,
   `fecha_baja` datetime DEFAULT NULL,
-  `comentario_baja` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comentario_baja` varchar(30) DEFAULT NULL,
   `tdescuento` float(12,2) DEFAULT NULL,
-  `vendedorsitio` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vendedorsitio` varchar(250) DEFAULT NULL,
   `tcambio` float(14,2) DEFAULT NULL,
-  `tipopago` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nroreferencia` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipopago` char(100) DEFAULT NULL,
+  `nroreferencia` char(100) DEFAULT NULL,
   `ipagado` float(14,2) DEFAULT NULL,
   `saldo` float(14,2) DEFAULT NULL,
-  `CodigoRptaSunat` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DetalleSunat` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CodigoRptaSunat` varchar(4) DEFAULT NULL,
+  `DetalleSunat` varchar(200) DEFAULT NULL,
   `icbper` float(14,2) DEFAULT NULL,
-  `tipofactura` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ocompra` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipofactura` varchar(20) DEFAULT NULL,
+  `ocompra` char(50) DEFAULT NULL,
   `margengan` float(14,2) DEFAULT NULL,
-  `hashc` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `formapago` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hashc` varchar(500) DEFAULT NULL,
+  `formapago` char(50) DEFAULT NULL,
   `montofpago` float(14,2) DEFAULT NULL,
-  `monedafpago` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ccuotas` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `monedafpago` char(10) DEFAULT NULL,
+  `ccuotas` char(10) DEFAULT NULL,
   `fechavecredito` date DEFAULT NULL,
   `montocuota` float(14,2) DEFAULT NULL,
-  `otroscargos` float(14,2) DEFAULT '0.00',
-  `transferencia` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `otroscargos` float(14,2) DEFAULT 0.00,
+  `transferencia` char(2) DEFAULT NULL,
   `montotransferencia` float(14,2) DEFAULT NULL,
-  `tarjetadc` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tarjetadc` char(2) DEFAULT NULL,
   `montotarjetadc` float(14,2) DEFAULT NULL,
-  `ntrans` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ntrans` char(100) DEFAULT NULL,
   `fechavenc` date DEFAULT NULL,
-  `retencion` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `retencion` char(2) DEFAULT NULL,
   `porcret` decimal(2,2) DEFAULT NULL,
   `efectivo` decimal(14,2) DEFAULT NULL,
   `visa` decimal(14,2) DEFAULT NULL,
@@ -1697,36 +1704,36 @@ CREATE TABLE `facturaservicio` (
   `idfactura` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `fecha_emision_01` datetime NOT NULL,
-  `firmadigital_02` varchar(3000) COLLATE utf8_unicode_ci NOT NULL,
+  `firmadigital_02` varchar(3000) NOT NULL,
   `idempresa` int(11) NOT NULL,
-  `tipo_documento_07` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `numeracion_08` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_documento_07` varchar(2) NOT NULL,
+  `numeracion_08` varchar(20) NOT NULL,
   `idcliente` int(11) NOT NULL,
-  `total_operaciones_gravadas_codigo_18_1` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `total_operaciones_gravadas_codigo_18_1` varchar(4) DEFAULT NULL,
   `total_operaciones_gravadas_monto_18_2` float(12,2) DEFAULT NULL,
   `sumatoria_igv_22_1` float(12,2) NOT NULL,
   `sumatoria_igv_22_2` float(12,2) DEFAULT NULL,
-  `codigo_tributo_22_3` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nombre_tributo_22_4` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo_internacional_22_5` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tributo_22_3` varchar(4) DEFAULT NULL,
+  `nombre_tributo_22_4` varchar(6) DEFAULT NULL,
+  `codigo_internacional_22_5` varchar(3) DEFAULT NULL,
   `importe_total_venta_27` float(12,2) NOT NULL,
   `tipo_documento_29_1` int(11) DEFAULT NULL,
-  `guia_remision_29_2` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo_leyenda_31_1` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `descripcion_leyenda_31_2` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_ubl_36` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `version_estructura_37` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `tipo_moneda_28` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
-  `tasa_igv` float(12,2) DEFAULT '0.18',
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `tipodocuCliente` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rucCliente` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `RazonSocial` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `guia_remision_29_2` varchar(30) DEFAULT NULL,
+  `codigo_leyenda_31_1` varchar(4) DEFAULT NULL,
+  `descripcion_leyenda_31_2` varchar(100) DEFAULT NULL,
+  `version_ubl_36` varchar(10) NOT NULL,
+  `version_estructura_37` varchar(10) NOT NULL,
+  `tipo_moneda_28` varchar(3) NOT NULL,
+  `tasa_igv` float(12,2) DEFAULT 0.18,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `tipodocuCliente` varchar(1) DEFAULT NULL,
+  `rucCliente` varchar(15) DEFAULT NULL,
+  `RazonSocial` varchar(50) DEFAULT NULL,
   `idguia` int(11) DEFAULT NULL,
   `fecha_baja` datetime DEFAULT NULL,
-  `comentario_baja` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comentario_baja` varchar(30) DEFAULT NULL,
   `tdescuento` float(12,2) DEFAULT NULL,
-  `vendedorsitio` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vendedorsitio` varchar(250) DEFAULT NULL,
   `icbper` float(14,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1738,8 +1745,8 @@ CREATE TABLE `facturaservicio` (
 
 CREATE TABLE `familia` (
   `idfamilia` int(11) NOT NULL,
-  `descripcion` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1'
+  `descripcion` varchar(45) NOT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -1756,9 +1763,9 @@ INSERT INTO `familia` (`idfamilia`, `descripcion`, `estado`) VALUES
 --
 
 CREATE TABLE `ftpparam` (
-  `ftphost` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ftpusername` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ftppassword` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL
+  `ftphost` varchar(250) DEFAULT NULL,
+  `ftpusername` varchar(250) DEFAULT NULL,
+  `ftppassword` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1769,45 +1776,45 @@ CREATE TABLE `ftpparam` (
 
 CREATE TABLE `guia` (
   `idguia` int(11) NOT NULL,
-  `snumero` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `pllegada` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `destinatario` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nruc` char(11) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ppartida` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `snumero` varchar(20) NOT NULL,
+  `pllegada` varchar(250) DEFAULT NULL,
+  `destinatario` varchar(100) DEFAULT NULL,
+  `nruc` char(11) DEFAULT NULL,
+  `ppartida` varchar(250) DEFAULT NULL,
   `fechat` date DEFAULT NULL,
-  `ncomprobante` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ocompra` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `motivo` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ncomprobante` char(20) DEFAULT NULL,
+  `ocompra` char(20) DEFAULT NULL,
+  `motivo` char(50) DEFAULT NULL,
   `idcomprobante` int(11) NOT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `comprobante` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `comprobante` char(15) DEFAULT NULL,
   `idempresa` int(11) DEFAULT NULL,
   `fechatraslado` date DEFAULT NULL,
-  `rsocialtransportista` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ructran` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `marca` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `placa` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `cinc` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `container` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nlicencia` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ncoductor` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `npedido` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `vendedor` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `rsocialtransportista` varchar(200) DEFAULT NULL,
+  `ructran` varchar(30) DEFAULT NULL,
+  `marca` varchar(50) DEFAULT NULL,
+  `placa` varchar(50) DEFAULT NULL,
+  `cinc` varchar(50) DEFAULT NULL,
+  `container` varchar(50) DEFAULT NULL,
+  `nlicencia` varchar(50) DEFAULT NULL,
+  `ncoductor` varchar(50) DEFAULT NULL,
+  `npedido` varchar(50) DEFAULT NULL,
+  `vendedor` varchar(50) DEFAULT NULL,
   `costmt` float(14,2) DEFAULT NULL,
   `fechacomprobante` date DEFAULT NULL,
-  `observaciones` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipocomprefe` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `observaciones` varchar(500) DEFAULT NULL,
+  `tipocomprefe` varchar(500) DEFAULT NULL,
   `pesobruto` float(14,2) DEFAULT NULL,
-  `umedidapbruto` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codtipotras` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipodoctrans` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `dniconductor` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `CodigoRptaSunat` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `hashc` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `umedidapbruto` char(10) DEFAULT NULL,
+  `codtipotras` char(10) DEFAULT NULL,
+  `tipodoctrans` char(10) DEFAULT NULL,
+  `dniconductor` char(10) DEFAULT NULL,
+  `CodigoRptaSunat` char(2) DEFAULT NULL,
+  `hashc` varchar(100) DEFAULT NULL,
   `idpersona` int(11) DEFAULT NULL,
-  `ubigeopartida` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ubigeollegada` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DetalleSunat` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
+  `ubigeopartida` char(20) DEFAULT NULL,
+  `ubigeollegada` char(20) DEFAULT NULL,
+  `DetalleSunat` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1819,9 +1826,9 @@ CREATE TABLE `guia` (
 CREATE TABLE `ingresocaja` (
   `idingreso` int(11) NOT NULL,
   `idcaja` int(11) NOT NULL,
-  `concepto` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `concepto` varchar(250) DEFAULT NULL,
   `monto` float(14,2) DEFAULT NULL,
-  `tipo` char(20) COLLATE utf8_unicode_ci DEFAULT 'INGRESO'
+  `tipo` char(20) DEFAULT 'INGRESO'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1832,18 +1839,18 @@ CREATE TABLE `ingresocaja` (
 
 CREATE TABLE `insumos` (
   `idinsumo` int(10) UNSIGNED NOT NULL,
-  `tipodato` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `tipodato` char(50) NOT NULL,
   `idcategoriai` int(11) NOT NULL,
   `fecharegistro` date NOT NULL,
-  `descripcion` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` varchar(200) NOT NULL,
   `valor` float(14,5) NOT NULL,
   `igv` float(14,2) NOT NULL,
   `gasto` float(14,2) NOT NULL,
   `ingreso` float(14,2) NOT NULL,
   `saldo_inicial` float(14,2) DEFAULT NULL,
-  `documnIDE` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `numDOCIDE` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `acredor` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL
+  `documnIDE` varchar(20) DEFAULT NULL,
+  `numDOCIDE` varchar(25) DEFAULT NULL,
+  `acredor` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1854,18 +1861,18 @@ CREATE TABLE `insumos` (
 
 CREATE TABLE `itemliquidacion` (
   `iditemli` int(10) UNSIGNED NOT NULL,
-  `tipoitem` char(50) COLLATE utf32_unicode_ci DEFAULT NULL,
-  `aerolinea` char(50) COLLATE utf32_unicode_ci DEFAULT NULL,
-  `nvuelo` char(50) COLLATE utf32_unicode_ci DEFAULT NULL,
+  `tipoitem` char(50) DEFAULT NULL,
+  `aerolinea` char(50) DEFAULT NULL,
+  `nvuelo` char(50) DEFAULT NULL,
   `fechainicio` datetime DEFAULT NULL,
   `fechafin` datetime DEFAULT NULL,
-  `umedida` char(10) COLLATE utf32_unicode_ci DEFAULT NULL,
-  `destino` char(50) COLLATE utf32_unicode_ci NOT NULL,
-  `descripcion` varchar(300) COLLATE utf32_unicode_ci NOT NULL,
-  `nombreitem` char(100) COLLATE utf32_unicode_ci NOT NULL,
+  `umedida` char(10) DEFAULT NULL,
+  `destino` char(50) NOT NULL,
+  `descripcion` varchar(300) NOT NULL,
+  `nombreitem` char(100) NOT NULL,
   `valoruni` decimal(14,2) NOT NULL,
   `preciouni` decimal(14,2) NOT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1878,14 +1885,14 @@ CREATE TABLE `kardex` (
   `idkardex` int(11) NOT NULL,
   `idcomprobante` int(11) DEFAULT NULL,
   `idarticulo` int(11) DEFAULT NULL,
-  `transaccion` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `codigo` char(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `transaccion` varchar(15) NOT NULL,
+  `codigo` char(255) DEFAULT NULL,
   `fecha` datetime NOT NULL,
-  `tipo_documento` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `numero_doc` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipo_documento` varchar(45) DEFAULT NULL,
+  `numero_doc` varchar(45) DEFAULT NULL,
   `cantidad` float(14,2) DEFAULT NULL,
   `costo_1` float(12,5) DEFAULT NULL,
-  `unidad_medida` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `unidad_medida` varchar(45) DEFAULT NULL,
   `saldo_final` float(14,2) DEFAULT NULL,
   `costo_2` float(14,2) DEFAULT NULL,
   `valor_final` float(14,2) DEFAULT NULL,
@@ -1905,13 +1912,13 @@ CREATE TABLE `liquidacion` (
   `idcliente` int(11) DEFAULT NULL,
   `idempresa` int(11) DEFAULT NULL,
   `fechaemision` datetime NOT NULL,
-  `condiciones` varchar(500) COLLATE utf32_unicode_ci NOT NULL,
-  `observacion` varchar(500) COLLATE utf32_unicode_ci NOT NULL,
-  `observaciontarifa` varchar(500) COLLATE utf32_unicode_ci NOT NULL,
+  `condiciones` varchar(500) NOT NULL,
+  `observacion` varchar(500) NOT NULL,
+  `observaciontarifa` varchar(500) NOT NULL,
   `subtotal` decimal(14,2) NOT NULL,
   `igv` decimal(14,2) NOT NULL,
   `total` decimal(14,2) NOT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1923,8 +1930,8 @@ CREATE TABLE `liquidacion` (
 CREATE TABLE `margenganancia` (
   `idmargeng` int(10) UNSIGNED NOT NULL,
   `idarticulo` int(11) NOT NULL,
-  `mes` char(10) COLLATE utf8_unicode_ci NOT NULL,
-  `ano` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mes` char(10) NOT NULL,
+  `ano` char(10) DEFAULT NULL,
   `totalventas` float(14,2) DEFAULT NULL,
   `devolucionventas` float(14,2) DEFAULT NULL,
   `totalcompras` float(14,2) DEFAULT NULL,
@@ -1941,7 +1948,7 @@ CREATE TABLE `margenganancia` (
 
 CREATE TABLE `mesa` (
   `idmesa` int(10) UNSIGNED NOT NULL,
-  `nromesa` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nromesa` char(20) DEFAULT NULL,
   `estado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1953,18 +1960,18 @@ CREATE TABLE `mesa` (
 
 CREATE TABLE `notacd` (
   `idnota` int(11) NOT NULL,
-  `nombre` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `numeroserienota` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre` char(20) DEFAULT NULL,
+  `numeroserienota` varchar(20) DEFAULT NULL,
   `fecha` datetime NOT NULL,
-  `codigo_nota` char(2) COLLATE utf8_unicode_ci NOT NULL,
-  `codtiponota` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `desc_motivo` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
-  `tipo_doc_mod` char(3) COLLATE utf8_unicode_ci NOT NULL,
-  `serie_numero` char(13) COLLATE utf8_unicode_ci NOT NULL,
-  `tipo_doc_ide` char(2) COLLATE utf8_unicode_ci NOT NULL,
-  `numero_doc_ide` char(15) COLLATE utf8_unicode_ci NOT NULL,
-  `razon_social` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `tipo_moneda` char(5) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_nota` char(2) NOT NULL,
+  `codtiponota` char(2) DEFAULT NULL,
+  `desc_motivo` varchar(250) NOT NULL,
+  `tipo_doc_mod` char(3) NOT NULL,
+  `serie_numero` char(13) NOT NULL,
+  `tipo_doc_ide` char(2) NOT NULL,
+  `numero_doc_ide` char(15) NOT NULL,
+  `razon_social` varchar(100) NOT NULL,
+  `tipo_moneda` char(5) NOT NULL,
   `sum_ot_car` float(12,2) NOT NULL,
   `total_val_venta_og` float(12,2) NOT NULL,
   `total_val_venta_oi` float(12,2) NOT NULL,
@@ -1973,39 +1980,39 @@ CREATE TABLE `notacd` (
   `sum_isc` float(12,2) NOT NULL,
   `sum_ot` float(12,2) NOT NULL,
   `importe_total` float(12,2) DEFAULT NULL,
-  `estado` char(2) COLLATE utf8_unicode_ci DEFAULT '1',
+  `estado` char(2) DEFAULT '1',
   `idcomprobante` int(11) DEFAULT NULL,
   `fechacomprobante` datetime NOT NULL,
   `adicional` float(12,2) DEFAULT NULL,
   `idempresa` int(11) DEFAULT NULL,
-  `vendedorsitio` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `difComprobante` char(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vendedorsitio` varchar(250) DEFAULT NULL,
+  `difComprobante` char(30) DEFAULT NULL,
   `icbper` float(14,2) DEFAULT NULL,
-  `CodigoRptaSunat` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `DetalleSunat` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `motivonota` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `CodigoRptaSunat` varchar(4) DEFAULT NULL,
+  `DetalleSunat` varchar(500) DEFAULT NULL,
+  `motivonota` varchar(100) DEFAULT NULL,
   `tcambio` float(14,2) DEFAULT NULL,
-  `tiponotacd` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tiponotacd` char(50) DEFAULT NULL,
   `fecha_baja` date DEFAULT NULL,
-  `hashc` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `comentario_baja` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `formapago` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hashc` varchar(100) DEFAULT NULL,
+  `comentario_baja` varchar(100) DEFAULT NULL,
+  `formapago` char(50) DEFAULT NULL,
   `montofpago` float(14,2) DEFAULT NULL,
-  `monedafpago` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ccuotas` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `monedafpago` char(10) DEFAULT NULL,
+  `ccuotas` char(10) DEFAULT NULL,
   `montocuota` float(14,2) DEFAULT NULL,
   `fechavecredito` date DEFAULT NULL,
-  `transferencia` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `transferencia` char(2) DEFAULT NULL,
   `montotransferencia` float(14,2) DEFAULT NULL,
-  `tarjetadc` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tarjetadc` char(2) DEFAULT NULL,
   `montotarjetadc` float(14,2) DEFAULT NULL,
-  `descripitem` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `efectivo` decimal(10,2) DEFAULT '0.00',
-  `visa` decimal(10,2) DEFAULT '0.00',
-  `yape` decimal(10,2) DEFAULT '0.00',
-  `plin` decimal(10,2) DEFAULT '0.00',
-  `mastercard` decimal(10,2) DEFAULT '0.00',
-  `deposito` decimal(10,2) DEFAULT '0.00'
+  `descripitem` varchar(255) NOT NULL,
+  `efectivo` decimal(10,2) DEFAULT 0.00,
+  `visa` decimal(10,2) DEFAULT 0.00,
+  `yape` decimal(10,2) DEFAULT 0.00,
+  `plin` decimal(10,2) DEFAULT 0.00,
+  `mastercard` decimal(10,2) DEFAULT 0.00,
+  `deposito` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2018,50 +2025,50 @@ CREATE TABLE `notapedido` (
   `idboleta` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `fecha_emision_01` datetime NOT NULL,
-  `firma_digital_36` varchar(3000) COLLATE utf8_unicode_ci NOT NULL,
+  `firma_digital_36` varchar(3000) NOT NULL,
   `idempresa` int(11) NOT NULL,
-  `tipo_documento_06` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `numeracion_07` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_documento_06` varchar(2) NOT NULL,
+  `numeracion_07` varchar(20) NOT NULL,
   `idcliente` int(11) DEFAULT NULL,
-  `codigo_tipo_15_1` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tipo_15_1` varchar(4) DEFAULT NULL,
   `monto_15_2` float(12,2) DEFAULT NULL,
   `sumatoria_igv_18_1` float(12,2) DEFAULT NULL,
   `sumatoria_igv_18_2` float(12,2) DEFAULT NULL,
-  `codigo_tributo_18_3` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nombre_tributo_18_4` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo_internacional_18_5` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo_tributo_18_3` varchar(4) DEFAULT NULL,
+  `nombre_tributo_18_4` varchar(6) DEFAULT NULL,
+  `codigo_internacional_18_5` varchar(3) DEFAULT NULL,
   `importe_total_23` float(12,2) NOT NULL,
-  `codigo_leyenda_26_1` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
-  `descripcion_leyenda_26_2` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_leyenda_26_1` varchar(4) NOT NULL,
+  `descripcion_leyenda_26_2` varchar(100) NOT NULL,
   `tipo_documento_25_1` int(11) DEFAULT NULL,
-  `guia_remision_25` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_ubl_37` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `version_estructura_38` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipo_moneda_24` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tasa_igv` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1',
-  `tipodocuCliente` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rucCliente` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `RazonSocial` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `guia_remision_25` varchar(30) DEFAULT NULL,
+  `version_ubl_37` varchar(10) DEFAULT NULL,
+  `version_estructura_38` varchar(10) DEFAULT NULL,
+  `tipo_moneda_24` varchar(3) DEFAULT NULL,
+  `tasa_igv` varchar(5) DEFAULT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `tipodocuCliente` varchar(1) DEFAULT NULL,
+  `rucCliente` varchar(15) DEFAULT NULL,
+  `RazonSocial` varchar(50) DEFAULT NULL,
   `fecha_baja` datetime DEFAULT NULL,
-  `comentario_baja` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `comentario_baja` varchar(30) DEFAULT NULL,
   `tdescuento` float(12,2) DEFAULT NULL,
-  `vendedorsitio` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vendedorsitio` varchar(250) DEFAULT NULL,
   `icbper` float(14,2) DEFAULT NULL,
-  `tiponota` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tiponota` char(50) DEFAULT NULL,
   `tcambio` float(14,2) DEFAULT NULL,
-  `formapago` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `formapago` char(50) DEFAULT NULL,
   `montofpago` float(14,2) DEFAULT NULL,
-  `monedafpago` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ccuotas` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `monedafpago` char(10) DEFAULT NULL,
+  `ccuotas` char(10) DEFAULT NULL,
   `montocuota` float(14,2) DEFAULT NULL,
   `fechavecredito` date DEFAULT NULL,
-  `transferencia` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `transferencia` char(2) DEFAULT NULL,
   `montotransferencia` float(14,2) DEFAULT NULL,
-  `tarjetadc` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tarjetadc` char(2) DEFAULT NULL,
   `montotarjetadc` float(14,2) DEFAULT NULL,
-  `ntrans` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ncotizacion` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ntrans` char(100) DEFAULT NULL,
+  `ncotizacion` char(50) DEFAULT NULL,
   `ambtra` float(14,2) DEFAULT NULL,
   `adelanto` float(14,2) NOT NULL,
   `faltante` float(14,2) NOT NULL,
@@ -2081,15 +2088,15 @@ CREATE TABLE `notapedido` (
 
 CREATE TABLE `notificaciones` (
   `idnotificacion` int(10) UNSIGNED NOT NULL,
-  `codigonotificacion` char(10) COLLATE utf32_unicode_ci NOT NULL,
-  `nombrenotificacion` char(100) COLLATE utf32_unicode_ci NOT NULL,
+  `codigonotificacion` char(10) NOT NULL,
+  `nombrenotificacion` char(100) NOT NULL,
   `fechacreacion` date NOT NULL,
   `fechaaviso` date NOT NULL,
   `continuo` tinyint(4) NOT NULL,
-  `tipocomprobante` char(2) COLLATE utf32_unicode_ci DEFAULT NULL,
+  `tipocomprobante` char(2) DEFAULT NULL,
   `idpersona` int(11) DEFAULT NULL,
-  `contador` int(11) DEFAULT '3',
-  `estado` tinyint(4) DEFAULT '1'
+  `contador` int(11) DEFAULT 3,
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2100,10 +2107,10 @@ CREATE TABLE `notificaciones` (
 
 CREATE TABLE `numeracion` (
   `idnumeracion` int(11) NOT NULL,
-  `tipo_documento` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `serie` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `numero` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '1'
+  `tipo_documento` varchar(2) DEFAULT NULL,
+  `serie` varchar(45) DEFAULT NULL,
+  `numero` varchar(45) DEFAULT NULL,
+  `estado` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -2128,7 +2135,7 @@ INSERT INTO `numeracion` (`idnumeracion`, `tipo_documento`, `serie`, `numero`, `
 --
 
 CREATE TABLE `numeracionple` (
-  `ano` char(4) COLLATE utf8_unicode_ci NOT NULL,
+  `ano` char(4) NOT NULL,
   `primerRegistro` int(11) DEFAULT NULL,
   `ultimoRegistro` int(11) DEFAULT NULL,
   `totalRegistros` int(11) DEFAULT NULL
@@ -2143,14 +2150,14 @@ CREATE TABLE `numeracionple` (
 CREATE TABLE `ordenservicio` (
   `idorden` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
-  `serienumero` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `serienumero` varchar(12) NOT NULL,
   `idproveedor` int(11) NOT NULL,
   `fechaemision` datetime NOT NULL,
-  `formapago` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `formaentrega` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `formapago` varchar(50) NOT NULL,
+  `formaentrega` varchar(50) NOT NULL,
   `idempresa` int(11) NOT NULL,
   `fechaentrega` date NOT NULL,
-  `anotaciones` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `anotaciones` varchar(100) NOT NULL,
   `subtotal` float(12,2) NOT NULL,
   `igv` float(12,2) NOT NULL,
   `total` float(12,2) NOT NULL,
@@ -2167,7 +2174,7 @@ CREATE TABLE `pedidoplatos` (
   `idpedido` int(10) UNSIGNED NOT NULL,
   `idmesa` int(11) NOT NULL,
   `idcliente` int(11) NOT NULL,
-  `nropedido` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nropedido` char(100) DEFAULT NULL,
   `gravado` float(14,2) DEFAULT NULL,
   `igv` float(14,2) DEFAULT NULL,
   `total` float(14,2) DEFAULT NULL,
@@ -2182,7 +2189,7 @@ CREATE TABLE `pedidoplatos` (
 
 CREATE TABLE `permiso` (
   `idpermiso` int(11) NOT NULL,
-  `nombre` varchar(45) COLLATE utf8_unicode_ci NOT NULL
+  `nombre` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -2207,21 +2214,21 @@ INSERT INTO `permiso` (`idpermiso`, `nombre`) VALUES
 
 CREATE TABLE `persona` (
   `idpersona` int(11) NOT NULL,
-  `tipo_persona` char(15) COLLATE utf8_unicode_ci NOT NULL,
-  `nombres` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `apellidos` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipo_documento` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `numero_documento` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `razon_social` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `nombre_comercial` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `domicilio_fiscal` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `departamento` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ciudad` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `distrito` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `telefono1` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `telefono2` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(4) NOT NULL DEFAULT '1'
+  `tipo_persona` char(15) NOT NULL,
+  `nombres` varchar(50) DEFAULT NULL,
+  `apellidos` varchar(50) DEFAULT NULL,
+  `tipo_documento` varchar(2) NOT NULL,
+  `numero_documento` varchar(15) NOT NULL,
+  `razon_social` varchar(200) NOT NULL,
+  `nombre_comercial` varchar(200) DEFAULT NULL,
+  `domicilio_fiscal` varchar(100) NOT NULL,
+  `departamento` varchar(40) DEFAULT NULL,
+  `ciudad` varchar(40) DEFAULT NULL,
+  `distrito` varchar(40) DEFAULT NULL,
+  `telefono1` varchar(15) NOT NULL,
+  `telefono2` varchar(15) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -2240,11 +2247,11 @@ INSERT INTO `persona` (`idpersona`, `tipo_persona`, `nombres`, `apellidos`, `tip
 CREATE TABLE `platos` (
   `idplato` int(10) UNSIGNED NOT NULL,
   `idcategoria` int(11) NOT NULL,
-  `codigo` char(10) COLLATE utf8_unicode_ci NOT NULL,
-  `nombre` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `ctacontable` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigo` char(10) NOT NULL,
+  `nombre` varchar(200) NOT NULL,
+  `ctacontable` char(50) DEFAULT NULL,
   `precio` float(12,2) DEFAULT NULL,
-  `imagen` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `imagen` varchar(50) DEFAULT NULL,
   `estado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -2256,8 +2263,8 @@ CREATE TABLE `platos` (
 
 CREATE TABLE `reginventariosanos` (
   `idregistro` int(11) NOT NULL,
-  `codigo` char(50) COLLATE utf32_unicode_ci DEFAULT NULL,
-  `denominacion` varchar(300) COLLATE utf32_unicode_ci DEFAULT NULL,
+  `codigo` char(50) DEFAULT NULL,
+  `denominacion` varchar(300) DEFAULT NULL,
   `costoinicial` float(14,2) NOT NULL,
   `saldoinicial` float(14,2) NOT NULL,
   `valorinicial` float(14,2) NOT NULL,
@@ -2266,7 +2273,7 @@ CREATE TABLE `reginventariosanos` (
   `saldofinal` float(14,2) NOT NULL,
   `costo` float(14,2) NOT NULL,
   `valorfinal` float(14,2) NOT NULL,
-  `ano` char(10) COLLATE utf32_unicode_ci DEFAULT NULL
+  `ano` char(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2277,9 +2284,9 @@ CREATE TABLE `reginventariosanos` (
 
 CREATE TABLE `registrocopiabd` (
   `idregistro` int(10) UNSIGNED NOT NULL,
-  `fecharegistro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `nombrearchivo` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `usuario` char(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `fecharegistro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `nombrearchivo` char(100) DEFAULT NULL,
+  `usuario` char(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2290,24 +2297,24 @@ CREATE TABLE `registrocopiabd` (
 
 CREATE TABLE `rutas` (
   `idruta` int(11) NOT NULL,
-  `rutadata` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutafirma` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutaenvio` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutarpta` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutadatalt` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutabaja` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutaresumen` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutadescargas` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutaple` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `rutadata` varchar(250) DEFAULT NULL,
+  `rutafirma` varchar(250) DEFAULT NULL,
+  `rutaenvio` varchar(250) DEFAULT NULL,
+  `rutarpta` varchar(250) DEFAULT NULL,
+  `rutadatalt` varchar(250) DEFAULT NULL,
+  `rutabaja` varchar(250) DEFAULT NULL,
+  `rutaresumen` varchar(250) DEFAULT NULL,
+  `rutadescargas` varchar(250) DEFAULT NULL,
+  `rutaple` varchar(250) DEFAULT NULL,
   `idempresa` int(11) DEFAULT NULL,
-  `unziprpta` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutaarticulos` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutalogo` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutausuarios` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `salidafacturas` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `salidaboletas` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutacertificado` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `salidanotapedidos` char(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `unziprpta` varchar(50) DEFAULT NULL,
+  `rutaarticulos` varchar(250) DEFAULT NULL,
+  `rutalogo` varchar(250) DEFAULT NULL,
+  `rutausuarios` varchar(250) DEFAULT NULL,
+  `salidafacturas` varchar(250) DEFAULT NULL,
+  `salidaboletas` varchar(250) DEFAULT NULL,
+  `rutacertificado` varchar(250) DEFAULT NULL,
+  `salidanotapedidos` char(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -2325,7 +2332,7 @@ INSERT INTO `rutas` (`idruta`, `rutadata`, `rutafirma`, `rutaenvio`, `rutarpta`,
 
 CREATE TABLE `saldocaja` (
   `idsaldoini` int(11) NOT NULL,
-  `saldo_inicial` decimal(14,2) NOT NULL DEFAULT '0.00',
+  `saldo_inicial` decimal(14,2) NOT NULL DEFAULT 0.00,
   `caja_abierta` bit(1) DEFAULT b'0',
   `fecha_creacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -2339,9 +2346,9 @@ CREATE TABLE `saldocaja` (
 CREATE TABLE `salidacaja` (
   `idsalida` int(11) NOT NULL,
   `idcaja` int(11) NOT NULL,
-  `concepto` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `concepto` varchar(250) DEFAULT NULL,
   `monto` float(14,2) DEFAULT NULL,
-  `tipo` char(20) COLLATE utf8_unicode_ci DEFAULT 'SALIDA'
+  `tipo` char(20) DEFAULT 'SALIDA'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2352,13 +2359,13 @@ CREATE TABLE `salidacaja` (
 
 CREATE TABLE `servicios_inmuebles` (
   `id` int(11) NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo` char(4) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `descripcion` varchar(50) DEFAULT NULL,
+  `codigo` char(4) DEFAULT NULL,
   `valor` float(12,5) DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '1',
+  `estado` tinyint(4) DEFAULT 1,
   `idempresa` int(11) DEFAULT NULL,
-  `tipo` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ccontable` char(20) COLLATE utf8_unicode_ci DEFAULT NULL
+  `tipo` char(20) DEFAULT NULL,
+  `ccontable` char(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
@@ -2370,7 +2377,7 @@ CREATE TABLE `servicios_inmuebles` (
 CREATE TABLE `subarticulo` (
   `idsubarticulo` int(10) UNSIGNED NOT NULL,
   `idarticulo` int(11) NOT NULL,
-  `codigobarra` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
+  `codigobarra` varchar(300) NOT NULL,
   `valorunitario` float(14,2) DEFAULT NULL,
   `preciounitario` float(14,2) DEFAULT NULL,
   `stock` float(14,2) DEFAULT NULL,
@@ -2386,15 +2393,15 @@ CREATE TABLE `subarticulo` (
 
 CREATE TABLE `sunatconfig` (
   `idcarga` int(11) NOT NULL,
-  `numeroruc` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `razon_social` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `usuarioSol` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `claveSol` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutacertificado` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rutaserviciosunat` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nombrepem` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `webserviceguia` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `passcerti` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
+  `numeroruc` varchar(11) DEFAULT NULL,
+  `razon_social` varchar(100) DEFAULT NULL,
+  `usuarioSol` varchar(50) DEFAULT NULL,
+  `claveSol` varchar(100) DEFAULT NULL,
+  `rutacertificado` varchar(200) DEFAULT NULL,
+  `rutaserviciosunat` varchar(200) DEFAULT NULL,
+  `nombrepem` varchar(50) DEFAULT NULL,
+  `webserviceguia` varchar(300) DEFAULT NULL,
+  `passcerti` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -2415,7 +2422,7 @@ CREATE TABLE `tcambio` (
   `fecha` date NOT NULL,
   `compra` float(14,3) DEFAULT NULL,
   `venta` float(14,3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -2426,13 +2433,13 @@ CREATE TABLE `tcambio` (
 CREATE TABLE `tempnumeracionxml` (
   `id` int(10) UNSIGNED NOT NULL,
   `fecha` date DEFAULT NULL,
-  `numero` int(11) DEFAULT '0',
+  `numero` int(11) DEFAULT 0,
   `numticket` varchar(100) DEFAULT NULL,
   `estado` char(2) DEFAULT NULL,
   `comentario` varchar(100) DEFAULT NULL,
   `nombrebaja` varchar(100) DEFAULT NULL,
   `comprobante` char(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2442,9 +2449,9 @@ CREATE TABLE `tempnumeracionxml` (
 
 CREATE TABLE `temporal_articulo` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `codigo` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `um` char(5) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `codigo` varchar(100) DEFAULT NULL,
+  `um` char(5) DEFAULT NULL,
   `cant` float(12,2) DEFAULT NULL,
   `costo_c` float(12,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -2458,8 +2465,8 @@ CREATE TABLE `temporal_articulo` (
 CREATE TABLE `temporizador` (
   `id` int(11) NOT NULL,
   `tiempo` int(11) DEFAULT NULL,
-  `estado` int(11) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `estado` int(11) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `temporizador`
@@ -2482,7 +2489,7 @@ CREATE TABLE `tiposeguro` (
   `invsob` float(14,2) DEFAULT NULL,
   `comiafp` float(14,2) DEFAULT NULL,
   `snp` float(14,2) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `tiposeguro`
@@ -2503,9 +2510,9 @@ INSERT INTO `tiposeguro` (`idtipoSeguro`, `tipoSeguro`, `nombreSeguro`, `aoafp`,
 --
 
 CREATE TABLE `ubdepartamento` (
-  `idDepa` int(11) NOT NULL DEFAULT '0',
+  `idDepa` int(11) NOT NULL DEFAULT 0,
   `departamento` varchar(50) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `ubdepartamento`
@@ -2545,10 +2552,10 @@ INSERT INTO `ubdepartamento` (`idDepa`, `departamento`) VALUES
 --
 
 CREATE TABLE `ubdistrito` (
-  `idDist` int(11) NOT NULL DEFAULT '0',
+  `idDist` int(11) NOT NULL DEFAULT 0,
   `distrito` varchar(50) DEFAULT NULL,
   `idProv` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `ubdistrito`
@@ -4394,10 +4401,10 @@ INSERT INTO `ubdistrito` (`idDist`, `distrito`, `idProv`) VALUES
 --
 
 CREATE TABLE `ubprovincia` (
-  `idProv` int(11) NOT NULL DEFAULT '0',
+  `idProv` int(11) NOT NULL DEFAULT 0,
   `provincia` varchar(50) DEFAULT NULL,
   `idDepa` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `ubprovincia`
@@ -4606,8 +4613,8 @@ INSERT INTO `ubprovincia` (`idProv`, `provincia`, `idDepa`) VALUES
 
 CREATE TABLE `umedida` (
   `idunidad` int(10) UNSIGNED NOT NULL,
-  `nombreum` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `abre` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
+  `nombreum` char(50) DEFAULT NULL,
+  `abre` varchar(5) NOT NULL,
   `estado` tinyint(4) DEFAULT NULL,
   `equivalencia` float(14,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -4689,18 +4696,18 @@ INSERT INTO `umedida` (`idunidad`, `nombreum`, `abre`, `estado`, `equivalencia`)
 
 CREATE TABLE `usuario` (
   `idusuario` int(11) NOT NULL,
-  `nombre` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `apellidos` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tipo_documento` varchar(8) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `num_documento` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `direccion` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `telefono` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(80) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `apellidos` varchar(50) DEFAULT NULL,
+  `tipo_documento` varchar(8) DEFAULT NULL,
+  `num_documento` varchar(15) DEFAULT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
+  `email` varchar(80) DEFAULT NULL,
   `cargo` tinyint(4) DEFAULT NULL,
-  `login` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `clave` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `imagen` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `condicion` tinyint(4) DEFAULT '1'
+  `login` varchar(45) DEFAULT NULL,
+  `clave` varchar(64) DEFAULT NULL,
+  `imagen` varchar(50) DEFAULT NULL,
+  `condicion` tinyint(4) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -4708,7 +4715,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`idusuario`, `nombre`, `apellidos`, `tipo_documento`, `num_documento`, `direccion`, `telefono`, `email`, `cargo`, `login`, `clave`, `imagen`, `condicion`) VALUES
-(1, 'ENRIQUE', 'ADMIN', 'DNI', '99999999', 'AV LUIS GONZALES 1315 CERCADO DE CHICLAYO CHICLAYO LAMBAYEQUE', '971971063', 'empresademo@gmail.com', 0, 'ADMIN', '4dbc7590d9fa8efe6a6c90cbb501356f668bbf836dadbfd930ceb36987747790', '1683069524.png', 1);
+(1, 'ENRIQUE', 'ADMIN', 'DNI', '99999999', 'AV LUIS GONZALES 1315 CERCADO DE CHICLAYO CHICLAYO LAMBAYEQUE', '971971063', 'empresademo@gmail.com', 0, 'ADMIN', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '1683069524.png', 1);
 
 -- --------------------------------------------------------
 
@@ -4738,19 +4745,19 @@ CREATE TABLE `usuario_permiso` (
   `idusuario_permiso` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idpermiso` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `usuario_permiso`
 --
 
 INSERT INTO `usuario_permiso` (`idusuario_permiso`, `idusuario`, `idpermiso`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 3),
-(4, 1, 4),
-(5, 1, 5),
-(6, 1, 8);
+(7, 1, 1),
+(8, 1, 2),
+(9, 1, 3),
+(10, 1, 4),
+(11, 1, 5),
+(12, 1, 8);
 
 -- --------------------------------------------------------
 
@@ -4766,7 +4773,7 @@ CREATE TABLE `utilidadgi` (
   `totalventas` float(14,2) DEFAULT NULL,
   `utilidad` float(14,2) DEFAULT NULL,
   `porcentaje` float(14,2) DEFAULT NULL,
-  `estado` tinyint(4) DEFAULT '0'
+  `estado` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4779,7 +4786,7 @@ CREATE TABLE `valfinarticulo` (
   `id` int(11) NOT NULL,
   `idempresa` int(11) NOT NULL,
   `idarticulo` int(11) NOT NULL,
-  `codigoart` char(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `codigoart` char(255) DEFAULT NULL,
   `ano` int(11) NOT NULL,
   `costoi` float(14,2) NOT NULL,
   `saldoi` float(14,2) NOT NULL,
@@ -4802,8 +4809,8 @@ CREATE TABLE `valfinarticulo` (
 
 CREATE TABLE `vendedorsitio` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `estado` tinyint(1) DEFAULT '1',
+  `nombre` varchar(250) DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT 1,
   `idempresa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -4817,7 +4824,7 @@ CREATE TABLE `ventadiaria` (
   `idventa` int(10) UNSIGNED NOT NULL,
   `idcategoriav` int(11) NOT NULL,
   `fecharegistroingreso` date NOT NULL,
-  `tipo` char(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tipo` char(100) DEFAULT NULL,
   `base` float(14,5) DEFAULT NULL,
   `igv` float(14,2) DEFAULT NULL,
   `total` float(14,2) DEFAULT NULL
@@ -4828,7 +4835,8 @@ CREATE TABLE `ventadiaria` (
 --
 
 INSERT INTO `ventadiaria` (`idventa`, `idcategoriav`, `fecharegistroingreso`, `tipo`, `base`, `igv`, `total`) VALUES
-(1, 0, '2023-10-28', 'efectivot', NULL, NULL, 0.00);
+(1, 0, '2023-10-28', 'efectivot', NULL, NULL, 0.00),
+(22, 0, '2023-10-29', 'efectivot', NULL, NULL, 0.00);
 
 --
 -- Índices para tablas volcadas
@@ -5698,13 +5706,13 @@ ALTER TABLE `detalle_tablaxml_comprobante`
 -- AUTO_INCREMENT de la tabla `detalle_usuario_numeracion`
 --
 ALTER TABLE `detalle_usuario_numeracion`
-  MODIFY `iddetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `iddetalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_usuario_sesion`
 --
 ALTER TABLE `detalle_usuario_sesion`
-  MODIFY `iddetalle` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `iddetalle` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `distrito`
@@ -5944,7 +5952,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `usuario_permiso`
 --
 ALTER TABLE `usuario_permiso`
-  MODIFY `idusuario_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idusuario_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `utilidadgi`
@@ -5968,7 +5976,7 @@ ALTER TABLE `vendedorsitio`
 -- AUTO_INCREMENT de la tabla `ventadiaria`
 --
 ALTER TABLE `ventadiaria`
-  MODIFY `idventa` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idventa` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- Restricciones para tablas volcadas
