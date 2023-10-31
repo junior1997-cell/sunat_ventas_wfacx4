@@ -23,7 +23,7 @@
 
       <section class="container-fluid dashboard">
         <div class="content-header">
-          <h1>Empresa <button class="btn btn-primary btn-sm" onclick="mostrarform(true)"> Agregar</button></h1>
+          <h1>Empresa <button class="btn btn-primary btn-sm" onclick="mostrarform(true);"> Agregar</button></h1>
         </div>
 
         <div class="row rounded-4" style="background:white;">

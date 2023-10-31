@@ -16,7 +16,7 @@ if (!isset($_SESSION["nombre"])) {
     <div class="">
       <div class="">
         <div class="content-header">
-          <h1>Productos <button class="btn btn-primary btn-sm" onclick="mostrarform(true)" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
+          <h1>Productos <button class="btn btn-primary btn-sm" onclick="mostrarform(true);  generarCodigoAutomatico();" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
             <label style="position:relative;top: 3px; float: right;" class="toggle-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Activar generador código de barra correlativamente automático">
               <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox">
               <span class="slider"></span>
@@ -117,11 +117,11 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
                 <div class="mb-3 col-lg-2">
                   <label for="recipient-name" class="col-form-label">Limite stock:</label>
-                  <input type="text" class="form-control" name="limitestock" id="limitestock" maxlength="500" placeholder="Limite de stock" onkeypress=" return limitest(event, this)">
+                  <input type="number" class="form-control" name="limitestock" id="limitestock" max="999.99" min="0" step="0.01" placeholder="Limite de stock" /*onkeypress="return limitest(event, this)"*/ >
                 </div>
                 <div class="mb-3 col-lg-2">
                   <label for="recipient-name" class="col-form-label">Código Interno:</label>
-                  <input type="text" class="form-control" name="codigo" id="codigo" placeholder="Código Barras" required="true" onkeyup="mayus(this);" onchange="validarcodigo()">
+                  <input type="text" class="form-control codigo" name="codigo" id="codigo" placeholder="Código Barras" required="true" onkeyup="mayus(this);" onchange="validarcodigo()">
                 </div>
                 <!--                   
                   onblur="generarbarcode()" -->
@@ -149,9 +149,9 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
                 <div class="mb-3 col-lg-2">
                   <label for="recipient-name" class="col-form-label">Imagen del producto:</label>
-                  <input type="file" class="form-control" name="imagen" id="imagen" value="">
+                  <input type="file" class="form-control" name="imagen" id="imagen" value="" accept="image/*">
                   <input type="hidden" name="imagenactual" id="imagenactual">
-                  <img src="" width="150px" height="120px" id="imagenmuestra">
+                  <img src="../files/articulos/simagen.png" width="150px" height="120px" id="imagenmuestra">
                   <hr>
                   <div class="" id="preview">
                   </div>

@@ -1,5 +1,12 @@
 <?php
 
+require '../vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;  
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+
 session_start();
 //Activamos el almacenamiento del Buffer
 ob_start();
@@ -19,15 +26,19 @@ if (!isset($_SESSION["nombre"])) {
       exit;
     }
 
-    require_once "../PHPExcel/Classes/PHPExcel.php";
+    // require_once "../PHPExcel/Classes/PHPExcel.php";
     require_once "../modelos/Consultas.php";
     require_once "../config/Conexion.php";
 
     $consultaObj = new Consultas();
-    $excel = PHPExcel_IOFactory::load($tmpName);
 
+    // $excel = PHPExcel_IOFactory::load($tmpName);
+    // $excel->setActiveSheetIndex(0);
+    // $numerofila = $excel->setActiveSheetIndex(0)->getHighestRow();
+
+    $excel = \PhpOffice\PhpSpreadsheet\IOFactory::load($tmpName);
     $excel->setActiveSheetIndex(0);
-    $numerofila = $excel->setActiveSheetIndex(0)->getHighestRow(); echo json_encode( $numerofila , true); die;
+    $numerofila = $excel->setActiveSheetIndex(0)->getHighestRow();
 
     for ($i = 2; $i <= $numerofila; $i++) {
       $codigo = $excel->getActiveSheet()->getCell('A' . $i)->getCalculatedValue();

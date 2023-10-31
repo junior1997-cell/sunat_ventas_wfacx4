@@ -67,14 +67,20 @@ $rsptav = $consulta->insertarVentaDiaria($totalventas);
 
   <link rel="stylesheet" href="../custom/css/custom.css">
 
+  <!-- Select2 -->
+	<link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css">
+	<link rel="stylesheet" href="../assets/libs/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
   <!-- DATATABLES -->
   <link rel="stylesheet" type="text/css" href="../public/datatables/jquery.dataTables.min.css">
-  <!-- <link href="../public/datatables/buttons.dataTables.min.css" rel="stylesheet" />
-    <link href="../public/datatables/responsive.dataTables.min.css" rel="stylesheet" /> -->
+  <link href="../public/datatables/buttons.dataTables.min.css" rel="stylesheet" />
+  <!--<link href="../public/datatables/responsive.dataTables.min.css" rel="stylesheet" /> -->
 
   <link rel="stylesheet" href="../public/css/autobusqueda.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="../assets/css/style_new.css">
 
 </head>
 

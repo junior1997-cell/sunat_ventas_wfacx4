@@ -566,15 +566,14 @@ as tabla group by dia";
 
   public function insertarArticulosMasivo($codigo, $familia_descripcion, $nombre, $marca, $descrip, $costo_compra, $precio_venta, $stock, $saldo_iniu, $valor_iniu, $tipoitem, $codigott, $desctt, $codigointtt, $nombrett, $nombre_almacen)
   {
-    $sql = "CALL InsertarDatos('$codigo', '$familia_descripcion', '$nombre', '$marca', '$descrip', $costo_compra, $precio_venta, $stock, $saldo_iniu, $valor_iniu, '$tipoitem', '$codigott', '$desctt', '$codigointtt', '$nombrett', '$nombre_almacen')";
+    $sql = "CALL InsertarDatos('$codigo', '$familia_descripcion', '$nombre', '$marca', '$descrip', $costo_compra, $precio_venta, $stock, $saldo_iniu, '$valor_iniu', '$tipoitem', '$codigott', '$desctt', '$codigointtt', '$nombrett', '$nombre_almacen')";
     return ejecutarConsulta($sql);
   }
 
 
   public function ClientesTop()
   {
-    $sql = "
-        select 
+    $sql = "SELECT 
         p.idpersona,
         case 
             when p.tipo_documento = '6' then p.razon_social

@@ -1,4 +1,5 @@
-var tabla;
+var tabla_articulo;
+var tabla_servicio;
 var tablas;
 var selectedValue = "productos";
 var modoDemo = false;
@@ -36,11 +37,19 @@ function init() {
   $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
   $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
 
+  $("#idfamilia").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
+  $("#umedidacompra").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
+  $("#unidad_medida").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
+
   $("#imagenmuestra").hide();
 }
 
 //Función limpiar
 function limpiar() {
+
+  $("#idfamilia").val("").trigger("change");
+  $("#umedidacompra").val("").trigger("change");
+  $("#unidad_medida").val("").trigger("change");
 
   $("#codigo").val("");
   $("#codigo_proveedor").val("-");
@@ -60,7 +69,7 @@ function limpiar() {
   $("#portador").val("0.00");
   $("#merma").val("0.00");
   $("#valor_venta").val("");
-  $("#imagenmuestra").attr("src", "");
+  $("#imagenmuestra").attr("src", "../files/articulos/simagen.png");
   $("#imagenactual").val("");
   $("#print").hide();
   $("#idarticulo").val("");
@@ -167,7 +176,7 @@ function mostrarform(flag) {
     $("#listadoregistros").show();
     $("#listadoregistrosservicios").show();
     $("#formularioregistros").hide();
-    $("#btnagregar").show();
+    $("#btnagregar").show();    
   }
 }
 
@@ -178,11 +187,18 @@ function cancelarform() { limpiar(); mostrarform(false);
 //Función Listar
 function listar() {
   var $idempresa = $("#idempresa").val();
-  tabla = $('#tbllistado').dataTable({
+  tabla_articulo = $('#tbllistado').dataTable({
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
-    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-    buttons: [ ],
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+    buttons: [
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } } },
+      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+    ],
     "ajax": {
       url: '../ajax/articulo.php?op=listar&idempresa=' + $idempresa,
       type: "get",
@@ -191,8 +207,13 @@ function listar() {
         console.log(e.responseText);
       }
     },
+    language: {
+      lengthMenu: "Mostrar: _MENU_ registros",
+      buttons: { copyTitle: "Tabla Copiada", copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada", }, },
+      sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
+    },
     "bDestroy": true,
-    "iDisplayLength": 15,//Paginación
+    "iDisplayLength": 10,//Paginación
     "order": [[4, "desc"]]//Ordenar (columna,orden)
   }).DataTable();
 }
@@ -231,19 +252,14 @@ function guardaryeditar(e) {
     contentType: false,
     processData: false,
     success: function (datos) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Guardado exitoso',
-        showConfirmButton: false,
-        timer: 1000,
-        text: datos,
-      }).then((result) => {
-        mostrarform(false);
-        tabla.ajax.reload();
-        listar();
-        limpiar();
-        $("#modalAgregarProducto").modal("hide");
-      });
+      Swal.fire({  icon: 'success',  title: 'Guardado exitoso',  showConfirmButton: false, timer: 5000, text: datos, });
+      mostrarform(false);
+      if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
+      if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
+              
+      
+      limpiar();
+      $("#modalAgregarProducto").modal("hide");
     },
     error: function () {
       Swal.fire({ icon: 'error', title: 'Error al guardar', text: 'Ha ocurrido un error al guardar los datos', });
@@ -258,15 +274,14 @@ function mostrar(idarticulo) {
 
     $("#idarticulo").val(data.idarticulo);
     $("#idfamilia").val(data.idfamilia);
-    //$('#idfamilia').selectpicker('refresh');
     $("#idalmacen").val(data.idalmacen);
-    //$('#idalmacen').selectpicker('refresh');
-    $("#unidad_medida").val(data.unidad_medida);
-    //$('#unidad_medida').selectpicker('refresh');
     $("#codigo_proveedor").val(data.codigo_proveedor);
-    $("#codigo").val(data.codigo);
+
+    $("#idfamilia").val(data.idfamilia).trigger("change");
+    $("#umedidacompra").val(data.umedidacompra).trigger("change");
+    $("#unidad_medida").val(data.unidad_medida).trigger("change");
+    
     $("#nombre").val(data.nombre);
-    $("#unidad_medidad").val(data.unidad_medidad);
     $("#costo_compra").val(data.costo_compra);
     //$("#costo_compra").attr('readonly', true);
     $("#saldo_iniu").val(data.saldo_iniu);
@@ -288,9 +303,9 @@ function mostrar(idarticulo) {
     $("#valor_venta").val(data.precio_venta);
     $("#imagenmuestra").show();
 
-    if (data.imagen == "") {
+    if (data.imagen == "" || data.imagen == null) {
       $("#imagenmuestra").attr("src", "../files/articulos/simagen.png");
-      $("#imagenactual").val(data.imagen);
+      $("#imagenactual").val("");
       $("#imagen").val("");
     } else {
       $("#imagenmuestra").attr("src", "../files/articulos/" + data.imagen);
@@ -340,16 +355,15 @@ function mostrar(idarticulo) {
     $("#limitestock").val(data.limitestock);
     $("#tipoitem").val(data.tipoitem);
 
-    $("#umedidacompra").val(data.umedidacompra);
-    //$('#umedidacompra').selectpicker('refresh');
     $("#factorc").val(data.factorc);
     $("#descripcion").val(data.descrip);
-
 
     var stt = $("#stock").val();
     var fc = $("#factorc").val();
     var stfc = stt * fc;
     $("#fconversion").val(stfc);
+
+    $("#codigo").val(data.codigo); console.log(data.codigo);
 
     //Nuevos campos
     $('#modalAgregarProducto').modal('show');
@@ -360,22 +374,28 @@ function mostrar(idarticulo) {
   });
 }
 
-
-
 //Función para desactivar registros
-
 function desactivar(idarticulo) {
-  $.post("../ajax/articulo.php?op=desactivar", { idarticulo: idarticulo }, function (e) {
-    console.log("Desactivar respuesta:", e);
-    tabla.ajax.reload();
-  });
+  Swal.fire({
+    title: '¿Está Seguro de Desactivar el Artículo?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, activar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("../ajax/articulo.php?op=desactivar", { idarticulo: idarticulo }, function (e) {
+        Swal.fire({ title: 'Artículo activado', text: e, icon: 'success', showConfirmButton: false, timer: 5000 });
+        if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
+        if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
+      });
+    }
+  });  
 }
 
-
-
-
 //Función para activar registros
-
 function activar(idarticulo) {
   Swal.fire({
     title: '¿Está Seguro de activar el Artículo?',
@@ -388,33 +408,24 @@ function activar(idarticulo) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/articulo.php?op=activar", { idarticulo: idarticulo }, function (e) {
-        Swal.fire({
-          title: 'Artículo activado',
-          text: e,
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1000
-        }).then(() => {
-          tabla.ajax.reload();
-          listar();
-        });
+        Swal.fire({ title: 'Artículo activado', text: e, icon: 'success', showConfirmButton: false, timer: 5000 });
+        if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
+        if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
+        listar();
       });
     }
   });
 }
 
-
-
-
 //función para generar el código de barras
 function generarbarcode() {
-  codigo = $("#codigo").val();
+  // codigo = $("#codigo").val();
   // descrip=$("#nombre").val();
   // unidadm=$("#unidad_medida").val();
   // codigof=codigo.concat(descrip, unidadm);
 
-  JsBarcode("#barcode", codigo, { format: "code128", });
-  $("#print").show();
+  // JsBarcode("#barcode", codigo, { format: "code128", });
+  // $("#print").show();
 }
 
 //Función para imprimir el Código de barras
@@ -467,7 +478,8 @@ function guardaryeditarFamilia(e) {
     success: function (datos) {
       bootbox.alert(datos);
       $("#Nnombre").val("");
-      tabla.ajax.reload();
+      if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
+      if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
       actfamilia();
     }
   });
@@ -486,7 +498,8 @@ function guardaryeditarAlmacen(e) {
     processData: false,
     success: function (datos) {
       bootbox.alert(datos);
-      tabla.ajax.reload();
+      if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
+      if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
       actalmacen();
     }
   });
@@ -505,7 +518,8 @@ function guardaryeditarUmedida(e) {
     processData: false,
     success: function (datos) {
       bootbox.alert(datos);
-      tabla.ajax.reload();
+      if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
+      if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
       actalunidad();
     }
   });
@@ -1048,88 +1062,13 @@ function preciov(e, field) {
 
 }
 
-
-
-
-
 function limitest(e, field) {
-
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-
   key = e.keyCode ? e.keyCode : e.which
-
-
-
   if (e.keyCode === 13 && !e.shiftKey) {
-
     document.getElementById('unidad_medida').focus();
-
   }
-
   // backspace
-
-  if (key == 8) return true;
-
-  if (key == 9) return true;
-
-  if (key > 47 && key < 58) {
-
-    if (field.value === "") return true;
-
-    var existePto = (/[.]/).test(field.value);
-
-    if (existePto === false) {
-
-      regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
-      regexp = /.[0-9]{2}$/;
-
-    }
-
-    return !(regexp.test(field.value));
-
-  }
-
-
-
-  if (key == 46) {
-
-    if (field.value === "") return false;
-
-    regexp = /^[0-9]+$/;
-
-    return regexp.test(field.value);
-
-  }
-
-  return false;
-
-}
-
-
-
-
-
-function codigoi(e, field) {
-
-  // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-
-  key = e.keyCode ? e.keyCode : e.which
-
-
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('codigo').focus();
-
-  }
-
-  // backspace
-
   if (key == 8) return true;
   if (key == 9) return true;
   if (key > 47 && key < 58) {
@@ -1150,7 +1089,33 @@ function codigoi(e, field) {
   }
 
   return false;
+}
 
+function codigoi(e, field) {
+  // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
+  key = e.keyCode ? e.keyCode : e.which
+  if (e.keyCode === 13 && !e.shiftKey) {  document.getElementById('codigo').focus(); }
+
+  // backspace
+  if (key == 8) return true;
+  if (key == 9) return true;
+  if (key > 47 && key < 58) {
+    if (field.value === "") return true;
+    var existePto = (/[.]/).test(field.value);
+    if (existePto === false) {
+      regexp = /.[0-9]{10}$/;
+    } else {
+      regexp = /.[0-9]{2}$/;
+    }
+    return !(regexp.test(field.value));
+  }
+
+  if (key == 46) {
+    if (field.value === "") return false;
+    regexp = /^[0-9]+$/;
+    return regexp.test(field.value);
+  }
+  return false;
 }
 
 $(".modal-wide").on("show.bs.modal", function () {
@@ -1158,15 +1123,9 @@ $(".modal-wide").on("show.bs.modal", function () {
   $(this).find(".modal-body").css("max-height", height);
 });
 
-function unidadvalor() {
-  valor = $("#nombreu").val();
-  $("#abre").val(valor);
-}
+function unidadvalor() { valor = $("#nombreu").val(); $("#abre").val(valor);}
 
-function refrescartabla() {
-  tabla.ajax.reload();
-  //tablas.ajax.reload();
-}
+function refrescartabla() { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); } }
 
 document.getElementById("imagen").onchange = function (e) {
   // Creamos el objeto de la clase FileReader
@@ -1175,15 +1134,15 @@ document.getElementById("imagen").onchange = function (e) {
   reader.readAsDataURL(e.target.files[0]);
   // Le decimos que cuando este listo ejecute el código interno
   reader.onload = function () {
-    let preview = document.getElementById('preview'),
-      image = document.createElement('img');
-
-    image.src = reader.result;
-    image.width = "50";
-    image.height = "50";
-    preview.innerHTML = '';
-    preview.append(image);
+    // let preview = document.getElementById('preview'), image = document.createElement('img');
+    // image.src = reader.result;
+    // image.width = "50";
+    // image.height = "50";
+    // preview.innerHTML = '';
+    // preview.append(image);
     toastr.success('Imagen cargada');
+    $('#imagenmuestra').attr('src', reader.result);
+    $("#imagenmuestra").show();
   };
 
 }
@@ -1222,18 +1181,20 @@ function generarcodigonarti() {
 
 }
 
+
+
 function generarCodigoAutomatico() {
   if ($('#generar-cod-correlativo').prop('checked')) {
-    $.getJSON('../ajax/articulo.php?action=GenerarCodigo', function (data) {
+    $.getJSON('../ajax/articulo.php?action=GenerarCodigo&op=', function (data) {
       $('#codigo').val(data.codigo);
       setCodigoFieldReadonly();  // Asegura que el campo esté como solo lectura
     });
   } else {
-    $('#codigo').removeAttr('readonly').val('');
+    $('#codigo').removeAttr('readonly');
   }
 }
 
-$('#modalAgregarProducto').on('shown.bs.modal', function (e) { generarCodigoAutomatico(); });
+// $('#modalAgregarProducto').on('shown.bs.modal', function (e) { generarCodigoAutomatico(); });
 
 if (localStorage.getItem("checkboxState") === "checked") { $('#generar-cod-correlativo').prop('checked', true); }
 
@@ -1271,3 +1232,5 @@ function setCodigoFieldReadonly() {
 
 
 init();
+
+

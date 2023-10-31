@@ -181,7 +181,7 @@ if (!isset($_SESSION["nombre"])) {
                     <option value="7152">7152</option>
                     <option value="9995">9995</option>
                     <option value="9996">9996</option>
-                    <option value="9997">9997</option>
+                    <option value="9997" selected>9997</option>
                     <option value="9998">9998</option>
                     <option value="9999">9999</option>
                   </select>
@@ -191,17 +191,13 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="mb-3 col-lg-3">
                   <label for="recipient-name" class="col-form-label">Tributo:</label>
                   <select name="desctt" id="desctt" class="form-control">
-                    <option value="IGV Impuesto General a las Ventas">IGV Impuesto General a las Ventas
-                    </option>
-                    <option value="Impuesto a la Venta Arroz Pilado">Impuesto a la Venta Arroz Pilado
-                    </option>
-                    <option value="ISC Impuesto Selectivo al Consumo">ISC Impuesto Selectivo al Consumo
-                    </option>
-                    <option value="Impuesto al Consumo de las bolsas de plástico">Impuesto al Consumo de las
-                      bolsas de plástico</option>
+                    <option value="IGV Impuesto General a las Ventas">IGV Impuesto General a las Ventas</option>
+                    <option value="Impuesto a la Venta Arroz Pilado">Impuesto a la Venta Arroz Pilado</option>
+                    <option value="ISC Impuesto Selectivo al Consumo">ISC Impuesto Selectivo al Consumo</option>
+                    <option value="Impuesto al Consumo de las bolsas de plástico">Impuesto al Consumo de las bolsas de plástico</option>
                     <option value="Exportación">Exportación</option>
                     <option value="Gratuito">Gratuito</option>
-                    <option value="Exonerado">Exonerado</option>
+                    <option value="Exonerado" selected>Exonerado</option>
                     <option value="Inafecto">Inafecto</option>
                     <option value="Otros tributos">Otros tributos</option>
                   </select>
@@ -210,14 +206,10 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="mb-3 col-lg-3">
                   <label for="recipient-name" class="col-form-label">Código internacional:</label>
                   <select name="codigointtt" id="codigointtt" class="form-control">
-                    <option value="VAT">VAT</option>
-                    <option value="VAT">VAT</option>
-                    <option value="EXC">EXC</option>
+                    <option value="VAT" selected>VAT</option>
                     <option value="EXC">EXC</option>
                     <option value="FRE">FRE</option>
-                    <option value="FRE">FRE</option>
                     <option value="VAT">VAT</option>
-                    <option value="FRE">FRE</option>
                     <option value="OTH">OTH</option>
                   </select>
                 </div>
@@ -231,7 +223,7 @@ if (!isset($_SESSION["nombre"])) {
                     <option value="ICBPER">ICBPER</option>
                     <option value="EXP">EXP</option>
                     <option value="GRA">GRA</option>
-                    <option value="EXO">EXO</option>
+                    <option value="EXO" selected>EXO</option>
                     <option value="INA">INA</option>
                     <option value="OTROS">OTROS</option>
                   </select>

@@ -112,113 +112,23 @@ switch ($_GET["op"]) {
 		if (empty($idarticulo)) {
 
 			$rspta = $articulo->insertar(
-				$idalmacen,
-				$codigo_proveedor,
-				$codigo,
-				html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
-				$idfamilia,
-				$unidad_medida,
-				$costo_compra,
-				$saldo_iniu,
-				$valor_iniu,
-				$saldo_finu,
-				$valor_finu,
-				$stock,
-				$comprast,
-				$ventast,
-				$portador,
-				$merma,
-				$valor_venta,
-				$imagen,
-				//VA IMAGEN
-				$codigosunat,
-				$ccontable,
-				$precio2,
-				$precio3,
-				$cicbper,
-				$nticbperi,
-				$ctticbperi,
-				$mticbperu,
-				$codigott,
-				$desctt,
-				$codigointtt,
-				$nombrett,
-				$lote,
-				$marca,
-				$fechafabricacion,
-				$fechavencimiento,
-				$procedencia,
-				$fabricante,
-				$registrosanitario,
-				$fechaingalm,
-				$fechafinalma,
-				$proveedor,
-				$seriefaccompra,
-				$numerofaccompra,
-				$fechafacturacompra,
-				$limitestock,
-				$tipoitem,
-				$umedidacompra,
-				$factorc,
-				$descripcion
+				$idalmacen,	$codigo_proveedor,	$codigo,	html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'),	$idfamilia,	$unidad_medida,	
+				$costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast,	$ventast, $portador, $merma, $valor_venta, $imagen, 
+				$codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi,	$mticbperu,	$codigott,	$desctt,	$codigointtt,	$nombrett,
+				$lote, $marca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm,	$fechafinalma, $proveedor,
+				$seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion
 			);
 
 			echo $rspta ? "Artículo registrado" : "Error";
 		} else {
 
 			$rspta = $articulo->editar(
-				$idarticulo,
-				$idalmacen,
-				$codigo_proveedor,
-				$codigo,
-				html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
-				$idfamilia,
-				$unidad_medida,
-				$costo_compra,
-				$saldo_iniu,
-				$valor_iniu,
-				$saldo_finu,
-				$valor_finu,
-				$stock,
-				$comprast,
-				$ventast,
-				$portador,
-				$merma,
-				$valor_venta,
-				$imagen,
-				$codigosunat,
-				$ccontable,
-				$precio2,
-				$precio3,
-				$cicbper,
-				$nticbperi,
-				$ctticbperi,
-				$mticbperu,
-				$codigott,
-				$desctt,
-				$codigointtt,
-				$nombrett,
-				$lote,
-				$marca,
-				$fechafabricacion,
-				$fechavencimiento,
-				$procedencia,
-				$fabricante,
-				$registrosanitario,
-				$fechaingalm,
-				$fechafinalma,
-				$proveedor,
-				$seriefaccompra,
-				$numerofaccompra,
-				$fechafacturacompra,
-				$limitestock,
-				$tipoitem,
-				$umedidacompra,
-				$factorc,
-				$descripcion
-
+				$idarticulo, $idalmacen, $codigo_proveedor, $codigo, html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $idfamilia, $unidad_medida, $costo_compra,
+				$saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma,	$valor_venta, $imagen, $codigosunat, 
+				$ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $marca, 
+				$fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor,	$seriefaccompra,
+				$numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion
 			);
-
 			echo $rspta ? "Artículo actualizado" : "Artículo no se pudo actualizar";
 		}
 
@@ -234,57 +144,10 @@ switch ($_GET["op"]) {
 	case 'guardarnuevoarticulo':
 
 		if (empty($idarticulo)) {
-			$rspta = $articulo->insertar(
-				$idalmacennarticulo,
-				'',
-				$codigonarticulonarticulo,
-				html_entity_decode($nombrenarticulo, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
-				$idfamilianarticulo,
-				$umedidanp,
-				'',
-				$stocknarticulo,
-				'',
-				$stocknarticulo,
-				'',
-				$stocknarticulo,
-				'',
-				'',
-				'',
-				'',
-				$precioventanarticulo,
-				'',
-				//VA IMAGEN
-				'',
-				'',
-				$precioventanarticulo,
-				$precioventanarticulo,
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'',
-				'0',
-				$tipoitemnarticulo,
-				$umedidanp,
-				'1',
-				$descripcionnarticulo
-
+			$rspta = $articulo->insertar(	$idalmacennarticulo, '', $codigonarticulonarticulo,	html_entity_decode($nombrenarticulo, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
+				$idfamilianarticulo, $umedidanp, '', $stocknarticulo, '', $stocknarticulo, '', $stocknarticulo, '',	'', '', '', $precioventanarticulo, '', 
+				'', '', $precioventanarticulo, $precioventanarticulo,	'', '', '', '', '', '', '', '', '', '', '', '', '', '', '',	'', '', '', '', '', '', 
+				'0', $tipoitemnarticulo, $umedidanp, '1', $descripcionnarticulo
 			);
 		}
 
@@ -337,65 +200,37 @@ switch ($_GET["op"]) {
 		$rspta = $articulo->listar($idempresa);
 		$url = '../reportes/printbarcode.php?codigopr=';
 		//Vamos a declarar un array
-
 		$data = array();
-
-
-
 		while ($reg = $rspta->fetch_object()) {
 			$data[] = array(
 				"0" => ($reg->estado) ? '<div class="btn-group mb-1">
-					<div class="dropdown">
-							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Opciones
-							</button>
+						<div class="dropdown">
+							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</button>
+								<div class="dropdown-menu" style="">
+									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank">Código de barra</a>
+									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</button>
+									<button class="dropdown-item" onclick="desactivar(' . $reg->idarticulo . ')" >Desactivar articulo</button>
+								</div>
+						</div>
+					</div> ' :'
+					<div class="btn-group mb-1">
+						<div class="dropdown">
+							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</button>
 							<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '">Código de barra</a>
-									<a class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</a>
-									<a class="dropdown-item" onclick="desactivar(' . $reg->idarticulo . ')" >Desactivar articulo</a>
+									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank">Código de barra</a>
+									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</button>
+									<button class="dropdown-item" onclick="activar(' . $reg->idarticulo . ')" >Activar articulo</button>
 							</div>
-					</div>
-		    </div> ' :
-
-					'
-								<div class="btn-group mb-1">
-									<div class="dropdown">
-											<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-													Opciones
-											</button>
-											<div class="dropdown-menu" style="">
-													<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '">Código de barra</a>
-													<a class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</a>
-													<a class="dropdown-item" onclick="activar(' . $reg->idarticulo . ')" >Activar articulo</a>
-											</div>
-									</div>
-						    </div> '
-
-
-
-				// <a target="_blank" href="'.$url.$reg->codigo.'&st='.$reg->st2.'&pr='.$reg->precio.'"> <i class="fa fa-barcode" data-toggle="tooltip" title="imprimir codigo de barras"></i> </a>
-
-				// 	 <i class="fa fa-pencil" onclick="mostrar('.$reg->idarticulo.')" style="color:orange;" data-toggle="tooltip" title="Editar artículo"> </i>
-
-
-
-				// <i class="fa fa-close" onclick="desactivar('.$reg->idarticulo.')" style="color:red;" data-toggle="tooltip" title="Desactivar artículo"></i>':
-
-				// '<i class="fa fa-pencil" onclick="mostrar('.$reg->idarticulo.')"></i> '.
-
-				// ' <i class="fa fa-check"  onclick="activar('.$reg->idarticulo.')" style="color:green;" data-toggle="tooltip" title="Activar artículo"></i>',
+						</div>
+					</div>'
 				,
-
-
-
 				"1" => $reg->nombre,
 				"2" => $reg->nombreal,
 				"3" => $reg->codigo,
 				"4" => $reg->stock,
 				"5" => $reg->precio,
 				"6" => $reg->costo_compra,
-				"7" => ($reg->imagen == "") ? "<img src='../files/articulos/simagen.png' height='60px' width='60px'>" :
-					"<img src='$rutaimagen$reg->imagen' height='60px' width='60px'>",
+				"7" => ($reg->imagen == "") ? "<img src='../files/articulos/simagen.png' height='40px' width='auto'>" :	"<img src='$rutaimagen$reg->imagen' height='40px' width='auto'>",
 				"8" => ($reg->estado) ? '<span class="label bg-green">A</span>
  				' :
 					'<span class="label bg-red">I</span>'

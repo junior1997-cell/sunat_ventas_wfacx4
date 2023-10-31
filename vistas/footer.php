@@ -41,6 +41,9 @@ $datose = $datos->fetch_object();
 <!-- Custom-Switcher JS -->
 <script src="../assets/js/custom-switcher.min.js"></script>
 
+<!-- select2 -->
+<script src="../assets/libs/select2/js/select2.full.min.js"></script>
+
 
 <script src="../public/js/jquery.PrintArea.js"></script>
 <script src="../public/js/toastr.js"></script>
