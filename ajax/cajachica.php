@@ -3,7 +3,7 @@ require_once "../modelos/Cajachica.php";
 
 $cajachica=new Cajachica();
 
-$saldo_inicial = $_POST['saldo_inicial'];
+// $saldo_inicial = $_POST['saldo_inicial'];
 
 $idsaldoini=isset($_POST["idsaldoini"])? limpiarCadena($_POST["idsaldoini"]):"";
 $total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
@@ -116,7 +116,6 @@ if (isset($_GET['action'])) {
 	echo json_encode($results);
   }
 
-
   switch ($_GET["op"]){
     case 'guardaryeditar':
         if ($cajachica->existeSaldoInicialDiaActual()) {
@@ -129,7 +128,7 @@ if (isset($_GET['action'])) {
 
 	
 	case 'cerrarcaja':
-		$cajachica->resetearValoresCierreCaja();
+		// $cajachica->resetearValoresCierreCaja();
 		$resultado = $cajachica->cerrarCaja();
 		echo $resultado ? "Caja cerrada" : "No se pudo cerrar la caja";
 		break;
