@@ -8,10 +8,9 @@ if (!isset($_SESSION["nombre"])) {
   if ($_SESSION['Logistica'] == 1) {
 ?>
     <!-- Custom CSS -->
-
     <!-- <link rel="stylesheet" href="../public/css/main.css" > -->
-    <!-- html5tooltips Styles & animations -->
 
+    <!-- html5tooltips Styles & animations -->
     <link href="../public/css/html5tooltips.css" rel="stylesheet">
     <link href="../public/css/html5tooltips.animation.css" rel="stylesheet">
 

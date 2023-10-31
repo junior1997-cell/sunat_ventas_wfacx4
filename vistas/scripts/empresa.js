@@ -186,3 +186,11 @@ document.getElementById("imagen").onchange = function (e) {
 }
 
 init();
+
+function buscar_sunat(input = '', input_numdoc) {
+	var num_ruc= $(input_numdoc).val();
+	$.post("../ajax/ajax_general.php?op=sunat", {ruc: num_ruc},	function (e, textStatus, jqXHR) {
+		e = JSON.parse(e);
+
+	});
+}

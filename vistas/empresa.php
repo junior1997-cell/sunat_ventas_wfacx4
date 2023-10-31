@@ -1,25 +1,20 @@
 <?php
 
-//Activamos el almacenamiento del Buffer
-
-ob_start();
-
-session_start();
-
-if (!isset($_SESSION["nombre"])) {
-
-  header("Location: ../vistas/login.php");
-} else {
-
+  //Activamos el almacenamiento del Buffer
+  ob_start();
+  session_start();
+  if (!isset($_SESSION["nombre"])) {
+    header("Location: ../vistas/login.php");
+  } else {
   require 'header.php';
-
   if ($_SESSION['Configuracion'] == 1) {
-
-?>
+  ?>
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
+    <!-- html5tooltips Styles & animations -->
+    <link href="../public/css/html5tooltips.css" rel="stylesheet">
+    <link href="../public/css/html5tooltips.animation.css" rel="stylesheet">
 
     <!--Contenido-->
-
     <!-- Content Wrapper. Contains page content -->
 
     <div class="content-start transition">
@@ -31,11 +26,10 @@ if (!isset($_SESSION["nombre"])) {
           <h1>Empresa <button class="btn btn-primary btn-sm" onclick="mostrarform(true)"> Agregar</button></h1>
         </div>
 
-        <div class="row" style="background:white;">
+        <div class="row rounded-4" style="background:white;">
+          <div class="col-md-12 mt-3">
 
-          <div class="col-md-12">
-
-            <div class="">
+            <div class="m-3">
 
               <div class="panel-body table-responsive" id="listadoregistros">
 
@@ -71,12 +65,12 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="card-body">
                     <div class="row">
                       <div class="col-auto mb-3 col-lg-2">
-                        <label >N° RUC</label>
+                        <label>N° RUC</label>
                         <div class="input-group mb-2">
                           <input type="text" name="ruc" id="ruc" placeholder="Número de RUC" class="form-control">
                           <div class="input-group-append">
-                            <div class="btn btn-success"data-tooltip="Buscar Sunat" data-tooltip-more="Mas cosa te pide" data-tooltip-stickto="right" data-tooltip-maxwidth="200" data-tooltip-animate-function="foldin" data-tooltip-color="green"><i class="fas fa-search fa-lg"></i></div>
-                          </div>                          
+                            <div class="btn btn-success" data-tooltip="Buscar Sunat" data-tooltip-stickto="top" data-tooltip-color="black" onclick="buscar_sunat(null, '#ruc');"><i class="fas fa-search fa-lg"></i></div>
+                          </div>
                         </div>
                       </div>
                       <div class="mb-3 col-lg-3">
@@ -281,14 +275,8 @@ if (!isset($_SESSION["nombre"])) {
     <!--Fin-Contenido-->
 
   <?php
-
-  } else {
-
-    require 'noacceso.php';
-  }
-
+  } else {  require 'noacceso.php';  }
   require 'footer.php';
-
   ?>
 
   <script type="text/javascript" src="scripts/empresa.js"></script>

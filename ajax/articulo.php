@@ -108,7 +108,6 @@ switch ($_GET["op"]) {
 				move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaimagen . $imagen);
 			}
 		}
-		echo $imagen; die;
 
 		if (empty($idarticulo)) {
 
