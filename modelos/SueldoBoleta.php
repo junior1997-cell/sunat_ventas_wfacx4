@@ -1,38 +1,37 @@
-<?php 
+<?php
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
 
-Class tiposeguro
+class tiposeguro
 {
 	//Implementamos nuestro constructor
 	public function __construct()
 	{
-
 	}
 
 	//Implementamos un método para insertar registros
 	public function insertarts($tiposeguro, $nombreSeguro, $snp, $aoafp, $invsob, $comiafp)
 	{
-		
-		$sql="insert into tiposeguro 
+
+		$sql = "insert into tiposeguro 
 		(tiposeguro, nombreSeguro, snp, aoafp, invsob, comiafp)
 		values 
 		('$tiposeguro', '$nombreSeguro', '$snp', '$aoafp', '$invsob', '$comiafp')";
-		
+
 		return ejecutarConsulta($sql);
 	}
 
 
 	public function mostrar($idtiposeguro)
 	{
-		$sql="select * from tiposeguro where idtiposeguro='$idtiposeguro'";
+		$sql = "SELECT * from tiposeguro where idtiposeguro='$idtiposeguro'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
-	
+
 	public function editarts($idtiposeguro, $tiposeguro, $nombreSeguro, $snp, $aoafp, $invsob, $comiafp)
 	{
-		$sql="update tiposeguro set tiposeguro='$tiposeguro' , nombreSeguro='$nombreSeguro',
+		$sql = "update tiposeguro set tiposeguro='$tiposeguro' , nombreSeguro='$nombreSeguro',
 		snp='$snp',aoafp='$aoafp',invsob='$invsob',
 		comiafp='$comiafp' where idtiposeguro='$idtiposeguro'";
 		return ejecutarConsulta($sql);
@@ -40,20 +39,15 @@ Class tiposeguro
 
 	public function listarts()
 	{
-		$sql="select * from tiposeguro";
+		$sql = "SELECT * from tiposeguro";
 		return ejecutarConsulta($sql);
 	}
 
 	public function eliminarts($idtiposeguro)
 	{
-		$sql="delete from tiposeguro where idtiposeguro='$idtiposeguro'";
+		$sql = "delete from tiposeguro where idtiposeguro='$idtiposeguro'";
 		return ejecutarConsulta($sql);
 	}
-
-
-
-
-	
 }
 
 
@@ -61,30 +55,29 @@ Class tiposeguro
 
 
 
-Class empleadoboleta
+class empleadoboleta
 {
 	//Implementamos nuestro constructor
 	public function __construct()
 	{
-
 	}
 
 
 	public function insertarempleado($nombresE, $apellidosE, $fechaingreso, $ocupacion, $tiporemuneracion, $dni, $autogenessa, $cusspp, $sueldoBruto, $horasT, $asigFam, $trabNoct, $idempresab, $idtiposeguro)
 	{
-		
-		$sql="insert into empleadoboleta 
+
+		$sql = "insert into empleadoboleta 
 		(nombresE, apellidosE, fechaingreso, ocupacion,  tiporemuneracion, dni, autogenessa, cusspp, sueldoBruto, horasT, asigFam, trabNoct, idempresab, idtiposeguro)
 		values 
 		('$nombresE', '$apellidosE', '$fechaingreso', '$ocupacion', '$tiporemuneracion', '$dni', '$autogenessa', '$cusspp', '$sueldoBruto', '$horasT', '$asigFam', '$trabNoct', '$idempresab', '$idtiposeguro')";
-		
+
 		return ejecutarConsulta($sql);
 	}
 
 
 	public function editarempleado($idempleado, $nombresE, $apellidosE, $fechaingreso, $ocupacion, $tiporemuneracion, $dni, $autogenessa, $cusspp, $sueldoBruto, $horasT, $asigFam, $trabNoct, $idempresab, $idtiposeguro)
 	{
-		$sql="update empleadoboleta set 
+		$sql = "update empleadoboleta set 
 		nombresE='$nombresE', 
 		apellidosE='$apellidosE',
 		fechaingreso='$fechaingreso',
@@ -106,7 +99,7 @@ Class empleadoboleta
 
 	public function listarempleado()
 	{
-		$sql="select 
+		$sql = "SELECT 
 		idempleado, 
 		nombresE, 
 		apellidosE, 
@@ -131,34 +124,34 @@ Class empleadoboleta
 
 	public function listar2()
 	{
-		$sql="select idempleado, nombresE, apellidosE from empleadoboleta";
-		return ejecutarConsulta($sql);	
+		$sql = "SELECT idempleado, nombresE, apellidosE from empleadoboleta";
+		return ejecutarConsulta($sql);
 	}
 
-	
+
 
 	public function cargarempresa()
 	{
-		$sql="select * from empresa";
+		$sql = "SELECT * from empresa";
 		return ejecutarConsulta($sql);
 	}
 
 	public function cargarseguro()
 	{
-		$sql="select * from tiposeguro";
+		$sql = "SELECT * from tiposeguro";
 		return ejecutarConsulta($sql);
 	}
 
 	public function eliminaremple($idempleado)
 	{
-		$sql="delete from empleadoboleta where idempleado='$idempleado'";
+		$sql = "delete from empleadoboleta where idempleado='$idempleado'";
 		return ejecutarConsulta($sql);
 	}
 
 
 	public function mostrarempleado($idempleado)
 	{
-		$sql="select 
+		$sql = "SELECT 
 		idempleado, 
 		nombresE, 
 		apellidosE, 
@@ -178,7 +171,6 @@ Class empleadoboleta
 		     where idempleado='$idempleado'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
-
 }
 
 
@@ -186,31 +178,31 @@ Class empleadoboleta
 
 
 
-Class BoletaPago
+class BoletaPago
 {
 	//Implementamos nuestro constructor
 	public function __construct()
 	{
-
 	}
 
 
 	public function eliminarbol($idboletapago)
 	{
-		$sql="delete from boletapago where idboletapago='$idboletapago'";
+		$sql = "delete from boletapago where idboletapago='$idboletapago'";
 		return ejecutarConsulta($sql);
 	}
 
 
 	public function datosemp($idempresa)
-    {
-    $sql="select * from empresa where idempresa='$idempresa'";
-    return ejecutarConsulta($sql);      
-    }
+	{
+		$sql = "SELECT * from empresa where idempresa='$idempresa'";
+		return ejecutarConsulta($sql);
+	}
 
 
-    public function datosboletapago($idboletapago, $idempresa){
-        $sql="select 
+	public function datosboletapago($idboletapago, $idempresa)
+	{
+		$sql = "SELECT 
         idboletapago,
 		em.idempresa,
 		em.nombre_comercial,
@@ -259,19 +251,38 @@ Class BoletaPago
 		inner join empresa em on eb.idempresab=em.idempresa 
 		inner join tiposeguro tp on eb.idtiposeguro= tp.idtiposeguro 
 		where idboletapago='$idboletapago'";
-        return ejecutarConsulta($sql);
-
-    }
-
-
-	
+		return ejecutarConsulta($sql);
+	}
 
 
-	public function editarboletapago($idboletapago, $mesbp, $anobp, $choras, $totalhoras, $hextras, $totalhoex, $totalsbru, 
-		$importe5t, $totaldescu, $saldopagar, $fechapagoboleta, $importeessa, $nboleta, $nrobol, $idserie, $taoafp, $tinvsob,
-				$tcomiafp, $tsnp , $conceptoadicional, $importeconcepto)
-	{
-		$sql="update boletapago set 
+
+
+
+	public function editarboletapago(
+		$idboletapago,
+		$mesbp,
+		$anobp,
+		$choras,
+		$totalhoras,
+		$hextras,
+		$totalhoex,
+		$totalsbru,
+		$importe5t,
+		$totaldescu,
+		$saldopagar,
+		$fechapagoboleta,
+		$importeessa,
+		$nboleta,
+		$nrobol,
+		$idserie,
+		$taoafp,
+		$tinvsob,
+		$tcomiafp,
+		$tsnp,
+		$conceptoadicional,
+		$importeconcepto
+	) {
+		$sql = "update boletapago set 
 		mes='$mesbp', 
 		ano='$anobp',
 		diast='$choras',
@@ -299,28 +310,28 @@ Class BoletaPago
 
 
 
-	public function insertar($idempleado, $mesbp, $anobp, $choras, $totalhoras, $hextras, $totalhoex, $totalsbru, $importe5t, $totaldescu, $saldopagar, $fechapagoboleta, $importeessa, $nboleta, $nrobol, $idserie, $taoafp, $tinvsob, $tcomiafp, $tsnp , $conceptoadicional, $importeconcepto)
+	public function insertar($idempleado, $mesbp, $anobp, $choras, $totalhoras, $hextras, $totalhoex, $totalsbru, $importe5t, $totaldescu, $saldopagar, $fechapagoboleta, $importeessa, $nboleta, $nrobol, $idserie, $taoafp, $tinvsob, $tcomiafp, $tsnp, $conceptoadicional, $importeconcepto)
 	{
-		$sw=true;
-		$sqlinsertar="insert into boletapago (idempleado, mes, ano, diast, totaldiast, horasEx, totalhorasEx, totalbruto, total5t, totalDcto, sueldoPagar, fechaPago, totalAporteE, nroBoleta, taoafp, tinvsob, tcomiafp, tsnp, conceptoadicional, importeconcepto	)
+		$sw = true;
+		$sqlinsertar = "insert into boletapago (idempleado, mes, ano, diast, totaldiast, horasEx, totalhorasEx, totalbruto, total5t, totalDcto, sueldoPagar, fechaPago, totalAporteE, nroBoleta, taoafp, tinvsob, tcomiafp, tsnp, conceptoadicional, importeconcepto	)
 		 values 
 		 ('$idempleado', '$mesbp', '$anobp', '$choras', '$totalhoras', '$hextras', '$totalhoex',  '$totalsbru', '$importe5t', '$totaldescu', '$saldopagar', '$fechapagoboleta', '$importeessa', '$nboleta', '$taoafp', '$tinvsob', '$tcomiafp', '$tsnp', '$conceptoadicional', 
 		 '$importeconcepto')";
-				ejecutarConsulta($sqlinsertar) or $sw=false;
+		ejecutarConsulta($sqlinsertar) or $sw = false;
 
 
-		  $sql_update_numeracion="update 
+		$sql_update_numeracion = "update 
          numeracion 
          set 
          numero='$nrobol' where idnumeracion='$idserie'";
-        ejecutarConsulta($sql_update_numeracion) or $sw=false;
+		ejecutarConsulta($sql_update_numeracion) or $sw = false;
 		return $sw;
 	}
 
 
 	public function listarboletapago()
 	{
-		$sql="select
+		$sql = "SELECT
 		idboletapago,
 		nroboleta, 
 		concat(eb.nombrese,' ',eb.apellidosE)  as  empleado,
@@ -348,7 +359,7 @@ Class BoletaPago
 
 	public function mostrarboletapago($idb)
 	{
-		$sql="select
+		$sql = "SELECT
 		idboletapago,
 		em.idempresa,
 		eb.idempleado,
@@ -380,22 +391,23 @@ Class BoletaPago
 
 	public function llenarSerieBol($idusuario)
 	{
-    $sql="select n.idnumeracion, n.serie from numeracion n inner join detalle_usuario_numeracion dn on n.idnumeracion=dn.idnumeracion inner join usuario u on dn.idusuario=u.idusuario where n.tipo_documento='90' and dn.idusuario='$idusuario' group by n.serie";
-    return ejecutarConsultaSimpleFila($sql);    // Las series van deacuerdo a las asginaciones que e le de en los permisos de usuario       
-    }
+		$sql = "SELECT n.idnumeracion, n.serie from numeracion n inner join detalle_usuario_numeracion dn on n.idnumeracion=dn.idnumeracion inner join usuario u on dn.idusuario=u.idusuario where n.tipo_documento='90' and dn.idusuario='$idusuario' group by n.serie";
+		return ejecutarConsultaSimpleFila($sql);    // Las series van deacuerdo a las asginaciones que e le de en los permisos de usuario       
+	}
 
 
-    public function llenarNumeroBolpago($serie){
-    $sql="select (n.numero+1) as Nnumero from numeracion n inner join detalle_usuario_numeracion dn on n.idnumeracion=dn.idnumeracion inner join usuario u on dn.idusuario=u.idusuario where n.tipo_documento='90' and n.idnumeracion='$serie' limit 1";
-    return ejecutarConsulta($sql);  // Las series van deacuerdo a las asginaciones que e le de en los permisos de usuario     
-    }
+	public function llenarNumeroBolpago($serie)
+	{
+		$sql = "SELECT (n.numero+1) as Nnumero from numeracion n inner join detalle_usuario_numeracion dn on n.idnumeracion=dn.idnumeracion inner join usuario u on dn.idusuario=u.idusuario where n.tipo_documento='90' and n.idnumeracion='$serie' limit 1";
+		return ejecutarConsulta($sql);  // Las series van deacuerdo a las asginaciones que e le de en los permisos de usuario     
+	}
 
 
 
 
 	public function ultimaboleta()
 	{
-		$sql="select if(nroboleta='','0',nroboleta + 1) as 
+		$sql = "SELECT if(nroboleta='','0',nroboleta + 1) as 
 		nroboleta 
 		from  boletapago  order by idboletapago desc  limit 1 ";
 		return ejecutarConsultaSimpleFila($sql);
@@ -403,7 +415,7 @@ Class BoletaPago
 
 	public function seleccionempleado($idempleado)
 	{
-		$sql="select 
+		$sql = "SELECT 
 		idempleado, 
 		nombresE, 
 		apellidosE, 
@@ -433,15 +445,11 @@ Class BoletaPago
 
 	public function cargarempleados($idempresa)
 	{
-		$sql="select eb.idempleado, eb.nombresE, eb.apellidosE 
+		$sql = "SELECT eb.idempleado, eb.nombresE, eb.apellidosE 
 		from 
 		empleadoboleta eb inner join empresa e on eb.idempresab=e.idempresa 
 		where 
-		eb.idempresab='$idempresa'" ;
+		eb.idempresab='$idempresa'";
 		return ejecutarConsulta($sql);
 	}
-	
-
-	
 }
-?>

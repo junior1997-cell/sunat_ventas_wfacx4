@@ -8,19 +8,18 @@ class Notacd
   //Implementamos nuestro constructor
   public function __construct()
   {
-
   }
 
   //Implementar un método para listar los registros y mostrar en el select
   public function selectD()
   {
-    $sql = "select codigo, descripcion from catalogo9 where codigo not in('05','08','09','10')";
+    $sql = "SELECT codigo, descripcion from catalogo9 where codigo not in('05','08','09','10')";
     return ejecutarConsulta($sql);
   }
 
   public function selectDebito()
   {
-    $sql = "select codigo, descripcion from catalogo10";
+    $sql = "SELECT codigo, descripcion from catalogo10";
     return ejecutarConsulta($sql);
   }
 
@@ -189,7 +188,7 @@ class Notacd
     $rutadata = $Prutas->rutadata; // ruta de la carpeta DATA
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATA
 
-    $querynotacd = "select
+    $querynotacd = "SELECT
        n.codigo_nota, 
        n.numeroserienota, 
        date_format(n.fecha,'%Y-%m-%d') as fecha, 
@@ -212,12 +211,12 @@ class Notacd
         from
          notacd n inner join catalogo9 c on n.codtiponota=c.codigo where n.idnota='$idnotanew' ";
 
-    $querydetfacncd = "select f.tipo_documento_07 as tipocomp,  f.numeracion_08 as numerodoc, dncd.cantidad, a.codigo, a.nombre as descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.unidad_medida as um, ncd.sum_igv 
+    $querydetfacncd = "SELECT f.tipo_documento_07 as tipocomp,  f.numeracion_08 as numerodoc, dncd.cantidad, a.codigo, a.nombre as descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.unidad_medida as um, ncd.sum_igv 
       from 
       factura f inner join  notacd ncd on f.idfactura=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' order by ncd.numeroserienota";
 
 
-    $querydetbolncd = "select b.tipo_documento_06 as tipocomp , b.numeracion_07 as numerodoc,  dncd.cantidad, a.codigo, a.nombre as descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.unidad_medida as um, ncd.sum_igv   
+    $querydetbolncd = "SELECT b.tipo_documento_06 as tipocomp , b.numeracion_07 as numerodoc,  dncd.cantidad, a.codigo, a.nombre as descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.unidad_medida as um, ncd.sum_igv   
       from 
       boleta b inner join notacd ncd on b.idboleta=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' order by ncd.numeroserienota";
 
@@ -305,7 +304,6 @@ class Notacd
           //Leyenda JSON
           $json['leyendas'][] = array('codLeyenda' => "1000", 'desLeyenda' => $con_letra);
           $json['tributos'][] = array('ideTributo' => "1000", 'nomTributo' => "IGV", 'codTipTributo' => "VAT", 'mtoBaseImponible' => number_format($totvalvenog[$i], 2, '.', ''), 'mtoTributo' => number_format($sumigv[$i], 2, '.', ''));
-
         }
         $i = $i + 1;
         $connc = $connc + 1;
@@ -354,7 +352,6 @@ class Notacd
       $fh = fopen($path, 'w');
       fwrite($fh, $jsonencoded);
       fclose($fh);
-
     } else { // ELSE BOLETA
 
       $resultdbnc = mysqli_query($connect, $querydetbolncd);
@@ -627,7 +624,7 @@ class Notacd
     if ($tipodoc_mod == '01') { //SI ES FACTURA
       if ($idarticulo == '') { // si es por todo el comprobante
 
-        $query = "select 
+        $query = "SELECT 
     idfactura, 
     idarticulo  
     from 
@@ -733,15 +730,11 @@ class Notacd
 
            
         )";
-
-
           }
 
           ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
           ejecutarConsulta($sql_det_notacd) or $sw = false;
-
         }
-
       } else // else de la nota de credito cuando es por item//===========================
       {
 
@@ -828,7 +821,7 @@ class Notacd
     } else if ($tipodoc_mod == '04') { //FACTURA DE SERVICIO
       if ($idarticulo == '') { // si es por todo el comprobante
 
-        $query = "select 
+        $query = "SELECT 
     idfactura, 
     idarticulo  
     from 
@@ -876,12 +869,9 @@ class Notacd
 
           (select dtf.valor_venta_item_21 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i2]' and dtf.idfactura = '$Idf[$i2]')
         )";
-
-
           }
 
           ejecutarConsulta($sql_det_notacd) or $sw = false;
-
         }
 
 
@@ -930,7 +920,7 @@ class Notacd
     {
       if ($idarticulo == '') { //SI ES POR TODO EL COMPROBANTE
 
-        $query = "select 
+        $query = "SELECT 
     idboleta, 
     idarticulo  
     from 
@@ -1026,7 +1016,6 @@ class Notacd
 
           ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
           ejecutarConsulta($sql_det_notacd) or $sw = false;
-
         }
       } else // else de la nota de credito cuando es por item//==========BOLETA
       {
@@ -1117,7 +1106,7 @@ class Notacd
 
 
       if ($idarticulo == '') { //SI ES POR TODO EL COMPROBANTE
-        $query = "select 
+        $query = "SELECT 
     idboleta, 
     idarticulo  
     from 
@@ -1170,8 +1159,6 @@ class Notacd
         }
 
         ejecutarConsulta($sql_det_notacd) or $sw = false;
-
-
       } else // else de la nota de credito cuando es por item//==========BOLETA
       {
         // si solo es por algunos items
@@ -1337,7 +1324,7 @@ class Notacd
 
     if ($tipodoc_mod == '01') { //SI ES FACTURa
 
-      $query = "select 
+      $query = "SELECT 
     idfactura, 
     idarticulo  
     from 
@@ -1412,21 +1399,15 @@ class Notacd
           (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
           (select dtf.valor_venta_item_21 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]')
         )";
-
-
         }
 
         ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
         ejecutarConsulta($sql_det_notacd) or $sw = false;
-
       }
-
-
-
     } else if ($tipodoc_mod == '04') { //Factura servicio
 
 
-      $query = "select 
+      $query = "SELECT 
     idfactura, 
     idarticulo  
     from 
@@ -1477,14 +1458,11 @@ class Notacd
         )";
         }
         ejecutarConsulta($sql_det_notacd) or $sw = false;
-
       }
-
-
     } else if ($tipodoc_mod == '03') // Else SI ES BOLETA 
     {
 
-      $query = "select 
+      $query = "SELECT 
     idboleta, 
     idarticulo  
     from 
@@ -1568,15 +1546,11 @@ class Notacd
 
         ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
         ejecutarConsulta($sql_det_notacd) or $sw = false;
-
       }
-
-
-
     } else { //BOLETA DE SERVICIO
 
 
-      $query = "select 
+      $query = "SELECT 
     idboleta, 
     idarticulo  
     from 
@@ -1629,8 +1603,6 @@ class Notacd
       }
 
       ejecutarConsulta($sql_det_notacd) or $sw = false;
-
-
     }
 
 
@@ -1645,7 +1617,7 @@ class Notacd
 
 
     //==============================================================================================
-//Guardar en el detalle de nota de crédito
+    //Guardar en el detalle de nota de crédito
     // $sql_det_notacd="insert into 
     //     detalle_notacd_art 
     //     (
@@ -1710,7 +1682,7 @@ class Notacd
     //          '', '$idempresa'
     //        )";
     //   ejecutarConsulta($sql_kardex) or $sw=false; //Guarda KARDEX
-//==============================================================================================
+    //==============================================================================================
 
 
 
@@ -1735,7 +1707,7 @@ class Notacd
     ejecutarConsulta($sql_update_numeracion) or $sw = false;
     //Fin
     //Para actualizar numeracion de las series de la factura
-//=======================================================================================
+    //=======================================================================================
 
     //===================== EXPORTAR A TX COMPROBANTE ===========================================
     $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
@@ -1760,7 +1732,7 @@ class Notacd
     $rutadata = $Prutas->rutadata; // ruta de la carpeta DATA
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATA
 
-    $querynotacd = "select
+    $querynotacd = "SELECT
        n.codigo_nota,
        n.numeroserienota, 
        date_format(n.fecha,'%Y-%m-%d') as fecha, 
@@ -1785,7 +1757,7 @@ class Notacd
       notacd n inner join catalogo10 c on n.codtiponota=c.codigo where n.idnota='$idnotanew' ";
 
     $querydetfacncd =
-      "select 
+      "SELECT 
       tipocomp,  
       numerodoc, 
       cantidad,
@@ -1839,7 +1811,7 @@ class Notacd
 
 
     $querydetbolncd =
-      "select 
+      "SELECT 
     tipocomp, 
     numerodoc,  
     cantidad, 
@@ -2020,7 +1992,6 @@ class Notacd
       $fh = fopen($path, 'w');
       fwrite($fh, $jsonencoded);
       fclose($fh);
-
     } else {
 
       $resultdbnc = mysqli_query($connect, $querydetbolncd);
@@ -2148,7 +2119,6 @@ class Notacd
       $fh = fopen($path, 'w');
       fwrite($fh, $jsonencoded);
       fclose($fh);
-
     }
 
     return $sw;
@@ -2158,7 +2128,7 @@ class Notacd
   //Implementar un método para listar los registros
   public function listarNC($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idnota, 
         nombre, 
         numeroserienota, 
@@ -2239,7 +2209,7 @@ class Notacd
   //Implementar un método para listar los registros
   public function listarNCDia($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idnota, 
         nombre, 
         numeroserienota, 
@@ -2321,7 +2291,7 @@ class Notacd
   //Implementar un método para listar los registros
   public function listarND($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idnota, 
         nombre, 
         numeroserienota, 
@@ -2400,7 +2370,7 @@ class Notacd
 
   public function cabecerancreditoFac($idnotac, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
          cliente, 
          domicilio, 
          numero_documento,
@@ -2510,7 +2480,7 @@ class Notacd
 
   public function detalleNotacredito($idnotac, $idempresa, $serienumero)
   {
-    $sql = "select  
+    $sql = "SELECT  
         articulo, 
         codigo, 
         cantidad, 
@@ -2551,7 +2521,7 @@ class Notacd
 
   public function detalleNotacreditoBol($idnotac, $idempresa, $serienumero)
   {
-    $sql = "select  
+    $sql = "SELECT  
         articulo, 
         codigo, 
         cantidad, 
@@ -2606,7 +2576,7 @@ class Notacd
 
   public function cabecerandebitoFac($idnotadfac, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
          cliente, 
          domicilio,
          numero_documento, 
@@ -2682,7 +2652,7 @@ class Notacd
 
   public function cabecerandebitoBol($idnotadbol, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
            cliente, 
            domicilio,
            numero_documento, 
@@ -2768,7 +2738,7 @@ class Notacd
 
   public function detalleNotadebito($idnotac)
   {
-    $sql = "select  
+    $sql = "SELECT  
         a.nombre as articulo, 
         a.codigo, 
         format(dfnc.cantidad,2) as cantidad, 
@@ -2851,7 +2821,7 @@ class Notacd
       exit();
     }
 
-    $sqlsendmail = "select 
+    $sqlsendmail = "SELECT 
         f.idfactura, 
         p.email,  
         p.nombres, 
@@ -3002,7 +2972,7 @@ class Notacd
     $tipodocmod = '';
     $codigonota = '';
     $query = '';
-    $queryinicial = "select tipo_doc_mod, codigo_nota from notacd where idnota='$idnota' ";
+    $queryinicial = "SELECT tipo_doc_mod, codigo_nota from notacd where idnota='$idnota' ";
     $resulti = mysqli_query($connect, $queryinicial);
 
 
@@ -3014,7 +2984,7 @@ class Notacd
 
       if ($tipodocmod == '01') {
 
-        $query = "select
+        $query = "SELECT
      date_format(n.fecha, '%Y-%m-%d') as fecha, 
      right(substring_index(n.numeroserienota,'-',1),1) as serie,
      date_format(n.fecha, '%H:%i:%s') as hora,
@@ -3041,7 +3011,7 @@ class Notacd
      notacd n inner join factura f on n.idcomprobante=f.idfactura inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where idnota='$idnota' and n.estado in('1','4') order by numerodoc";
 
 
-        $querydetfb = "select
+        $querydetfb = "SELECT
        f.tipo_documento_07 as tipocomp, 
        f.numeracion_08 as numerodoc,  
        dn.cantidad as cantidad, 
@@ -3066,13 +3036,9 @@ class Notacd
        from
        notacd n inner join detalle_notacd_art dn on n.idnota=dn.idnotacd  inner join factura f on n.idcomprobante=f.idfactura  inner join articulo a on dn.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
           where n.idnota='$idnota' and n.estado in ('1','4') order by n.fecha";
-
-
-
-
       } else {
 
-        $query = "select
+        $query = "SELECT
      date_format(n.fecha, '%Y-%m-%d') as fecha, 
      right(substring_index(n.numeroserienota,'-',1),1) as serie,
      date_format(n.fecha, '%H:%i:%s') as hora,
@@ -3099,7 +3065,7 @@ class Notacd
      notacd n inner join boleta b on n.idcomprobante=b.idboleta inner join persona p on b.idcliente=p.idpersona inner join empresa e on b.idempresa=e.idempresa where idnota='$idnota' and n.estado in('1','4') order by numerodoc";
 
 
-        $querydetfb = "select
+        $querydetfb = "SELECT
        b.tipo_documento_06 as tipocomp, 
        b.numeracion_07 as numerodoc,  
        dn.cantidad as cantidad, 
@@ -3124,8 +3090,6 @@ class Notacd
        from
        notacd n inner join detalle_notacd_art dn on n.idnota=dn.idnotacd  inner join boleta b on n.idcomprobante=b.idboleta  inner join articulo a on dn.idarticulo=a.idarticulo  inner join umedida um on a.unidad_medida=um.idunidad
           where n.idnota='$idnota' and n.estado in ('1','4') order by n.fecha";
-
-
       } //Find e if
 
     } //Fin de while
@@ -3319,8 +3283,6 @@ class Notacd
                     <cbc:LineExtensionAmount currencyID="' . $moneda[$i] . '">' . $subtotal[$i] . '</cbc:LineExtensionAmount>
                     <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
                 </cac:LegalMonetaryTotal>';
-
-
       } //For cabecera
       $i = $i + 1;
       $con = $con + 1;
@@ -3408,7 +3370,6 @@ class Notacd
                         <cbc:PriceAmount currencyID="' . $tmon[$i] . '">' . number_format($vui[$i], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:CreditNoteLine>';
-
       } //Fin for
     } //Find e while 
     $facturaXML .= '</CreditNote>';
@@ -3461,7 +3422,6 @@ class Notacd
     ejecutarConsulta($sqlDetalle);
 
     return $rpta;
-
   } //Fin de funcion
 
 
@@ -3508,7 +3468,7 @@ class Notacd
 
     $tipodocmod = '';
     $query = '';
-    $queryinicial = "select tipo_doc_mod from notacd where idnota='$idnota' ";
+    $queryinicial = "SELECT tipo_doc_mod from notacd where idnota='$idnota' ";
     $resulti = mysqli_query($connect, $queryinicial);
 
 
@@ -3517,7 +3477,7 @@ class Notacd
       $tipodocmod = $row["tipo_doc_mod"]; //tipo de documento
       if ($tipodocmod == '01') { //Si es factura
 
-        $query = "select 
+        $query = "SELECT 
         n.idnota, 
         p.email,  
         p.nombres, 
@@ -3531,10 +3491,9 @@ class Notacd
         f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa 
         where 
         n.idnota='$idnota'";
-
       } else { // Si es boleta
 
-        $query = "select 
+        $query = "SELECT 
         n.idnota, 
         p.email,  
         p.nombres, 
@@ -3632,7 +3591,6 @@ class Notacd
       } catch (SoapFault $exception) {
         $exception = print_r($client->__getLastRequest());
       }
-
     } //Fin While
 
     $rutarptazip = $rutarpta . "R" . $ZipFinal;
@@ -3661,7 +3619,6 @@ class Notacd
     ejecutarConsulta($sqlCodigo);
 
     return $data[0];
-
   }
 
 
@@ -3694,7 +3651,7 @@ class Notacd
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta rutaenvio
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
-    $query = "select
+    $query = "SELECT
      n.codigo_nota as tipocomp, 
      n.numeroserienota as numerodoc 
      from 
@@ -3714,7 +3671,6 @@ class Notacd
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       //$cabextxml="..//sfs//firma//20603504969-07-FF01-1.xml";
       $rpta = array('rutafirma' => $cabextxml);
-
     } else {
 
       $rpta = array('rutafirma' => 'Aún no se ha creado el archivo XML.');
@@ -3752,7 +3708,7 @@ class Notacd
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
 
-    $query = "select
+    $query = "SELECT
      n.codigo_nota as tipocomp, 
      n.numeroserienota as numerodoc 
      from 
@@ -3818,7 +3774,7 @@ class Notacd
     $tipodocmod = '';
     $codigonota = '';
     $query = '';
-    $queryinicial = "select tipo_doc_mod, codigo_nota from notacd where idnota='$idnota' ";
+    $queryinicial = "SELECT tipo_doc_mod, codigo_nota from notacd where idnota='$idnota' ";
     $resulti = mysqli_query($connect, $queryinicial);
 
 
@@ -3830,7 +3786,7 @@ class Notacd
 
       if ($tipodocmod == '01') {
 
-        $query = "select
+        $query = "SELECT
      date_format(n.fecha, '%Y-%m-%d') as fecha, 
      right(substring_index(n.numeroserienota,'-',1),1) as serie,
      date_format(n.fecha, '%H:%i:%s') as hora,
@@ -3857,7 +3813,7 @@ class Notacd
      notacd n inner join factura f on n.idcomprobante=f.idfactura inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where idnota='$idnota' and n.estado in('1','4') order by numerodoc";
 
 
-        $querydetfb = "select
+        $querydetfb = "SELECT
        n.tipo_doc_mod as tipocomp, 
        n.serie_numero as numerodoc,  
        dn.cantidad as cantidad, 
@@ -3882,10 +3838,9 @@ class Notacd
        from
        detalle_notacd_art dn inner join articulo a on dn.idarticulo=a.idarticulo inner join notacd n on dn.idnotacd=n.idnota inner join factura f on n.idcomprobante=f.idfactura
           where n.idnota='$idnota' and n.estado in ('1','4') order by n.fecha";
-
       } else {
 
-        $query = "select
+        $query = "SELECT
      date_format(n.fecha, '%Y-%m-%d') as fecha, 
      right(substring_index(n.numeroserienota,'-',1),1) as serie,
      date_format(n.fecha, '%H:%i:%s') as hora,
@@ -3912,7 +3867,7 @@ class Notacd
      notacd n inner join boleta b on n.idcomprobante=b.idboleta inner join persona p on b.idcliente=p.idpersona inner join empresa e on b.idempresa=e.idempresa where idnota='$idnota' and n.estado in('1','4') order by numerodoc";
 
 
-        $querydetfb = "select
+        $querydetfb = "SELECT
        b.tipo_documento_06 as tipocomp, 
        b.numeracion_07 as numerodoc,  
        dn.cantidad as cantidad, 
@@ -3937,8 +3892,6 @@ class Notacd
        from
        notacd n inner join detalle_notacd_art dn on n.idnota=dn.idnotacd  inner join boleta b on n.idcomprobante=b.idboleta  inner join articulo a on dn.idarticulo=a.idarticulo
           where n.idnota='$idnota' and n.estado in ('1','4') order by n.fecha";
-
-
       } //Find e if
 
     } //Fin de while
@@ -4131,8 +4084,6 @@ class Notacd
               <cac:RequestedMonetaryTotal>
                  <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
               </cac:RequestedMonetaryTotal>';
-
-
       } //For cabecera
       $i = $i + 1;
       $con = $con + 1;
@@ -4220,7 +4171,6 @@ class Notacd
                         <cbc:PriceAmount currencyID="' . $tmon[$i] . '">' . number_format($vui[$i], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:DebitNoteLine>';
-
       } //Fin for
     } //Find e while 
     $facturaXML .= '</DebitNote>';
@@ -4266,7 +4216,6 @@ class Notacd
     ejecutarConsulta($sqlDetalle);
 
     return $rpta;
-
   } //Fin de funcion
 
 
@@ -4284,7 +4233,7 @@ class Notacd
     //Regresar stock
 
 
-    $query = "select 
+    $query = "SELECT 
     idnotacd, 
     idarticulo 
     from 
@@ -4317,10 +4266,8 @@ class Notacd
         a.ventast = a.ventast + dnc.cantidad        
         where
         nc.idnota='$Idnc[$i]' and dnc.idarticulo='$Ida[$i]'";
-
       }
       ejecutarConsulta($sql_update_articulo) or $sw = false;
-
     }
     $num_elementos = $num_elementos + 1;
     //return $sw; 
@@ -4339,12 +4286,7 @@ class Notacd
     ejecutarConsulta($sqlestado) or $sw = false;
     //}
     //Fin de WHILE
-//**************************************************************************
+    //**************************************************************************
     return $sw;
   }
-
 }
-
-
-
-?>

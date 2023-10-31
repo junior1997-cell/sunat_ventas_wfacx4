@@ -1,20 +1,20 @@
-<?php 
+<?php
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
- 
-Class Notacb
+
+class Notacb
 {
-    //Implementamos nuestro constructor
-    public function __construct()
-    {
- 
-    }
- 
-   
-    
-function buscarComprobante($idempresa, $moneda){
-    
-    $sql="select  b.idboleta, 
+  //Implementamos nuestro constructor
+  public function __construct()
+  {
+  }
+
+
+
+  function buscarComprobante($idempresa, $moneda)
+  {
+
+    $sql = "SELECT  b.idboleta, 
     p.tipo_documento, 
     p.numero_documento, 
     p.razon_social, 
@@ -31,12 +31,13 @@ function buscarComprobante($idempresa, $moneda){
     boleta b inner join persona p on b.idcliente= p.idpersona inner join empresa e on b.idempresa=e.idempresa 
     where 
     p.tipo_persona='cliente' and b.estado='5' and e.idempresa='$idempresa' and b.tipo_moneda_24='$moneda' order by b.fecha_emision_01 desc";
-        return ejecutarConsulta($sql); 
-}
+    return ejecutarConsulta($sql);
+  }
 
-function buscarComprobanteBoletaServicio($idempresa){
-    
-    $sql="select  b.idboleta, 
+  function buscarComprobanteBoletaServicio($idempresa)
+  {
+
+    $sql = "SELECT  b.idboleta, 
     p.tipo_documento, 
     p.numero_documento, 
     p.razon_social, 
@@ -50,15 +51,15 @@ function buscarComprobanteBoletaServicio($idempresa){
     date_format(b.fecha_emision_01, '%Y/%m/%d %h:%i %p') as fecha2 
     from 
     boletaservicio b inner join persona p on b.idcliente= p.idpersona inner join empresa e on b.idempresa=e.idempresa where p.tipo_persona='cliente' and b.estado='5' and e.idempresa='$idempresa' order by b.fecha_emision_01 desc";
-        return ejecutarConsulta($sql); 
-}
+    return ejecutarConsulta($sql);
+  }
 
-  
+
 
   function buscarComprobanteId($idcomprobante)
   {
-    
-    $sql="select
+
+    $sql = "SELECT
     idarticulo,
     precio_unitario,
     unidad_medida,
@@ -111,15 +112,14 @@ function buscarComprobanteBoletaServicio($idempresa){
     boleta b inner join detalle_boleta_producto db on b.idboleta=db.idboleta inner join articulo a on db.idarticulo=a.idarticulo inner join persona p on b.idcliente= p.idpersona where p.tipo_persona='cliente' and b.idboleta='$idcomprobante' and b.estado='5'
     )
     as tabla";
-        return ejecutarConsulta($sql); 
-    
-}
+    return ejecutarConsulta($sql);
+  }
 
 
-function buscarComprobanteIdBoletaServicio($idcomprobante)
+  function buscarComprobanteIdBoletaServicio($idcomprobante)
   {
-    
-    $sql="select
+
+    $sql = "SELECT
     idboleta, 
     tipo_documento, 
     numero_documento, 
@@ -160,37 +160,35 @@ function buscarComprobanteIdBoletaServicio($idcomprobante)
     from
     boletaservicio b inner join detalle_boleta_producto_ser db on b.idboleta=db.idboleta inner join servicios_inmuebles a on db.idarticulo=a.id inner join persona p on b.idcliente= p.idpersona where p.tipo_persona='cliente' and b.idboleta='$idcomprobante' and b.estado='5')
     as tabla";
-        return ejecutarConsulta($sql); 
-    
-}
+    return ejecutarConsulta($sql);
+  }
 
 
 
-public function anularBoleta($idboleta)
-{
-       
-     $connect = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
-      mysqli_query( $connect, 'SET NAMES "'.DB_ENCODE.'"');
-      //Si tenemos un posible error en la conexión lo mostramos
-      if (mysqli_connect_errno())
-      {
-            printf("Falló conexión a la base de datos: %s\n",mysqli_connect_error());
-            exit();
-      }
-      $query="select idboleta, idarticulo  from detalle_boleta_producto where idboleta='$idboleta'";
+  public function anularBoleta($idboleta)
+  {
 
-    $resultado = mysqli_query($connect,$query);
+    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    //Si tenemos un posible error en la conexión lo mostramos
+    if (mysqli_connect_errno()) {
+      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+      exit();
+    }
+    $query = "SELECT idboleta, idarticulo  from detalle_boleta_producto where idboleta='$idboleta'";
 
-    $Idb=array();
-    $Ida=array();
-    $sw=true;
+    $resultado = mysqli_query($connect, $query);
+
+    $Idb = array();
+    $Ida = array();
+    $sw = true;
 
     while ($fila = mysqli_fetch_assoc($resultado)) {
-    for($i=0; $i < count($resultado) ; $i++){
-        $Idb[$i] = $fila["idboleta"];  
-        $Ida[$i] = $fila["idarticulo"];  
+      for ($i = 0; $i < count($resultado); $i++) {
+        $Idb[$i] = $fila["idboleta"];
+        $Ida[$i] = $fila["idarticulo"];
 
-    $sql_update_articulo="update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
+        $sql_update_articulo = "update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
     set 
     a.saldo_finu=a.saldo_finu + de.cantidad_item_12, 
     a.stock=a.stock + de.cantidad_item_12,
@@ -199,57 +197,53 @@ public function anularBoleta($idboleta)
     de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
 
 
-    $sql_update_articulo_2="update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
+        $sql_update_articulo_2 = "update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
     set  
     a.valor_finu=(a.saldo_iniu + a.comprast - a.ventast) * a.costo_compra  
     where 
     de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
 
-    $sqlbajaboleta="update boleta set estado='0' where idboleta='$Idb[$i]'";
-    
-        }
-        
-         ejecutarConsulta($sql_update_articulo) or $sw=false;
-         ejecutarConsulta($sql_update_articulo_2) or $sw=false;
-         ejecutarConsulta($sqlbajaboleta) or $sw=false;      
-         
-        }
-    return $sw;    
-}
-
-public function anularBoletaxItem($idboleta, $idarticulo, $cantidad)
-{
-       
-     $connect = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
-      mysqli_query( $connect, 'SET NAMES "'.DB_ENCODE.'"');
-      //Si tenemos un posible error en la conexión lo mostramos
-      if (mysqli_connect_errno())
-      {
-            printf("Falló conexión a la base de datos: %s\n",mysqli_connect_error());
-            exit();
+        $sqlbajaboleta = "update boleta set estado='0' where idboleta='$Idb[$i]'";
       }
 
-    $Idb=array();
-    $Ida=array();
-    $sw=true;
-    $num_elementos=0;    
+      ejecutarConsulta($sql_update_articulo) or $sw = false;
+      ejecutarConsulta($sql_update_articulo_2) or $sw = false;
+      ejecutarConsulta($sqlbajaboleta) or $sw = false;
+    }
+    return $sw;
+  }
 
-    while ($num_elementos < count($idarticulo))
-    {
-      $query="select idboleta, idarticulo  
+  public function anularBoletaxItem($idboleta, $idarticulo, $cantidad)
+  {
+
+    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    //Si tenemos un posible error en la conexión lo mostramos
+    if (mysqli_connect_errno()) {
+      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+      exit();
+    }
+
+    $Idb = array();
+    $Ida = array();
+    $sw = true;
+    $num_elementos = 0;
+
+    while ($num_elementos < count($idarticulo)) {
+      $query = "SELECT idboleta, idarticulo  
       from detalle_boleta_producto 
       where 
       idboleta='$idboleta' and 
       idarticulo='$idarticulo[$num_elementos]'";
 
-    $resultado = mysqli_query($connect,$query);
+      $resultado = mysqli_query($connect, $query);
 
-    while ($fila = mysqli_fetch_assoc($resultado)) {
-    for($i=0; $i < count($resultado) ; $i++){
-        $Idb[$i] = $fila["idboleta"];  
-        $Ida[$i] = $fila["idarticulo"];  
+      while ($fila = mysqli_fetch_assoc($resultado)) {
+        for ($i = 0; $i < count($resultado); $i++) {
+          $Idb[$i] = $fila["idboleta"];
+          $Ida[$i] = $fila["idarticulo"];
 
-    $sql_update_articulo="update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
+          $sql_update_articulo = "update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
     set  
     a.saldo_finu=a.saldo_finu + '$cantidad[$num_elementos]', 
     a.stock=a.stock + '$cantidad[$num_elementos]', 
@@ -257,26 +251,16 @@ public function anularBoletaxItem($idboleta, $idarticulo, $cantidad)
     where 
     de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
 
-    $sql_update_articulo_2="update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
+          $sql_update_articulo_2 = "update detalle_boleta_producto de inner join articulo a  on de.idarticulo=a.idarticulo 
     set  
     a.valor_finu=(a.saldo_iniu + a.comprast - a.ventast) * a.costo_compra
     where 
     de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
-
-        
         }
-         ejecutarConsulta($sql_update_articulo) or $sw=false;
-        ejecutarConsulta($sql_update_articulo_2) or $sw=false;
-        }
-    $num_elementos=$num_elementos + 1;
-   
-      }      
+        ejecutarConsulta($sql_update_articulo) or $sw = false;
+        ejecutarConsulta($sql_update_articulo_2) or $sw = false;
+      }
+      $num_elementos = $num_elementos + 1;
+    }
+  }
 }
-
-
-
-
-
-
-}
-?>

@@ -46,40 +46,40 @@ Class Almacen
 	//validar duplicado
 	public function validarAlmacen($nombre)
 	{
-		$sql="select * from almacen where nombre='$nombre'";
+		$sql="SELECT * from almacen where nombre='$nombre'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 	
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idalmacen)
 	{
-		$sql="select * from almacen where idalmacen='$idalmacen'";
+		$sql="SELECT * from almacen where idalmacen='$idalmacen'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="select * from almacen order by idalmacen";
+		$sql="SELECT * from almacen order by idalmacen";
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
 	// public function select()
 	// {
-	// 	$sql="select * from almacen where estado=1 and not idalmacen='1'  order by idalmacen desc ";
+	// 	$sql="SELECT * from almacen where estado=1 and not idalmacen='1'  order by idalmacen desc ";
 	// 	return ejecutarConsulta($sql);
 	// }
 
 			//Implementar un método para listar los registros y mostrar en el select
 		public function select($idempresa)
 		{
-			$sql="select * from almacen a inner join empresa e on a.idempresa=e.idempresa  where  e.idempresa='$idempresa' order by idalmacen desc";
+			$sql="SELECT * from almacen a inner join empresa e on a.idempresa=e.idempresa  where  e.idempresa='$idempresa' order by idalmacen desc";
 			return ejecutarConsulta($sql);
 		}
 
 		public function selectunidad()
 		{
-			$sql="select * 
+			$sql="SELECT * 
 			from umedida 
 			order by 
 				case when idunidad = 58 then 0 else 1 end,
@@ -91,7 +91,7 @@ Class Almacen
 		    public function almacenlista()
     		{
 
-    		$sql="select * from almacen where not idalmacen='1' order by idalmacen";
+    		$sql="SELECT * from almacen where not idalmacen='1' order by idalmacen";
    			 return ejecutarConsulta($sql);
     		}
 

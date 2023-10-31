@@ -7,49 +7,48 @@ class Usuario
 	//Implementamos nuestro constructor
 	public function __construct()
 	{
-
 	}
 
 	//Implementamos un método para insertar registros
 	public function insertar($nombre, $apellidos, $tipo_documento, $num_documento, $direccion, $telefono, $email, $cargo, $login, $clave, $imagen, $permisos, $series, $empresa)
-{
-    $sql="insert into usuario (nombre, apellidos, tipo_documento, num_documento, direccion, telefono, email, cargo, login, clave, imagen)
+	{
+		$sql = "insert into usuario (nombre, apellidos, tipo_documento, num_documento, direccion, telefono, email, cargo, login, clave, imagen)
           values ('$nombre','$apellidos', '$tipo_documento', '$num_documento', '$direccion', '$telefono', '$email','$cargo', '$login', '$clave', '$imagen')";
 
-    $idusuarionew = ejecutarConsulta_retornarID($sql);
+		$idusuarionew = ejecutarConsulta_retornarID($sql);
 
-    // Insertar en vendedorsitio SOLO si cargo es igual a 1 (Ventas)
-    if ($cargo == 1) {
-        $sql_vendedor="insert into vendedorsitio(nombre, estado, idempresa) values ('$nombre', 1, 1)";
-        ejecutarConsulta($sql_vendedor);
-    }
+		// Insertar en vendedorsitio SOLO si cargo es igual a 1 (Ventas)
+		if ($cargo == 1) {
+			$sql_vendedor = "insert into vendedorsitio(nombre, estado, idempresa) values ('$nombre', 1, 1)";
+			ejecutarConsulta($sql_vendedor);
+		}
 
-    $num_elementos = 0;
-    $num_elementos2 = 0;
-    $num_elementos3 = 0;
+		$num_elementos = 0;
+		$num_elementos2 = 0;
+		$num_elementos3 = 0;
 
-    $sw = true;
+		$sw = true;
 
-    while ($num_elementos < count($permisos)) {
-        $sql_detalle = "insert into usuario_permiso(idusuario, idpermiso) values ('$idusuarionew', '$permisos[$num_elementos]')";
-        ejecutarConsulta($sql_detalle) or $sw = false;
-        $num_elementos = $num_elementos + 1;
-    }
+		while ($num_elementos < count($permisos)) {
+			$sql_detalle = "insert into usuario_permiso(idusuario, idpermiso) values ('$idusuarionew', '$permisos[$num_elementos]')";
+			ejecutarConsulta($sql_detalle) or $sw = false;
+			$num_elementos = $num_elementos + 1;
+		}
 
-    while ($num_elementos2 < count($series)) {
-        $sql_detalle_series = "insert into detalle_usuario_numeracion(idusuario, idnumeracion) values ('$idusuarionew', '$series[$num_elementos2]')";
-        ejecutarConsulta($sql_detalle_series) or $sw = false;
-        $num_elementos2 = $num_elementos2 + 1;
-    }
+		while ($num_elementos2 < count($series)) {
+			$sql_detalle_series = "insert into detalle_usuario_numeracion(idusuario, idnumeracion) values ('$idusuarionew', '$series[$num_elementos2]')";
+			ejecutarConsulta($sql_detalle_series) or $sw = false;
+			$num_elementos2 = $num_elementos2 + 1;
+		}
 
-    while ($num_elementos3 < count($empresa)) {
-        $sql_usuario_empresa = "insert into usuario_empresa(idusuario, idempresa) values ('$idusuarionew', '$empresa[$num_elementos3]')";
-        ejecutarConsulta($sql_usuario_empresa) or $sw = false;
-        $num_elementos3 = $num_elementos3 + 1;
-    }
+		while ($num_elementos3 < count($empresa)) {
+			$sql_usuario_empresa = "insert into usuario_empresa(idusuario, idempresa) values ('$idusuarionew', '$empresa[$num_elementos3]')";
+			ejecutarConsulta($sql_usuario_empresa) or $sw = false;
+			$num_elementos3 = $num_elementos3 + 1;
+		}
 
-    return $sw;
-}
+		return $sw;
+	}
 
 
 
@@ -116,45 +115,45 @@ class Usuario
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idusuario)
 	{
-		$sql = "select * from usuario where idusuario='$idusuario'";
+		$sql = "SELECT * from usuario where idusuario='$idusuario'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql = "select * from usuario";
+		$sql = "SELECT * from usuario";
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
 	public function select()
 	{
-		$sql = "select * from usuario where condicion=1";
+		$sql = "SELECT * from usuario where condicion=1";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementar un metodo para listar los permisos marcados
 	public function listarmarcados($idusuario)
 	{
-		$sql = "select * from usuario_permiso where idusuario='$idusuario'";
+		$sql = "SELECT * from usuario_permiso where idusuario='$idusuario'";
 		return ejecutarConsulta($sql);
 	}
 
 	public function listarmarcadosEmpresa($idusuario)
 	{
-		$sql = "select * from usuario_empresa where idusuario='$idusuario'";
+		$sql = "SELECT * from usuario_empresa where idusuario='$idusuario'";
 		return ejecutarConsulta($sql);
 	}
 
 	public function listarmarcadosEmpresaTodos()
 	{
-		$sql = "select * from usuario_empresa ";
+		$sql = "SELECT * from usuario_empresa ";
 		return ejecutarConsulta($sql);
 	}
 
 	public function listarmarcadosNumeracion($idusuario)
 	{
-		$sql = "select * from detalle_usuario_numeracion where idusuario='$idusuario'";
+		$sql = "SELECT * from detalle_usuario_numeracion where idusuario='$idusuario'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -162,7 +161,7 @@ class Usuario
 	public function verificar($login, $clave, $empresa)
 	{
 
-		//$sql="select u.idusuario, u.nombre, u.tipo_documento, u.num_documento, u.telefono, u.email, u.cargo, u.imagen, u.login, e.nombre_razon_social, e.idempresa, co.igv  from usuario u inner join usuario_empresa ue on u.idusuario=ue.idusuario inner join empresa e on ue.idempresa=e.idempresa inner join configuraciones co on e.idempresa=co.idempresa where u.login='$login' and u.clave='$clave' and  e.idempresa='$empresa' and u.condicion='1'";
+		//$sql="SELECT u.idusuario, u.nombre, u.tipo_documento, u.num_documento, u.telefono, u.email, u.cargo, u.imagen, u.login, e.nombre_razon_social, e.idempresa, co.igv  from usuario u inner join usuario_empresa ue on u.idusuario=ue.idusuario inner join empresa e on ue.idempresa=e.idempresa inner join configuraciones co on e.idempresa=co.idempresa where u.login='$login' and u.clave='$clave' and  e.idempresa='$empresa' and u.condicion='1'";
 
 		$sql = "SELECT
 		u.idusuario, 
@@ -199,7 +198,7 @@ class Usuario
 
 	public function consultatemporizador()
 	{
-		$sql = "select id as idtempo, tiempo, estado from temporizador where id='1' ";
+		$sql = "SELECT id as idtempo, tiempo, estado from temporizador where id='1' ";
 		return ejecutarConsulta($sql);
 	}
 
@@ -211,8 +210,4 @@ class Usuario
       ('$idusuario', '','', now())";
 		return ejecutarConsulta($sql);
 	}
-
-
 }
-
-?>

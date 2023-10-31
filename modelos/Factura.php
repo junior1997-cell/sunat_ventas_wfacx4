@@ -45,8 +45,6 @@ class Factura
   //Implementamos nuestro constructor
   public function __construct()
   {
-
-
   }
 
 
@@ -448,11 +446,6 @@ class Factura
         )";
         ejecutarConsulta($sql_detalle_cuota_credito) or $sw = false;
       }
-
-
-
-
-
     } //Fin IF
 
     //Para actualizar numeracion de las series de la factura
@@ -472,7 +465,7 @@ class Factura
 
 
     return $idfacturanew; //FIN DE LA FUNCION
-//=======================================
+    //=======================================
 
   }
 
@@ -481,14 +474,14 @@ class Factura
 
   public function mostrarultimocomprobante($idempresa)
   {
-    $sql = "select f.estado, f.numeracion_08, p.email from factura f inner join empresa e on f.idempresa=e.idempresa inner join persona p on f.idcliente=p.idpersona  where e.idempresa='$idempresa'  order by idfactura desc limit 1";
+    $sql = "SELECT f.estado, f.numeracion_08, p.email from factura f inner join empresa e on f.idempresa=e.idempresa inner join persona p on f.idcliente=p.idpersona  where e.idempresa='$idempresa'  order by idfactura desc limit 1";
     return ejecutarConsultaSimpleFila($sql);
   }
 
 
   public function mostrarultimocomprobanteId($idempresa)
   {
-    $sql = "select f.idfactura, e.tipoimpresion from factura f inner join empresa e on f.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idfactura desc limit 1";
+    $sql = "SELECT f.idfactura, e.tipoimpresion from factura f inner join empresa e on f.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idfactura desc limit 1";
     return ejecutarConsultaSimpleFila($sql);
   }
 
@@ -588,7 +581,7 @@ class Factura
       $data[0] = "";
     }
     //==================== PARA IMAGEN DEL CODIGO HASH ================================================
-//set it to writable location, a place for temp generated PNG files
+    //set it to writable location, a place for temp generated PNG files
     $PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . '/generador-qr/temp' . DIRECTORY_SEPARATOR;
     //html PNG location prefix
     $PNG_WEB_DIR = 'temp/';
@@ -617,7 +610,7 @@ class Factura
     $ext_logoQr = substr($filename, strpos($filename, '.'), -4);
     $pdf->ImgQr($logoQr, $ext_logoQr);
     //======= PARA EXTRAER EL HASH DEL DOCUMENTO FIRMADO ========================================
-//Convertimos el total en letras
+    //Convertimos el total en letras
     require_once "Letras.php";
     $V = new EnLetras();
     $con_letra = strtoupper($V->ValorEnLetras($regv->importe_total_venta_27, "CON"));
@@ -627,7 +620,7 @@ class Factura
     $pdf->addTVAs($regv->sumatoria_igv_22_1, $regv->importe_total_venta_27, "S/ ", $regv->tdescuento);
     $pdf->addCadreEurosFrancs($regv->sumatoria_igv_22_1, $regv->nombretrib);
     //===============SEGUNDA COPIA DE FACTURA=========================
-//Enviamos los datos de la empresa al método addSociete de la clase Factura
+    //Enviamos los datos de la empresa al método addSociete de la clase Factura
     $pdf->addSociete2(utf8_decode(htmlspecialchars_decode($datose->nombre_comercial)), utf8_decode("Dirección: ") . utf8_decode($datose->domicilio_fiscal) . "\n" . utf8_decode("Teléfono: ") . $datose->telefono1 . " - " . $datose->telefono2 . "\n" . "Email : " . $datose->correo, $logo, $ext_logo);
     //Datos de la empresa
     $pdf->numFactura2("$regv->numeracion_08", "$datose->numero_ruc");
@@ -663,7 +656,7 @@ class Factura
     $pdf->addLineFormat2($cols);
     //Actualizamos el valor de la coordenada "y", que será la ubicación desde donde empezaremos a mostrar los datos
     $y2 = 208; // para el tamaño del cuadro del segundo detalle
-//Obtenemos todos los detalles de la venta actual
+    //Obtenemos todos los detalles de la venta actual
     $rsptad = $factura->ventadetalle($idfactura);
     while ($regd = $rsptad->fetch_object()) {
       if ($regd->nombretribu == "IGV") {
@@ -693,7 +686,7 @@ class Factura
     $pdf->addTVAs2($regv->sumatoria_igv_22_1, $regv->importe_total_venta_27, "S/ ", $regv->tdescuento);
     $pdf->addCadreEurosFrancs2($regv->sumatoria_igv_22_1, $regv->nombretrib);
     //Linea para guardar la factura en la carpeta facturas PDF
-//$Factura=$pdf->Output($regv->numeracion_08.'.pdf','I');
+    //$Factura=$pdf->Output($regv->numeracion_08.'.pdf','I');
     $Factura = $pdf->Output('../facturasPDF/' . $regv->numeracion_08 . '.pdf', 'F');
   }
 
@@ -721,7 +714,7 @@ class Factura
       exit();
     }
 
-    $query = "select dt.idfactura, a.idarticulo, dt.cantidad_item_12,  dt.valor_uni_item_14, a.codigo, a.unidad_medida  from detalle_fac_art dt inner join articulo a on dt.idarticulo=a.idarticulo where idfactura = '$idfactura'";
+    $query = "SELECT dt.idfactura, a.idarticulo, dt.cantidad_item_12,  dt.valor_uni_item_14, a.codigo, a.unidad_medida  from detalle_fac_art dt inner join articulo a on dt.idarticulo=a.idarticulo where idfactura = '$idfactura'";
     $resultado = mysqli_query($connect, $query);
 
     $Idf = array();
@@ -798,91 +791,90 @@ class Factura
 
 
     //***************************************************************************
-//     require_once "../modelos/Factura.php";
-//     $factura = new Factura();
-//     $datos = $factura->datosemp();
-//     $datose = $datos->fetch_object();
+    //     require_once "../modelos/Factura.php";
+    //     $factura = new Factura();
+    //     $datos = $factura->datosemp();
+    //     $datose = $datos->fetch_object();
 
     //     //Inclusion de la tabla RUTAS
-//     require_once "../modelos/Rutas.php";
-//     $rutas = new Rutas();
-//     $Rrutas = $rutas->mostrar2();
-//     $Prutas = $Rrutas->fetch_object();
-//     $rutadata=$Prutas->rutadata; // ruta de la carpeta DATA
-//     $rutabaja=$Prutas->rutabaja; // ruta de la carpeta BAJA
-//     $rutadatalt=$Prutas->rutadatalt; // ruta de la carpeta BAJA
+    //     require_once "../modelos/Rutas.php";
+    //     $rutas = new Rutas();
+    //     $Rrutas = $rutas->mostrar2();
+    //     $Prutas = $Rrutas->fetch_object();
+    //     $rutadata=$Prutas->rutadata; // ruta de la carpeta DATA
+    //     $rutabaja=$Prutas->rutabaja; // ruta de la carpeta BAJA
+    //     $rutadatalt=$Prutas->rutadatalt; // ruta de la carpeta BAJA
 
 
-    // $query = "select date_format(fecha_emision_01, '%Y-%m-%d') as fecha,
-// date_format(curdate(), '%Y%m%d') as fechabaja2,
-// date_format(fecha_baja, '%Y-%m-%d') as fechabaja,
-// right(substring_index(numeracion_08,'-',1),3) as serie,
-// tipodocuCliente,
-// rucCliente,
-// RazonSocial,
-// tipo_moneda_28,
-// total_operaciones_gravadas_monto_18_2 as subtotal,
-// sumatoria_igv_22_1 as igv,
-// importe_total_venta_27 as total,
-// tipo_documento_07 as tipocomp,
-// numeracion_08 as numerodoc,
-// f.estado,
-// comentario_baja
-//   from
-//   factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'";
+    // $query = "SELECT date_format(fecha_emision_01, '%Y-%m-%d') as fecha,
+    // date_format(curdate(), '%Y%m%d') as fechabaja2,
+    // date_format(fecha_baja, '%Y-%m-%d') as fechabaja,
+    // right(substring_index(numeracion_08,'-',1),3) as serie,
+    // tipodocuCliente,
+    // rucCliente,
+    // RazonSocial,
+    // tipo_moneda_28,
+    // total_operaciones_gravadas_monto_18_2 as subtotal,
+    // sumatoria_igv_22_1 as igv,
+    // importe_total_venta_27 as total,
+    // tipo_documento_07 as tipocomp,
+    // numeracion_08 as numerodoc,
+    // f.estado,
+    // comentario_baja
+    //   from
+    //   factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'";
 
 
 
     //       //==================================================
-//       $result = mysqli_query($connect, $query);
-//       //==================================================
+    //       $result = mysqli_query($connect, $query);
+    //       //==================================================
 
 
     // //==================FACTURA & BOLETAS================================
 
     //        //$mask = $rutabaja.'*';
-//        //array_map( "unlink", glob( $mask ) );
+    //        //array_map( "unlink", glob( $mask ) );
 
 
     //       $fecha=array();
-//       $tipocomp=array();
-//       $numdocu=array();
-//       $rasoc=array();
-//       $fechabaja=array();
-//       $numeroc=array();
-//       $comen=array();
+    //       $tipocomp=array();
+    //       $numdocu=array();
+    //       $rasoc=array();
+    //       $fechabaja=array();
+    //       $numeroc=array();
+    //       $comen=array();
 
     //       $con=0;
-//       $fecdeldia=date ("Ymd");
+    //       $fecdeldia=date ("Ymd");
 
     //       while($row=mysqli_fetch_assoc($result)){
-//       for($i=0; $i <= count($result); $i++){
-//            $fecha[$i]=$row["fecha"];
-//            $fechabaja[$i]=$row["fechabaja"];
-//            $tipocomp[$i]=$row["tipocomp"];
-//            $numeroc[$i]=$row["numerodoc"];
-//            $comen[$i]=$row["comentario_baja"];
-//            $ruc=$datose->numero_ruc;
-//            $fbaja2=$row["fechabaja2"];
+    //       for($i=0; $i <= count($result); $i++){
+    //            $fecha[$i]=$row["fecha"];
+    //            $fechabaja[$i]=$row["fechabaja"];
+    //            $tipocomp[$i]=$row["tipocomp"];
+    //            $numeroc[$i]=$row["numerodoc"];
+    //            $comen[$i]=$row["comentario_baja"];
+    //            $ruc=$datose->numero_ruc;
+    //            $fbaja2=$row["fechabaja2"];
 
     //            $path=$rutadata.$ruc."-RA-".$fbaja2."-011.cba";
-//             $handle=fopen($path, "a");
-//            fwrite($handle, $fecha[$i]."|".$fechabaja[$i]."|".$tipocomp[$i]."|".$numeroc[$i]."|".$comen[$i]."|\r\n");
-//            fclose($handle);
+    //             $handle=fopen($path, "a");
+    //            fwrite($handle, $fecha[$i]."|".$fechabaja[$i]."|".$tipocomp[$i]."|".$numeroc[$i]."|".$comen[$i]."|\r\n");
+    //            fclose($handle);
 
     //            $path=$rutadatalt.$ruc."-RA-".$fbaja2."-011.cba";
-//             $handle=fopen($path, "a");
-//            fwrite($handle, $fecha[$i]."|".$fechabaja[$i]."|".$tipocomp[$i]."|".$numeroc[$i]."|".$comen[$i]."|\r\n");
-//            fclose($handle);
+    //             $handle=fopen($path, "a");
+    //            fwrite($handle, $fecha[$i]."|".$fechabaja[$i]."|".$tipocomp[$i]."|".$numeroc[$i]."|".$comen[$i]."|\r\n");
+    //            fclose($handle);
 
     //            $i=$i+1;
-//            $con=$con+1;
-//       }
-//     }
-//**************************************************************************
+    //            $con=$con+1;
+    //       }
+    //     }
+    //**************************************************************************
 
     return $sw;
-
   }
 
 
@@ -911,7 +903,7 @@ class Factura
       exit();
     }
 
-    $query = "select idfactura, idarticulo  from detalle_fac_art where idfactura = '$idfactura'";
+    $query = "SELECT idfactura, idarticulo  from detalle_fac_art where idfactura = '$idfactura'";
     $resultado = mysqli_query($connect, $query);
 
     $Idf = array();
@@ -973,7 +965,7 @@ class Factura
   //Implementar un método para mostrar los datos de un registro a modificar
   public function mostrar($idfactura)
   {
-    $sql = "select
+    $sql = "SELECT
         f.idfactura,
         date(f.fecha_emision_01) as fecha,
         f.idcliente,
@@ -1024,7 +1016,7 @@ class Factura
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta rutaenvio
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
-    $query = "select
+    $query = "SELECT
      f.tipo_documento_07 as tipocomp,
      f.numeracion_08 as numerodoc
      from
@@ -1043,7 +1035,6 @@ class Factura
       }
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       $rpta = array('rutafirma' => $cabextxml);
-
     } else {
 
       $rpta = array('rutafirma' => 'Aún no se ha creado el archivo XML.');
@@ -1081,7 +1072,7 @@ class Factura
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
 
-    $query = "select
+    $query = "SELECT
      f.tipo_documento_07 as tipocomp,
      f.numeracion_08 as numerodoc
      from
@@ -1146,7 +1137,7 @@ class Factura
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-    $query = "select
+    $query = "SELECT
      date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
      right(substring_index(f.numeracion_08,'-',1),1) as serie,
      date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
@@ -1183,7 +1174,7 @@ class Factura
 
      where idfactura='$idfactura' and f.estado in('1','4') order by numerodoc";
 
-    $querycuotas = "select
+    $querycuotas = "SELECT
      lpad(cu.ncuota,3,'0') as ncuota ,
      cu.montocuota,
      date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota,
@@ -1194,7 +1185,7 @@ class Factura
      where idcomprobante='$idfactura' and cu.tipocomprobante='01'";
 
 
-    $querydetfac = "select
+    $querydetfac = "SELECT
        f.tipo_documento_07 as tipocomp,
        f.numeracion_08 as numerodoc,
        df.cantidad_item_12 as cantidad,
@@ -1413,7 +1404,6 @@ class Factura
                 <cbc:ID>FormaPago</cbc:ID>
                 <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
-
       } else { // SI ES AL CREDITO
 
         $facturaXML .= '<cac:PaymentTerms>
@@ -1445,7 +1435,6 @@ class Factura
           }
           $i = $i + 1;
         }
-
       }
 
 
@@ -1554,7 +1543,6 @@ class Factura
 
         if ($codtrib[$if] == '9997') {
           $igv_ = "0";
-
         } else {
           $igv_ = $configE->igv;
         }
@@ -1640,8 +1628,7 @@ class Factura
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-        }
-        ;
+        };
 
 
         $facturaXML .= '
@@ -1658,7 +1645,6 @@ class Factura
                         <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
       } //Fin for
     } //Find e while
     $facturaXML .= '</Invoice>';
@@ -1714,7 +1700,6 @@ class Factura
     ejecutarConsulta($sqlDetalle);
 
     return $rpta;
-
   } //Fin de funcion
 
 
@@ -1750,7 +1735,7 @@ class Factura
 
     if ($estado == '1' && $estado == '4' || $check == 'true') {
 
-      $query = "select
+      $query = "SELECT
      date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
      right(substring_index(f.numeracion_08,'-',1),1) as serie,
      date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
@@ -1783,7 +1768,7 @@ class Factura
      factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where
       year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by numerodoc";
 
-      $querydetfac = "select
+      $querydetfac = "SELECT
        f.tipo_documento_07 as tipocomp,
        f.numeracion_08 as numerodoc,
        df.cantidad_item_12 as cantidad,
@@ -1995,7 +1980,6 @@ class Factura
                 <cbc:ID>FormaPago</cbc:ID>
               <cbc:PaymentMeansID>' . $formapago[$i] . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
-
           } else {
 
             $facturaXML .= '<cac:PaymentTerms>
@@ -2104,7 +2088,6 @@ class Factura
 
           if ($codtrib[$if] == '9997') {
             $igv_ = "0";
-
           } else {
             $igv_ = $configE->igv;
           }
@@ -2160,8 +2143,7 @@ class Factura
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-          }
-          ;
+          };
 
 
           $facturaXML .= '
@@ -2178,7 +2160,6 @@ class Factura
                         <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
         } //Fin for
       } //Find e while
       $facturaXML .= '</Invoice>';
@@ -2268,7 +2249,7 @@ class Factura
         exit();
       }
 
-      $sqlsendmail = "select
+      $sqlsendmail = "SELECT
         f.idfactura,
         p.email,
         p.nombres,
@@ -2397,7 +2378,6 @@ class Factura
           $sqlCodigo = "update factura set CodigoRptaSunat='', DetalleSunat='VERIFICAR ENVIO' where idfactura='$idfactura'";
           ejecutarConsulta($sqlCodigo);
         }
-
       } //Fin While
     } //Fin de if
 
@@ -2453,7 +2433,7 @@ class Factura
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-    $query = "select
+    $query = "SELECT
      date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
      right(substring_index(f.numeracion_08,'-',1),1) as serie,
      date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
@@ -2491,7 +2471,7 @@ class Factura
 
      where idfactura='$idfactura' and f.estado in('1','4','3','5') order by numerodoc";
 
-    $querycuotas = "select
+    $querycuotas = "SELECT
      lpad(cu.ncuota,3,'0') as ncuota ,
      cu.montocuota,
      date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota,
@@ -2502,7 +2482,7 @@ class Factura
      where idcomprobante='$idfactura' and cu.tipocomprobante='01'";
 
 
-    $querydetfac = "select
+    $querydetfac = "SELECT
        f.tipo_documento_07 as tipocomp,
        f.numeracion_08 as numerodoc,
        df.cantidad_item_12 as cantidad,
@@ -2721,7 +2701,6 @@ class Factura
                 <cbc:ID>FormaPago</cbc:ID>
                 <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
-
       } else { // SI ES AL CREDITO
 
         $facturaXML .= '<cac:PaymentTerms>
@@ -2753,7 +2732,6 @@ class Factura
           }
           $i = $i + 1;
         }
-
       }
 
 
@@ -2862,7 +2840,6 @@ class Factura
 
         if ($codtrib[$if] == '9997') {
           $igv_ = "0";
-
         } else {
           $igv_ = $configE->igv;
         }
@@ -2948,8 +2925,7 @@ class Factura
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-        }
-        ;
+        };
 
 
         $facturaXML .= '
@@ -2966,7 +2942,6 @@ class Factura
                         <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
       } //Fin for
     } //Find e while
     $facturaXML .= '</Invoice>';
@@ -3018,7 +2993,6 @@ class Factura
     // ejecutarConsulta($sqlDetalle);
 
     return $rpta;
-
   } //Fin de funcion
 
 
@@ -3059,7 +3033,7 @@ class Factura
       exit();
     }
 
-    $sqlsendmail = "select
+    $sqlsendmail = "SELECT
         f.idfactura,
         p.email,
         p.nombres,
@@ -3211,7 +3185,6 @@ class Factura
         //$sqlrPTA="update factura set DetalleSunat='$texto2' where idfactura='$idfactura'";
         //ejecutarConsulta($sqlrPTA);
       }
-
     } //Fin While
     //return $exception;
   }
@@ -3249,7 +3222,7 @@ class Factura
       exit();
     }
 
-    $sqlsendmail = "select
+    $sqlsendmail = "SELECT
         f.idfactura,
         p.email,
         p.nombres,
@@ -3372,7 +3345,6 @@ class Factura
           }
           ejecutarConsulta($sqlCodigo);
           return $response->statusCdr->statusMessage . " para comprobante: " . $ZipFinal;
-
         } else {
           return "Verificar envio";
         }
@@ -3384,7 +3356,6 @@ class Factura
         // Llamada al WebService=======================================================================
       } catch (SoapFault $exception) {
         $exception = print_r($client->__getLastResponse());
-
       }
     } //Fin While
     //return $cdr->statusCode;;
@@ -3425,7 +3396,7 @@ class Factura
       exit();
     }
 
-    $sqlsendmail = "select
+    $sqlsendmail = "SELECT
         f.idfactura,
         p.email,
         p.nombres,
@@ -3542,10 +3513,7 @@ class Factura
         // Llamada al WebService=======================================================================
       } catch (SoapFault $exception) {
         $exception = print_r($client->__getLastResponse());
-
-
       }
-
     } //Fin While
     //return $exception;
   }
@@ -3553,7 +3521,7 @@ class Factura
 
   public function traercorreocliente($idfactura)
   {
-    $sql = "select
+    $sql = "SELECT
         p.email
         from
         factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'";
@@ -3596,7 +3564,7 @@ class Factura
       exit();
     }
 
-    $sqlsendmail = "select
+    $sqlsendmail = "SELECT
         f.idfactura,
         p.email,
         p.nombres,
@@ -3826,7 +3794,7 @@ class Factura
       exit();
     }
 
-    $sqlsendmail = "select
+    $sqlsendmail = "SELECT
         f.idfactura,
         p.email,
         p.nombres,
@@ -4001,7 +3969,7 @@ class Factura
   //Implementar un método para mostrar los datos de un registro a modificar
   public function mostrarCabFac()
   {
-    $sql = "select
+    $sql = "SELECT
         f.idfactura,
      e.numero_ruc as ruc,
      f.tipo_documento_07 as tipodoc,
@@ -4015,14 +3983,14 @@ class Factura
 
   public function listarDetalle($idfactura)
   {
-    $sql = "select df.idfactura,df.idarticulo,a.nombre,df.cantidad_item_12, df.valor_uni_item_14, df.valor_venta_item_21, df.igv_item from detalle_fac_art df inner join articulo a on df.idarticulo=a.idarticulo where df.idfactura='$idfactura'";
+    $sql = "SELECT df.idfactura,df.idarticulo,a.nombre,df.cantidad_item_12, df.valor_uni_item_14, df.valor_venta_item_21, df.igv_item from detalle_fac_art df inner join articulo a on df.idarticulo=a.idarticulo where df.idfactura='$idfactura'";
     return ejecutarConsulta($sql);
   }
 
   //Implementar un método para listar los registros
   // public function listar($idempresa)
   // {
-  //     $sql="select
+  //     $sql="SELECT
   //     f.idfactura,
   //     date_format(f.fecha_emision_01,'%d/%m/%y') as fecha,
   //     date_format(curdate(),'%Y%m%d') as fechabaja,
@@ -4059,7 +4027,7 @@ class Factura
 
   public function listar($idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
       f.idfactura,
       date_format(f.fecha_emision_01, '%d/%m/%y') AS fecha,
       date_format(CURDATE(), '%Y%m%d') AS fechabaja,
@@ -4107,7 +4075,7 @@ class Factura
   {
 
     if ($mes == "'01','02','03','04','05','06','07','08','09','10', '11','12'") {
-      $sql = "select
+      $sql = "SELECT
         f.idfactura,
         date_format(f.fecha_emision_01,'%d/%m/%y') as fecha,
         date_format(curdate(),'%Y%m%d') as fechabaja,
@@ -4143,7 +4111,7 @@ class Factura
         year(fecha_emision_01)='$ano' and month(fecha_emision_01) in($mes) and e.idempresa='$idempresa' order by idfactura desc";
     } else if ($dia == '0') {
 
-      $sql = "select
+      $sql = "SELECT
         f.idfactura,
         date_format(f.fecha_emision_01,'%d/%m/%y') as fecha,
         date_format(curdate(),'%Y%m%d') as fechabaja,
@@ -4174,7 +4142,7 @@ class Factura
         inner join empresa e on f.idempresa=e.idempresa where
         year(fecha_emision_01)='$ano' and month(fecha_emision_01)='$mes' and e.idempresa='$idempresa' order by idfactura desc";
     } else {
-      $sql = "select
+      $sql = "SELECT
         f.idfactura,
         date_format(f.fecha_emision_01,'%d/%m/%y') as fecha,
         date_format(curdate(),'%Y%m%d') as fechabaja,
@@ -4208,12 +4176,11 @@ class Factura
 
 
     return ejecutarConsulta($sql);
-
   }
 
   public function listarValidarcaja($ano, $mes, $dia, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
         fecha,
         monto,
         concepto,
@@ -4227,12 +4194,11 @@ caja c inner join ingresocaja ic on c.idcaja=ic.idcaja inner join empresa e on c
 caja c inner join salidacaja sc on c.idcaja=sc.idcaja inner join empresa e on c.idempresa=e.idempresa)
 as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' and idempresa='$idempresa'";
     return ejecutarConsulta($sql);
-
   }
 
   public function listarDR($ano, $mes, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
         idfactura,
         idcliente,
         numeracion_08 as numerofactura,
@@ -4285,7 +4251,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
   public function listarDRdetallado($idcomp, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
         ncd.codigo_nota,
         ncd.numeroserienota as numero,
         f.numeracion_08,
@@ -4300,13 +4266,12 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         inner join empresa e on f.idempresa=e.idempresa inner join notacd ncd on f.idfactura=ncd.idcomprobante
         where f.idfactura='$idcomp'  and e.idempresa='$idempresa'";
     return ejecutarConsulta($sql);
-
   }
 
 
   public function ventacabecera($idfactura, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
         f.idfactura,
         f.idcliente,
         p.razon_social as cliente,
@@ -4372,7 +4337,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
   public function ventadetalle($idfactura)
   {
-    $sql = "select
+    $sql = "SELECT
         a.nombre as articulo,
         a.codigo,
         format(dfa.cantidad_item_12,2) as cantidad_item_12,
@@ -4398,50 +4363,49 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
   public function listarD()
   {
-    $sql = "select documento from correlativo where documento='factura' or documento='boleta' or documento='nota de credito'or documento='nota de debito' group by documento";
+    $sql = "SELECT documento from correlativo where documento='factura' or documento='boleta' or documento='nota de credito'or documento='nota de debito' group by documento";
     return ejecutarConsulta($sql);
   }
 
 
   public function listarS($serie)
   {
-    $sql = "select serie from correlativo where documento='$serie'";
+    $sql = "SELECT serie from correlativo where documento='$serie'";
     return ejecutarConsulta($sql);
   }
 
   public function sumarC($tipo_comprobante, $serie_comprobante)
   {
 
-    $sql = "select (numero + 1) as addnumero from `correlativo` where documento='$tipo_comprobante' and serie='$serie_comprobante' order by numero desc limit 1";
+    $sql = "SELECT (numero + 1) as addnumero from `correlativo` where documento='$tipo_comprobante' and serie='$serie_comprobante' order by numero desc limit 1";
     return ejecutarConsulta($sql);
   }
 
   public function autogenerarN()
   {
 
-    $sql = "select (idfactura + 1) as Nnum from factura order by idfactura desc limit 1";
+    $sql = "SELECT (idfactura + 1) as Nnum from factura order by idfactura desc limit 1";
     return ejecutarConsulta($sql);
-
   }
 
   public function datosemp($idempresa)
   {
 
-    $sql = "select * from empresa where idempresa='$idempresa'";
+    $sql = "SELECT * from empresa where idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
   public function datosempImpresiones($idempresa)
   {
 
-    $sql = "select * from empresa e inner join rutas r on e.idempresa=r.idempresa where e.idempresa='$idempresa'";
+    $sql = "SELECT * from empresa e inner join rutas r on e.idempresa=r.idempresa where e.idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
   public function datosempExcel()
   {
 
-    $sql = "select * from empresa";
+    $sql = "SELECT * from empresa";
     return ejecutarConsulta($sql);
   }
 
@@ -4449,7 +4413,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
   public function configuraciones($idempresa)
   {
 
-    $sql = "select * from configuraciones where idempresa='$idempresa'";
+    $sql = "SELECT * from configuraciones where idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
@@ -4457,21 +4421,21 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
   public function tributo()
   {
 
-    $sql = "select * from catalogo5 where estado='1'";
+    $sql = "SELECT * from catalogo5 where estado='1'";
     return ejecutarConsulta($sql);
   }
 
   public function afectacionigv()
   {
 
-    $sql = "select * from catalogo7";
+    $sql = "SELECT * from catalogo7";
     return ejecutarConsulta($sql);
   }
 
   public function correo()
   {
 
-    $sql = "select * from correo";
+    $sql = "SELECT * from correo";
     return ejecutarConsulta($sql);
   }
 
@@ -4494,7 +4458,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       exit();
     }
 
-    $sql = "select
+    $sql = "SELECT
         f.idfactura,
         p.email,
         p.nombres,
@@ -4580,7 +4544,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
     //   exit();
     // }
 
-    //     $sql="select
+    //     $sql="SELECT
     //     f.idfactura,
     //     p.email,
     //     p.nombres,
@@ -4619,7 +4583,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
     //  }
 
     ftp_close($connId);
-
   }
 
 
@@ -4634,7 +4597,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       exit();
     }
 
-    $sql = "select numero_documento, razon_social, domicilio_fiscal from persona where numero_documento like '%$buscar' and estado='1' and tipo_persona='cliente'";
+    $sql = "SELECT numero_documento, razon_social, domicilio_fiscal from persona where numero_documento like '%$buscar' and estado='1' and tipo_persona='cliente'";
 
     // Asignamos el valor del resultado de la consulta SQL a la variable $result
     $result = mysqli_query($connect, $sql);
@@ -4645,7 +4608,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       }
       echo json_encode($datos);
     }
-
   }
 
 
@@ -4660,7 +4622,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
   //     exit();
   //   }
 
-  //   $sql = "select numero_documento, razon_social, domicilio_fiscal from persona where numero_documento like '%$buscar' and estado='1' and tipo_persona='cliente'";
+  //   $sql = "SELECT numero_documento, razon_social, domicilio_fiscal from persona where numero_documento like '%$buscar' and estado='1' and tipo_persona='cliente'";
 
   //   $Result = mysqli_query($connect, $sql);
 
@@ -4676,7 +4638,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
   public function listarcaja($idempresa)
   {
-    $sql = "select idcaja, date_format(fecha,'%d-%m-%Y' ) as fecha, format(montoi,2) as montoi, format(montof,2) as montof from caja c inner join empresa e on c.idempresa=e.idempresa where c.idempresa='$idempresa' order  by  idcaja desc ";
+    $sql = "SELECT idcaja, date_format(fecha,'%d-%m-%Y' ) as fecha, format(montoi,2) as montoi, format(montof,2) as montof from caja c inner join empresa e on c.idempresa=e.idempresa where c.idempresa='$idempresa' order  by  idcaja desc ";
     return ejecutarConsulta($sql);
   }
 
@@ -4684,14 +4646,14 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
   public function consultatemporizador()
   {
-    $sql = "select id as idtempo, tiempo, estado from temporizador where id='1' ";
+    $sql = "SELECT id as idtempo, tiempo, estado from temporizador where id='1' ";
     return ejecutarConsultaSimpleFila($sql);
   }
 
 
   public function listarValidarComprobantes($estado)
   {
-    $sql = "select
+    $sql = "SELECT
         idcomprobante,
         fecha,
         fechabaja,
@@ -4755,7 +4717,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         )
         as estados";
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -4773,14 +4734,14 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
   public function almacenlista()
   {
 
-    $sql = "select * from almacen where estado='1' order by idalmacen";
+    $sql = "SELECT * from almacen where estado='1' order by idalmacen";
     return ejecutarConsulta($sql);
   }
 
   public function mostrartipocambio($fecha)
   {
 
-    $sql = "select idtipocambio, date_format(fecha, '%Y-%m-%d') as fecha, compra, venta from tcambio where fecha='$fecha'";
+    $sql = "SELECT idtipocambio, date_format(fecha, '%Y-%m-%d') as fecha, compra, venta from tcambio where fecha='$fecha'";
     return ejecutarConsultaSimpleFila($sql);
   }
 
@@ -4839,7 +4800,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       exit();
     }
 
-    $seriebol = "select left(numeracion_08,4) as serie from factura where idfactura='$idfactura'";
+    $seriebol = "SELECT left(numeracion_08,4) as serie from factura where idfactura='$idfactura'";
     $buscaserie = mysqli_query($connect, $seriebol);
     $serie = "";
 
@@ -4849,7 +4810,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       }
     }
 
-    $buscanumero = "select numero from numeracion  where serie='$serie'";
+    $buscanumero = "SELECT numero from numeracion  where serie='$serie'";
     $numeroobt = mysqli_query($connect, $buscanumero);
 
     $nnumero = 0;
@@ -5085,7 +5046,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         '$dcto_item[$i]',
         '$descdet[$i]'
         )";
-
       }
       $detalle = ejecutarConsulta($sqldetalle); // or $sw=false;
       $i++;
@@ -5110,7 +5070,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       exit();
     }
 
-    $seriebol = "select left(numeracion_08,4) as serie from factura where idfactura='$idfactura'";
+    $seriebol = "SELECT left(numeracion_08,4) as serie from factura where idfactura='$idfactura'";
     $buscaserie = mysqli_query($connect, $seriebol);
     $serie = "";
 
@@ -5120,7 +5080,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       }
     }
 
-    $buscanumero = "select numero from numeracion  where serie='$serie'";
+    $buscanumero = "SELECT numero from numeracion  where serie='$serie'";
     $numeroobt = mysqli_query($connect, $buscanumero);
 
     $nnumero = 0;
@@ -5354,7 +5314,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         '$dcto_item[$i]',
         '$descdet[$i]'
         )";
-
       }
       $detalle = ejecutarConsulta($sqldetalle); // or $sw=false;
       $i++;
@@ -5397,7 +5356,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
     if ($estado == '1' && $estado == '4' || $check == 'true') {
 
-      $query = "select
+      $query = "SELECT
      date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
      right(substring_index(f.numeracion_08,'-',1),1) as serie,
      date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
@@ -5431,7 +5390,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
      factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where
       year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by numerodoc";
 
-      $querydetfac = "select
+      $querydetfac = "SELECT
        f.tipo_documento_07 as tipocomp,
        f.numeracion_08 as numerodoc,
        df.cantidad_item_12 as cantidad,
@@ -5643,7 +5602,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
                 <cbc:ID>FormaPago</cbc:ID>
               <cbc:PaymentMeansID>' . $formapago[$i] . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
-
           } else {
 
             $facturaXML .= '<cac:PaymentTerms>
@@ -5752,7 +5710,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
           if ($codtrib[$if] == '9997') {
             $igv_ = "0";
-
           } else {
             $igv_ = $configE->igv;
           }
@@ -5808,8 +5765,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-          }
-          ;
+          };
 
 
           $facturaXML .= '
@@ -5826,7 +5782,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
                         <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
         } //Fin for
       } //Find e while
       $facturaXML .= '</Invoice>';
@@ -5873,10 +5828,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       $urn = $sxe->getNamespaces(true);
       $sxe->registerXPathNamespace('ds', $urn['ds']);
       $data = $sxe->xpath('//ds:DigestValue');
-
-
-
-
     } //Fin de if
 
 
@@ -5889,16 +5840,8 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
   public function traerclinoti($idfactura)
   {
-    $sql = "select idpersona, nombre_comercial from factura f inner join persona p on f.idcliente=p.idpersona
+    $sql = "SELECT idpersona, nombre_comercial from factura f inner join persona p on f.idcliente=p.idpersona
         where p.tipo_persona='cliente' and f.idfactura='$idfactura'";
     return ejecutarConsultaSimpleFila($sql);
   }
-
-
-
-
-
-
-
 }
-?>

@@ -5,13 +5,12 @@ class Venta
   //Implementamos nuestro constructor
   public function __construct()
   {
-
   }
 
 
   public function regventa($ano, $mes, $dia, $idempresa, $tmoneda)
   {
-    $sql = "select idfactura as id,
+    $sql = "SELECT idfactura as id,
         tipo_documento_07 as tipodocu, 
         date_format(fecha_emision_01, '%d/%m/%Y') as fecha, 
         numeracion_08 as documento, 
@@ -32,7 +31,7 @@ class Venta
 
   public function regventaServicio($ano, $mes, $dia)
   {
-    $sql = "select idfactura as id,
+    $sql = "SELECT idfactura as id,
         tipo_documento_07 as tipodocu, 
         date_format(fecha_emision_01, '%d %h:%i %p') as fecha, 
         numeracion_08 as documento, 
@@ -46,7 +45,7 @@ class Venta
 
   public function regventaagruxdia($ano, $mes, $dia, $idempresa, $tmon)
   {
-    $sql = "select 
+    $sql = "SELECT 
     idfactura as id,
     tipo_documento_07 as tipodocu, 
     date_format(fecha_emision_01, '%d') as fecha, 
@@ -252,7 +251,7 @@ class Venta
 
   public function regbajas($ano, $mes, $dia, $idempresa)
   {
-    $sql = "select
+    $sql = "SELECT
         id,
         tipocomp as tipodocu, 
         date_format(fecha_baja, '%Y-%m-%d') as fecha, 
@@ -380,7 +379,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
 
   public function descargaSUNAT($ano, $mes, $dia)
   {
-    $sql = "select 
+    $sql = "SELECT 
 date_format(fecha_emision_01, '%d-%m-%y') as fecha, 
 substring_index(numeracion_08,'-',1) as serie, 
 tipodocuCliente, 
@@ -423,7 +422,7 @@ factura where year(fecha_emision_01)='$ano' and month(fecha_emision_01)='$mes' a
 
   public function ventasxClienteTotales($ndocu, $ano, $mes)
   {
-    $sql = "select sum(total_operaciones_gravadas_monto_18_2) as subtotal, sum(sumatoria_igv_22_1) as igv, sum(icbper) as icbper  ,sum(importe_total_venta_27) as total 
+    $sql = "SELECT sum(total_operaciones_gravadas_monto_18_2) as subtotal, sum(sumatoria_igv_22_1) as igv, sum(icbper) as icbper  ,sum(importe_total_venta_27) as total 
 from 
 (select 
 f.total_operaciones_gravadas_monto_18_2, f.sumatoria_igv_22_1, f.icbper  , f.importe_total_venta_27
@@ -437,7 +436,7 @@ f.estado in('1','4','5') and  p.numero_documento='$ndocu' and year(f.fecha_emisi
 
   public function ventasxClienteTotalesCantidad($ndocu, $ano, $mes)
   {
-    $sql = "select sum(cantidad) as tcantidad 
+    $sql = "SELECT sum(cantidad) as tcantidad 
 from 
 (select dtf.cantidad_item_12 as cantidad from 
 factura f inner join persona p on f.idcliente=p.idpersona inner join detalle_fac_art dtf on f.idfactura=dtf.idfactura 
@@ -451,7 +450,7 @@ as tabla ";
 
   public function regventareporte($ano, $mes, $idempresa, $tmon)
   {
-    $sql = "select 
+    $sql = "SELECT 
     idfactura as id,
     tipo_documento_07 as tipodocu, 
     date_format(fecha_emision_01, '%d') as fecha, 
@@ -646,7 +645,7 @@ as tabla ";
 
   public function regventareporteFacturaDia($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idfactura as id,
         tipo_documento_07 as tipodocu, 
         date_format(fecha_emision_01, '%d') as fecha, 
@@ -687,7 +686,7 @@ as tabla ";
 
   public function regventareporteFacServturaDia($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
             idfactura as id,
         tipo_documento_07 as tipodocu, 
         date_format(fecha_emision_01, '%d') as fecha, 
@@ -712,7 +711,7 @@ as tabla ";
 
   public function regventareporteBoletaDia($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idboleta as id,
         tipo_documento_06 as tipodocu, 
         date_format(fecha_emision_01, '%d') as fecha, 
@@ -735,7 +734,7 @@ as tabla ";
 
   public function regventareportenpDia($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idboleta as id,
         tipo_documento_06 as tipodocu, 
         date_format(fecha_emision_01, '%d') as fecha, 
@@ -759,7 +758,7 @@ as tabla ";
 
   public function regventareporteBoleServtaDia($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idboleta as id,
         tipo_documento_06 as tipodocu, 
         date_format(fecha_emision_01, '%d') as fecha, 
@@ -781,7 +780,7 @@ as tabla ";
 
   public function regventareportetotales($ano, $mes, $idempresa, $tmoneda)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv,  sum(icbper) as icbper , sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv,  sum(icbper) as icbper , sum(total) as total
          from 
             (select f.idfactura, f.tipo_documento_07 ,f.fecha_emision_01, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.numeracion_08, f.sumatoria_igv_22_1 as igv, f.importe_total_venta_27 as total, f.estado, p.numero_documento, p.razon_social, f.icbper 
             from 
@@ -820,7 +819,7 @@ as tabla ";
 
   public function regventareportetotalesnotap($ano, $mes, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
             format(sum(importe_total_23),2) as total 
             from 
             notapedido np inner join empresa e on np.idempresa=e.idempresa 
@@ -831,7 +830,7 @@ as tabla ";
 
   public function regventareportetotalesFacturaDia($idempresa)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
          from 
             (select 
             if(tipo_moneda_28='USD',f.total_operaciones_gravadas_monto_18_2*f.tcambio,f.total_operaciones_gravadas_monto_18_2) as subtotal,
@@ -846,7 +845,7 @@ as tabla ";
 
   public function regventareportetotalesFacturaServDia($idempresa)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
          from 
             (
             select f.idfactura, f.tipo_documento_07 ,f.fecha_emision_01, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.numeracion_08, f.sumatoria_igv_22_1 as igv, f.importe_total_venta_27 as total, f.estado, p.numero_documento, p.razon_social from facturaservicio f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where  date(fecha_emision_01)=current_date  and p.tipo_persona='CLIENTE' and f.estado in('5','1')  and e.idempresa='$idempresa')
@@ -856,7 +855,7 @@ as tabla ";
 
   public function regventareportetotalesBoletaDia($idempresa)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
          from 
             (
             select  b.idboleta, b.tipo_documento_06 ,b.fecha_emision_01, b.monto_15_2 as subtotal, b.numeracion_07, b.sumatoria_igv_18_1 as igv, b.importe_total_23 as total, b.estado, p.numero_documento , p.razon_social from boleta b inner join persona p on b.idcliente=p.idpersona inner join empresa e on b.idempresa=e.idempresa where date(b.fecha_emision_01)=current_date and p.tipo_persona='CLIENTE' and b.estado in('5','1','4','6') and e.idempresa='$idempresa'
@@ -869,7 +868,7 @@ as tabla ";
 
   public function regventareportetotalesnpDia($idempresa)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
          from 
             (
             select  np.idboleta, np.tipo_documento_06 , np.fecha_emision_01, np.monto_15_2 as subtotal, np.numeracion_07, np.sumatoria_igv_18_1 as igv, np.importe_total_23 as total, np.estado, p.numero_documento , p.razon_social from notapedido np inner join persona p on np.idcliente=p.idpersona inner join empresa e on np.idempresa=e.idempresa where date(np.fecha_emision_01)=current_date and p.tipo_persona='CLIENTE' and np.estado in('5','1','4','6') and e.idempresa='$idempresa'
@@ -882,7 +881,7 @@ as tabla ";
 
   public function regventareportetotalesBoletaSerDia($idempresa)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total
          from 
             (
            select  b.idboleta, b.tipo_documento_06 ,b.fecha_emision_01, b.monto_15_2 as subtotal, b.numeracion_07, b.sumatoria_igv_18_1 as igv, b.importe_total_23 as total, b.estado, p.numero_documento , p.razon_social from boletaservicio b inner join persona p on b.idcliente=p.idpersona inner join empresa e on b.idempresa=e.idempresa where date(b.fecha_emision_01)=current_date and p.tipo_persona='CLIENTE' and b.estado in('5','1') and e.idempresa='$idempresa')
@@ -895,7 +894,7 @@ as tabla ";
 
   public function regventareportetotalesNotacredito($ano, $mes, $idempresa, $tmoneda)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(icbper) as icbper,  sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(icbper) as icbper,  sum(total) as total
          from 
             (
              select   ncd.idnota, ncd.codigo_nota, ncd.fecha, ncd.total_val_venta_og *-1 as subtotal, ncd.numeroserienota, ncd.sum_igv * -1 as igv, ncd.importe_total * -1 as total, ncd.estado, p.numero_documento , p.razon_social, ncd.icbper from notacd ncd inner join factura f on ncd.idcomprobante=f.idfactura inner join persona p on  f.idcliente=p.idpersona inner join empresa e on ncd.idempresa=e.idempresa where year(ncd.fecha)='$ano' and month(ncd.fecha)='$mes' and p.tipo_persona='CLIENTE' and ncd.estado in('5','1','4') and e.idempresa='$idempresa' and ncd.codigo_nota='07' and ncd.difComprobante='01' and ncd.tipo_moneda='$tmoneda'
@@ -912,7 +911,7 @@ as tabla ";
 
   public function regventareportetotalesNotadebito($ano, $mes, $idempresa, $tmoneda)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(icbper) as icbper,  sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(icbper) as icbper,  sum(total) as total
          from 
             (
              select   ncd.idnota, ncd.codigo_nota, ncd.fecha, ncd.total_val_venta_og as subtotal, ncd.numeroserienota, ncd.sum_igv  as igv, ncd.importe_total  as total, ncd.estado, p.numero_documento , p.razon_social, ncd.icbper from notacd ncd inner join factura f on ncd.idcomprobante=f.idfactura inner join persona p on  f.idcliente=p.idpersona inner join empresa e on ncd.idempresa=e.idempresa where year(ncd.fecha)='$ano' and month(ncd.fecha)='$mes' and p.tipo_persona='CLIENTE' and ncd.estado in('5','3','0') and e.idempresa='$idempresa' and ncd.codigo_nota='08' and ncd.difComprobante='01' and ncd.tipo_moneda='$tmoneda'
@@ -929,7 +928,7 @@ as tabla ";
 
   public function regventareportetotalesNotapedido($ano, $mes, $idempresa, $tmoneda)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(icbper) as icbper,  sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(icbper) as icbper,  sum(total) as total
          from 
             (
             select  np.idboleta, np.tipo_documento_06 , np.fecha_emision_01, np.monto_15_2 as subtotal, np.numeracion_07, np.sumatoria_igv_18_1 as igv, np.importe_total_23 as total, np.estado, p.numero_documento , p.razon_social, np.icbper 
@@ -944,7 +943,7 @@ as tabla ";
 
   public function regventareportetotalesProducto($ano, $mes, $idempresa, $tmoneda)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv,  sum(icbper) as icbper, sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv,  sum(icbper) as icbper, sum(total) as total
          from 
             (select f.idfactura, f.tipo_documento_07 ,f.fecha_emision_01, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.numeracion_08, f.sumatoria_igv_22_1 as igv, f.importe_total_venta_27 as total, f.estado, p.numero_documento, p.razon_social, f.icbper 
             from 
@@ -961,7 +960,7 @@ as tabla ";
 
   public function regventareportetotalesServicios($ano, $mes, $idempresa, $tmoneda)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv,  sum(icbper) as icbper, sum(total) as total
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv,  sum(icbper) as icbper, sum(total) as total
          from 
             (select f.idfactura, f.tipo_documento_07 ,f.fecha_emision_01, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.numeracion_08, f.sumatoria_igv_22_1 as igv, f.importe_total_venta_27 as total, f.estado, p.numero_documento, p.razon_social, f.icbper 
             from 
@@ -978,7 +977,7 @@ as tabla ";
 
   public function regventareporteAnulados($ano, $mes)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idfactura as id,
         tipo_documento_07 as tipodocu, 
         date_format(fecha_emision_01, '%d') as fecha, 
@@ -1000,7 +999,7 @@ as tabla ";
 
   public function regventareportetotalesAnulados($ano, $mes)
   {
-    $sql = "select  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total  from 
+    $sql = "SELECT  sum(subtotal) as subtotal, sum(igv) as igv, sum(total) as total  from 
             (select f.idfactura, f.tipo_documento_07 ,f.fecha_emision_01, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.numeracion_08, f.sumatoria_igv_22_1 as igv, f.importe_total_venta_27 as total, f.estado, p.numero_documento, p.razon_social from factura f inner join persona p on f.idcliente=p.idpersona where year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and p.tipo_persona='CLIENTE' and f.estado in('3')
             union all 
             select  b.idboleta, b.tipo_documento_06 ,b.fecha_emision_01, b.monto_15_2 as subtotal, b.numeracion_07, b.sumatoria_igv_18_1 as igv, b.importe_total_23 as total, b.estado, p.numero_documento , p.razon_social from boleta b inner join persona p on b.idcliente=p.idpersona where year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' and p.tipo_persona='CLIENTE' and b.estado in('3') ) 
@@ -1041,7 +1040,7 @@ descdet
 
   public function ventasxClienteAgrupado($ndocu, $ano, $mes)
   {
-    $sql = "select 
+    $sql = "SELECT 
 razon_social, 
 fechaemision, 
 unidad_medida, 
@@ -1068,7 +1067,7 @@ estado
 
   public function ventasxClienteDni($ndocu, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
 numero_documento, 
 nombres, 
 apellidos, 
@@ -1098,7 +1097,7 @@ unidad_medida
 
   public function ventasxClienteTotalesDni($ndocu, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
 sum(monto_15_2) as subtotal, 
 sum(sumatoria_igv_18_1) as igv, 
 sum(importe_total_23) as total 
@@ -1122,7 +1121,7 @@ boletaservicio b inner join persona p on b.idcliente=p.idpersona inner join empr
 
   public function ventasxClienteTotalesDniCantidad($ndocu, $idempresa)
   {
-    $sql = "select sum(db.cantidad_item_12) as tcantidad 
+    $sql = "SELECT sum(db.cantidad_item_12) as tcantidad 
 from 
 boleta b inner join detalle_boleta_producto db on b.idboleta=db.idboleta inner join persona p on b.idcliente=p.idpersona inner join empresa e on b.idempresa=e.idempresa where p.numero_documento='$ndocu' and e.idempresa='$idempresa'";
     return ejecutarConsulta($sql);
@@ -1131,13 +1130,13 @@ boleta b inner join detalle_boleta_producto db on b.idboleta=db.idboleta inner j
   public function datosemp()
   {
 
-    $sql = "select * from empresa where idempresa='1'";
+    $sql = "SELECT * from empresa where idempresa='1'";
     return ejecutarConsulta($sql);
   }
 
   public function ventacabeceraConsulta($tipodoc, $nruc, $numero)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idfactura,
         idcliente, 
         razon_social,
@@ -1270,7 +1269,7 @@ boleta b inner join persona p on b.idcliente=p.idpersona inner join usuario u on
 
   public function BuscacabeceraConsulta($tipodoc, $numero, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idfactura,
         idcliente, 
         razon_social,
@@ -1447,7 +1446,7 @@ boletaservicio b inner join persona p on b.idcliente=p.idpersona inner join usua
   public function ventacabeceraConsultaNCD($tipodoc, $nruc, $numero, $idempresa)
   {
     $sql =
-      "select 
+      "SELECT 
         idnota,
         idpersona, 
         razon_social, 
@@ -1638,7 +1637,7 @@ boletaservicio b inner join persona p on b.idcliente=p.idpersona inner join usua
   public function BuscacabeceraConsultaNCD($tipodoc, $numero, $idempresa)
   {
     $sql =
-      "select 
+      "SELECT 
         idnota,
         idpersona, 
         razon_social, 
@@ -1826,7 +1825,7 @@ boletaservicio b inner join persona p on b.idcliente=p.idpersona inner join usua
 
   public function detalleNota($tipodoc, $nruc, $serienum)
   {
-    $sql = "select  
+    $sql = "SELECT  
         articulo, 
         codigo, 
         cantidad, 
@@ -1917,7 +1916,7 @@ boletaservicio b inner join persona p on b.idcliente=p.idpersona inner join usua
 
   public function detalleNotaBusca($tipodoc, $serienum)
   {
-    $sql = "select  
+    $sql = "SELECT  
         articulo, 
         codigo, 
         cantidad, 
@@ -2007,7 +2006,7 @@ boletaservicio b inner join persona p on b.idcliente=p.idpersona inner join usua
   public function ventadetalleConsulta($tipodoc, $numero)
   {
     $sql =
-      "select 
+      "SELECT 
         nombre as articulo, 
         codigo, 
         cantidad_item_12, 
@@ -2150,7 +2149,7 @@ FROM (
 
   public function ventasVendedorBoleta($vendedor, $ano, $mes, $idempresa)
   {
-    $sql = "select format(sum(importe_total_23),2) as totalBoleta from(
+    $sql = "SELECT format(sum(importe_total_23),2) as totalBoleta from(
        select  importe_total_23 from  boleta b inner join empresa e on b.idempresa=e.idempresa  where b.vendedorsitio='$vendedor' and year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' and b.estado in('5') and e.idempresa='$idempresa'
        union all
         select  importe_total_23 from  boletaservicio b inner join empresa e on b.idempresa=e.idempresa  where b.vendedorsitio='$vendedor' and year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' and b.estado in('5') and e.idempresa='$idempresa') as tabla
@@ -2191,7 +2190,7 @@ FROM (
 
   public function ventasVendedorBoletaAno($vendedor, $ano, $idempresa)
   {
-    $sql = "select format(sum(importe_total_23),2) as totalBoleta from (
+    $sql = "SELECT format(sum(importe_total_23),2) as totalBoleta from (
        select  b.importe_total_23 from boleta b inner join empresa e on b.idempresa=e.idempresa  where b.vendedorsitio='$vendedor' and year(b.fecha_emision_01)='$ano' and b.estado in('5') and e.idempresa='$idempresa'
        union all 
        select  b.importe_total_23  from boletaservicio b inner join empresa e on b.idempresa=e.idempresa  where b.vendedorsitio='$vendedor' and year(b.fecha_emision_01)='$ano' and b.estado in('5') and e.idempresa='$idempresa') as tabla";
@@ -2203,7 +2202,7 @@ FROM (
 
   public function ventasVendedorNota($vendedor, $ano, $mes, $idempresa)
   {
-    $sql = "select if(sum(importe_total_23) is NULL,'0.00',sum(importe_total_23)) as totalNota from(
+    $sql = "SELECT if(sum(importe_total_23) is NULL,'0.00',sum(importe_total_23)) as totalNota from(
        select  importe_total_23 from  notapedido b inner join empresa e on b.idempresa=e.idempresa  where b.vendedorsitio='$vendedor' and year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' and b.estado in('5') and e.idempresa='$idempresa')
        as tabla
        ";
@@ -2230,25 +2229,25 @@ FROM (
 
   public function ComprasVendedor($vendedor, $ano, $mes, $idempresa)
   {
-    $sql = "select if(sum(c.total) is NULL,'0.00',sum(c.total)) as totalCompra from compra c where year(c.fecha)='$ano' and month(c.fecha)='$mes'";
+    $sql = "SELECT if(sum(c.total) is NULL,'0.00',sum(c.total)) as totalCompra from compra c where year(c.fecha)='$ano' and month(c.fecha)='$mes'";
     return ejecutarConsulta($sql);
   }
 
   public function GastosVendedor($vendedor, $ano, $mes, $idempresa)
   {
-    $sql = "select if(sum(i.gasto) is NULL,'0.00',sum(i.gasto)) as totalGasto from insumos i where year(i.fecharegistro)='$ano' and month(i.fecharegistro)='$mes'";
+    $sql = "SELECT if(sum(i.gasto) is NULL,'0.00',sum(i.gasto)) as totalGasto from insumos i where year(i.fecharegistro)='$ano' and month(i.fecharegistro)='$mes'";
     return ejecutarConsulta($sql);
   }
 
   public function PlanillasVendedor($vendedor, $ano, $mes, $idempresa)
   {
-    $sql = "select if(sum(p.sueldoPagar+p.totalAporteE) is NULL,'0.00',sum(p.sueldoPagar+p.totalAporteE)) as totalPlanilla from boletapago p where p.ano='$ano' and p.mes='$mes'";
+    $sql = "SELECT if(sum(p.sueldoPagar+p.totalAporteE) is NULL,'0.00',sum(p.sueldoPagar+p.totalAporteE)) as totalPlanilla from boletapago p where p.ano='$ano' and p.mes='$mes'";
     return ejecutarConsulta($sql);
   }
 
   public function ventasVendedorFactura($vendedor, $ano, $mes, $idempresa)
   {
-    $sql = "select if(sum(importe_total_venta_27) is NULL,'0.00',sum(importe_total_venta_27)) as totalFactura from(
+    $sql = "SELECT if(sum(importe_total_venta_27) is NULL,'0.00',sum(importe_total_venta_27)) as totalFactura from(
        select  importe_total_venta_27 from  factura b inner join empresa e on b.idempresa=e.idempresa  where b.vendedorsitio='$vendedor' and year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' and b.estado in('5') and e.idempresa='$idempresa'
        union all
         select  importe_total_venta_27 from  facturaservicio b inner join empresa e on b.idempresa=e.idempresa  where b.vendedorsitio='$vendedor' and year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' and b.estado in('5') and e.idempresa='$idempresa') as tabla
@@ -2288,7 +2287,7 @@ FROM (
 
   public function ventasVendedorFacturaAno($vendedor, $ano, $idempresa)
   {
-    $sql = "select format(sum(importe_total_venta_27),2) as totalFactura from 
+    $sql = "SELECT format(sum(importe_total_venta_27),2) as totalFactura from 
        (select f.importe_total_venta_27  from factura f inner join empresa e on f.idempresa=e.idempresa where f.vendedorsitio='$vendedor' and year(f.fecha_emision_01)='$ano'  and f.estado in('5') and e.idempresa='$idempresa' 
        union all
        select f.importe_total_venta_27  from facturaservicio f inner join empresa e on f.idempresa=e.idempresa where f.vendedorsitio='$vendedor' and year(f.fecha_emision_01)='$ano'  and f.estado in('5') and e.idempresa='$idempresa' ) as tabla
@@ -2299,7 +2298,7 @@ FROM (
 
   public function totalVentasVendedorAno($idempresa)
   {
-    $sql = "select vendedorsitio, sum(total) as totalv from 
+    $sql = "SELECT vendedorsitio, sum(total) as totalv from 
             (select f.vendedorsitio, f.importe_total_venta_27 as total from factura f inner join empresa e on f.idempresa=e.idempresa inner join vendedorsitio vs on e.idempresa=vs.idempresa  where year(f.fecha_emision_01)=year(now())  and f.estado in ('5') and e.idempresa='$idempresa'
              union all 
              select b.vendedorsitio, b.importe_total_23 as total from boleta b inner join empresa e on b.idempresa=e.idempresa inner join vendedorsitio vs on e.idempresa=vs.idempresa  where year(b.fecha_emision_01)=year(now())  and b.estado in ('5') and e.idempresa='$idempresa') as tabla group by vendedorsitio order by totalv desc";
@@ -2308,14 +2307,14 @@ FROM (
 
   public function listarEnvioCorreo()
   {
-    $sql = "select * from enviocorreo order by id desc";
+    $sql = "SELECT * from enviocorreo order by id desc";
     return ejecutarConsulta($sql);
   }
 
 
   public function listarValidarComprobantes($estado)
   {
-    $sql = "select 
+    $sql = "SELECT 
         idcomprobante,
         fecha,
         fechabaja,
@@ -2381,7 +2380,6 @@ FROM (
         )
         as estados  order by fecha desc";
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -2421,7 +2419,7 @@ FROM (
       $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
       $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-      $query = "select
+      $query = "SELECT
      date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha, 
      right(substring_index(f.numeracion_08,'-',1),1) as serie,
      date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
@@ -2445,7 +2443,7 @@ FROM (
      from 
      factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where idfactura='$idcomprobante' and f.estado in('1','4') order by numerodoc";
 
-      $querydetfac = "select
+      $querydetfac = "SELECT
        f.tipo_documento_07 as tipocomp, 
        f.numeracion_08 as numerodoc,  
        df.cantidad_item_12 as cantidad, 
@@ -2783,8 +2781,7 @@ FROM (
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-          }
-          ;
+          };
 
 
           $facturaXML .= '
@@ -2801,7 +2798,6 @@ FROM (
                         <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
         } //Fin for
       } //Find e while 
       $facturaXML .= '</Invoice>';
@@ -2846,7 +2842,6 @@ FROM (
       ejecutarConsulta($sqlDetalle);
 
       return $rpta;
-
     } else // SI EL COMPROBANTE ES BOLETA 
     {
 
@@ -2870,7 +2865,7 @@ FROM (
       $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
       $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-      $query = "select
+      $query = "SELECT
      date_format(b.fecha_emision_01, '%Y-%m-%d') as fecha, 
      right(substring_index(b.numeracion_07,'-',1),1) as serie,
      date_format(b.fecha_emision_01, '%H:%i:%s') as hora,
@@ -2894,7 +2889,7 @@ FROM (
      from 
      boleta b inner join persona p on b.idcliente=p.idpersona inner join empresa e on b.idempresa=e.idempresa where idboleta='$idcomprobante' and b.estado in('1','4') order by numerodoc";
 
-      $querydetbol = "select
+      $querydetbol = "SELECT
        b.tipo_documento_06 as tipocomp, 
        b.numeracion_07 as numerodoc,  
        db.cantidad_item_12 as cantidad, 
@@ -3232,8 +3227,7 @@ FROM (
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-          }
-          ;
+          };
 
 
           $boletaXML .= '
@@ -3250,7 +3244,6 @@ FROM (
                         <cbc:PriceAmount currencyID="' . $monedaD[$ib] . '">' . number_format($vui[$ib], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
         } //Fin for
       } //Find e while 
       $boletaXML .= '</Invoice>';
@@ -3295,14 +3288,7 @@ FROM (
       ejecutarConsulta($sqlDetalle);
 
       return $rpta;
-
-
-
-
-
-
     }
-
   } //Fin de funcion
 
 
@@ -3345,7 +3331,7 @@ FROM (
         exit();
       }
 
-      $sqlsendmail = "select 
+      $sqlsendmail = "SELECT 
         f.idfactura, 
         p.email,  
         p.nombres, 
@@ -3470,7 +3456,6 @@ FROM (
         } catch (SoapFault $exception) {
           $exception = print_r($client->__getLastResponse());
         }
-
       } //Fin While
 
 
@@ -3508,7 +3493,7 @@ FROM (
         exit();
       }
 
-      $sqlsendmail = "select 
+      $sqlsendmail = "SELECT 
         b.idboleta, 
         p.email,  
         p.nombres, 
@@ -3632,7 +3617,6 @@ FROM (
         } catch (SoapFault $exception) {
           $exception = print_r($client->__getLastResponse());
         }
-
       } //Fin While
 
 
@@ -3675,7 +3659,7 @@ FROM (
       $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta rutaenvio
       $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
-      $query = "select
+      $query = "SELECT
      f.tipo_documento_07 as tipocomp, 
      f.numeracion_08 as numerodoc 
      from 
@@ -3694,7 +3678,6 @@ FROM (
         }
         $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
         $rpta = array('rutafirma' => $cabextxml);
-
       } else {
 
         $rpta = array('rutafirma' => 'Aún no se ha creado el archivo XML.');
@@ -3702,7 +3685,6 @@ FROM (
 
 
       return $rpta;
-
     } else // SI ES BOLETA
     {
 
@@ -3724,7 +3706,7 @@ FROM (
       $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta rutaenvio
       $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
-      $query = "select
+      $query = "SELECT
      b.tipo_documento_06 as tipocomp, 
      b.numeracion_07 as numerodoc 
      from 
@@ -3743,13 +3725,11 @@ FROM (
         }
         $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
         $rpta = array('rutafirma' => $cabextxml);
-
       } else {
 
         $rpta = array('rutafirma' => 'Aún no se ha creado el archivo XML.');
       }
       return $rpta;
-
     }
   }
 
@@ -3786,7 +3766,7 @@ FROM (
       $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
 
-      $query = "select
+      $query = "SELECT
      f.tipo_documento_07 as tipocomp, 
      f.numeracion_08 as numerodoc 
      from 
@@ -3808,7 +3788,6 @@ FROM (
       $rutaxmlrpta = $rutaunzipxml . 'R-' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       $rpta = array('rpta' => $rutarptazip, 'rutaxmlr' => $rutaxmlrpta);
       return $rpta;
-
     } else {
 
       require_once "../modelos/Factura.php";
@@ -3825,7 +3804,7 @@ FROM (
       $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
 
-      $query = "select
+      $query = "SELECT
      b.tipo_documento_06 as tipocomp, 
      b.numeracion_07 as numerodoc 
      from 
@@ -3847,10 +3826,6 @@ FROM (
       $rutaxmlrpta = $rutaunzipxml . 'R-' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       $rpta = array('rpta' => $rutarptazip, 'rutaxmlr' => $rutaxmlrpta);
       return $rpta;
-
-
-
-
     }
   }
 
@@ -3858,7 +3833,7 @@ FROM (
 
   public function listarValidarComprobantesSiempre()
   {
-    $sql = "select 
+    $sql = "SELECT 
         idcomprobante,
         fecha,
         fechabaja,
@@ -3925,7 +3900,6 @@ FROM (
         )
         as estados";
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -3944,7 +3918,7 @@ FROM (
         exit();
       }
 
-      $query = "select dt.idfactura, a.idarticulo, dt.cantidad_item_12,  dt.valor_uni_item_14, a.codigo, a.unidad_medida  from detalle_fac_art dt inner join articulo a on dt.idarticulo=a.idarticulo where idfactura = '$idcomprobante'";
+      $query = "SELECT dt.idfactura, a.idarticulo, dt.cantidad_item_12,  dt.valor_uni_item_14, a.codigo, a.unidad_medida  from detalle_fac_art dt inner join articulo a on dt.idarticulo=a.idarticulo where idfactura = '$idcomprobante'";
       $resultado = mysqli_query($connect, $query);
 
       $Idf = array();
@@ -4014,7 +3988,7 @@ FROM (
         printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
         exit();
       }
-      $query = "select dt.idboleta, a.idarticulo, dt.cantidad_item_12, dt.valor_uni_item_31, a.codigo, a.unidad_medida  from detalle_boleta_producto dt inner join articulo a on dt.idarticulo=a.idarticulo  where idboleta='$idcomprobante'";
+      $query = "SELECT dt.idboleta, a.idarticulo, dt.cantidad_item_12, dt.valor_uni_item_31, a.codigo, a.unidad_medida  from detalle_boleta_producto dt inner join articulo a on dt.idarticulo=a.idarticulo  where idboleta='$idcomprobante'";
 
       $resultado = mysqli_query($connect, $query);
       $Idb = array();
@@ -4087,9 +4061,7 @@ FROM (
         idboleta='$idcomprobante'";
       ejecutarConsulta($sqlestado) or $sw = false;
       return $sw;
-
     }
-
   }
 
   public function regbajasxml($ano, $mes, $dia, $idempresa)
@@ -4116,7 +4088,7 @@ FROM (
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-    $query = "select 
+    $query = "SELECT 
 date_format(fecha, '%Y%m%d') as fechabaja2, 
 date_format(fecha, '%Y-%m-%d') as fechabaja,
 idfactura,
@@ -4151,7 +4123,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $idfactura = $rowbaja["idfactura"];
     $tipodoc = $rowbaja["tipodoc"];
 
-    $sqlnumerp = "select numero from tempnumeracionxml where fecha='$fechaba' and comprobante='$tipodoc'";
+    $sqlnumerp = "SELECT numero from tempnumeracionxml where fecha='$fechaba' and comprobante='$tipodoc'";
 
     $result2 = mysqli_query($connect, $sqlnumerp);
 
@@ -4238,7 +4210,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     </cac:AccountingSupplierParty>';
 
 
-    $query2 = "select 
+    $query2 = "SELECT 
 date_format(fechahoy, '%Y%m%d') as fechaactual, 
 date_format(fecha, '%Y-%m-%d') as fecha, 
 date_format(fecha, '%Y%m%d') as fechabaja2, 
@@ -4416,7 +4388,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
       exit();
     }
 
-    $sqlbaja = "select nombrebaja from tempnumeracionxml  where 
+    $sqlbaja = "SELECT nombrebaja from tempnumeracionxml  where 
         numticket='$nroticket'";
 
     $result = mysqli_query($connect, $sqlbaja);
@@ -4473,13 +4445,10 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
         $rpta = $sxe->xpath('//cbc:ResponseCode');
         $nomarchi = $sxe->xpath('//cbc:ReferenceID');
         return $data[0] . " " . $nomarchi[0];
-
-
       } catch (SoapFault $exception) {
         $exception = print_r($client->__getLastResponse());
       }
     }
-
   }
 
 
@@ -4522,7 +4491,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
       exit();
     }
 
-    $sqlbaja = "select nombrebaja from tempnumeracionxml  where 
+    $sqlbaja = "SELECT nombrebaja from tempnumeracionxml  where 
         numticket='$nroticket'";
 
     $result = mysqli_query($connect, $sqlbaja);
@@ -4579,13 +4548,10 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
         $rpta = $sxe->xpath('//cbc:ResponseCode');
         $nomarchi = $sxe->xpath('//cbc:ReferenceID');
         return $data[0] . " " . $nomarchi[0];
-
-
       } catch (SoapFault $exception) {
         $exception = print_r($client->__getLastResponse());
       }
     }
-
   }
 
 
@@ -4615,7 +4581,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-    $query = "select 
+    $query = "SELECT 
 date_format(fecha, '%Y%m%d') as fechabaja2, 
 date_format(fecha, '%Y-%m-%d') as fechabaja,
 idnota
@@ -4645,7 +4611,7 @@ where year(nc.fecha_baja)='$ano' and month(nc.fecha_baja)='$mes' and day(nc.fech
     $idnota = $rowbaja["idnota"];
     $tipodoc = "07";
 
-    $sqlnumerp = "select numero from tempnumeracionxml where fecha='$fechaba' and comprobante='$tipodoc'";
+    $sqlnumerp = "SELECT numero from tempnumeracionxml where fecha='$fechaba' and comprobante='$tipodoc'";
 
     $result2 = mysqli_query($connect, $sqlnumerp);
 
@@ -4728,7 +4694,7 @@ where year(nc.fecha_baja)='$ano' and month(nc.fecha_baja)='$mes' and day(nc.fech
     </cac:AccountingSupplierParty>';
 
 
-    $query2 = "select 
+    $query2 = "SELECT 
 date_format(fechahoy, '%Y%m%d') as fechaactual, 
 date_format(fecha, '%Y-%m-%d') as fecha, 
 date_format(fecha, '%Y%m%d') as fechabaja2, 
@@ -4907,7 +4873,6 @@ where year(nc.fecha_baja)='$ano' and month(nc.fecha_baja)='$mes' and day(nc.fech
 
     //return $data[0];
     return $rpta;
-
   }
 
 
@@ -4976,7 +4941,6 @@ where year(nc.fecha_baja)='$ano' and month(nc.fecha_baja)='$mes' and day(nc.fech
 
     //return $data[0];
     return $rpta;
-
   }
 
 
@@ -5010,7 +4974,7 @@ where year(nc.fecha_baja)='$ano' and month(nc.fecha_baja)='$mes' and day(nc.fech
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-    $query = "select 
+    $query = "SELECT 
 date_format(fecha, '%Y%m%d') as fechabaja2, 
 date_format(fecha, '%Y-%m-%d') as fechabaja,
 idboleta,
@@ -5038,7 +5002,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $idboleta = $rowbaja["idboleta"];
     $tipodoc = $rowbaja["tipodoc"];
 
-    $sqlnumerp = "select numero from tempnumeracionxml where fecha='$fechaba' and comprobante='$tipodoc'";
+    $sqlnumerp = "SELECT numero from tempnumeracionxml where fecha='$fechaba' and comprobante='$tipodoc'";
     $result2 = mysqli_query($connect, $sqlnumerp);
 
     $numero = '';
@@ -5120,7 +5084,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     </cac:AccountingSupplierParty>';
 
 
-    $query2 = "select 
+    $query2 = "SELECT 
 date_format(fechahoy, '%Y%m%d') as fechaactual, 
 date_format(fecha, '%Y-%m-%d') as fecha, 
 date_format(fecha, '%Y%m%d') as fechabaja2, 
@@ -5280,7 +5244,6 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     </cac:TaxTotal>
   </sac:SummaryDocumentsLine>';
         $con++;
-
       }
     }
 
@@ -5384,7 +5347,6 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     ejecutarConsulta($sqlresu);
     //return $data[0];
     return $rpta;
-
   }
 
 
@@ -5392,21 +5354,21 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
 
   public function ultimoarchivoxml($ultimoxml)
   {
-    $sql = "select id , fecha, numticket, nombrebaja from tempnumeracionxml where nombrebaja='$ultimoxml'";
+    $sql = "SELECT id , fecha, numticket, nombrebaja from tempnumeracionxml where nombrebaja='$ultimoxml'";
     return ejecutarConsulta($sql);
   }
 
 
   public function ultimoarchivoxmlnotacredito($ultimoxml)
   {
-    $sql = "select id , fecha, numticket, nombrebaja from tempnumeracionxml where nombrebaja='$ultimoxml'";
+    $sql = "SELECT id , fecha, numticket, nombrebaja from tempnumeracionxml where nombrebaja='$ultimoxml'";
     return ejecutarConsulta($sql);
   }
 
 
   public function detallecomprobantes($idxml)
   {
-    $sql = "select f.numeracion_08 as numerof, date_format(f.fecha_emision_01, '%d-%m-%Y') as fechaemision, f.importe_total_venta_27 as total from tempnumeracionxml t inner join detalle_tablaxml_comprobante dt on t.id=dt.idtablaxml inner join factura f on f.idfactura=dt.idcomprobante where t.id='$idxml'";
+    $sql = "SELECT f.numeracion_08 as numerof, date_format(f.fecha_emision_01, '%d-%m-%Y') as fechaemision, f.importe_total_venta_27 as total from tempnumeracionxml t inner join detalle_tablaxml_comprobante dt on t.id=dt.idtablaxml inner join factura f on f.idfactura=dt.idcomprobante where t.id='$idxml'";
     return ejecutarConsulta($sql);
   }
 
@@ -5414,7 +5376,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
 
   public function ultimoarchivoxmlBoleta($ultimoxml)
   {
-    $sql = "select id , fecha, numticket, nombrebaja from tempnumeracionxml where nombrebaja='$ultimoxml'";
+    $sql = "SELECT id , fecha, numticket, nombrebaja from tempnumeracionxml where nombrebaja='$ultimoxml'";
     return ejecutarConsulta($sql);
   }
 
@@ -5422,7 +5384,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
 
   public function detallecomprobantesboleta($idxml)
   {
-    $sql = "select 
+    $sql = "SELECT 
        b.numeracion_07 as numerob, 
        date_format(b.fecha_emision_01, '%d-%m-%Y') as fechaemision, 
        b.importe_total_23 as total 
@@ -5449,7 +5411,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
 
 
 
-    $sql = "select 
+    $sql = "SELECT 
         idcomprobante,
         fecha,
         fechabaja,
@@ -5538,7 +5500,6 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
         )
         as estados";
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -5571,7 +5532,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta rutaenvio
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
-    $query = "select
+    $query = "SELECT
      f.tipo_documento_07 as tipocomp, 
      f.numeracion_08 as numerodoc 
      from 
@@ -5595,7 +5556,6 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
       $rpta = array('rutafirma' => 'Aún no se ha creado el archivo XML.');
     }
     return $rpta;
-
   }
 
 
@@ -5629,7 +5589,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta rutaenvio
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
-    $query = "select
+    $query = "SELECT
      b.tipo_documento_06 as tipocomp, 
      b.numeracion_07 as numerodoc 
      from 
@@ -5648,7 +5608,6 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
       }
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       $rpta = array('rutafirma' => $cabextxml);
-
     } else {
 
       $rpta = array('rutafirma' => '');
@@ -5684,7 +5643,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
 
-    $query = "select
+    $query = "SELECT
      f.tipo_documento_07 as tipocomp, 
      f.numeracion_08 as numerodoc 
      from 
@@ -5734,7 +5693,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
 
-    $query = "select
+    $query = "SELECT
      b.tipo_documento_06 as tipocomp, 
      b.numeracion_07 as numerodoc 
      from 
@@ -5764,7 +5723,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
   {
 
 
-    $sql = "select 
+    $sql = "SELECT 
        n.idnotificacion, 
        n.nombrenotificacion, 
        date_format(n.fechaaviso, '%d/%m/%Y') as fechaaviso, 
@@ -5806,7 +5765,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
   public function ComprobantesPendientesA()
   {
 
-    $sql = "select 
+    $sql = "SELECT 
        fechaC,
        estadoC,
        sumaC,
@@ -5870,7 +5829,7 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
 
 
 
-    $sql = "select 
+    $sql = "SELECT 
        fechaC,
        ncomprobante
        from 
@@ -5939,7 +5898,6 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $email_message .= "<tbody>";
     foreach ($lista as $fila) {
       foreach ($fechaco as $fechacc) {
-
       }
       //$email_message .="<tr>";
       $email_message .= "<tr><th>" . $fila . "</th>  <th>" . $fechacc . "</th></tr>";
@@ -5953,8 +5911,4 @@ where year(fecha_baja)='$ano' and month(fecha_baja)='$mes' and day(fecha_baja)='
     $mail->msgHTML("<h3>Tiene pendiente los siguientes comprobantes:</h3> \n" . $email_message);
     $mail->send();
   }
-
-
 }
-
-?>

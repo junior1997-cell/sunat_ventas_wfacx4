@@ -4,15 +4,14 @@ require "../config/Conexion.php";
 
 class ModeloStock
 {
-    //Implementamos nuestro constructor
-    public function __construct()
-    {
+  //Implementamos nuestro constructor
+  public function __construct()
+  {
+  }
 
-    }
-
-    public function listarStockProductos($idalmacen)
-    {
-        $sql = "select 
+  public function listarStockProductos($idalmacen)
+  {
+    $sql = "SELECT 
         a.idarticulo,
         a.codigo,
         a.nombre,
@@ -55,35 +54,30 @@ class ModeloStock
         al.nombre 
     order by total_ventas desc, total_unidades_vendidas desc;        
         ";
-        return ejecutarConsulta($sql);
+    return ejecutarConsulta($sql);
+  }
+
+
+
+  public function ActualizarStockProductos($data, $id_del_articulo)
+  {
+    $setStatements = [];
+    foreach ($data as $key => $value) {
+      $setStatements[] = "$key = '$value'";
     }
+    $setClause = implode(", ", $setStatements);
+    $sql = "update articulo set $setClause where idarticulo = '$id_del_articulo'";
+    return ejecutarConsulta($sql);
+  }
 
 
 
-    public function ActualizarStockProductos($data, $id_del_articulo)
-    {
-        $setStatements = [];
-        foreach ($data as $key => $value) {
-            $setStatements[] = "$key = '$value'";
-        }
-        $setClause = implode(", ", $setStatements);
-        $sql = "update articulo set $setClause where idarticulo = '$id_del_articulo'";
-        return ejecutarConsulta($sql);
-    }
-
-
-
-    public function totalAlmacenActiva($nombre, $estado)
-    {
-        $sql = "select idalmacen, nombre, estado
+  public function totalAlmacenActiva($nombre, $estado)
+  {
+    $sql = "SELECT idalmacen, nombre, estado
             from almacen
             where estado = 1;
             ";
-        return ejecutarConsulta($sql);
-    }
-
-
-
+    return ejecutarConsulta($sql);
+  }
 }
-
-?>

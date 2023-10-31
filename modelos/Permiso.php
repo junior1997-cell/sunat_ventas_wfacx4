@@ -12,13 +12,13 @@ Class Permiso
 	
 	public function listar()
 	{
-		$sql="select * from permiso where not idpermiso in('6','7') ";
+		$sql="SELECT * from permiso where not idpermiso in('6','7') ";
 		return ejecutarConsulta($sql);		
 	}
 
 	public function listarEmpresa()
 	{
-		$sql="select * from empresa";
+		$sql="SELECT * from empresa";
 		return ejecutarConsulta($sql);		
 	}
 	

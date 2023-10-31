@@ -42,14 +42,14 @@ Class Catalogo5
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($id)
 	{
-		$sql="select * from catalogo5 where id='$id'";
+		$sql="SELECT * from catalogo5 where id='$id'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="select * from catalogo5";
+		$sql="SELECT * from catalogo5";
 		return ejecutarConsulta($sql);		
 	}
 	

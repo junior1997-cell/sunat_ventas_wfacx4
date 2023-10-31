@@ -13,7 +13,7 @@ Class Departamento
 	//Implementar un método para listar los registros y mostrar en el select
 	public function selectD()
 	{
-		$sql="select iddepartamento, nombre from departamento";
+		$sql="SELECT iddepartamento, nombre from departamento";
 		return ejecutarConsulta($sql);		
 	}
 
@@ -21,7 +21,7 @@ Class Departamento
 	//de una modificacion para un cliente
 	public function selectID($id)
 	{
-		$sql="select iddepartamento, nombre from departamento where iddepartamento='$id'";
+		$sql="SELECT iddepartamento, nombre from departamento where iddepartamento='$id'";
 		return ejecutarConsulta($sql);		
 	}
 }

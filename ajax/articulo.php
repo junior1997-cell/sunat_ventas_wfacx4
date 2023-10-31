@@ -2,11 +2,12 @@
 
 require_once "../modelos/Articulo.php";
 
-
-
 $articulo = new Articulo();
 
-
+date_default_timezone_set('America/Lima');
+$date_now = date("d_m_Y__h_i_s_A");
+$imagen_error = "this.src='../dist/svg/404-v2.svg'";
+$toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
 
 $idarticulo = isset($_POST["idarticulo"]) ? limpiarCadena($_POST["idarticulo"]) : "";
 $idfamilia = isset($_POST["idfamilia"]) ? limpiarCadena($_POST["idfamilia"]) : "";
@@ -32,69 +33,37 @@ $ccontable = isset($_POST["ccontable"]) ? limpiarCadena($_POST["ccontable"]) : "
 $precio2 = isset($_POST["precio2"]) ? limpiarCadena($_POST["precio2"]) : "";
 $precio3 = isset($_POST["precio3"]) ? limpiarCadena($_POST["precio3"]) : "";
 
-
-
 //Nuevos codigos
-
 $cicbper = isset($_POST["cicbper"]) ? limpiarCadena($_POST["cicbper"]) : "";
 $nticbperi = isset($_POST["nticbperi"]) ? limpiarCadena($_POST["nticbperi"]) : "";
 $ctticbperi = isset($_POST["ctticbperi"]) ? limpiarCadena($_POST["ctticbperi"]) : "";
 $mticbperu = isset($_POST["mticbperu"]) ? limpiarCadena($_POST["mticbperu"]) : "";
 
 //Nuevos codigos
-
-
-
-
-
-//N-------------------
-
 $codigott = isset($_POST["codigott"]) ? limpiarCadena($_POST["codigott"]) : "";
 $desctt = isset($_POST["desctt"]) ? limpiarCadena($_POST["desctt"]) : "";
 $codigointtt = isset($_POST["codigointtt"]) ? limpiarCadena($_POST["codigointtt"]) : "";
 $nombrett = isset($_POST["nombrett"]) ? limpiarCadena($_POST["nombrett"]) : "";
 
 //N-----------------------
-
-
-
-
-
 $lote = isset($_POST["lote"]) ? limpiarCadena($_POST["lote"]) : "";
-
 $marca = isset($_POST["marca"]) ? limpiarCadena($_POST["marca"]) : "";
-
 $fechafabricacion = isset($_POST["fechafabricacion"]) ? limpiarCadena($_POST["fechafabricacion"]) : "";
-
 $fechavencimiento = isset($_POST["fechavencimiento"]) ? limpiarCadena($_POST["fechavencimiento"]) : "";
-
 $procedencia = isset($_POST["procedencia"]) ? limpiarCadena($_POST["procedencia"]) : "";
-
 $fabricante = isset($_POST["fabricante"]) ? limpiarCadena($_POST["fabricante"]) : "";
-
 $registrosanitario = isset($_POST["registrosanitario"]) ? limpiarCadena($_POST["registrosanitario"]) : "";
-
 $fechaingalm = isset($_POST["fechaingalm"]) ? limpiarCadena($_POST["fechaingalm"]) : "";
-
 $fechafinalma = isset($_POST["fechafinalma"]) ? limpiarCadena($_POST["fechafinalma"]) : "";
-
 $proveedor = isset($_POST["proveedor"]) ? limpiarCadena($_POST["proveedor"]) : "";
-
 $seriefaccompra = isset($_POST["seriefaccompra"]) ? limpiarCadena($_POST["seriefaccompra"]) : "";
-
 $numerofaccompra = isset($_POST["numerofaccompra"]) ? limpiarCadena($_POST["numerofaccompra"]) : "";
-
 $fechafacturacompra = isset($_POST["fechafacturacompra"]) ? limpiarCadena($_POST["fechafacturacompra"]) : "";
-
-
-
 $limitestock = isset($_POST["limitestock"]) ? limpiarCadena($_POST["limitestock"]) : "";
-
 $tipoitem = isset($_POST["tipoitem"]) ? limpiarCadena($_POST["tipoitem"]) : "";
 $factorc = isset($_POST["factorc"]) ? limpiarCadena($_POST["factorc"]) : "";
 $umedidacompra = isset($_POST["umedidacompra"]) ? limpiarCadena($_POST["umedidacompra"]) : "";
 $descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
-
 
 $idalmacennarticulo = isset($_POST["idalmacennarticulo"]) ? limpiarCadena($_POST["idalmacennarticulo"]) : "";
 $idfamilianarticulo = isset($_POST["idfamilianarticulo"]) ? limpiarCadena($_POST["idfamilianarticulo"]) : "";
@@ -106,7 +75,6 @@ $codigonarticulonarticulo = isset($_POST["codigonarticulonarticulo"]) ? limpiarC
 $descripcionnarticulo = isset($_POST["descripcionnarticulo"]) ? limpiarCadena($_POST["descripcionnarticulo"]) : "";
 $umedidanp = isset($_POST["umedidanp"]) ? limpiarCadena($_POST["umedidanp"]) : "";
 
-
 if (isset($_GET['action'])) {
 	$action = $_GET['action'];
 } else {
@@ -115,17 +83,10 @@ if (isset($_GET['action'])) {
 
 if ($action == 'GenerarCodigo') {
 	$generatedCode = $articulo->GenerarCodigoCorrelativoAutomatico();
-
-	$results = array(
-		"codigo" => $generatedCode
-	);
-
+	$results = array("codigo" => $generatedCode);
 	header('Content-type: application/json');
 	echo json_encode($results);
 }
-
-
-
 
 require_once "../modelos/Rutas.php";
 $rutas = new Rutas();
@@ -133,37 +94,21 @@ $Rrutas = $rutas->mostrar2("1");
 $Prutas = $Rrutas->fetch_object();
 $rutaimagen = $Prutas->rutaarticulos; // ru
 
-
-
-
-
-
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
 
-
-
 		if (!file_exists($_FILES['imagen']['tmp_name']) || !is_uploaded_file($_FILES['imagen']['tmp_name'])) {
-
 			$imagen = $_POST["imagenactual"];
-
 		} else {
-
 			$ext = explode(".", $_FILES["imagen"]["name"]);
-
 			if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png") {
-
-				$imagen = round(microtime(true)) . '.' . end($ext);
-
+				$imagen = $date_now . '__' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext);
 				//move_uploaded_file($_FILES["imagen"]["tmp_name"], "../files/articulos/" . $imagen);
 				move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaimagen . $imagen);
-
 			}
-
 		}
-
-
+		echo $imagen; die;
 
 		if (empty($idarticulo)) {
 
@@ -220,7 +165,6 @@ switch ($_GET["op"]) {
 			);
 
 			echo $rspta ? "Artículo registrado" : "Error";
-
 		} else {
 
 			$rspta = $articulo->editar(
@@ -277,21 +221,16 @@ switch ($_GET["op"]) {
 			);
 
 			echo $rspta ? "Artículo actualizado" : "Artículo no se pudo actualizar";
-
 		}
 
-		break;
+	break;
 
 	case 'editarstockarticulo':
-
 		$idarticuloproduct = isset($_POST["idarticuloproduct"]) ? limpiarCadena($_POST["idarticuloproduct"]) : "";
 		$stockproduct = isset($_POST["stockproduct"]) ? limpiarCadena($_POST["stockproduct"]) : "";
-
 		$rspta = $articulo->editarStockArticulo($idarticuloproduct, $stockproduct);
-
 		echo $rspta ? "Stock del artículo actualizado" : "Stock del artículo no se pudo actualizar";
-
-		break;
+	break;
 
 	case 'guardarnuevoarticulo':
 
@@ -351,111 +290,47 @@ switch ($_GET["op"]) {
 		}
 
 		echo $rspta ? "Artículo registrado" : "Error";
-		break;
-
-
+	break;
 
 	case 'desactivar':
-
 		$rspta = $articulo->desactivar($idarticulo);
-
 		echo $rspta ? "Artículo Desactivado" : "Artículo no se puede desactivar";
-
-		break;
-
-
-
-
+	break;
 
 	case 'activar':
-
 		$rspta = $articulo->activar($idarticulo);
-
 		echo $rspta ? "Artículo activado" : "Artículo no se puede activar";
-
 		break;
-
-		break;
-
-
+	break;
 
 	case 'mostrar':
-
 		$rspta = $articulo->mostrar($idarticulo);
-
 		//Codificar el resultado utilizando json
-
 		echo json_encode($rspta);
-
-		break;
-
-
-
-
+	break;
 
 	case 'mostrarequivalencia':
-
-
-
-		require_once "../modelos/Almacen.php";
-
-		$almacen = new Almacen();
-
-		$idmm = $_GET['iduni'];
-
-		$rspta = $almacen->selectunidadid($idmm);
-
+		// require_once "../modelos/Almacen.php";
+		// $almacen = new Almacen();
+		// $idmm = $_GET['iduni'];
+		// $rspta = $almacen->selectunidadid($idmm);
 		//Codificar el resultado utilizando json
-
-		echo json_encode($rspta);
-
-		break;
-
-
-
-
-
-
+		// echo json_encode($rspta);
+	break;
 
 	case 'validarcodigo':
-
-
-
-
-
 		$coddd = $_GET['cdd'];
-
 		$rspta = $articulo->validarcodigo($coddd);
-
 		//Codificar el resultado utilizando json
-
 		echo json_encode($rspta);
-
-		break;
-
-
-
-
+	break;
 
 	case 'articuloBusqueda':
-
 		$codigo = $_GET['codigoa'];
-
 		$rspta = $articulo->articuloBusqueda($codigo);
-
 		//Codificar el resultado utilizando json
-
 		echo json_encode($rspta);
-
-		break;
-
-
-
-
-
-
-
-
+	break;
 
 	case 'listar':
 
@@ -526,7 +401,6 @@ switch ($_GET["op"]) {
  				' :
 					'<span class="label bg-red">I</span>'
 			);
-
 		}
 
 		$results = array(
@@ -596,7 +470,6 @@ switch ($_GET["op"]) {
  				' :
 					'<span class="label bg-red">I</span>'
 			);
-
 		}
 
 		$results = array(
@@ -610,147 +483,69 @@ switch ($_GET["op"]) {
 		);
 		echo json_encode($results);
 
-		break;
-
-
-
-
+	break;
 
 	case 'inventarioValorizado':
-
-		$rspta = $articulo->listar();
-
+		$rspta = $articulo->listar( $_POST['idempresa'] );
 		//Vamos a declarar un array
-
 		$data = array();
-
-
-
 		while ($reg = $rspta->fetch_object()) {
-
 			$data[] = array(
-
 				"0" => ($reg->estado) ? '<button class="btn btn-warning" onclick="mostrar(' . $reg->idarticulo . ')"> <i class="fa fa-pencil"> </i> </button>' .
-
 					' <button class="btn btn-danger" onclick="desactivar(' . $reg->idarticulo . ')">   <i class="fa fa-close"></i>   </button>' :
-
-
-
 					'<button class="btn btn-warning" onclick="mostrar(' . $reg->idarticulo . ')">      <i class="fa fa-pencil"></i> </button>' .
-
 					' <button class="btn btn-primary" onclick="activar(' . $reg->idarticulo . ')">     <i class="fa fa-check"></i>   </button>',
-
-
-
 				"1" => $reg->codigo_proveedor,
-
 				"2" => $reg->codigo,
-
 				"3" => $reg->familia,
-
 				"4" => $reg->nombre,
-
 				"5" => $reg->stock,
-
 				"6" => $reg->precio,
-
-
-
 				"7" => "<img src='../files/articulos/" . $reg->imagen . "' height='60px' width='60px' >",
-
-				"8" => ($reg->estado) ? '<span class="label bg-green">A</span>' :
-
-					'<span class="label bg-red">I</span>'
-
+				"8" => ($reg->estado) ? '<span class="label bg-green">A</span>' :'<span class="label bg-red">I</span>'
 			);
-
 		}
 
 		$results = array(
-
-			"sEcho" => 1,
-			//Información para el datatables
-
-			"iTotalRecords" => count($data),
-			//enviamos el total registros al datatable
-
-			"iTotalDisplayRecords" => count($data),
-			//enviamos el total registros a visualizar
-
+			"sEcho" => 1,	//Información para el datatables
+			"iTotalRecords" => count($data),	//enviamos el total registros al datatable
+			"iTotalDisplayRecords" => count($data),	//enviamos el total registros a visualizar
 			"aaData" => $data
 		);
-
 		echo json_encode($results);
-
-
-
-		break;
-
-
+	break;
 
 	case "selectFamilia":
 		require_once "../modelos/Familia.php";
 		$familia = new Familia();
 		$rspta = $familia->select();
-
-		while ($reg = $rspta->fetch_object()) {
-			echo '<option value=' . $reg->idfamilia . '>' . $reg->descripcion . '</option>';
-		}
-		break;
-
-
-
-
+		while ($reg = $rspta->fetch_object()) { echo '<option value=' . $reg->idfamilia . '>' . $reg->descripcion . '</option>';	}
+	break;
 
 	case "selectAlmacen":
-
 		require_once "../modelos/Almacen.php";
-
 		$almacen = new Almacen();
-
 		$idempresa = "1";
-
 		$rspta = $almacen->select($idempresa);
-
 		while ($reg = $rspta->fetch_object()) {
-
 			echo '<option value=' . $reg->idalmacen . '>' . $reg->nombre . '</option>';
-
 		}
-
-		break;
-
-
+	break;
 
 	case "selectUnidad":
-
 		require_once "../modelos/Almacen.php";
-
 		$almacen = new Almacen();
-
 		$rspta = $almacen->selectunidad();
-
 		while ($reg = $rspta->fetch_object()) {
-
 			echo '<option value=' . $reg->idunidad . '>' . $reg->nombreum . ' | ' . $reg->abre . '</option>';
-
 		}
-
-		break;
-
-
+	break;
 
 	case 'buscararticulo':
-
 		$key = $_POST['key'];
-
 		$rspta = $articulo->buscararticulo($key);
-
 		echo json_encode($rspta); // ? "Cliente ya existe": "Documento valido";
-
-		break;
-
-
+	break;
 
 	case "comboarticulo":
 		$anor = $_GET['anor'];
@@ -759,22 +554,16 @@ switch ($_GET["op"]) {
 		while ($reg = $rpta->fetch_object()) {
 			echo '<option value=' . $reg->codigo . '>' . $reg->codigo . ' | ' . $reg->nombre . '     | Año registro: ' . $reg->anoregistro . '</option>';
 		}
-		break;
-
-
+	break;
 
 	case "comboarticulomg":
 		$alm = $_GET['aml'];
 		$anor = $_GET['anor'];
 		$rpta = $articulo->comboarticulo($anor, $alm);
 		while ($reg = $rpta->fetch_object()) {
-
 			echo '<option value=' . $reg->idarticulo . '>' . $reg->codigo . ' | ' . $reg->nombre . '     | Año registro: ' . $reg->anoregistro . '</option>';
-
 		}
-
-		break;
-
+	break;
 
 	case "comboarticulokardex":
 		//$anor=$_GET['anor'];
@@ -782,9 +571,7 @@ switch ($_GET["op"]) {
 		while ($reg = $rpta->fetch_object()) {
 			echo '<option value=' . $reg->codigo . '>' . $reg->codigo . ' | ' . $reg->nombre . '</option>';
 		}
-		break;
-
-
+	break;
 
 	case "insertarArticulosMasivo":
 		// Recoger los datos del formulario (por ejemplo, desde $_POST)
@@ -827,8 +614,4 @@ switch ($_GET["op"]) {
 
 		echo $rspta ? "Artículos insertados exitosamente" : "Error al insertar artículos";
 		break;
-
-
 }
-
-?>

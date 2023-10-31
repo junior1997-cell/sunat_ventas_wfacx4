@@ -3,25 +3,24 @@
 require "../config/Conexion.php";
 class PosModelo
 {
-    //Implementamos nuestro constructor
-    public function __construct()
-    {
+  //Implementamos nuestro constructor
+  public function __construct()
+  {
+  }
+  //Listar los articulos
+  public function listarProducto($idempresa, $idfamilia = null, $busqueda = null)
+  {
 
+    $filtro = "";
+    if (!is_null($idfamilia)) {
+      $filtro = " AND a.idfamilia = '$idfamilia'";
     }
-    //Listar los articulos
-    public function listarProducto($idempresa, $idfamilia = null, $busqueda = null)
-    {
 
-        $filtro = "";
-        if (!is_null($idfamilia)) {
-            $filtro = " AND a.idfamilia = '$idfamilia'";
-        }
+    if (!is_null($busqueda) && $busqueda != "") {
+      $filtro .= " AND (a.codigo LIKE '%$busqueda%' OR a.nombre LIKE '%$busqueda%')";
+    }
 
-        if (!is_null($busqueda) && $busqueda != "") {
-            $filtro .= " AND (a.codigo LIKE '%$busqueda%' OR a.nombre LIKE '%$busqueda%')";
-        }
-
-        $sql = "select 
+    $sql = "SELECT 
         a.idarticulo, 
         f.idfamilia, 
         a.codigo_proveedor, 
@@ -62,15 +61,14 @@ class PosModelo
         and al.estado='1' 
         $filtro";
 
-        return ejecutarConsulta($sql);
+    return ejecutarConsulta($sql);
+  }
 
-    }
+  //listar las categorias : 
 
-    //listar las categorias : 
-
-    public function listarCategorias()
-    {
-        $sql = "select
+  public function listarCategorias()
+  {
+    $sql = "SELECT
                     f.idfamilia,
                     f.descripcion as familia,
                     f.estado
@@ -79,15 +77,15 @@ class PosModelo
                 where
                     f.estado = '1'"; // elimina esta línea si también quieres categorías inactivas
 
-        return ejecutarconsulta($sql);
-    }
+    return ejecutarconsulta($sql);
+  }
 
 
-    //listar todas las BOLETAS
-    public function listarBoletas($idempresa)
-    {
+  //listar todas las BOLETAS
+  public function listarBoletas($idempresa)
+  {
 
-        $sql = "select 
+    $sql = "SELECT 
         b.idboleta,
         date_format(b.fecha_emision_01, '%d/%m/%y') as fecha,
         b.idcliente,
@@ -128,20 +126,19 @@ class PosModelo
         b.idboleta desc;
     ";
 
-        return ejecutarConsulta($sql);
-
-    }
-
+    return ejecutarConsulta($sql);
+  }
 
 
-    public function listarComprobantesVarios($idempresa, $fechainicio, $fechafinal, $tipocomprobante)
-    {
 
-        $sql = "";
+  public function listarComprobantesVarios($idempresa, $fechainicio, $fechafinal, $tipocomprobante)
+  {
 
-        // Agregar consulta para Boletas si se requiere
-        if ($tipocomprobante == "Boleta" || $tipocomprobante == "Todos") {
-            $sql .= "
+    $sql = "";
+
+    // Agregar consulta para Boletas si se requiere
+    if ($tipocomprobante == "Boleta" || $tipocomprobante == "Todos") {
+      $sql .= "
             select 
             b.idboleta as id,
             date_format(b.fecha_emision_01, '%d/%m/%y') as fecha,
@@ -159,14 +156,14 @@ class PosModelo
         where
             date(b.fecha_emision_01) between '$fechainicio' and '$fechafinal' and b.idempresa = '$idempresa'
     ";
-        }
+    }
 
-        // Agregar consulta para Facturas si se requiere
-        if ($tipocomprobante == "Factura" || $tipocomprobante == "Todos") {
-            if ($sql != "") { // Verificar si ya hay una consulta
-                $sql .= " union ";
-            }
-            $sql .= "
+    // Agregar consulta para Facturas si se requiere
+    if ($tipocomprobante == "Factura" || $tipocomprobante == "Todos") {
+      if ($sql != "") { // Verificar si ya hay una consulta
+        $sql .= " union ";
+      }
+      $sql .= "
             select 
             f.idfactura as id,
             date_format(f.fecha_emision_01, '%d/%m/%y') as fecha,
@@ -184,14 +181,14 @@ class PosModelo
         where
             date(f.fecha_emision_01) between '$fechainicio' and '$fechafinal' and f.idempresa = '$idempresa'
     ";
-        }
+    }
 
-        // Agregar consulta para NotaPedido si se requiere
-        if ($tipocomprobante == "NotaPedido" || $tipocomprobante == "Todos") {
-            if ($sql != "") { // Verificar si ya hay una consulta
-                $sql .= " union ";
-            }
-            $sql .= "
+    // Agregar consulta para NotaPedido si se requiere
+    if ($tipocomprobante == "NotaPedido" || $tipocomprobante == "Todos") {
+      if ($sql != "") { // Verificar si ya hay una consulta
+        $sql .= " union ";
+      }
+      $sql .= "
             select 
             b.idboleta as id,
             date_format(b.fecha_emision_01, '%d/%m/%y') as fecha,
@@ -209,28 +206,24 @@ class PosModelo
         where
             date(b.fecha_emision_01) between '$fechainicio' and '$fechafinal' and b.idempresa = '$idempresa'
     ";
-        }
-        return ejecutarConsulta($sql);
-
     }
+    return ejecutarConsulta($sql);
+  }
 
 
-    public function insertarClientePOS($tipo_documento, $numero_documento, $razon_social, $domicilio_fiscal)
-    {
-        $tipo_persona = 'cliente';
-        $estado = 1; // Siempre 1 según tu requisito
-        $sql = "insert into persona (tipo_persona, tipo_documento, numero_documento, razon_social, domicilio_fiscal, estado) values ('$tipo_persona', '$tipo_documento', '$numero_documento', '$razon_social', '$domicilio_fiscal', '$estado')";
-        return ejecutarConsulta($sql);
-    }
+  public function insertarClientePOS($tipo_documento, $numero_documento, $razon_social, $domicilio_fiscal)
+  {
+    $tipo_persona = 'cliente';
+    $estado = 1; // Siempre 1 según tu requisito
+    $sql = "insert into persona (tipo_persona, tipo_documento, numero_documento, razon_social, domicilio_fiscal, estado) values ('$tipo_persona', '$tipo_documento', '$numero_documento', '$razon_social', '$domicilio_fiscal', '$estado')";
+    return ejecutarConsulta($sql);
+  }
 
-    // Esta función verifica si el cliente con un determinado RUC ya existe en la base de datos.
-    public function clienteExiste($numero_documento)
-    {
-        $sql = "select * from persona where numero_documento = '$numero_documento'";
-        $resultado = ejecutarConsulta($sql);
-        return mysqli_num_rows($resultado) > 0;
-    }
-
-
-
+  // Esta función verifica si el cliente con un determinado RUC ya existe en la base de datos.
+  public function clienteExiste($numero_documento)
+  {
+    $sql = "SELECT * from persona where numero_documento = '$numero_documento'";
+    $resultado = ejecutarConsulta($sql);
+    return mysqli_num_rows($resultado) > 0;
+  }
 }

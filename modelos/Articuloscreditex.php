@@ -15,7 +15,7 @@ Class Articuloscreditex
     //Implementar un método para listar los registros
     public function listado()
     {
-        $sql="select 
+        $sql="SELECT 
         articulo, nombre, date_format(fechacompra,'%d-%m-%Y') as fechacompra, valorunitario, igvunitario, preciounitario
         from 
         articuloscreditex";

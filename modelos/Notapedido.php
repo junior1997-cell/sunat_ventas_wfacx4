@@ -4,20 +4,19 @@ require "../config/Conexion.php";
 
 
 
-Class Notapedido
+class Notapedido
 {
-    //Implementamos nuestro constructor
-    public function __construct()
-    {
+  //Implementamos nuestro constructor
+  public function __construct()
+  {
+  }
 
-    }
+  //Implementamos un método para insertar registros para boleta
+  public function insertar($idusuario, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2,  $sumatoria_igv_18_3,  $sumatoria_igv_18_4, $sumatoria_igv_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25,  $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv,  $idarticulo, $numero_orden_item_29, $cantidad_item_12, $codigo_precio_14_1, $precio_unitario, $igvBD, $igvBD5, $afectacion_igv_3, $afectacion_igv_4, $afectacion_igv_5, $afectacion_igv_6, $igvBD2, $vvu, $subtotalBD, $codigo, $unidad_medida, $idserie, $SerieReal, $numero_boleta, $tipodocuCliente, $rucCliente, $RazonSocial, $hora, $descdet, $vendedorsitio, $idnota, $tiponota, $cantidadreal, $faltante, $adelanto, $ncotizacion, $ambtra, $efectivo, $visa, $yape, $plin, $mastercard, $deposito)
 
-    //Implementamos un método para insertar registros para boleta
-    public function insertar($idusuario, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2,  $sumatoria_igv_18_3,  $sumatoria_igv_18_4, $sumatoria_igv_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25,  $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv,  $idarticulo, $numero_orden_item_29, $cantidad_item_12, $codigo_precio_14_1, $precio_unitario, $igvBD, $igvBD5, $afectacion_igv_3, $afectacion_igv_4, $afectacion_igv_5, $afectacion_igv_6, $igvBD2, $vvu, $subtotalBD, $codigo, $unidad_medida, $idserie, $SerieReal, $numero_boleta, $tipodocuCliente, $rucCliente, $RazonSocial, $hora, $descdet, $vendedorsitio, $idnota, $tiponota, $cantidadreal, $faltante, $adelanto, $ncotizacion, $ambtra, $efectivo, $visa, $yape, $plin, $mastercard, $deposito)
+  {
 
-    {
-
-        $sql="insert into
+    $sql = "insert into
         notapedido (idusuario,
           fecha_emision_01,
           firma_digital_36,
@@ -103,15 +102,14 @@ Class Notapedido
         '$mastercard',
         '$deposito'
       )";
-        //return ejecutarConsulta($sql);
-        $idBoletaNew=ejecutarConsulta_retornarID($sql);
+    //return ejecutarConsulta($sql);
+    $idBoletaNew = ejecutarConsulta_retornarID($sql);
 
-        $num_elementos=0;
-        $sw=true;
-        while ($num_elementos < count($idarticulo))
-        {
-            //Guardar en Detalle
-        $sql_detalle = "insert into
+    $num_elementos = 0;
+    $sw = true;
+    while ($num_elementos < count($idarticulo)) {
+      //Guardar en Detalle
+      $sql_detalle = "insert into
         detalle_notapedido_producto(idboleta,
           idarticulo,
           numero_orden_item_29,
@@ -153,8 +151,8 @@ Class Notapedido
             '$unidad_medida[$num_elementos]'
             )";
 
-        //Guardar en Kardex
-            $sql_kardex="insert into
+      //Guardar en Kardex
+      $sql_kardex = "insert into
             kardex
             (idcomprobante,
               idarticulo,
@@ -192,19 +190,17 @@ Class Notapedido
             '',
             '$tipo_moneda_24')";
 
-           ejecutarConsulta($sql_kardex) or $sw = false;
-           ejecutarConsulta($sql_detalle) or $sw = false;
+      ejecutarConsulta($sql_kardex) or $sw = false;
+      ejecutarConsulta($sql_detalle) or $sw = false;
 
 
 
-    // SI EL NUMERO DE COMPROBANTE YA EXISTE NO HARA LA OPERACION
-    if ($idBoletaNew==""){
-    $sw=false;
-    }
-    else
-    {
+      // SI EL NUMERO DE COMPROBANTE YA EXISTE NO HARA LA OPERACION
+      if ($idBoletaNew == "") {
+        $sw = false;
+      } else {
 
-     $sql_update_articulo="update
+        $sql_update_articulo = "update
       articulo
       set
       saldo_finu=saldo_finu - '$cantidadreal[$num_elementos]',
@@ -222,68 +218,66 @@ Class Notapedido
         ejecutarConsulta($sql_update_articulo) or $sw = false;
 
 
-         //Para actualizar numeracion de las series de la factura
-         $sql_update_numeracion="update
+        //Para actualizar numeracion de las series de la factura
+        $sql_update_numeracion = "update
          numeracion
          set
          numero='$numero_boleta' where idnumeracion='$idserie'";
         ejecutarConsulta($sql_update_numeracion) or $sw = false;
-         //Fin
+        //Fin
 
+      }
+      $num_elementos = $num_elementos + 1;
     }
-            $num_elementos=$num_elementos + 1;
-        }
 
 
-        if ($idnota!="") {
+    if ($idnota != "") {
 
-        $num_elementos=0;
-        $sw=true;
-        while ($num_elementos < count($idnota))
-        {
-          //Para actualizar numeracion de las series de la factura
-         $sqlupdateestado="update
+      $num_elementos = 0;
+      $sw = true;
+      while ($num_elementos < count($idnota)) {
+        //Para actualizar numeracion de las series de la factura
+        $sqlupdateestado = "update
          notapedido
          set
          estado='5' where idboleta='$idnota[$num_elementos]'";
         ejecutarConsulta($sqlupdateestado) or $sw = false;
-         //Fin
-        $num_elementos=$num_elementos + 1;
-        }
+        //Fin
+        $num_elementos = $num_elementos + 1;
       }
-
-      return $idBoletaNew;
     }
 
+    return $idBoletaNew;
+  }
 
 
-//Implementamos un método para anular la factura
-public function anular($idboleta)
-{
 
-   $connect = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
-      mysqli_query( $connect, 'SET NAMES "'.DB_ENCODE.'"');
-      //Si tenemos un posible error en la conexión lo mostramos
-      if (mysqli_connect_errno())
-      {
-            printf("Falló conexión a la base de datos: %s\n",mysqli_connect_error());
-            exit();
-      }
+  //Implementamos un método para anular la factura
+  public function anular($idboleta)
+  {
 
- $query="select idboleta, idarticulo  from detalle_notapedido_producto where idboleta='$idboleta'";
- $resultado = mysqli_query($connect,$query);
+    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    //Si tenemos un posible error en la conexión lo mostramos
+    if (mysqli_connect_errno()) {
+      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+      exit();
+    }
+
+    $query = "SELECT idboleta, idarticulo  from detalle_notapedido_producto where idboleta='$idboleta'";
+    $resultado = mysqli_query($connect, $query);
 
 
-    $Idb=array();
-    $Ida=array();
-    $sw=true;
+    $Idb = array();
+    $Ida = array();
+    $sw = true;
 
     while ($fila = mysqli_fetch_assoc($resultado)) {
-    for($i=0; $i < count($resultado) ; $i++){
+      for ($i = 0; $i < count($resultado); $i++) {
         $Idb[$i] = $fila["idboleta"];
         $Ida[$i] = $fila["idarticulo"];
 
-    $sql_update_articulo="update
+        $sql_update_articulo = "UPDATE
      detalle_notapedido_producto de inner join articulo a  on de.idarticulo=a.idarticulo set
        a.saldo_finu=a.saldo_finu + de.cantidad_item_12,
        a.stock=a.stock + de.cantidad_item_12,
@@ -293,8 +287,8 @@ public function anular($idboleta)
         de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
 
         //ACTUALIZAR TIPO TRANSACCION KARDEX
-    //Guardar en Kardex
-    $sql_kardex="insert into
+        //Guardar en Kardex
+        $sql_kardex = "insert into
     kardex
      (idcomprobante,
       idarticulo,
@@ -331,43 +325,42 @@ public function anular($idboleta)
 
 0, 0, 0)";
 
-        $sqlestado="update
+        $sqlestado = "update
         notapedido
         set
         estado='0'
         where
         idboleta='$idboleta'";
-        }
-
-         ejecutarConsulta($sql_update_articulo) or $sw=false;
-         ejecutarConsulta($sql_kardex) or $sw=false;
-         ejecutarConsulta($sqlestado) or $sw=false;
-        }
-
-   return $sw;
-}
-
-public function baja($idnotap, $fecha_baja, $com, $hora)
-{
-   $sw=true;
-   $connect = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
-      mysqli_query( $connect, 'SET NAMES "'.DB_ENCODE.'"');
-      //Si tenemos un posible error en la conexión lo mostramos
-      if (mysqli_connect_errno())
-      {
-            printf("Falló conexión a la base de datos: %s\n",mysqli_connect_error());
-            exit();
       }
-    $query="select idboleta, idarticulo  from detalle_notapedido_producto where idboleta='$idnotap'";
-    $resultado = mysqli_query($connect,$query);
-    $Idb=array();
-    $Ida=array();
+
+      ejecutarConsulta($sql_update_articulo) or $sw = false;
+      ejecutarConsulta($sql_kardex) or $sw = false;
+      ejecutarConsulta($sqlestado) or $sw = false;
+    }
+
+    return $sw;
+  }
+
+  public function baja($idnotap, $fecha_baja, $com, $hora)
+  {
+    $sw = true;
+    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    //Si tenemos un posible error en la conexión lo mostramos
+    if (mysqli_connect_errno()) {
+      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+      exit();
+    }
+    $query = "SELECT idboleta, idarticulo  from detalle_notapedido_producto where idboleta='$idnotap'";
+    $resultado = mysqli_query($connect, $query);
+    $Idb = array();
+    $Ida = array();
     while ($fila = mysqli_fetch_assoc($resultado)) {
-    for($i=0; $i < count($resultado) ; $i++){
+      for ($i = 0; $i < count($resultado); $i++) {
         $Idb[$i] = $fila["idboleta"];
         $Ida[$i] = $fila["idarticulo"];
 
-    $sql_update_articulo="update
+        $sql_update_articulo = "update
      detalle_notapedido_producto de inner join articulo a  on de.idarticulo=a.idarticulo set
        a.saldo_finu=a.saldo_finu + de.cantidad_item_12,
        a.stock=a.stock + de.cantidad_item_12,
@@ -376,9 +369,9 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
         where
         de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
 
-    //ACTUALIZAR TIPO TRANSACCION KARDEX
-    //Guardar en Kardex
-    $sql_kardex="insert into
+        //ACTUALIZAR TIPO TRANSACCION KARDEX
+        //Guardar en Kardex
+        $sql_kardex = "insert into
     kardex
      (idcomprobante,
       idarticulo,
@@ -414,15 +407,13 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
 (select a.unidad_medida from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
 0, 0, 0)";
+      }
 
-        }
+      ejecutarConsulta($sql_update_articulo) or $sw = false;
+      ejecutarConsulta($sql_kardex) or $sw = false;
+    }
 
-         ejecutarConsulta($sql_update_articulo) or $sw=false;
-         ejecutarConsulta($sql_kardex) or $sw=false;
-
-        }
-
-        $sqlestado="update
+    $sqlestado = "update
         notapedido
         set
         estado='3',
@@ -430,19 +421,18 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
         comentario_baja='$com'
         where
         idboleta='$idnotap'";
-        ejecutarConsulta($sqlestado) or $sw=false;
+    ejecutarConsulta($sqlestado) or $sw = false;
 
 
 
-  return $sw;
+    return $sw;
+  }
 
-}
 
-
-    //Implementar un método para mostrar los datos de un registro a modificar
-    public function mostrar($idboleta)
-    {
-        $sql="select
+  //Implementar un método para mostrar los datos de un registro a modificar
+  public function mostrar($idboleta)
+  {
+    $sql = "SELECT
         b.idboleta,
         date(b.fecha_emision_01) as fecha,
         b.idcliente,p.razon_social as cliente,
@@ -456,12 +446,12 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
         b.estado
         from
         notapedido b inner join persona p on b.idcliente=p.idpersona inner join usuario u on b.idusuario=u.idusuario WHERE b.idboleta='$idboleta'";
-        return ejecutarConsultaSimpleFila($sql);
-    }
+    return ejecutarConsultaSimpleFila($sql);
+  }
 
-    public function listarDetalle($idboleta)
-    {
-        $sql="select
+  public function listarDetalle($idboleta)
+  {
+    $sql = "SELECT
         df.idboleta,
         df.idarticulo,
         a.nombre,
@@ -471,13 +461,13 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
         df.igv_item
         from
         detalle_fac_art df inner join articulo a on df.idarticulo=a.idarticulo where df.idboleta='$idboleta'";
-        return ejecutarConsulta($sql);
-    }
+    return ejecutarConsulta($sql);
+  }
 
-    //Implementar un método para listar los registros
-    public function listar()
-    {
-        $sql="select
+  //Implementar un método para listar los registros
+  public function listar()
+  {
+    $sql = "SELECT
         b.idboleta,
         date_format(b.fecha_emision_01,'%d/%m/%y') as fecha,
         b.idcliente,
@@ -501,12 +491,13 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
         inner join usuario u on b.idusuario=u.idusuario
         inner join empresa e on b.idempresa=e.idempresa
         order by b.idboleta desc";
-        return ejecutarConsulta($sql);
-    }
+    return ejecutarConsulta($sql);
+  }
 
 
-    public function ventacabecera($idboleta){
-        $sql="select
+  public function ventacabecera($idboleta)
+  {
+    $sql = "SELECT
         np.idboleta,
         np.idcliente,
         p.razon_social,
@@ -549,16 +540,18 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
         inner join usuario u on np.idusuario=u.idusuario
         inner join empresa e on np.idempresa=e.idempresa
          where np.idboleta='$idboleta'";
-        return ejecutarConsulta($sql);
-    }
+    return ejecutarConsulta($sql);
+  }
 
-     public function recibospendientes($idcliente){
-        $sql="select  numeracion_07, importe_total_23 as total from notapedido np inner join persona p on np.idcliente=p.idpersona where p.idpersona='$idcliente' and np.estado='1'";
-        return ejecutarConsulta($sql);
-    }
+  public function recibospendientes($idcliente)
+  {
+    $sql = "SELECT  numeracion_07, importe_total_23 as total from notapedido np inner join persona p on np.idcliente=p.idpersona where p.idpersona='$idcliente' and np.estado='1'";
+    return ejecutarConsulta($sql);
+  }
 
-    public function ventadetalle($idboleta){
-        $sql="select
+  public function ventadetalle($idboleta)
+  {
+    $sql = "SELECT
         a.nombre as articulo,
         a.codigo,
         format(db.cantidad_item_12,2) as cantidad_item_12,
@@ -573,40 +566,40 @@ public function baja($idnotap, $fecha_baja, $com, $hora)
         detalle_notapedido_producto db inner join articulo a on db.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
         where
         db.idboleta='$idboleta'";
-        return ejecutarConsulta($sql);
-    }
+    return ejecutarConsulta($sql);
+  }
 
-        public function listarD()
-    {
-        $sql="select
+  public function listarD()
+  {
+    $sql = "SELECT
         documento
         from
         correlativo
         where
         documento='factura' or documento='boleta' or documento='nota de credito'or documento='nota de debito' group by documento";
-        return ejecutarConsulta($sql);
-    }
-
-    public function datosemp()
-    {
-
-    $sql="select * from empresa where idempresa='1'";
     return ejecutarConsulta($sql);
-    }
+  }
 
-    //Implementamos un método para dar de baja a factura
-public function ActualizarEstado($idboleta,$st)
-{
-        $sw=true;
-        $sqlestado="update notapedido set estado='$st' where idboleta='$idboleta'";
-        ejecutarConsulta($sqlestado) or $sw=false;
+  public function datosemp()
+  {
+
+    $sql = "SELECT * from empresa where idempresa='1'";
+    return ejecutarConsulta($sql);
+  }
+
+  //Implementamos un método para dar de baja a factura
+  public function ActualizarEstado($idboleta, $st)
+  {
+    $sw = true;
+    $sqlestado = "update notapedido set estado='$st' where idboleta='$idboleta'";
+    ejecutarConsulta($sqlestado) or $sw = false;
     return $sw;
-}
+  }
 
 
- public function listarcomprobantes($dnicliente)
-    {
-        $sql="select
+  public function listarcomprobantes($dnicliente)
+  {
+    $sql = "SELECT
         n.idboleta,
         date_format(n.fecha_emision_01,'%d/%m/%y') as fecha,
         n.idcliente,
@@ -626,12 +619,12 @@ public function ActualizarEstado($idboleta,$st)
         inner join empresa e on n.idempresa=e.idempresa
         where p.numero_documento='$dnicliente' and n.estado='1'
         order by n.idboleta desc";
-        return ejecutarConsulta($sql);
-    }
+    return ejecutarConsulta($sql);
+  }
 
-    public function listarcomprobantesCE()
-    {
-        $sql="select
+  public function listarcomprobantesCE()
+  {
+    $sql = "SELECT
         n.idboleta,
         date_format(n.fecha_emision_01,'%d/%m/%y') as fecha,
         n.idcliente,
@@ -651,42 +644,37 @@ public function ActualizarEstado($idboleta,$st)
         inner join empresa e on n.idempresa=e.idempresa
         where n.estado='1'
         order by n.idboleta desc";
-        return ejecutarConsulta($sql);
-    }
-
-
-
-
-    public function actualizarestados($idnota, $cestado)
-    {
-        $num_elementos=0;
-        $sw=true;
-         while ($num_elementos < count($idnota))
-        {
-     //Guardar en Detalle
-     $sql = "update notapedido set estado='$cestado' where idboleta= '$idnota[$num_elementos]'";
-     ejecutarConsulta($sql) or $sw = false;
-     $num_elementos=$num_elementos + 1;
-        }
-
-      return $sw;
-    }
-
-        public function almacenlista()
-    {
-
-    $sql="select * from almacen where estado='1' order by idalmacen";
     return ejecutarConsulta($sql);
+  }
+
+
+
+
+  public function actualizarestados($idnota, $cestado)
+  {
+    $num_elementos = 0;
+    $sw = true;
+    while ($num_elementos < count($idnota)) {
+      //Guardar en Detalle
+      $sql = "update notapedido set estado='$cestado' where idboleta= '$idnota[$num_elementos]'";
+      ejecutarConsulta($sql) or $sw = false;
+      $num_elementos = $num_elementos + 1;
     }
 
+    return $sw;
+  }
 
-    public function mostrarultimocomprobanteId($idempresa)
-    {
-    $sql="select np.idboleta, e.tipoimpresion from notapedido np inner join empresa e on np.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
+  public function almacenlista()
+  {
+
+    $sql = "SELECT * from almacen where estado='1' order by idalmacen";
+    return ejecutarConsulta($sql);
+  }
+
+
+  public function mostrarultimocomprobanteId($idempresa)
+  {
+    $sql = "SELECT np.idboleta, e.tipoimpresion from notapedido np inner join empresa e on np.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
     return ejecutarConsultaSimpleFila($sql);
-    }
-
-
-
+  }
 }
-?>

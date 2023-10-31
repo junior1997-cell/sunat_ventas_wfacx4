@@ -29,14 +29,14 @@ Class Ventadiaria
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idventa)
 	{
-		$sql="select * from ventadiaria where idventa='$idventa'";
+		$sql="SELECT * from ventadiaria where idventa='$idventa'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="select * from ventadiaria where
+		$sql="SELECT * from ventadiaria where
         date(fecharegistroingreso)=current_date";
 		return ejecutarConsulta($sql);		
 	}
@@ -53,20 +53,20 @@ Class Ventadiaria
 	public function datosemp()
     {
 
-    $sql="select * from empresa";
+    $sql="SELECT * from empresa";
     return ejecutarConsulta($sql);      
     }
 
     public function ingresoagrupadoxtipo()
 	{
-		$sql="select tipo, sum(total) as totali from ventadiaria where
+		$sql="SELECT tipo, sum(total) as totali from ventadiaria where
         date(fecharegistroingreso)=current_date and not tipo in('efectivot','tarjeta') group by tipo order by tipo ";
 		return ejecutarConsulta($sql);
 	}
 
 	 public function ingresoagrupadoxtipo2()
 	{
-		$sql="select tipo, sum(total) as totali from ventadiaria where
+		$sql="SELECT tipo, sum(total) as totali from ventadiaria where
         date(fecharegistroingreso)=current_date and tipo in('efectivot','tarjeta') group by tipo order by tipo ";
 		return ejecutarConsulta($sql);
 	}
@@ -74,7 +74,7 @@ Class Ventadiaria
 
 	public function ingresoagrupadototal()
 	{
-		$sql="select sum(total) as totalgene from ventadiaria where
+		$sql="SELECT sum(total) as totalgene from ventadiaria where
         date(fecharegistroingreso)=current_date and not tipo in('efectivot','tarjeta')";
 		return ejecutarConsulta($sql);
 	}

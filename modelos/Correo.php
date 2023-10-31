@@ -50,7 +50,7 @@ Class Correo
     //Implementar un método para mostrar los datos de un registro a modificar
     public function mostrar($idcorreo)
     {
-        $sql="select
+        $sql="SELECT
          * 
         from
         correo  

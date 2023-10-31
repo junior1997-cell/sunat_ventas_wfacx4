@@ -20,230 +20,89 @@ toastr.options = {
 
 function init() {
 
-
   mostrarform(false);
-
   listar();
   listarservicios();
-
-
-
-  $("#formulario").on("submit", function (e) {
-
-    guardaryeditar(e);
-
-  })
-
-
-
-  $("#formnewfamilia").on("submit", function (e) {
-
-    guardaryeditarFamilia(e);
-
-  })
-
-
-
-
-
-  $("#formnewalmacen").on("submit", function (e) {
-
-    guardaryeditarAlmacen(e);
-
-  })
-
-
-
-
-
-  $("#formnewumedida").on("submit", function (e) {
-
-    guardaryeditarUmedida(e);
-
-  })
-
-
-
-
-
-  $("#formprintbar").on("submit", function (e) {
-
-
-
-  })
-
-
-
-  //Cargamos los items al select familia
-
-  $.post("../ajax/articulo.php?op=selectFamilia", function (r) {
-    $("#idfamilia").html(r);
-    //$('#idfamilia').selectpicker('refresh');
-  });
-
-
-
-
-
-  //Cargamos los items al select almacen
-
   $idempresa = $("#idempresa").val();
 
-  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) {
-    $("#idalmacen").html(r);
-    //$('#idalmacen').selectpicker('refresh');
+  $("#formulario").on("submit", function (e) { guardaryeditar(e); });
+  $("#formnewfamilia").on("submit", function (e) { guardaryeditarFamilia(e); });
+  $("#formnewalmacen").on("submit", function (e) { guardaryeditarAlmacen(e); });
+  $("#formnewumedida").on("submit", function (e) { guardaryeditarUmedida(e); });
+  $("#formprintbar").on("submit", function (e) { });
 
-  });
-
-
-
-  //Cargamos los items al select unidad medida
-
-  $.post("../ajax/articulo.php?op=selectUnidad", function (r) {
-    $("#unidad_medida").html(r);
-    //$('#unidad_medida').selectpicker('refresh');
-
-    $("#umedidacompra").html(r);
-    //  $('#umedidacompra').selectpicker('refresh');
-
-  });
-
-
-
-
+  //Cargamos los items al select familia
+  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilia").html(r); });
+  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
+  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
 
   $("#imagenmuestra").hide();
-
 }
 
-
-
 //Función limpiar
-
 function limpiar() {
 
   $("#codigo").val("");
-
   $("#codigo_proveedor").val("-");
-
   $("#nombre").val("");
-
   $("#costo_compra").val("");
-
   $("#saldo_iniu").val("");
   $(".salini").val("9999999");
-
   $("#valor_iniu").val("0.00");
-
   $("#saldo_finu").val("");
   $(".salfin").val("9999999");
-
   $("#valor_finu").val("0.00");
-
   $("#stock").val("");
-
   $(".stokservicio").val("9999999");
 
-
   $("#comprast").val("0.00");
-
   $("#ventast").val("0.00");
-
   $("#portador").val("0.00");
-
   $("#merma").val("0.00");
-
   $("#valor_venta").val("");
-
   $("#imagenmuestra").attr("src", "");
-
   $("#imagenactual").val("");
-
   $("#print").hide();
-
   $("#idarticulo").val("");
-
   $("#Nnombre").val("");
-
   $("#codigosunat").val("");
-
   $("#ccontable").val("");
-
   $("#precio2").val("0.00");
-
   $("#precio3").val("0.00");
 
-
-
-
-
   //Nuevos campos
-
   $("#cicbper").val("");
-
   $("#nticbperi").val("");
-
   $("#ctticbperi").val("");
-
   $("#mticbperu").val("0.00");
 
   //Nuevos campos
-
-
-
   $("#lote").val("");
-
   $("#marca").val("");
-
   $("#fechafabricacion").val("");
-
   $("#fechavencimiento").val("");
-
   $("#procedencia").val("");
-
   $("#fabricante").val("");
 
-
-
   $("#registrosanitario").val("");
-
   $("#fechaingalm").val("");
-
   $("#fechafinalma").val("");
-
   $("#proveedor").val("");
-
   $("#seriefaccompra").val("");
-
   $("#numerofaccompra").val("");
-
   $("#fechafacturacompra").val("");
 
-
-
   $("#preview").empty();
-
-
-
   $("#limitestock").val("0.00");
 
   //$("#tipoitem").val("productos");
-
-
-
   $("#equivalencia").val("");
-
   $("#factorc").val("1.0");
-
   $("#fconversion").val("");
   $(".convumventa").val("9999999");
-
   $("#descripcion").val("");
-
   document.getElementById("btnGuardar").innerHTML = "Agregar";
   //document.getElementsByClassName("stokservicio")[0].value = "9999999";
-
-
 }
 
 //mostrar comrpas en registro
@@ -265,60 +124,29 @@ document.getElementById("agregarOtrosCampos").addEventListener("change", functio
   }
 });
 
-function limpiaralmacen() {
-
-  $("#nombrea").val("");
-
-}
-
-
-
+function limpiaralmacen() { $("#nombrea").val(""); }
 
 function mostrarcampos() {
-
   var x = document.getElementById("chk1").checked;
   var div = document.getElementById("masdatos");
   if (x) {
-
     div.style.visibility = "visible";
   } else {
     div.style.visibility = "hidden";
   }
-
-
 }
 
-
-
-
-function limpiarcategoria() {
-
-  $("#nombrec").val("");
-
-}
-
-
-
-
+function limpiarcategoria() { $("#nombrec").val(""); }
 
 function limpiarumedida() {
-
   $("#nombreu").val("");
-
   $("#abre").val("");
-
   $("#equivalencia2").val("");
-
 }
 
-
-
 //Función mostrar formulario
-
 function mostrarform(flag) {
-
   limpiar();
-
   if (flag) {
 
     $("#listadoregistros").hide();
@@ -335,114 +163,62 @@ function mostrarform(flag) {
     $("#comprast").attr('readonly', false);
     $("#ventast").attr('readonly', false);
     $("#preview").empty();
-
-
-
-  }
-
-  else {
-
+  } else {
     $("#listadoregistros").show();
     $("#listadoregistrosservicios").show();
     $("#formularioregistros").hide();
     $("#btnagregar").show();
-
   }
-
 }
-
-
 
 //Función cancelarform
-
-function cancelarform() {
-  limpiar();
-  mostrarform(false);
+function cancelarform() { limpiar(); mostrarform(false);
 }
-
-
-
-
 
 //Función Listar
-
 function listar() {
   var $idempresa = $("#idempresa").val();
-  tabla = $('#tbllistado').dataTable(
-    {
-      "aProcessing": true,//Activamos el procesamiento del datatables
-      "aServerSide": true,//Paginación y filtrado realizados por el servidor
-
-      dom: 'Bfrtip',//Definimos los elementos del control de tabla
-
-
-      buttons: [
-
-      ],
-
-      "ajax":
-      {
-        url: '../ajax/articulo.php?op=listar&idempresa=' + $idempresa,
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-
-        }
-
-      },
-
-      "bDestroy": true,
-      "iDisplayLength": 15,//Paginación
-      "order": [[4, "desc"]]//Ordenar (columna,orden)
-    }).DataTable();
-
+  tabla = $('#tbllistado').dataTable({
+    "aProcessing": true,//Activamos el procesamiento del datatables
+    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+    buttons: [ ],
+    "ajax": {
+      url: '../ajax/articulo.php?op=listar&idempresa=' + $idempresa,
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
+      }
+    },
+    "bDestroy": true,
+    "iDisplayLength": 15,//Paginación
+    "order": [[4, "desc"]]//Ordenar (columna,orden)
+  }).DataTable();
 }
-
-
-
-
 
 function listarservicios() {
   var $idempresa = $("#idempresa").val();
-  tabla = $('#tbllistadoservicios').dataTable(
-    {
-      "aProcessing": true,//Activamos el procesamiento del datatables
-      "aServerSide": true,//Paginación y filtrado realizados por el servidor
-      dom: 'Bfrtip',//Definimos los elementos del control de tabla
-      buttons: [
-
-
-
-      ],
-
-      "ajax":
-      {
-        url: '../ajax/articulo.php?op=listarservicios&idempresa=' + $idempresa,
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-
-        }
-
-      },
-
-      "bDestroy": true,
-      "iDisplayLength": 15,//Paginación
-      "order": [[4, "desc"]]//Ordenar (columna,orden)
-    }).DataTable();
-
+  tabla = $('#tbllistadoservicios').dataTable({
+    "aProcessing": true,//Activamos el procesamiento del datatables
+    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+    buttons: [],
+    "ajax": {
+      url: '../ajax/articulo.php?op=listarservicios&idempresa=' + $idempresa,
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
+      }
+    },
+    "bDestroy": true,
+    "iDisplayLength": 15,//Paginación
+    "order": [[4, "desc"]]//Ordenar (columna,orden)
+  }).DataTable();
 }
 
-
-
-
-
 //Función para guardar o editar
-
-
-
 function guardaryeditar(e) {
   e.preventDefault(); //No se activará la acción predeterminada del evento
   $("#btnGuardar").prop("disabled", true);
@@ -466,27 +242,19 @@ function guardaryeditar(e) {
         tabla.ajax.reload();
         listar();
         limpiar();
+        $("#modalAgregarProducto").modal("hide");
       });
     },
     error: function () {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al guardar',
-        text: 'Ha ocurrido un error al guardar los datos',
-      });
+      Swal.fire({ icon: 'error', title: 'Error al guardar', text: 'Ha ocurrido un error al guardar los datos', });
     }
   });
 }
 
-
-
 function mostrar(idarticulo) {
-
+  mostrarform(true);
   $.post("../ajax/articulo.php?op=mostrar", { idarticulo: idarticulo }, function (data, status) {
-
-    data = JSON.parse(data);
-
-    mostrarform(true);
+    data = JSON.parse(data);   
 
     $("#idarticulo").val(data.idarticulo);
     $("#idfamilia").val(data.idfamilia);
@@ -530,8 +298,6 @@ function mostrar(idarticulo) {
       $("#imagen").val("");
     }
 
-
-
     $("#codigosunat").val(data.codigosunat);
     $("#ccontable").val(data.ccontable);
     $("#precio2").val(data.precio2);
@@ -542,86 +308,47 @@ function mostrar(idarticulo) {
     $("#precioprint").val(data.precio_venta);
 
     //Nuevos campos
-
     $("#cicbper").val(data.cicbper);
     $("#nticbperi").val(data.nticbperi);
     $("#ctticbperi").val(data.ctticbperi);
     $("#mticbperu").val(data.mticbperu);
-    //Nuevos campos
 
+    //Nuevos campos
     $("#codigott").val(data.codigott);
     //$('#codigott').selectpicker('refresh');
     $("#desctt").val(data.desctt);
     //$('#desctt').selectpicker('refresh');
-
     $("#codigointtt").val(data.codigointtt);
-
     //$('#codigointtt').selectpicker('refresh');
-
     $("#nombrett").val(data.nombrett);
-
     //$('#nombrett').selectpicker('refresh');
 
-
-
-
-
-
-
     //Nuevos campos
-
     $("#lote").val(data.lote);
-
     $("#marca").val(data.marca);
-
     $("#fechafabricacion").val(data.fechafabricacion);
-
     $("#fechavencimiento").val(data.fechavencimiento);
-
     $("#procedencia").val(data.procedencia);
-
     $("#fabricante").val(data.fabricante);
-
     $("#registrosanitario").val(data.registrosanitario);
-
     $("#fechaingalm").val(data.fechaingalm);
-
     $("#fechafinalma").val(data.fechafinalma);
-
     $("#proveedor").val(data.proveedor);
-
     $("#seriefaccompra").val(data.seriefaccompra);
-
     $("#numerofaccompra").val(data.numerofaccompra);
-
     $("#fechafacturacompra").val(data.fechafacturacompra);
-
-
-
     $("#limitestock").val(data.limitestock);
-
     $("#tipoitem").val(data.tipoitem);
 
-
-
     $("#umedidacompra").val(data.umedidacompra);
-
     //$('#umedidacompra').selectpicker('refresh');
-
-
-
-
-
     $("#factorc").val(data.factorc);
-
     $("#descripcion").val(data.descrip);
 
 
     var stt = $("#stock").val();
     var fc = $("#factorc").val();
-
     var stfc = stt * fc;
-
     $("#fconversion").val(stfc);
 
     //Nuevos campos
@@ -629,14 +356,8 @@ function mostrar(idarticulo) {
     //$('#modalAgregarServicio').modal('show');
     document.getElementById("btnGuardar").innerHTML = "Actualizar";
 
-
-
-    generarbarcode();
-
-
-
-  })
-
+    // generarbarcode();
+  });
 }
 
 
@@ -686,56 +407,26 @@ function activar(idarticulo) {
 
 
 //función para generar el código de barras
+function generarbarcode() {
+  codigo = $("#codigo").val();
+  // descrip=$("#nombre").val();
+  // unidadm=$("#unidad_medida").val();
+  // codigof=codigo.concat(descrip, unidadm);
 
-// function generarbarcode() {
-
-//   codigo = $("#codigo").val();
-
-//   // descrip=$("#nombre").val();
-
-//   // unidadm=$("#unidad_medida").val();
-
-//   // codigof=codigo.concat(descrip, unidadm);
-
-//   JsBarcode("#barcode", codigo, {
-//     format: "code128",
-//   });
-//   $("#print").show();
-
-// }
-
-
+  JsBarcode("#barcode", codigo, { format: "code128", });
+  $("#print").show();
+}
 
 //Función para imprimir el Código de barras
-
-function imprimir() {
-
-  $("#print").printArea();
-
-}
-
-
-
-
+function imprimir() { $("#print").printArea(); }
 
 function calcula_valor_ini() {
-
   costo_compra = $("#costo_compra").val();
-
   saldo_iniu = $("#saldo_iniu").val();
-
-
-
   resu = costo_compra * saldo_iniu;
-
-
-
   $("#valor_iniu").val(resu.toFixed(2));
-
   $("#saldo_finu").val(saldo_iniu);
-
 }
-
 
 $("#stock").change(function () {
   var stockValue = $(this).val();
@@ -744,18 +435,10 @@ $("#stock").change(function () {
   $("#fconversion").val(stockValue);
 });
 
-
-
 function sfinalstock() {
-
   sf = $("#saldo_finu").val();
-
   $("#stock").val(sf);
-
 }
-
-
-
 
 // var valorInicial;
 //  document.getElementById("igv").addEventListener("change", function(){
@@ -770,584 +453,236 @@ function sfinalstock() {
 //  });
 
 
-function mayus(e) {
-
-  e.value = e.value.toUpperCase();
-
-}
-
-
+function mayus(e) { e.value = e.value.toUpperCase(); }
 
 function guardaryeditarFamilia(e) {
-
   e.preventDefault(); //No se activará la acción predeterminada del evento
-
-
-
   var formData = new FormData($("#formnewfamilia")[0]);
-
-
-
   $.ajax({
-
     url: "../ajax/familia.php?op=guardaryeditar",
-
     type: "POST",
-
     data: formData,
-
     contentType: false,
-
     processData: false,
-
-
-
     success: function (datos) {
-
       bootbox.alert(datos);
-
       $("#Nnombre").val("");
-
       tabla.ajax.reload();
-
       actfamilia();
-
     }
-
   });
-
   limpiarcategoria();
-
   $("#ModalNfamilia").modal('hide');
-
 }
-
-
-
-
 
 function guardaryeditarAlmacen(e) {
-
   e.preventDefault(); //No se activará la acción predeterminada del evento
-
-
-
   var formData = new FormData($("#formnewalmacen")[0]);
-
-
-
   $.ajax({
-
     url: "../ajax/familia.php?op=guardaryeditaralmacen",
-
     type: "POST",
-
     data: formData,
-
     contentType: false,
-
     processData: false,
-
-
-
     success: function (datos) {
-
       bootbox.alert(datos);
-
       tabla.ajax.reload();
-
       actalmacen();
-
     }
-
   });
-
   limpiaralmacen();
-
   $("#ModalNalmacen").modal('hide');
-
 }
-
-
 
 function guardaryeditarUmedida(e) {
-
   e.preventDefault(); //No se activará la acción predeterminada del evento
-
-
-
   var formData = new FormData($("#formnewumedida")[0]);
-
-
-
   $.ajax({
-
     url: "../ajax/familia.php?op=guardaryeditarUmedida",
-
     type: "POST",
-
     data: formData,
-
     contentType: false,
-
     processData: false,
-
-
-
     success: function (datos) {
-
       bootbox.alert(datos);
-
       tabla.ajax.reload();
-
       actalunidad();
-
     }
-
   });
-
   limpiarumedida();
-
   $("#ModalNumedida").modal('hide');
-
 }
-
-
-
-
-
-
 
 function actfamilia() {
-
-  $.post("../ajax/articulo.php?op=selectFamilia", function (r) {
-
-    $("#idfamilia").html(r);
-
-    //$('#idfamilia').selectpicker('refresh');
-
-  });
-
-
-
+  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilia").html(r); });
 }
 
-
-
-
-
+//Cargamos los items al select almacen
 function actalmacen() {
-
-  //Cargamos los items al select almacen
-
   $idempresa = $("#idempresa").val();
-
-  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) {
-
-    $("#idalmacen").html(r);
-
-    //$('#idalmacen').selectpicker('refresh');
-
-  });
-
+  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
 }
-
-
-
-
-
+//Cargamos los items al select almacen
 function actalunidad() {
-
-  //Cargamos los items al select almacen
-
-  $.post("../ajax/articulo.php?op=selectUnidad", function (r) {
-
-    $("#unidad_medida").html(r);
-
-    //$('#unidad_medida').selectpicker('refresh');
-
-
-
-    $("#umedidacompra").html(r);
-
-    //$('#umedidacompra').selectpicker('refresh');
-
-  });
+  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
 
 }
-
-
 
 document.onkeypress = stopRKey;
 
-
-
-
-
 function stopRKey(evt) {
-
   var evt = (evt) ? evt : ((event) ? event : null);
-
   var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-
   if ((evt.keyCode == 13) && (node.type == "text")) { return false; }
-
 }
 
-
-
-
-
-function focusfamil() {
-
-  document.getElementById('idfamilia').focus();
-
-}
-
-
-
-function tipoitem() {
-
-  document.getElementById('tipoitem').focus();
-
-}
-
-
-
+function focusfamil() { document.getElementById('idfamilia').focus(); }
+function tipoitem() { document.getElementById('tipoitem').focus(); }
 function focuscodprov() {
-
   //document.getElementById('codigo_proveedor').focus();
   selectedValue = document.getElementById("tipoitem").value;
 }
 
-
-
 function focusnomb(e, field) {
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('nombre').focus();
-
-  }
-
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('nombre').focus(); }
 }
-
-
 
 function focusum(e, field) {
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('unidad_medida').focus();
-
-  }
-
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('unidad_medida').focus(); }
 }
-
-
 
 function limitestockf(e, field) {
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('limitestock').focus();
-
-  }
-
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('limitestock').focus(); }
 }
-
-
 
 function costoco() {
-
-
-
   //idun= $('#unidad_medida').val();
-
-  //$.post("../ajax/articulo.php?op=mostrarequivalencia&iduni="+idun, function(data,status)
-
-  //{
-
+  //$.post("../ajax/articulo.php?op=mostrarequivalencia&iduni="+idun, function(data,status){
   // data=JSON.parse(data);
-
   //$('#factorc').val(data.equivalencia);
-
   //});
-
-
-
-
-
   document.getElementById('factorc').focus();
-
 }
-
-
 
 function umventa(e, field) {
-
   if (e.keyCode === 13 && !e.shiftKey) {
-
     document.getElementById('unidad_medida').focus();
-
   }
-
 }
 
-
-
-
-
-function cinicial() {
-
-  document.getElementById('factorc').focus();
-
-}
-
-
-
-
+function cinicial() { document.getElementById('factorc').focus(); }
 
 //Función para aceptar solo numeros con dos decimales
-
 function focussaldoi(e, field) {
-
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-
   key = e.keyCode ? e.keyCode : e.which
-
-
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('saldo_iniu').focus();
-
-  }
-
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('saldo_iniu').focus(); }
   // backspace
-
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
-
     if (field.value === "") return true;
-
     var existePto = (/[.]/).test(field.value);
-
     if (existePto === false) {
-
       regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
+    } else {
       regexp = /.[0-9]{2}$/;
-
     }
-
     return !(regexp.test(field.value));
-
   }
-
-
 
   if (key == 46) {
-
     if (field.value === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.value);
-
   }
-
   return false;
-
 }
-
-
 
 function valori(e, field) {
 
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-
   key = e.keyCode ? e.keyCode : e.which
-
-
-
   if (e.keyCode === 13 && !e.shiftKey) {
-
     document.getElementById('valor_iniu').focus();
-
   }
 
   // backspace
-
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
-
     if (field.val() === "") return true;
-
     var existePto = (/[.]/).test(field.val());
-
     if (existePto === false) {
-
       regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
+    } else {
       regexp = /.[0-9]{2}$/;
-
     }
-
     return !(regexp.test(field.val()));
-
   }
-
-
 
   if (key == 46) {
-
     if (field.val() === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.val());
-
   }
-
   return false;
-
 }
-
-
 
 function saldof(e, field) {
-
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-
   key = e.keyCode ? e.keyCode : e.which
-
-
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('saldo_finu').focus();
-
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('saldo_finu').focus(); }
 
   // backspace
-
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
-
     if (field.val() === "") return true;
-
     var existePto = (/[.]/).test(field.val());
-
     if (existePto === false) {
-
       regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
+    } else {
       regexp = /.[0-9]{2}$/;
-
     }
-
     return !(regexp.test(field.val()));
-
   }
-
-
 
   if (key == 46) {
-
     if (field.val() === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.val());
-
   }
-
   return false;
-
 }
 
-
-
-
-
 function valorf(e, field) {
-
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-
   key = e.keyCode ? e.keyCode : e.which
-
-
-
   if (e.keyCode === 13 && !e.shiftKey) {
-
     document.getElementById('valor_finu').focus();
-
   }
 
   // backspace
-
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
-
     if (field.val() === "") return true;
-
     var existePto = (/[.]/).test(field.val());
-
     if (existePto === false) {
-
       regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
+    } else {
       regexp = /.[0-9]{2}$/;
-
     }
-
     return !(regexp.test(field.val()));
-
   }
-
-
 
   if (key == 46) {
-
     if (field.val() === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.val());
-
   }
-
   return false;
-
 }
 
 
@@ -1796,87 +1131,42 @@ function codigoi(e, field) {
   // backspace
 
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
-
     if (field.value === "") return true;
-
     var existePto = (/[.]/).test(field.value);
-
     if (existePto === false) {
-
       regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
+    } else {
       regexp = /.[0-9]{2}$/;
-
     }
-
     return !(regexp.test(field.value));
-
   }
 
-
-
   if (key == 46) {
-
     if (field.value === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.value);
-
   }
 
   return false;
 
 }
 
-
-
-
-
 $(".modal-wide").on("show.bs.modal", function () {
-
   var height = $(window).height() - 200;
-
   $(this).find(".modal-body").css("max-height", height);
-
 });
 
-
-
 function unidadvalor() {
-
   valor = $("#nombreu").val();
-
   $("#abre").val(valor);
-
 }
-
-
-
-
-
-
 
 function refrescartabla() {
-
   tabla.ajax.reload();
   //tablas.ajax.reload();
-
 }
-
-
-
-
-
-
 
 document.getElementById("imagen").onchange = function (e) {
   // Creamos el objeto de la clase FileReader
@@ -1897,60 +1187,25 @@ document.getElementById("imagen").onchange = function (e) {
   };
 
 }
-
-
+// :::::::::::::::::::::::::: NO SE USA :::::::::::::::::::::::
 function mostrarequivalencia() {
-
-
-
   idun = $('#unidad_medida').val();
-
   $.post("../ajax/articulo.php?op=mostrarequivalencia&iduni=" + idun, function (data, status) {
-
     data = JSON.parse(data);
-
     $('#equivalencia').val(data.equivalencia);
-
   });
-
-
-
 }
-
-
-
-
-
-
 
 function validarcodigo() {
-
-
-
   cod = $('#codigo').val();
-
   $.post("../ajax/articulo.php?op=validarcodigo&cdd=" + cod, function (data, status) {
-
     data = JSON.parse(data);
-
-
-
     if (data && data.codigo == cod) {
-
       alert("código Existe, debe cambiarlo");
-
       document.getElementById('codigo').focus();
-
     }
-
-
-
-
-
   });
-
 }
-
 
 function generarcodigonarti() {
   //alert("asdasdas");
@@ -1967,10 +1222,6 @@ function generarcodigonarti() {
 
 }
 
-
-
-
-
 function generarCodigoAutomatico() {
   if ($('#generar-cod-correlativo').prop('checked')) {
     $.getJSON('../ajax/articulo.php?action=GenerarCodigo', function (data) {
@@ -1982,15 +1233,9 @@ function generarCodigoAutomatico() {
   }
 }
 
-$('#modalAgregarProducto').on('shown.bs.modal', function (e) {
-  generarCodigoAutomatico();
-});
+$('#modalAgregarProducto').on('shown.bs.modal', function (e) { generarCodigoAutomatico(); });
 
-
-if (localStorage.getItem("checkboxState") === "checked") {
-
-  $('#generar-cod-correlativo').prop('checked', true);
-}
+if (localStorage.getItem("checkboxState") === "checked") { $('#generar-cod-correlativo').prop('checked', true); }
 
 $('label.toggle-switch').on('mousedown', function (e) {
   var checkbox = $('#generar-cod-correlativo');

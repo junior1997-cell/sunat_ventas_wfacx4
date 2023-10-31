@@ -52,21 +52,21 @@ Class Familia
 	//Implementamos un método para activar categorías
 	public function activar($idfamilia)
 	{
-		$sql="update familia SET estado='1' where idfamilia='$idfamilia'";
+		$sql="UPDATE familia SET estado='1' where idfamilia='$idfamilia'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idfamilia)
 	{
-		$sql="select * from familia where idfamilia='$idfamilia'";
+		$sql="SELECT * from familia where idfamilia='$idfamilia'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//validar duplicado
 	public function validarCategoria($nombre)
 	{
-		$sql="select * from familia where descripcion='$nombre'";
+		$sql="SELECT * from familia where descripcion='$nombre'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
@@ -74,13 +74,13 @@ Class Familia
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="select * from familia";
+		$sql="SELECT * from familia";
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
 	public function select()
 	{
-		$sql="select * from familia where estado=1 and not idfamilia='0' order by idfamilia desc";
+		$sql="SELECT * from familia where estado=1 and not idfamilia='0' order by idfamilia desc";
 		return ejecutarConsulta($sql);
 	}
 	

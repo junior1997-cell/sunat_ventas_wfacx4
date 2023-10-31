@@ -49,7 +49,7 @@ Class Cargacertificado
         $keypfx, $webserviceguia)
     {
         $sw=true;
-        $sql="update sunatconfig 
+        $sql="UPDATE sunatconfig 
         set 
         numeroruc='$numeroruc', 
         razon_social='$razon_social', 
@@ -72,7 +72,7 @@ Class Cargacertificado
     //Implementar un método para mostrar los datos de un registro a modificar
     public function mostrar()
     {
-        $sql="select  *  from
+        $sql="SELECT  *  from
          sunatconfig where idcarga='1'";
         return ejecutarConsultaSimpleFila($sql);
     }

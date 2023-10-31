@@ -9,7 +9,6 @@ class Boletaservicio
   //Implementamos nuestro constructor
   public function __construct()
   {
-
   }
 
   //Implementamos un método para insertar registros para boleta
@@ -237,7 +236,7 @@ class Boletaservicio
     $rutadata = $Prutas->rutadata; // ruta de la carpeta DATA
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATA
 
-    $query = "select 
+    $query = "SELECT 
   date_format(fecha_emision_01, '%Y-%m-%d') as fecha, 
   right(substring_index(numeracion_07,'-',1),4) as serie, 
   date_format(fecha_emision_01, '%H:%i:%s') as hora,
@@ -260,7 +259,7 @@ class Boletaservicio
   where idboleta='$idBoletaNew' and b.estado='1'  order by numerodoc";
 
 
-    $querydetbol = "select
+    $querydetbol = "SELECT
    b.tipo_documento_06 as tipocomp, 
    b.numeracion_07 as numerodoc, 
    db.cantidad_item_12 as cantidad, 
@@ -412,7 +411,6 @@ class Boletaservicio
 
         //FORMATO JSON
         $json['detalle'][] = array('codUnidadMedida' => 'ZZZ', 'ctdUnidadItem' => number_format($cantidad[$if], 2, '.', ''), 'codProducto' => $codigo[$if], 'codProductoSUNAT' => '-', 'desItem' => $descripcion[$if], 'mtoValorUnitario' => number_format($vui[$if], 5, '.', ''), 'sumTotTributosItem' => number_format($sutribitem[$if], 2, '.', ''), 'codTriIGV' => $codtrib[$if], 'mtoIgvItem' => number_format($sutribitem[$if], 2, '.', ''), 'mtoBaseIgvItem' => number_format($vvi[$if], 2, '.', ''), 'nomTributoIgvItem' => $nomtrib[$if], 'codTipTributoIgvItem' => $coditrib[$if], 'tipAfeIGV' => $aigv[$if], 'porIgvItem' => "18.0", 'codTriISC' => "-", 'mtoIscItem' => "", 'mtoBaseIscItem' => "", 'nomTributoIscItem' => "", 'codTipTributoIscItem' => "", 'tipSisISC' => "", 'porIscItem' => "", 'codTriOtroItem' => "-", 'mtoTriOtroItem' => "", 'mtoBaseTriOtroItem' => "", 'nomTributoIOtroItem' => "", 'codTipTributoIOtroItem' => "", 'porTriOtroItem' => "", 'mtoPrecioVentaUnitario' => number_format($pvi[$if], 2, '.', ''), 'mtoValorVentaItem' => number_format($vvi[$if], 2, '.', ''), 'mtoValorReferencialUnitario' => "0");
-
       }
     }
 
@@ -453,14 +451,13 @@ class Boletaservicio
     ejecutarConsulta($sqlestado) or $sw = false;
 
     return $sw;
-
   }
 
 
   //Implementar un método para mostrar los datos de un registro a modificar
   public function mostrar($idboleta)
   {
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta,
         date(b.fecha_emision_01) as fecha,
         b.idcliente,p.razon_social as cliente,
@@ -481,7 +478,7 @@ class Boletaservicio
   //Implementar un método para listar los registros
   public function listar($idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta,
         date_format(b.fecha_emision_01,'%d/%m/%y') as fecha,
         b.idcliente,
@@ -508,7 +505,7 @@ class Boletaservicio
   //Implementar un método para listar los registros
   public function listarValidar($ano, $mes, $dia, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta,
         date_format(b.fecha_emision_01,'%d/%m/%y') as fecha,
         b.idcliente,
@@ -535,7 +532,7 @@ class Boletaservicio
 
   public function ventacabecera($idboleta, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta, 
         b.idcliente, 
         p.razon_social, 
@@ -573,7 +570,7 @@ class Boletaservicio
 
   public function ventadetalle($idboleta)
   {
-    $sql = "select  
+    $sql = "SELECT  
         si.descripcion,
         si.codigo, 
         format(db.cantidad_item_12,2) as cantidad_item_12, 
@@ -594,7 +591,7 @@ class Boletaservicio
 
   public function listarDR($ano, $mes, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta,
         b.idcliente,
         numeracion_07 as numeroboleta,
@@ -617,7 +614,7 @@ class Boletaservicio
 
   public function listarD()
   {
-    $sql = "select 
+    $sql = "SELECT 
         documento 
         from 
         correlativo 
@@ -629,7 +626,7 @@ class Boletaservicio
   public function datosemp($idempresa)
   {
 
-    $sql = "select * from empresa where idempresa='$idempresa'";
+    $sql = "SELECT * from empresa where idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
@@ -660,7 +657,7 @@ class Boletaservicio
       exit();
     }
 
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta, 
         p.email,  
         p.nombres, 
@@ -740,7 +737,7 @@ class Boletaservicio
       exit();
     }
 
-    $sqlsendmail = "select 
+    $sqlsendmail = "SELECT 
         b.idboleta, 
         p.email,  
         p.nombres, 
@@ -858,10 +855,4 @@ class Boletaservicio
       $con = $con + 1;
     }
   }
-
 }
-
-
-
-
-?>

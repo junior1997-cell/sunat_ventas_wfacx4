@@ -41,20 +41,20 @@ Class Catalogo7
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($id)
 	{
-		$sql="select * from catalogo7 where id='$id'";
+		$sql="SELECT * from catalogo7 where id='$id'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="select * from catalogo7";
+		$sql="SELECT * from catalogo7";
 		return ejecutarConsulta($sql);		
 	}
 
 	public function listar2()
     {
-        $sql="select id, codigo, descripcion, estado from catalogo7";
+        $sql="SELECT id, codigo, descripcion, estado from catalogo7";
         return ejecutarConsulta($sql);		
     }
 

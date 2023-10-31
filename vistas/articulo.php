@@ -109,8 +109,7 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
                 <div class="mb-3 col-lg-4">
                   <label for="recipient-name" class="col-form-label">Detalles del producto:</label>
-                  <textarea class="form-control" id="descripcion" name="descripcion" rows="1" cols="70" onkeyup="mayus(this)">
-                             </textarea>
+                  <textarea class="form-control" id="descripcion" name="descripcion" rows="1" cols="70" onkeyup="mayus(this)"></textarea>
                 </div>
                 <div class="mb-3 col-lg-2">
                   <label for="recipient-name" class="col-form-label">Cantidad de Stock:</label>
@@ -166,7 +165,7 @@ if (!isset($_SESSION["nombre"])) {
                     <option value="7152">7152</option>
                     <option value="9995">9995</option>
                     <option value="9996">9996</option>
-                    <option value="9997">9997</option>
+                    <option value="9997" selected>9997</option>
                     <option value="9998">9998</option>
                     <option value="9999">9999</option>
                   </select>
@@ -174,18 +173,13 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="mb-3 col-lg-3">
                   <label for="recipient-name" class="col-form-label">Tributo:</label>
                   <select name="desctt" id="desctt" class="form-control">
-                    <option value="IGV Impuesto General a las Ventas">IGV Impuesto General a las Ventas
-                    </option>
-                    <option value="Impuesto a la Venta Arroz Pilado">Impuesto a la Venta Arroz Pilado
-                    </option>
-                    <option value="ISC Impuesto Selectivo al Consumo">ISC Impuesto Selectivo al Consumo
-                    </option>
-                    <option value="Impuesto al Consumo de las bolsas de plástico">Impuesto al Consumo de las
-                      bolsas de plástico
-                    </option>
+                    <option value="IGV Impuesto General a las Ventas">IGV Impuesto General a las Ventas</option>
+                    <option value="Impuesto a la Venta Arroz Pilado">Impuesto a la Venta Arroz Pilado</option>
+                    <option value="ISC Impuesto Selectivo al Consumo">ISC Impuesto Selectivo al Consumo</option>
+                    <option value="Impuesto al Consumo de las bolsas de plástico">Impuesto al Consumo de las bolsas de plástico</option>
                     <option value="Exportación">Exportación</option>
                     <option value="Gratuito">Gratuito</option>
-                    <option value="Exonerado">Exonerado</option>
+                    <option value="Exonerado" selected>Exonerado</option>
                     <option value="Inafecto">Inafecto</option>
                     <option value="Otros tributos">Otros tributos</option>
                   </select>
@@ -193,13 +187,8 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="mb-3 col-lg-3">
                   <label for="recipient-name" class="col-form-label">Código internacional:</label>
                   <select name="codigointtt" id="codigointtt" class="form-control">
-                    <option value="VAT">VAT</option>
-                    <option value="VAT">VAT</option>
+                    <option value="VAT" selected>VAT</option>
                     <option value="EXC">EXC</option>
-                    <option value="EXC">EXC</option>
-                    <option value="FRE">FRE</option>
-                    <option value="FRE">FRE</option>
-                    <option value="VAT">VAT</option>
                     <option value="FRE">FRE</option>
                     <option value="OTH">OTH</option>
                   </select>
@@ -213,7 +202,7 @@ if (!isset($_SESSION["nombre"])) {
                     <option value="ICBPER">ICBPER</option>
                     <option value="EXP">EXP</option>
                     <option value="GRA">GRA</option>
-                    <option value="EXO">EXO</option>
+                    <option value="EXO" selected>EXO</option>
                     <option value="INA">INA</option>
                     <option value="OTROS">OTROS</option>
                   </select>
@@ -226,6 +215,7 @@ if (!isset($_SESSION["nombre"])) {
                   <input type="checkbox" id="agregarOtrosCampos" name="" value="">
                   <label for="" style="position: relative; bottom: 5px;">Más opciones de item</label>
                 </div>
+
                 <div class="row" id="mostrarCompra" style="margin: 0 auto; display: none;">
                   <div style="margin: 0 auto;" class="row">
                     <div class="mb-3 col-lg-4">
@@ -256,25 +246,26 @@ if (!isset($_SESSION["nombre"])) {
                            </div> -->
                   </div>
                 </div>
+
                 <div class="mb-3 col-lg-4" hidden>
                   <label for="recipient-name" class="col-form-label">Factor conversión:</label>
                   <input type="text" class="form-control" name="factorc" id="factorc" onkeypress=" return umventa(event, this)">
                 </div>
                 <div class="mb-3 col-lg-4" hidden>
                   <label for="recipient-name" class="col-form-label">Saldo inicial (S/.):</label>
-                  <input type="text" class="form-control" name="saldo_iniu" id="saldo_iniu" maxlength="500" placeholder="Saldo inicial" onBlur="calcula_valor_ini()" required="true" onkeypress="return valori(event, this)" data-tooltip="Información de este campo" data-tooltip-more="Si es la primera vez que llena este campo poner el saldo final de su inventario físico. " data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                  <input type="text" class="form-control" name="saldo_iniu" id="saldo_iniu" maxlength="500" placeholder="Saldo inicial" onBlur="calcula_valor_ini()" required="false" onkeypress="return valori(event, this)" data-tooltip="Información de este campo" data-tooltip-more="Si es la primera vez que llena este campo poner el saldo final de su inventario físico. " data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
                 </div>
                 <div class="mb-3 col-lg-4" hidden>
                   <label for="recipient-name" class="col-form-label">Valor inicial (S/.):</label>
-                  <input value="0" type="text" class="form-control" name="valor_iniu" id="valor_iniu" maxlength="500" placeholder="Valor inicial" required="true" onkeypress="return saldof(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor inicial es el costo compra x saldo inicial." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                  <input value="0" type="text" class="form-control" name="valor_iniu" id="valor_iniu" maxlength="500" placeholder="Valor inicial" required="false" onkeypress="return saldof(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor inicial es el costo compra x saldo inicial." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
                 </div>
                 <div class="mb-3 col-lg-4" hidden>
                   <label for="recipient-name" class="col-form-label">Saldo final (mts):</label>
-                  <input type="text" class="form-control" name="saldo_finu" id="saldo_finu" maxlength="500" placeholder="Saldo final" required="true" onkeypress="return valorf(event, this)" onBlur="sfinalstock()" data-tooltip="Información de este campo" data-tooltip-more="La primera vez en el registro será igual a saldo inicial (saldofinal=saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                  <input type="text" class="form-control" name="saldo_finu" id="saldo_finu" maxlength="500" placeholder="Saldo final" required="false" onkeypress="return valorf(event, this)" onBlur="sfinalstock()" data-tooltip="Información de este campo" data-tooltip-more="La primera vez en el registro será igual a saldo inicial (saldofinal=saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
                 </div>
                 <div class="mb-3 col-lg-4" hidden>
                   <label for="recipient-name" class="col-form-label">Valor final (S/.):</label>
-                  <input type="text" class="form-control" name="valor_finu" id="valor_finu" maxlength="500" placeholder="Valor Final" required="true" onkeypress="return st(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor final es igual al valor incial (valor final=valor inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                  <input type="text" class="form-control" name="valor_finu" id="valor_finu" maxlength="500" placeholder="Valor Final" required="false" onkeypress="return st(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor final es igual al valor incial (valor final=valor inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
                 </div>
                 <div class="mb-3 col-lg-4" hidden>
                   <label for="recipient-name" class="col-form-label">Conversión um venta:</label>
@@ -492,41 +483,21 @@ if (!isset($_SESSION["nombre"])) {
   <script>
     document.getElementById('formularioImportar').addEventListener('submit', function(e) {
       e.preventDefault();
-
       const data = new FormData(this);
-
-      fetch(this.action, {
-          method: 'POST',
-          body: data
-        })
-        .then(response => response.json())
-        .then(data => {
+      fetch(this.action, { method: 'POST', body: data  })
+      .then(response => response.json())
+      .then(data => {
           if (data.success) {
-            Swal.fire({
-              icon: 'success',
-              title: '¡Éxito!',
-              text: 'Los datos se han importado correctamente.',
-              showConfirmButton: false,
-              timer: 1500
-            });
+            Swal.fire({  icon: 'success',  title: '¡Éxito!',  text: 'Los datos se han importado correctamente.',  showConfirmButton: false, timer: 1500  });
             tabla.ajax.reload();
             listar();
             $('#importararticulos').modal('hide');
           } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: data.message || 'Ocurrió un error al importar los datos.'
-            });
+            Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Ocurrió un error al importar los datos.' });
           }
-        })
-        .catch(err => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Ocurrió un error al enviar el archivo.'
-          });
-        });
+      }).catch(err => {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'Ocurrió un error al enviar el archivo.' });
+      });
     });
 
     $('#importararticulos').on('hidden.bs.modal', function() {

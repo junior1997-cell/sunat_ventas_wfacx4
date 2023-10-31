@@ -521,7 +521,7 @@ class Boleta
 
 
 
-    $query = "select idboleta, idarticulo  from detalle_boleta_producto where idboleta='$idboleta'";
+    $query = "SELECT idboleta, idarticulo  from detalle_boleta_producto where idboleta='$idboleta'";
 
     $resultado = mysqli_query($connect, $query);
 
@@ -701,7 +701,7 @@ class Boleta
 
 
 
-    $query = "select date_format(fecha_emision_01, '%Y-%m-%d') as fecha, 
+    $query = "SELECT date_format(fecha_emision_01, '%Y-%m-%d') as fecha, 
 
 date_format(fecha_baja, '%Y%m%d') as fechabaja2, 
 
@@ -840,7 +840,7 @@ comentario_baja
 
     }
 
-    $query = "select dt.idboleta, a.idarticulo, dt.cantidad_item_12, dt.valor_uni_item_31, a.codigo, a.unidad_medida  from detalle_boleta_producto dt inner join articulo a on dt.idarticulo=a.idarticulo  where idboleta='$idboleta'";
+    $query = "SELECT dt.idboleta, a.idarticulo, dt.cantidad_item_12, dt.valor_uni_item_31, a.codigo, a.unidad_medida  from detalle_boleta_producto dt inner join articulo a on dt.idarticulo=a.idarticulo  where idboleta='$idboleta'";
 
 
 
@@ -1047,7 +1047,7 @@ comentario_baja
   public function mostrar($idboleta)
   {
 
-    $sql = "select 
+    $sql = "SELECT 
 
         b.idboleta,
 
@@ -1084,7 +1084,7 @@ comentario_baja
   public function listarDetalle($idboleta)
   {
 
-    $sql = "select 
+    $sql = "SELECT 
 
         df.idboleta,
 
@@ -1115,7 +1115,7 @@ comentario_baja
   public function listar($idempresa)
   {
 
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta,
         date_format(b.fecha_emision_01, '%d/%m/%y') as fecha,
         b.idcliente,
@@ -1171,7 +1171,7 @@ comentario_baja
 
     if ($mes == "'01','02','03','04','05','06','07','08','09','10', '11','12'") {
 
-      $sql = "select 
+      $sql = "SELECT 
 
         b.idboleta,
 
@@ -1232,7 +1232,7 @@ comentario_baja
 
 
 
-      $sql = "select 
+      $sql = "SELECT 
 
         b.idboleta,
 
@@ -1291,7 +1291,7 @@ comentario_baja
 
 
 
-      $sql = "select 
+      $sql = "SELECT 
 
         b.idboleta,
 
@@ -1360,7 +1360,7 @@ comentario_baja
 
   public function ventacabecera($idboleta, $idempresa)
   {
-    $sql = "select 
+    $sql = "SELECT 
         b.idboleta, 
         b.idcliente, 
         p.razon_social,
@@ -1423,7 +1423,7 @@ comentario_baja
   public function ventadetalle($idboleta)
   {
 
-    $sql = "select  
+    $sql = "SELECT  
         a.nombre as articulo, 
         a.codigo, 
         format(db.cantidad_item_12,2) as cantidad_item_12, 
@@ -1567,7 +1567,7 @@ comentario_baja
   public function listarD()
   {
 
-    $sql = "select 
+    $sql = "SELECT 
 
         documento 
 
@@ -1593,7 +1593,7 @@ comentario_baja
 
   public function datosemp($idempresa)
   {
-    $sql = "select * from empresa where idempresa='$idempresa'";
+    $sql = "SELECT * from empresa where idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
@@ -1619,7 +1619,7 @@ comentario_baja
   public function mostrarultimocomprobante($idempresa)
   {
 
-    $sql = "select numeracion_07 from boleta b inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
+    $sql = "SELECT numeracion_07 from boleta b inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
 
     return ejecutarConsultaSimpleFila($sql);
 
@@ -1630,7 +1630,7 @@ comentario_baja
   public function mostrarultimocomprobanteId($idempresa)
   {
 
-    $sql = "select b.idboleta, e.tipoimpresion from boleta b inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
+    $sql = "SELECT b.idboleta, e.tipoimpresion from boleta b inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
 
     return ejecutarConsultaSimpleFila($sql);
 
@@ -1673,7 +1673,7 @@ comentario_baja
 
 
 
-    $sql = "select 
+    $sql = "SELECT 
 
         b.idboleta, 
 
@@ -1834,7 +1834,7 @@ comentario_baja
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
       exit();
     }
-    $sqlsendmail = "select 
+    $sqlsendmail = "SELECT 
         b.idboleta, 
         p.email,  
         p.nombres, 
@@ -2005,7 +2005,7 @@ comentario_baja
 
 
 
-    $query = "select
+    $query = "SELECT
      date_format(b.fecha_emision_01, '%Y-%m-%d') as fecha, 
      right(substring_index(b.numeracion_07,'-',1),1) as serie,
      date_format(b.fecha_emision_01, '%H:%i:%s') as hora,
@@ -2042,7 +2042,7 @@ comentario_baja
     idboleta='$idboleta' and b.estado in('1','4') order by numerodoc";
 
 
-    $querycuotas = "select 
+    $querycuotas = "SELECT 
      lpad(cu.ncuota,3,'0') as ncuota ,
      cu.montocuota,
      date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota,
@@ -2054,7 +2054,7 @@ comentario_baja
 
 
 
-    $querydetbol = "select
+    $querydetbol = "SELECT
        b.tipo_documento_06 as tipocomp, 
        b.numeracion_07 as numerodoc,  
        db.cantidad_item_12 as cantidad, 
@@ -2745,7 +2745,7 @@ comentario_baja
 
 
 
-      $query = "select
+      $query = "SELECT
 
      date_format(b.fecha_emision_01, '%Y-%m-%d') as fecha, 
 
@@ -2795,7 +2795,7 @@ comentario_baja
 
 
 
-      $querydetbol = "select
+      $querydetbol = "SELECT
 
        b.tipo_documento_06 as tipocomp, 
 
@@ -3652,7 +3652,7 @@ comentario_baja
 
 
 
-      $sqlsendmail = "select 
+      $sqlsendmail = "SELECT 
 
         b.idboleta, 
 
@@ -3976,7 +3976,7 @@ comentario_baja
 
 
 
-    $query = "select
+    $query = "SELECT
      date_format(b.fecha_emision_01, '%Y-%m-%d') as fecha, 
      right(substring_index(b.numeracion_07,'-',1),1) as serie,
      date_format(b.fecha_emision_01, '%H:%i:%s') as hora,
@@ -4013,7 +4013,7 @@ comentario_baja
     idboleta='$idboleta' and b.estado in('1','4','3','5') order by numerodoc";
 
 
-    $querycuotas = "select 
+    $querycuotas = "SELECT 
      lpad(cu.ncuota,3,'0') as ncuota ,
      cu.montocuota,
      date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota,
@@ -4025,7 +4025,7 @@ comentario_baja
 
 
 
-    $querydetbol = "select
+    $querydetbol = "SELECT
        b.tipo_documento_06 as tipocomp, 
        b.numeracion_07 as numerodoc,  
        db.cantidad_item_12 as cantidad, 
@@ -4749,7 +4749,7 @@ comentario_baja
 
 
 
-    $sqlsendmail = "select 
+    $sqlsendmail = "SELECT 
 
         b.idboleta, 
 
@@ -5079,7 +5079,7 @@ comentario_baja
 
 
 
-    $sqlsendmail = "select 
+    $sqlsendmail = "SELECT 
 
         b.idboleta, 
 
@@ -5366,7 +5366,7 @@ comentario_baja
 
 
 
-    $query = "select
+    $query = "SELECT
 
      b.tipo_documento_06 as tipocomp, 
 
@@ -5479,7 +5479,7 @@ comentario_baja
 
 
 
-    $query = "select
+    $query = "SELECT
 
      b.tipo_documento_06 as tipocomp, 
 
@@ -5547,7 +5547,7 @@ comentario_baja
   public function almacenlista()
   {
 
-    $sql = "select * from almacen where estado='1' order by idalmacen";
+    $sql = "SELECT * from almacen where estado='1' order by idalmacen";
     return ejecutarConsulta($sql);
   }
 
@@ -5634,7 +5634,7 @@ comentario_baja
 
 
 
-  // $query = "select 
+  // $query = "SELECT 
 
   // date_format(fecha_emision_01, '%Y-%m-%d') as fecha, 
 
@@ -5680,7 +5680,7 @@ comentario_baja
 
 
 
-  // $querydetbol = "select
+  // $querydetbol = "SELECT
 
   //  b.tipo_documento_06 as tipocomp, 
 
@@ -6409,7 +6409,7 @@ comentario_baja
       exit();
     }
 
-    $sqlsendmail = "select 
+    $sqlsendmail = "SELECT 
         b.idboleta, 
         p.email,  
         p.nombres, 
@@ -6549,7 +6549,7 @@ comentario_baja
   public function mostrartipocambio($fecha)
   {
 
-    $sql = "select idtipocambio, date_format(fecha, '%Y-%m-%d') as fecha, compra, venta from tcambio where fecha='$fecha'";
+    $sql = "SELECT idtipocambio, date_format(fecha, '%Y-%m-%d') as fecha, compra, venta from tcambio where fecha='$fecha'";
     return ejecutarConsultaSimpleFila($sql);
   }
 
@@ -6611,7 +6611,7 @@ comentario_baja
       exit();
     }
 
-    $seriebol = "select left(numeracion_07,4) as serie from boleta where idboleta='$idboleta'";
+    $seriebol = "SELECT left(numeracion_07,4) as serie from boleta where idboleta='$idboleta'";
     $buscaserie = mysqli_query($connect, $seriebol);
     $serie = "";
 
@@ -6621,7 +6621,7 @@ comentario_baja
       }
     }
 
-    $buscanumero = "select numero from numeracion  where serie='$serie'";
+    $buscanumero = "SELECT numero from numeracion  where serie='$serie'";
     $numeroobt = mysqli_query($connect, $buscanumero);
 
     $nnumero = 0;

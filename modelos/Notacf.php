@@ -1,26 +1,26 @@
-<?php 
+<?php
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
- 
-Class Notacf
+
+class Notacf
 {
-    //Implementamos nuestro constructor
-    public function __construct()
-    {
- 
-    }
- 
-    //Implementar un método para listar los registros y mostrar en el select
-    public function selectD()
-    {
-        $sql="select codigo, descripcion from catalogo9";
-        return ejecutarConsulta($sql);      
-    }
-    
-    
-function buscarComprobante($idempresa, $moneda){
-    
-    $sql="select
+  //Implementamos nuestro constructor
+  public function __construct()
+  {
+  }
+
+  //Implementar un método para listar los registros y mostrar en el select
+  public function selectD()
+  {
+    $sql = "SELECT codigo, descripcion from catalogo9";
+    return ejecutarConsulta($sql);
+  }
+
+
+  function buscarComprobante($idempresa, $moneda)
+  {
+
+    $sql = "SELECT
      idfactura, 
      tipo_documento as tdcliente, 
      numero_documento as ndcliente, 
@@ -55,14 +55,14 @@ function buscarComprobante($idempresa, $moneda){
      p.tipo_persona='cliente' and f.estado='5' and e.idempresa='$idempresa' and f.tipo_moneda_28='$moneda'
      
    ) as tabla order by fecha_emision_01 desc";
-        return ejecutarConsulta($sql); 
-    
-}
+    return ejecutarConsulta($sql);
+  }
 
 
-function buscarComprobanteServicioFactura($idempresa){
-    
-    $sql="select
+  function buscarComprobanteServicioFactura($idempresa)
+  {
+
+    $sql = "SELECT
      idfactura, 
      tipo_documento as tdcliente, 
      numero_documento as ndcliente, 
@@ -92,13 +92,13 @@ function buscarComprobanteServicioFactura($idempresa){
      from 
      facturaservicio f inner join persona p on f.idcliente=p.idpersona  inner join empresa e on f.idempresa=e.idempresa where p.tipo_persona='cliente' and f.estado='5' and e.idempresa='$idempresa'
    ) as tabla order by fecha_emision_01 desc";
-        return ejecutarConsulta($sql); 
-    
-}
+    return ejecutarConsulta($sql);
+  }
 
-function buscarComprobanteId($idcomprobante){
-    
-    $sql="select  
+  function buscarComprobanteId($idcomprobante)
+  {
+
+    $sql = "SELECT  
     idfactura, 
     tipo_documento, 
     numero_documento, 
@@ -155,14 +155,14 @@ function buscarComprobanteId($idcomprobante){
     factura f inner join detalle_fac_art df on f.idfactura=df.idfactura inner join articulo a on df.idarticulo=a.idarticulo inner join persona p on f.idcliente=p.idpersona 
     where p.tipo_persona='cliente'  and f.idfactura='$idcomprobante' and f.estado='5')
     as tabla";
-        return ejecutarConsulta($sql); 
-    
-}
+    return ejecutarConsulta($sql);
+  }
 
 
-function buscarComprobanteIdFacturaServicio($idcomprobante){
-    
-    $sql="select  
+  function buscarComprobanteIdFacturaServicio($idcomprobante)
+  {
+
+    $sql = "SELECT  
     idfactura, 
     tipo_documento, 
     numero_documento, 
@@ -214,38 +214,36 @@ function buscarComprobanteIdFacturaServicio($idcomprobante){
     from
     facturaservicio f inner join detalle_fac_art_ser df on f.idfactura=df.idfactura inner join servicios_inmuebles a on df.idarticulo=a.id inner join persona p on f.idcliente=p.idpersona where p.tipo_persona='cliente'  and f.idfactura='$idcomprobante' and f.estado='5')
     as tabla";
-        return ejecutarConsulta($sql); 
-    
-}
+    return ejecutarConsulta($sql);
+  }
 
 
-//Implementamos un método para anular la factura
-public function anularFactura($idfactura)
-{
+  //Implementamos un método para anular la factura
+  public function anularFactura($idfactura)
+  {
 
-      $connect = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
-      mysqli_query( $connect, 'SET NAMES "'.DB_ENCODE.'"');
-      //Si tenemos un posible error en la conexión lo mostramos
-      if (mysqli_connect_errno())
-      {
-            printf("Falló conexión a la base de datos: %s\n",mysqli_connect_error());
-            exit();
-      }
+    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    //Si tenemos un posible error en la conexión lo mostramos
+    if (mysqli_connect_errno()) {
+      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+      exit();
+    }
 
-    $query="select idfactura, idarticulo  from detalle_fac_art where idfactura = '$idfactura'";
-    $resultado = mysqli_query($connect,$query);
+    $query = "SELECT idfactura, idarticulo  from detalle_fac_art where idfactura = '$idfactura'";
+    $resultado = mysqli_query($connect, $query);
 
-    $Idf=array();
-    $Ida=array();
-    $sw=true;
-    $num_elementos=0;
+    $Idf = array();
+    $Ida = array();
+    $sw = true;
+    $num_elementos = 0;
 
     while ($fila = mysqli_fetch_assoc($resultado)) {
-    for($i=0; $i < count($resultado) ; $i++){
-        $Idf[$i] = $fila["idfactura"];  
-        $Ida[$i] = $fila["idarticulo"];  
+      for ($i = 0; $i < count($resultado); $i++) {
+        $Idf[$i] = $fila["idfactura"];
+        $Ida[$i] = $fila["idarticulo"];
 
-    $sql_update_articulo="update
+        $sql_update_articulo = "update
      detalle_fac_art de inner join 
      articulo a  on de.idarticulo = a.idarticulo
      set
@@ -255,55 +253,46 @@ public function anularFactura($idfactura)
         where
         de.idfactura='$Idf[$i]' and de.idarticulo='$Ida[$i]'";
 
-        $sql_update_articulo_2="update
+        $sql_update_articulo_2 = "update
      detalle_fac_art de inner join articulo a  on de.idarticulo = a.idarticulo
       set
       a.valor_finu=(a.saldo_iniu + a.comprast - a.ventast) * a.costo_compra 
       where
       de.idfactura='$Idf[$i]' and de.idarticulo='$Ida[$i]'";
 
-       $sqlbajafactura="update factura set estado='0' where idfactura='$Idf[$i]'";
-       
+        $sqlbajafactura = "update factura set estado='0' where idfactura='$Idf[$i]'";
+      } //Fin for
+      ejecutarConsulta($sql_update_articulo) or $sw = false;
+      ejecutarConsulta($sql_update_articulo_2) or $sw = false;
+      ejecutarConsulta($sqlbajafactura) or $sw = false;
+    } //Fin while
+
+    return $sw;
+  }
 
 
-        } //Fin for
-         ejecutarConsulta($sql_update_articulo) or $sw=false;
-         ejecutarConsulta($sql_update_articulo_2) or $sw=false;
-         ejecutarConsulta($sqlbajafactura) or $sw=false;      
 
-           
-       
-        } //Fin while
-        
-    return $sw; 
-   
+  //Implementamos un método para anular la factura
+  public function anularFacturaxItem($idfactura, $idarticulo, $cantidad)
+  {
+
+    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    //Si tenemos un posible error en la conexión lo mostramos
+    if (mysqli_connect_errno()) {
+      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+      exit();
     }
 
 
+    $Idf = array();
+    $Ida = array();
+    $sw = true;
+    $num_elementos = 0;
 
-//Implementamos un método para anular la factura
-public function anularFacturaxItem($idfactura, $idarticulo, $cantidad)
-{
+    while ($num_elementos < count($idarticulo)) {
 
-      $connect = new mysqli(DB_HOST,DB_USERNAME,DB_PASSWORD,DB_NAME);
-      mysqli_query( $connect, 'SET NAMES "'.DB_ENCODE.'"');
-      //Si tenemos un posible error en la conexión lo mostramos
-      if (mysqli_connect_errno())
-      {
-            printf("Falló conexión a la base de datos: %s\n",mysqli_connect_error());
-            exit();
-      }
-      
-
-    $Idf=array();
-    $Ida=array();
-    $sw=true;
-    $num_elementos=0;    
-
-    while ($num_elementos < count($idarticulo))
-    {
-
-    $query="select 
+      $query = "SELECT 
     idfactura, 
     idarticulo 
     from 
@@ -312,15 +301,15 @@ public function anularFacturaxItem($idfactura, $idarticulo, $cantidad)
     idfactura ='$idfactura' 
     and 
     idarticulo='$idarticulo[$num_elementos]'";
-    $resultado = mysqli_query($connect, $query);
-    
+      $resultado = mysqli_query($connect, $query);
 
-    while ($fila = mysqli_fetch_assoc($resultado)) {
-    for($i=0; $i < count($resultado) ; $i++){
-        $Idf[$i] = $fila["idfactura"];  
-        $Ida[$i] = $fila["idarticulo"];  
 
-    $sql_update_articulo="update
+      while ($fila = mysqli_fetch_assoc($resultado)) {
+        for ($i = 0; $i < count($resultado); $i++) {
+          $Idf[$i] = $fila["idfactura"];
+          $Ida[$i] = $fila["idarticulo"];
+
+          $sql_update_articulo = "update
      detalle_fac_art de 
      inner join
      articulo a  
@@ -332,7 +321,7 @@ public function anularFacturaxItem($idfactura, $idarticulo, $cantidad)
         where
         de.idfactura='$Idf[$i]' and de.idarticulo='$Ida[$i]'";
 
-          $sql_update_articulo_2="update
+          $sql_update_articulo_2 = "update
      detalle_fac_art de 
      inner join
      articulo a  
@@ -341,22 +330,12 @@ public function anularFacturaxItem($idfactura, $idarticulo, $cantidad)
         a.valor_finu=(a.saldo_iniu + '$cantidad[$num_elementos]') * a.costo_compra 
         where
         de.idfactura='$Idf[$i]' and de.idarticulo='$Ida[$i]'";
-
         }
-         ejecutarConsulta($sql_update_articulo) or $sw=false;
-         ejecutarConsulta($sql_update_articulo_2) or $sw=false;
-
-
-
-         
-        }
-        $num_elementos=$num_elementos + 1;
-    //return $sw; 
-      }    
-
-
-
+        ejecutarConsulta($sql_update_articulo) or $sw = false;
+        ejecutarConsulta($sql_update_articulo_2) or $sw = false;
+      }
+      $num_elementos = $num_elementos + 1;
+      //return $sw; 
     }
-    
+  }
 }
-?>

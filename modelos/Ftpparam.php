@@ -1,19 +1,18 @@
-<?php 
+<?php
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
- 
-Class Ftpparam
+
+class Ftpparam
 {
-    //Implementamos nuestro constructor
-    public function __construct()
-    {
- 
-    }
- 
-    //Implementamos un método para insertar registros
-    public function insertar($razonsocial,$ncomercial,$domicilio,$ruc,$tel1,$tel2,$correo,$imagen)
-    {
-        $sql="insert into
+  //Implementamos nuestro constructor
+  public function __construct()
+  {
+  }
+
+  //Implementamos un método para insertar registros
+  public function insertar($razonsocial, $ncomercial, $domicilio, $ruc, $tel1, $tel2, $correo, $imagen)
+  {
+    $sql = "insert into
          empresa (nombre_razon_social,
             nombre_comercial,
             domicilio_fiscal,
@@ -24,13 +23,13 @@ Class Ftpparam
             logo,
             )
         values ('$razonsocial','$ncomercial','$domicilio','$ruc','$tel1','$tel2','$correo','$imagen')";
-        return ejecutarConsulta($sql);
-    }
- 
-    //Implementamos un método para editar registros
-    public function editar($idempresa,$razonsocial,$ncomercial,$domicilio,$ruc,$tel1,$tel2,$correo,$imagen)
-    {
-        $sql="update empresa 
+    return ejecutarConsulta($sql);
+  }
+
+  //Implementamos un método para editar registros
+  public function editar($idempresa, $razonsocial, $ncomercial, $domicilio, $ruc, $tel1, $tel2, $correo, $imagen)
+  {
+    $sql = "update empresa 
         set 
         nombre_razon_social='$razonsocial', 
         nombre_comercial='$ncomercial', 
@@ -43,18 +42,14 @@ Class Ftpparam
         
         where 
         idempresa='$idempresa'";
-        return ejecutarConsulta($sql);
-    }
- 
-   
-    //Implementar un método para mostrar los datos de un registro a modificar
-    public function mostrarParametros()
-    {
-        $sql="select * from ftpparam";
-        return ejecutarConsultaSimpleFila($sql);
-    }
- 
- 
+    return ejecutarConsulta($sql);
+  }
+
+
+  //Implementar un método para mostrar los datos de un registro a modificar
+  public function mostrarParametros()
+  {
+    $sql = "select * from ftpparam";
+    return ejecutarConsultaSimpleFila($sql);
+  }
 }
- 
-?>
