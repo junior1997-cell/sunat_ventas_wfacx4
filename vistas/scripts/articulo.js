@@ -562,7 +562,7 @@ function focusnomb(e, field) {
 }
 
 function focusum(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('unidad_medida').focus(); }
+ // if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('unidad_medida').focus(); }
 }
 
 function limitestockf(e, field) {
@@ -579,9 +579,7 @@ function costoco() {
 }
 
 function umventa(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById('unidad_medida').focus();
-  }
+  //if (e.keyCode === 13 && !e.shiftKey) {document.getElementById('unidad_medida').focus(); }
 }
 
 function cinicial() { document.getElementById('factorc').focus(); }
@@ -1065,9 +1063,7 @@ function preciov(e, field) {
 function limitest(e, field) {
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
   key = e.keyCode ? e.keyCode : e.which
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById('unidad_medida').focus();
-  }
+  //if (e.keyCode === 13 && !e.shiftKey) {document.getElementById('unidad_medida').focus(); }
   // backspace
   if (key == 8) return true;
   if (key == 9) return true;

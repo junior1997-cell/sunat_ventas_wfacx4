@@ -270,7 +270,7 @@ if (!isset($_SESSION["nombre"])) {
 
                     <div class="mb-3 col-lg-4">
                       <label for="recipient-name" class="col-form-label">U. medida compra:</label>
-                      <select class="form-control" name="umedidacompra" id="umedidacompra" required data-live-search="true" onchange="cinicial()">
+                      <select class="form-control" name="umedidacompra" id="umedidacompra" data-live-search="true" onchange="cinicial()">
                       </select>
                     </div>
 

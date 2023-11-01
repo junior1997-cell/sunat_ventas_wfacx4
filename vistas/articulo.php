@@ -100,7 +100,7 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
                 <div class="mb-3 col-lg-3" hidden>
                   <label for="recipient-name" class="col-form-label">U. medida venta:</label>
-                  <select class="form-control" name="unidad_medida" id="unidad_medida" required onchange="costoco()">
+                  <select class="form-control" name="unidad_medida" id="unidad_medida" onchange="costoco()">
                   </select>
                 </div>
                 <div class="mb-3 col-lg-4">
