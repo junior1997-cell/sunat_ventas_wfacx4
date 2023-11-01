@@ -1503,39 +1503,35 @@ class Articulo
     return $promediofac = ejecutarConsulta($promfactura);
   }
 
-
-  public function validarcodigo($codigo)
-  {
-
+  public function validarcodigo($codigo) {
     $sql = "SELECT codigo from articulo where codigo='$codigo'";
-
     return ejecutarConsultaSimpleFila($sql);
   }
 
-
-
-
-  public function totalcomprasxcodigo($idarticulo, $ano, $mes)
-  {
+  public function totalcomprasxcodigo($idarticulo, $ano, $mes) {
     $sql = "SELECT sum(dc.subtotal) as totalcostocompra from detalle_compra_producto dc inner join articulo a on dc.idarticulo=a.idarticulo
         inner join compra c on dc.idcompra=c.idcompra where dc.idarticulo='$idarticulo' and year(c.fecha)='$ano' and month(c.fecha)='$mes'  ";
     return ejecutarConsulta($sql);
   }
 
 
-  public function totalventasxcodigo($idarticulo, $ano, $mes)
-  {
+  public function totalventasxcodigo($idarticulo, $ano, $mes)  {
     $sql = "SELECT sum(tventas) as totalingresoventa from (
-select  valor_venta_item_32 as tventas from detalle_boleta_producto db inner join articulo a on db.idarticulo=a.idarticulo
-        inner join boleta b on db.idboleta=b.idboleta where db.idarticulo='$idarticulo' and year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' 
+    select  valor_venta_item_32 as tventas 
+    from detalle_boleta_producto db 
+    inner join articulo a on db.idarticulo=a.idarticulo
+    inner join boleta b on db.idboleta=b.idboleta where db.idarticulo='$idarticulo' and year(b.fecha_emision_01)='$ano' and month(b.fecha_emision_01)='$mes' 
     union all
-    select  valor_venta_item_21 as tventas from detalle_fac_art df inner join articulo a on df.idarticulo=a.idarticulo
-        inner join factura f on df.idfactura=f.idfactura where df.idarticulo='$idarticulo' and year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes'
-        union all
-        select  valor_venta_item_32 as tventas from detalle_notapedido_producto dn inner join articulo a on dn.idarticulo=a.idarticulo
-        inner join notapedido np on dn.idboleta=np.idboleta where dn.idarticulo='$idarticulo' and year(np.fecha_emision_01)='$ano' and month(np.fecha_emision_01)='$mes' 
-        )
-        as tabla ";
+    select  valor_venta_item_21 as tventas 
+    from detalle_fac_art df 
+    inner join articulo a on df.idarticulo=a.idarticulo
+    inner join factura f on df.idfactura=f.idfactura where df.idarticulo='$idarticulo' and year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes'
+    union all
+    select  valor_venta_item_32 as tventas 
+    from detalle_notapedido_producto dn 
+    inner join articulo a on dn.idarticulo=a.idarticulo
+    inner join notapedido np on dn.idboleta=np.idboleta 
+    where dn.idarticulo='$idarticulo' and year(np.fecha_emision_01)='$ano' and month(np.fecha_emision_01)='$mes' ) as tabla ";
     return ejecutarConsulta($sql);
   }
 
@@ -1775,8 +1771,8 @@ format(((sum(mg.totalventas) - sum(mg.totalcompras))/ sum(mg.totalventas)) * 100
 
   public function GenerarCodigoCorrelativoAutomatico()
   {
-    // Consulta para obtener el último código que comienza con 'PR' de la tabla
-    $sql = "SELECT max(codigo) as last_code from articulo where codigo like 'PR%'";
+    // Consulta para obtener el último código que comienza con 'PR' de la tabla: where codigo like 'PR%'
+    $sql = "SELECT max(codigo) as last_code from articulo;";
     $result = ejecutarConsulta($sql);
 
     $row = $result->fetch_assoc();
@@ -1791,7 +1787,7 @@ format(((sum(mg.totalventas) - sum(mg.totalcompras))/ sum(mg.totalventas)) * 100
     }
 
     // Crear el nuevo código
-    $new_code = "PR" . str_pad($new_num, 8, "0", STR_PAD_LEFT);
+    $new_code = str_pad($new_num, 5, "0", STR_PAD_LEFT);
 
     return $new_code;
   }
