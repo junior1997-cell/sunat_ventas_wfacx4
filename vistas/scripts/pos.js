@@ -18,7 +18,6 @@ var urlconsumo = new URL(path, baseURL);
 
 
 //INICIALIZAR TODAS LAS FUNCIONES CORRESPONDIENTES
-
 /* ---------------------------------------------------------------- */
 //                          VARIABLES GLOBALES    
 
@@ -47,15 +46,12 @@ if (contenidoRecuperado) {
   modificarSubtotales();
 }
 
-
 function almacenarItems() {
   // Obtén el contenido HTML del elemento
   var htmlContent = $('.items-order').html();
-
   // Almacena el contenido HTML en el Session Storage
   sessionStorage.setItem('miContenidoHTML', htmlContent);
 }
-
 
 /* ---------------------------------------------------------------- */
 //                      LISTAR CATEGORIAS
@@ -67,9 +63,7 @@ function listarCategorias() {
     type: "get",
     dataType: "json",
     success: function (data) {
-
       const categoriaContainer = document.getElementById('category-content');
-
 
       data.ListaCategorias.forEach(categoria => {
 
@@ -77,33 +71,24 @@ function listarCategorias() {
         card.classList.add('swiper-slide');
 
         card.innerHTML = `
-          <div class="rounded-pill slider-item categoryclic" data-idfamilia="${categoria.idfamilia}">
-              <img
-                  src="https://htmlcolorcodes.com/assets/images/colors/sky-blue-color-solid-background-1920x1080.png"
-                  alt="dd" height="30px" width="30px" class="rounded-circle me-2">
-              <span class="fw-600 f-12 category">${categoria.familia}</span>
-          </div>
-        `;
-
+        <div class="rounded-pill slider-item categoryclic" data-idfamilia="${categoria.idfamilia}">
+            <img src="https://htmlcolorcodes.com/assets/images/colors/sky-blue-color-solid-background-1920x1080.png"
+                alt="dd" height="30px" width="30px" class="rounded-circle me-2">
+            <span class="fw-600 f-12 category">${categoria.familia}</span>
+        </div>`;
 
         categoriaContainer.appendChild(card);
-
         // Add a click event listener to the category
         card.querySelector('.categoryclic').addEventListener('click', listarPorCategoria);
-
       });
-
     },
     error: function (error) {
       console.error(error);
     }
   });
-
 }
 
 listarCategorias();
-
-
 
 /* ---------------------------------------------------------------- */
 //                   LISTAR PRODUCTOS (BUSQUEDA)
@@ -124,9 +109,7 @@ function listarProductos(busqueda) {
     type: 'get',
     dataType: 'json',
     success: function (data) {
-
       listarCardProductos(data);
-
       $('#loader_product').hide();
 
       // var productContainer = $('#product-container');
@@ -191,9 +174,7 @@ function listarProductos(busqueda) {
     },
     error: function (error) {
       console.error(error);
-
       $('#loader_product').hide();
-
     }
   });
 }
@@ -201,17 +182,13 @@ function listarProductos(busqueda) {
 var busqueda = '';
 listarProductos(busqueda);
 
-
 /* ---------------------------------------------------------------- */
 //           ACTUALIZAR PRECIOS DE PRODUCTOS CARD (BUSQUEDA)
 
 $('#s_tipo_precio').change(function () {
   busqueda = '';
-
   listarProductos(busqueda);
-
-})
-
+});
 
 /* ---------------------------------------------------------------- */
 //                  LISTAR PRODUCTOS CAMPO BUSQUEDA
@@ -225,9 +202,7 @@ $('#search_product').on('input', function () {
   clearTimeout(searchTimeout);
 
   // Retraso 1s
-  searchTimeout = setTimeout(function () {
-    listarProductos(searchTerm);
-  }, 1000);
+  searchTimeout = setTimeout(function () { listarProductos(searchTerm); }, 1000);
 });
 
 /* ---------------------------------------------------------------- */
@@ -235,22 +210,17 @@ $('#search_product').on('input', function () {
 
 function listarPorCategoria(event) {
   event.preventDefault();
-
   $('#loader_product').show();
-
 
   // Get the idfamilia from the clicked category
   var idfamilia = event.target.getAttribute('data-idfamilia');
 
   // Remove the 'select' class from all category elements
   var allCategories = document.querySelectorAll('.categoryclic');
-  allCategories.forEach(category => {
-    category.classList.remove('select');
-  });
+  allCategories.forEach(category => {  category.classList.remove('select'); });
 
   // Add the 'select' class to the clicked category
   event.target.classList.add('select');
-
   busqueda = $('#search_product').val();
 
   if (busqueda != '') {
@@ -266,29 +236,18 @@ function listarPorCategoria(event) {
       type: 'get',
       dataType: 'json',
       success: function (data) {
-
         listarCardProductos(data);
-
         $('#loader_product').hide();
-
       },
       error: function (error) {
         console.error(error);
-
         $('#loader_product').hide();
-
       }
     });
-
   } else {
-
     $('#product-container').html('<p>Seleccione una categoría.</p>');
-
     $('#loader_product').hide();
-
   }
-
-
 }
 
 /* ---------------------------------------------------------------- */
@@ -308,8 +267,6 @@ function listarCardProductos(data) {
       if (!productImage || productImage.endsWith('/files/articulos/')) {
         productImage = 'https://www.phswarnerhoward.co.uk/assets/images/no_img_avaliable.jpg';
       }
-
-
 
       var productCard = document.createElement('div');
       productCard.classList.add('col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'mb-3');
@@ -385,30 +342,18 @@ function listarCardProductos(data) {
 //                    LISTAR TODOS LOS PRODUCTOS
 
 // Enlace "Ver Todos"
-$('#ver-todos-link').on('click', function (e) {
-  e.preventDefault();
-
-  listarTodosProductos();
-});
+$('#ver-todos-link').on('click', function (e) { e.preventDefault(); listarTodosProductos(); });
 
 function listarTodosProductos() {
   var allCategories = document.querySelectorAll('.categoryclic');
-
-  allCategories.forEach(category => {
-    category.classList.remove('select');
-  });
-
+  allCategories.forEach(category => {  category.classList.remove('select'); });
   listarProductos('');
 }
 
 /* ---------------------------------------------------------------- */
 //                    LIMPIAR FILTRO BUSQUEDA
 
-$('#btn_deletefilter').on('click', function (e) {
-  e.preventDefault();
-
-  $('#search_product').val('');
-})
+$('#btn_deletefilter').on('click', function (e) { e.preventDefault(); $('#search_product').val(''); });
 
 /* ---------------------------------------------------------------- */
 //                    CHECKBOX FILTRO CODIGO BARRA
@@ -424,16 +369,11 @@ if (localStorage.getItem('codigobarraEnabled') === 'true') {
 
 
 $('#active_codigobarra').change(function () {
-
   if (this.checked) {
-
     $('#search_codigobarra').show().focus();
-
   } else {
-
     $('#search_codigobarra').hide().val('');
   }
-
   localStorage.setItem('codigobarraEnabled', this.checked);
 });
 
@@ -467,7 +407,6 @@ $(document).on('click', '.product-card', function (e) {
   var productUM = $(this).find('#p_unimed').val();
   var productFactC = $(this).find('#p_factorc').val();
 
-
   agregarProductPedido(
     productImage,
     productName,
@@ -479,8 +418,6 @@ $(document).on('click', '.product-card', function (e) {
     productUM,
     productFactC
   );
-
-
 });
 
 /* ---------------------------------------------------------------- */
@@ -493,8 +430,7 @@ function eventoProductoxCodigo(e) {
     var busqueda = $('#search_codigobarra').val();
 
     $.ajax({
-      url: '../ajax/boleta.php?op=listarArticulosboletaxcodigo&codigob=' + busqueda + '&idempresa=' +
-        $idempresa,
+      url: '../ajax/boleta.php?op=listarArticulosboletaxcodigo&codigob=' + busqueda + '&idempresa=' +  $idempresa,
       type: 'get',
       dataType: 'json',
       success: function (data) {
@@ -506,11 +442,8 @@ function eventoProductoxCodigo(e) {
         if (data != null) {
 
           var productImage = '../files/articulos/' + data.imagen;
-
           if (!productImage || productImage === '../files/articulos/') {
-
             productImage = 'https://www.phswarnerhoward.co.uk/assets/images/no_img_avaliable.jpg';
-
           }
 
           var productName = data.nombre;
@@ -552,12 +485,9 @@ function eventoProductoxCodigo(e) {
         }
 
         $('#search_codigobarra').val('');
-
       },
       error: function (error) {
         console.error(error);
-
-
       }
     });
   }
@@ -580,24 +510,15 @@ function agregarProductPedido(
   if (tipocomprobante == 0) {
 
     var productValUni = (productPrice / ($iva / 100 + 1)).toFixed(5);
-
     var productSubTotal = (productPrice / ($iva / 100 + 1)).toFixed(2);
-
     var igv = productPrice - productPrice / ($iva / 100 + 1);
-
     var productIgv = (igv).toFixed(4);
-
     var total = (productPrice).toFixed(2);
-
     var pvu = productPrice / ($iva / 100 + 1);
-
     var productPvu = (pvu).toFixed(5);
     var productVvu = (pvu).toFixed(5);
-
     var productIgvBD2 = ((productPvu * $iva) / 100).toFixed(4);
-
     var mticbperuCalculado = (0.0).toFixed(2);
-
     var productIgvBD = (igv).toFixed(2);
     var productPvt = '';
 
@@ -608,57 +529,35 @@ function agregarProductPedido(
     var productPvu = redondeo(pvu, 5);
     var productVvu = (0).toFixed(5);
     var productPvt = (pvu).toFixed(5);
-
     var productValUni = (pvu).toFixed(5);
-
     var subtotal = productValUni - (productValUni * 0) / 100;
-
     var igv = subtotal * ($iva / 100);
-
     var inpIitem = pvu * ($iva / 100);
-
     var mticbperuCalculado = 0.0;
-
 
     sumtotal = subtotal + igv;
     var total = redondeo(sumtotal, 2);
 
-
     var productSubTotal = redondeo(subtotal, 2);
-
     var productIgv = redondeo(igv, 2);
-
     var productIgvBD = redondeo(inpIitem, 2);
-
     var productIgvBD2 = redondeo(igv, 2);
-
 
   } else if (tipocomprobante == 2) {
 
     var productValUni = (productPrice).toFixed(5);
-
     var productSubTotal = (productPrice).toFixed(2);
-
     var productIgv = (0).toFixed(4);
-
     var total = (productPrice).toFixed(2);
-
     var productPvu = (0).toFixed(5);
     var productVvu = (productPrice).toFixed(5);
-
     var productIgvBD2 = (productPrice).toFixed(4);
-
     var mticbperuCalculado = (0.0).toFixed(2);
-
     var productIgvBD = (productPrice).toFixed(2);
     var productPvt = '';
-
   }
 
-
-
   if (productStock == 0) {
-
     swal.fire({
       title: "Error",
       text: 'Este producto no se puede agregar porque no tiene stock.',
@@ -666,21 +565,17 @@ function agregarProductPedido(
       timer: 2000,
       showConfirmButton: false
     });
-
     return;
   }
 
   // Verificar si el producto ya existe en la lista de pedidos
   var existingItem = $('.items-order .card[data-product-code="' + productId + '"]');
 
-
   if (existingItem.length > 0) {
     // aumentar la cantidad en 1
     var inputBox = existingItem.closest('.card').find('.input-box');
     var currentQuantity = parseInt(inputBox.val());
-
     // console.log( 'Final stock', productStock - (currentQuantity));
-
     var finalStock = productStock - (currentQuantity);
 
     if (finalStock == 0) {
@@ -691,34 +586,22 @@ function agregarProductPedido(
         timer: 2000,
         showConfirmButton: false
       });
-
       return;
     }
 
     if (!isNaN(currentQuantity)) {
       var cantidad = currentQuantity + 1;
-
       inputBox.val(cantidad);
-
-
       var inputcant = existingItem.closest('.card').find('input[name="cantidadreal[]"]');
       inputcant.val(cantidad);
 
-
       // var tipocomprobante = $('#d_tipocomprobante').val();
-
       // if (tipocomprobante == 0) {
-
       //   calcularBoleta(existingItem, cantidad);
-
       // } else if (tipocomprobante == 1) {
-
       //   calcularFactura(existingItem, cantidad);
-
       // } else if (tipocomprobante == 2) {
-
       //   calcularNotaPedido(existingItem, cantidad);
-
       // }
       modificarSubtotales();
     }
@@ -788,18 +671,12 @@ function agregarProductPedido(
     `;
 
     $('.items-order').append(newItem);
-
     // Incrementar el número de orden
     numeroOrden++;
-
     tributocodnon();
   }
-
-
   updateTotals();
-
   almacenarItems();
-
 }
 
 /* ---------------------------------------------------------------- */
@@ -811,19 +688,14 @@ $(document).on('click', '.quantity .minus', function (e) {
   var input = $(this);
   var inputBox = $(this).siblings('.input-box');
   var inputcant = $(this).closest('.card').find('input[name="cantidadreal[]"]');
-
   decreaseValue(input, inputBox, inputcant);
-
-
 });
 
 $(document).on('click', '.quantity .plus', function (e) {
   e.preventDefault();
-
   var input = $(this);
   var inputBox = $(this).siblings('.input-box');
   var inputcant = $(this).closest('.card').find('input[name="cantidadreal[]"]');
-
   increaseValue(input, inputBox, inputcant);
   // updateTotals();
 });
@@ -834,7 +706,6 @@ $(document).on('input', '.quantity .input-box', function (e) {
   handleQuantityChange($(this), $(this), inputcant);
 });
 
-
 /* ---------------------------------------------------------------- */
 //                   FUNCION DISMINUIR CANTIDAD
 
@@ -843,11 +714,8 @@ function decreaseValue(input, inputBox, inputcant) {
   value = isNaN(value) ? 1 : Math.max(value - 1, 1);
   inputBox.val(value);
   inputcant.val(value);
-
   handleQuantityChange(input, inputBox, inputcant);
-
   // updateTotals();
-
 }
 
 /* ---------------------------------------------------------------- */
@@ -1981,7 +1849,7 @@ $.post(
 //llenar documentos
 function cargarTiposDocIde() {
   $.ajax({
-    url: urlconsumo + "catalogo6.php?action=listar2",
+    url: urlconsumo + "catalogo6.php?action=listar2&op=",
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -3441,6 +3309,7 @@ function listarComprobante() {
 $('#btn_modalventas').click(function (e) {
   e.preventDefault();
 
+  $('#ModalListaVentas').modal('show');
   $('#tipoComprobante').val('recibo');
   $('#fechaDesde').val(today);
   $('#fechaHasta').val(today);

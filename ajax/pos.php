@@ -52,84 +52,84 @@ $rutaimagen = $Prutas->rutaarticulos; // ruta de la imagen
 
 
 if (isset($_GET['action'])) {
-    $action = $_GET['action'];
+  $action = $_GET['action'];
 } else {
-    $action = '';
+  $action = '';
 }
 
 if ($action == 'listarProducto') {
-    $rspta = $posmodelo->listarProducto(1, $idfamilia, $busqueda);
-    $data = array();
+  $rspta = $posmodelo->listarProducto(1, $idfamilia, $busqueda);
+  $data = array();
 
-    // Obtiene la URL base
-    $baseURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-    $currentDir = dirname($_SERVER['REQUEST_URI']); // Obtiene el directorio actual sin el script
-    $baseURL = $baseURL . $currentDir; // Concatena el host con el directorio
-    $baseURL = preg_replace('#/ajax$#', '', $baseURL); // Elimina la parte "/ajax" si existe
+  // Obtiene la URL base
+  $baseURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+  $currentDir = dirname($_SERVER['REQUEST_URI']); // Obtiene el directorio actual sin el script
+  $baseURL = $baseURL . $currentDir; // Concatena el host con el directorio
+  $baseURL = preg_replace('#/ajax$#', '', $baseURL); // Elimina la parte "/ajax" si existe
 
-    while ($reg = $rspta->fetch_object()) {
-        $imagenURL = $baseURL . '/files/articulos/' . $reg->imagen;
+  while ($reg = $rspta->fetch_object()) {
+    $imagenURL = $baseURL . '/files/articulos/' . $reg->imagen;
 
-        $data[] = array(
-            'idarticulo' => $reg->idarticulo,
-            'idfamilia' => $reg->idfamilia,
-            'codigo_proveedor' => $reg->codigo_proveedor,
-            'codigo' => $reg->codigo,
-            'familia' => $reg->familia,
-            'nombre' => $reg->nombre,
-            'stock' => $reg->stock,
-            'precio' => $reg->precio,
-            'costo_compra' => $reg->costo_compra,
-            'precio_unitario' => $reg->precio_unitario,
-            'cicbper' => $reg->cicbper,
-            'mticbperu' => $reg->mticbperu,
-            // 'factorconversion' => $reg->factorconversion,
-            //(a.factorc * a.stock) as factorconversion,
-            'factorc' => $reg->factorc,
-            'descrip' => $reg->descrip,
-            'tipoitem' => $reg->tipoitem,
-            'imagen' => $imagenURL,
-            // Utilizar la URL completa de la imagen
-            'precio_final_kardex' => $reg->precio_final_kardex,
-            'precio2' => $reg->precio2,
-            'precio3' => $reg->precio3,
-            'unidad_medida' => $reg->unidad_medida,
-            'ccontable' => $reg->ccontable,
-            'st2' => $reg->st2,
-            'nombreum' => $reg->nombreum,
-            'abre' => $reg->abre,
-            'fechavencimiento' => $reg->fechavencimiento,
-            'nombreal' => $reg->nombreal
-        );
-    }
-    $results = array(
-        "ListaProductos" => $data
+    $data[] = array(
+      'idarticulo' => $reg->idarticulo,
+      'idfamilia' => $reg->idfamilia,
+      'codigo_proveedor' => $reg->codigo_proveedor,
+      'codigo' => $reg->codigo,
+      'familia' => $reg->familia,
+      'nombre' => $reg->nombre,
+      'stock' => $reg->stock,
+      'precio' => $reg->precio,
+      'costo_compra' => $reg->costo_compra,
+      'precio_unitario' => $reg->precio_unitario,
+      'cicbper' => $reg->cicbper,
+      'mticbperu' => $reg->mticbperu,
+      // 'factorconversion' => $reg->factorconversion,
+      //(a.factorc * a.stock) as factorconversion,
+      'factorc' => $reg->factorc,
+      'descrip' => $reg->descrip,
+      'tipoitem' => $reg->tipoitem,
+      'imagen' => $imagenURL,
+      // Utilizar la URL completa de la imagen
+      'precio_final_kardex' => $reg->precio_final_kardex,
+      'precio2' => $reg->precio2,
+      'precio3' => $reg->precio3,
+      'unidad_medida' => $reg->unidad_medida,
+      'ccontable' => $reg->ccontable,
+      'st2' => $reg->st2,
+      'nombreum' => $reg->nombreum,
+      'abre' => $reg->abre,
+      'fechavencimiento' => $reg->fechavencimiento,
+      'nombreal' => $reg->nombreal
     );
+  }
+  $results = array(
+    "ListaProductos" => $data
+  );
 
-    header('Content-type: application/json');
-    echo json_encode($results);
+  header('Content-type: application/json');
+  echo json_encode($results);
 }
 
 
 //Listar Categorias : 
 
 if ($action == 'listarCategorias') {
-    $rspta = $posmodelo->listarcategorias();
-    $data = array();
+  $rspta = $posmodelo->listarcategorias();
+  $data = array();
 
-    while ($reg = $rspta->fetch_object()) {
-        $data[] = array(
-            'idfamilia' => $reg->idfamilia,
-            'familia' => $reg->familia,
-            'estado' => $reg->estado
-        );
-    }
-    $results = array(
-        "ListaCategorias" => $data
+  while ($reg = $rspta->fetch_object()) {
+    $data[] = array(
+      'idfamilia' => $reg->idfamilia,
+      'familia' => $reg->familia,
+      'estado' => $reg->estado
     );
+  }
+  $results = array(
+    "ListaCategorias" => $data
+  );
 
-    header('Content-type: application/json');
-    echo json_encode($results);
+  header('Content-type: application/json');
+  echo json_encode($results);
 }
 
 
@@ -138,35 +138,35 @@ if ($action == 'listarCategorias') {
 
 $data = json_decode(file_get_contents("php://input"), true);
 if ($data) { // Verificamos si se ha enviado algo en formato JSON
-    $idempresa = isset($data['idempresa']) ? $data['idempresa'] : "";
-    $fechainicio = isset($data['fechainicio']) ? $data['fechainicio'] : "";
-    $fechafinal = isset($data['fechafinal']) ? $data['fechafinal'] : "";
-    $tipocomprobante = isset($data['tipocomprobante']) ? $data['tipocomprobante'] : "";
+  $idempresa = isset($data['idempresa']) ? $data['idempresa'] : "";
+  $fechainicio = isset($data['fechainicio']) ? $data['fechainicio'] : "";
+  $fechafinal = isset($data['fechafinal']) ? $data['fechafinal'] : "";
+  $tipocomprobante = isset($data['tipocomprobante']) ? $data['tipocomprobante'] : "";
 }
 
 if ($action == 'listarComprobantesVarios') {
-    $rspta = $posmodelo->listarComprobantesVarios($idempresa, $fechainicio, $fechafinal, $tipocomprobante);
-    $data = array();
+  $rspta = $posmodelo->listarComprobantesVarios($idempresa, $fechainicio, $fechafinal, $tipocomprobante);
+  $data = array();
 
-    while ($reg = $rspta->fetch_object()) {
-        $data[] = array(
-            'id' => $reg->id,
-            'fecha' => $reg->fecha,
-            'cliente' => $reg->cliente,
-            'estado' => $reg->estado,
-            'tipo_comprobante' => $reg->tipo_comprobante,
-            'producto' => $reg->producto,
-            'unidades_vendidas' => $reg->unidades_vendidas,
-            'total' => $reg->total
-        );
-    }
-
-    $results = array(
-        "ListaComprobantes" => $data
+  while ($reg = $rspta->fetch_object()) {
+    $data[] = array(
+      'id' => $reg->id,
+      'fecha' => $reg->fecha,
+      'cliente' => $reg->cliente,
+      'estado' => $reg->estado,
+      'tipo_comprobante' => $reg->tipo_comprobante,
+      'producto' => $reg->producto,
+      'unidades_vendidas' => $reg->unidades_vendidas,
+      'total' => $reg->total
     );
+  }
 
-    header('Content-type: application/json');
-    echo json_encode($results);
+  $results = array(
+    "ListaComprobantes" => $data
+  );
+
+  header('Content-type: application/json');
+  echo json_encode($results);
 }
 
 
@@ -177,23 +177,15 @@ if ($action == 'listarComprobantesVarios') {
 if ($action == 'insertarClientePOS') {
 
 
-    // Primero verifica si el cliente ya existe.
-    if ($persona->clienteExiste($numero_documento)) {
-        echo json_encode(['status' => 'error', 'message' => 'El cliente ya existe.']);
+  // Primero verifica si el cliente ya existe.
+  if ($persona->clienteExiste($numero_documento)) {
+    echo json_encode(['status' => 'error', 'message' => 'El cliente ya existe.']);
+  } else {
+    // Si el cliente no existe, inserta el nuevo cliente.
+    if ($persona->insertarClientePOS($tipo_documento, $numero_documento, $razon_social, $domicilio_fiscal)) {
+      echo json_encode(['status' => 'success', 'message' => 'Cliente insertado correctamente.']);
     } else {
-        // Si el cliente no existe, inserta el nuevo cliente.
-        if ($persona->insertarClientePOS($tipo_documento, $numero_documento, $razon_social, $domicilio_fiscal)) {
-            echo json_encode(['status' => 'success', 'message' => 'Cliente insertado correctamente.']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Error al insertar el cliente.']);
-        }
+      echo json_encode(['status' => 'error', 'message' => 'Error al insertar el cliente.']);
     }
+  }
 }
-
-
-
-
-
-
-
-?>

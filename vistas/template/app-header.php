@@ -35,11 +35,17 @@
     <!-- Start::header-content-right -->
     <div class="header-content-right">
 
+      <!-- ::::::::::::::::::::::::::::::::: POS - VENTAS ::::::::::::::::::::::::::::::::: -->
+      <div  class="header-element header-shortcuts-dropdown" data-tooltip="POS Ventas" title="POS Ventas" data-tooltip-color="black">
+        <a href="../vistas/pos.php" class="header-link dropdown-toggle" >          
+          <i class="header-link-icon fas fa-cart-plus "></i>
+        </a>        
+      </div>
 
-      <!-- Start::header-element -->
+      <!-- ::::::::::::::::::::::::::::::::: PAIS ACTUAL ::::::::::::::::::::::::::::::::: -->
       <div class="header-element country-selector">
         <!-- Start::header-link|dropdown-toggle -->
-        <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+        <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" title="Pais: Perú">
           <img src="../assets/images/flags/peru_flag.png" alt="img" class="rounded-circle header-link-icon">
         </a>
         <!-- End::header-link|dropdown-toggle -->
@@ -52,22 +58,19 @@
               Perú
             </a>
           </li>
-
         </ul>
       </div>
 
-
-      <!-- End::header-element -->
-
+      <!-- ::::::::::::::::::::::::::::::::: PRECIO DEL DOLAR ::::::::::::::::::::::::::::::::: -->
       <div class="header-element header-fullscreen">
         <!-- Start::header-link -->
-        <a style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalTcambio" class="header-link">
+        <a style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalTcambio" class="header-link" title="Precio dolar">
           <i class="bx bx-money full-screen-open header-link-icon"></i>
         </a>
         <!-- End::header-link -->
       </div>
 
-      <!-- Start::header-element -->
+      <!-- ::::::::::::::::::::::::::::::::: MODO OSCURO ::::::::::::::::::::::::::::::::: -->
       <div class="header-element header-theme-mode">
         <!-- Start::header-link|layout-setting -->
         <a href="javascript:void(0);" class="header-link layout-setting">
@@ -169,7 +172,7 @@
       </div>
       <!-- End::header-element -->
 
-      <!-- Start::header-element -->
+      <!-- ::::::::::::::::::::::::::::::::: PANTALLA COMPLETA ::::::::::::::::::::::::::::::::: -->
       <div class="header-element header-fullscreen">
         <!-- Start::header-link -->
         <a onclick="openFullscreen();" href="javascript:void(0);" class="header-link">
@@ -198,12 +201,10 @@
 
         </div>
         <!-- End::main-header-dropdown -->
-      </div>
-
-
+      </div> 
       <!-- End::header-element -->
 
-      <!-- Start::header-element -->
+      <!-- ::::::::::::::::::::::::::::::::: PERFIL ::::::::::::::::::::::::::::::::: -->
       <div class="header-element">
         <!-- Start::header-link|dropdown-toggle -->
         <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -231,7 +232,7 @@
       </div>
       <!-- End::header-element -->
 
-      <!-- Start::header-element -->
+      <!-- :::::::::::::::::::::::::::::::::  CAMBIAR DISEÑO DEL SISTEMA ::::::::::::::::::::::::::::::::: -->
       <div class="header-element">
         <!-- Start::header-link|switcher-icon -->
         <a href="javascript:void(0);" class="header-link switcher-icon" data-bs-toggle="offcanvas" data-bs-target="#switcher-canvas">
