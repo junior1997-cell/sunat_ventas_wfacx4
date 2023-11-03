@@ -52,9 +52,11 @@ class Vendedorsitio
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
-	public function select($idempresa)
-	{
-		$sql = "SELECT vs.id, vs.nombre from vendedorsitio vs inner join empresa e on vs.idempresa=e.idempresa  where   e.idempresa='$idempresa'  and vs.estado='1'";
+	public function select($idempresa) {
+		$sql = "SELECT vs.id, vs.nombre 
+		from vendedorsitio vs 
+		inner join empresa e on vs.idempresa=e.idempresa  
+		where e.idempresa='$idempresa'  and vs.estado='1'";
 		return ejecutarConsulta($sql);
 	}
 

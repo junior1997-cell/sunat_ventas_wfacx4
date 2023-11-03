@@ -67,7 +67,7 @@ if (!isset($_SESSION["nombre"])) {
     <div class="container">
 
       <!-- Start::row-1 -->
-      <div class="row mb-5" id="formularioregistros">
+      <div class="row mb-5" id="formularioregistros" style="display: none;">
         <form name="formulario" id="formulario" method="POST">
           <div class="col-xl-12">
             <div class="card custom-card">
@@ -177,14 +177,23 @@ if (!isset($_SESSION["nombre"])) {
                         </div>
 
                         <div class="col-lg-4">
-                          <label for="email-address" class="form-label">Usuario :</label>
-                          <input type="text" class="form-control" name="login" id="login" maxlength="20" placeholder="Login"
-                            required onkeyup="mayus(this)">
+                          <label for="login" class="form-label">Usuario :</label>
+                          <input type="text" class="form-control" name="login" id="login" maxlength="20" placeholder="Login" autocomplete="off" required onkeyup="mayus(this)">
                         </div>
 
-                        <div class="col-lg-4">
+                        <!-- <div class="col-lg-4">
                           <label for="email-address" class="form-label">Contraseña :</label>
                           <input type="password" class="form-control" name="clave" id="clave" maxlength="20">
+                        </div> -->
+
+                        <div class="col-auto mb-3 col-lg-4">
+                          <label for="clave" class="form-label">Contraseña :</label>
+                          <div class="input-group mb-2">
+                            <input type="password" name="clave" id="clave" placeholder="Contraseña" class="form-control" maxlength="20" autocomplete="off">
+                            <div class="input-group-append" >
+                              <div class="btn btn-primary" data-tooltip="Ver/ocultar" data-tooltip-stickto="top" data-tooltip-color="black" onclick="ver_password(this);" id="icon-view-password"><i class="fa-solid fa-eye text-white"></i></div>
+                            </div>
+                          </div>
                         </div>
 
                       </div>

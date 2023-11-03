@@ -28,6 +28,7 @@
         <link href="../public/css/html5tooltips.animation.css" rel="stylesheet">
 
         <link rel="stylesheet" href="../public/css/autobusqueda.css">
+        <link href="../assets/css/style_new.css" rel="stylesheet">
       </head>
 
       <body>
@@ -39,9 +40,9 @@
 
             <div class="container-fluid mb-3 p-1 pe-3 ps-3 bg-white sticky-top" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
               <div class="d-flex justify-content-between align-items-center">
-                <div class="logo">
+                <a class="logo text-decoration-none" href="escritorio.php">
                   <strong>POS</strong> WFACX
-                </div>
+                </a>
 
 
                 <div class="d-flex gap-2">
@@ -60,7 +61,7 @@
                   <div class="searchBox" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Precios">
                     <div class="searchToggle">
                       <i class="fa-solid fa-xmark cancel"></i>
-                      <i class="fa-solid fa-tag search"></i>
+                      <i class="fa-solid fa-tag search"></i> 
                     </div>
 
                     <div class="search-field">
@@ -81,7 +82,7 @@
                   <input hidden name="nombre_trixbuto_4_p" id="nombre_trixbuto_4_p">
                   <!-- <select class="form-control w-auto" name="codigo_tributo_18_3" id="codigo_tributo_18_3" onchange="tributocodnon()">TRIBUTO</select> -->
 
-                  <select hidden class="form-select w-auto" autofocus name="vendedorsitio" id="vendedorsitio" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Vendedor"></select>
+                  <select  class="form-select w-auto" autofocus name="vendedorsitio" id="vendedorsitio" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Vendedor"></select>
 
                   <!-- <select class="form-control" name="tipo_moneda_24" id="tipo_moneda_24" onchange="tipodecambiosunat();"> -->
                   <select hidden class="form-select w-auto" name="tipo_moneda_24" id="tipo_moneda_24" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Moneda" onchange="tipodecambiosunat();">
@@ -165,21 +166,19 @@
 
                           </div>
 
-                          <div class="col-12 col-md-6 pe-0 d-flex align-items-center">
+                          <div class="col-12 col-md-6 pe-0 d-flex align-items-center" >
 
                             <div class="form-check form-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Ingresar código de barra">
                               <input class="form-check-input" type="checkbox" role="switch" id="active_codigobarra">
                             </div>
-
                             <input class="form-control" type="text" id="search_codigobarra" placeholder="Filtro por código de barra" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Press ENTER" onkeypress="eventoProductoxCodigo(event)" onkeyup="mayus(this);">
-
 
                           </div>
                         </div>
 
                         <div class="col-12 col-md-3 text-start text-md-end pe-0">
                           <!-- <div class="col-12 col-md-3 d-flex align-items-center text-start text-md-end pe-0"> -->
-                          <a href="#" class="fw-500 text-dark text-decoration-none fs-14" id="ver-todos-link" style="top: 9px; position: relative;">Ver Todos</a>
+                          <button class="fw-500 text-dark btn-primary-light fs-14 b-radio-7px" id="ver-todos-link" style="top: 9px; position: relative;">Ver Todos (<span class="cargando_cant_all"><i class="fas fa-spinner fa-pulse fa-lg"></i></span>)</button>
                         </div>
                       </div>
                     </div>
@@ -423,7 +422,7 @@
                         </div>
 
                         <div hidden class="col-sm-6 mb-2">
-                          <label for=" guia_remision_25" class="">Nro Guia:</label>
+                          <label for="guia_remision_25" class="">Nro Guia:</label>
                           <input type="text" name="guia_remision_25" id="guia_remision_25" class="form-control" placeholder="NRO DE GUÍA">
                           <input hidden type="text" name="guia_remision_29_2" id="guia_remision_29_2">
                         </div>
@@ -600,7 +599,7 @@
                           </div>
                         </div>
                         <div class="mb-3 row">
-                          <label for="p_mastercard" class="col-sm-4 col-form-label">MasterCard</label>
+                          <label for="mastercard" class="col-sm-4 col-form-label">MasterCard</label>
                           <div class="input-group-no-width col-sm-5">
                             <input type="text" class="form-control calculator-input" name="mastercard" id="mastercard" value="0">
                             <button type="button" class="btn btn-blue calculator-button"><i class="fa-solid fa-calculator"></i></button>
@@ -786,7 +785,7 @@
                       </div>
 
                       <div class="col-sm-6 mb-2">
-                        <label for="a_precio" class="form-label">Precio de Venta:</label>
+                        <label for="precioventanarticulo" class="form-label">Precio de Venta:</label>
                         <input type="number" class="form-control" name="precioventanarticulo" id="precioventanarticulo" placeholder="Precio de Venta" onkeypress="return NumCheck(event, this)">
                       </div>
 
@@ -921,24 +920,24 @@
                       <input type="hidden" name="tipo_persona" id="tipo_persona" value="cliente">
 
                       <div class="mb-3 col-lg-6">
-                        <label class="col-form-label">Tipo Doc.:</label>
+                        <label for="tipo_documento" class="col-form-label">Tipo Doc.:</label>
                         <select class="form-control select-picker" name="tipo_documento" id="tipo_documento" required>
                           <option value="6"> RUC </option>
                         </select>
                       </div>
 
                       <div class="mb-3 col-lg-6">
-                        <label for="message-text" class="col-form-label">N° Doc:</label>
+                        <label for="numero_documento3" class="col-form-label">N° Doc:</label>
                         <input type="text" class="form-control" name="numero_documento3" id="numero_documento3" maxlength="20" placeholder="Documento" onkeypress="return focusRsocial(event, this)">
                       </div>
 
                       <div class="mb-3 col-lg-6">
-                        <label for="message-text" class="col-form-label">Razon Social:</label>
+                        <label for="razon_social" class="col-form-label">Razon Social:</label>
                         <input type="text" class="form-control" name="razon_social" id="razon_social3" maxlength="100" placeholder="Razón social" required onkeypress="return focusDomi(event, this)">
                       </div>
 
                       <div class="mb-3 col-lg-6">
-                        <label for="message-text" class="col-form-label">Domicilio Fizcal:</label>
+                        <label for="domicilio_fiscal" class="col-form-label">Domicilio Fizcal:</label>
                         <input type="text" class="form-control" name="domicilio_fiscal" id="domicilio_fiscal3" placeholder="Domicilio fiscal" required onkeypress="focustel(event, this)">
                       </div>
 
@@ -964,12 +963,12 @@
                       </div>
 
                       <div class="mb-3 col-lg-6">
-                        <label for="message-text" class="col-form-label">Teléfono:</label>
+                        <label for="telefono1" class="col-form-label">Teléfono:</label>
                         <input type="number" class="form-control" name="telefono1" id="telefono1" maxlength="15" placeholder="Teléfono 1" pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])" onkeypress="return focusemail(event, this)">
                       </div>
 
                       <div class="mb-3 col-lg-6">
-                        <label for="message-text" class="col-form-label">Correo:</label>
+                        <label for="email" class="col-form-label">Correo:</label>
                         <input type="text" class="form-control" name="email" id="email" maxlength="50" placeholder="CORREO" onkeypress="return focusguardar(event, this)">
                       </div>
 
@@ -1149,31 +1148,34 @@
         <script src="../public/js/toastr.js"></script>
         <script src="../public/js/simpleXML.js"></script>
 
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+        <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
         <!-- ---------------------------- -->
 
         <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
         <script type="text/javascript" src="scripts/pos.js"></script>
         <script src="../public/js/html5tooltips.js"></script>
-
+        <img src="" alt="">
         <script>
           const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
           const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-          const swiper = new Swiper('.swiper', {
-            // Optional parameters
-            direction: 'horizontal',
-            autoplay: true,
-            slidesPerView: 'auto',
-            spaceBetween: 10,
-            // allowTouchMove: false,
-            // Navigation arrows
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            },
-          });
+          $(document).ready(function () {
+            const swiper = new Swiper('.swiper', {
+              // Optional parameters
+              direction: 'horizontal',
+              autoplay: true,
+              slidesPerView: 'auto',
+              spaceBetween: 10,
+              // allowTouchMove: false,
+              // Navigation arrows
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              },
+            });
+          });          
 
           const searchToggles = document.querySelectorAll(".searchToggle");
 

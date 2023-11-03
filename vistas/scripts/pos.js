@@ -3,19 +3,13 @@ var baseURL = window.location.protocol + '//' + window.location.host;
 
 // Verificar si pathname contiene '/vistas/' y eliminarlo.
 var path = window.location.pathname;
-if (path.includes("/vistas/")) {
-  path = path.replace("/vistas/", "/");
-}
+if (path.includes("/vistas/")) {  path = path.replace("/vistas/", "/"); }
 
 // Asegurarnos de que el path termine en "/ajax/"
-if (!path.endsWith("/ajax/")) {
-  var lastSlashIndex = path.lastIndexOf("/");
-  path = path.substring(0, lastSlashIndex) + "/ajax/";
-}
+if (!path.endsWith("/ajax/")) {  var lastSlashIndex = path.lastIndexOf("/");  path = path.substring(0, lastSlashIndex) + "/ajax/"; }
 
 // Construir urlconsumo /consumir solo urlconsumo + "archivo.php?action="
 var urlconsumo = new URL(path, baseURL);
-
 
 //INICIALIZAR TODAS LAS FUNCIONES CORRESPONDIENTES
 /* ---------------------------------------------------------------- */
@@ -31,7 +25,6 @@ if (contenidoRecuperado) {
 
   // Restaura el contenido en un elemento HTML
   $('.items-order').html(contenidoRecuperado);
-
 
   var id = document.getElementsByName("idarticulo[]");
   var cant = document.getElementsByName("cantidad_item_12[]");
@@ -64,28 +57,33 @@ function listarCategorias() {
     dataType: "json",
     success: function (data) {
       const categoriaContainer = document.getElementById('category-content');
-
       data.ListaCategorias.forEach(categoria => {
-
         var card = document.createElement('div');
         card.classList.add('swiper-slide');
-
         card.innerHTML = `
-        <div class="rounded-pill slider-item categoryclic" data-idfamilia="${categoria.idfamilia}">
-            <img src="https://htmlcolorcodes.com/assets/images/colors/sky-blue-color-solid-background-1920x1080.png"
-                alt="dd" height="30px" width="30px" class="rounded-circle me-2">
+        <div class="rounded-pill slider-item categoryclic" data-idfamilia="${categoria.idfamilia}" onclick="listarPorCategoria(this)">
+            <span class="rounded-circle mx-2 text-center px-2 py-1" style="background-color: skyblue;" alt="dd">${categoria.cant_producto}</span>
             <span class="fw-600 f-12 category">${categoria.familia}</span>
         </div>`;
 
         categoriaContainer.appendChild(card);
         // Add a click event listener to the category
-        card.querySelector('.categoryclic').addEventListener('click', listarPorCategoria);
+        // card.querySelector('.categoryclic').addEventListener('click', listarPorCategoria);
+      });
+
+      // PLUGIN DE SLIDE
+      const swiper = new Swiper('.swiper', {      
+        direction: 'horizontal',
+        autoplay: true,
+        slidesPerView: 'auto',
+        spaceBetween: 10,      
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev', },
       });
     },
     error: function (error) {
       console.error(error);
     }
-  });
+  });     
 }
 
 listarCategorias();
@@ -122,7 +120,7 @@ function listarProductos(busqueda) {
 
       //     if (!productImage || productImage === '../files/articulos/' || productImage === 'https://wfacx.com/sistema/files/articulos/') {
 
-      //       productImage = 'https://www.phswarnerhoward.co.uk/assets/images/no_img_avaliable.jpg';
+      //       productImage = '../files/articulos/no_img_avaliable.jpg';
 
       //     }
 
@@ -185,22 +183,16 @@ listarProductos(busqueda);
 /* ---------------------------------------------------------------- */
 //           ACTUALIZAR PRECIOS DE PRODUCTOS CARD (BUSQUEDA)
 
-$('#s_tipo_precio').change(function () {
-  busqueda = '';
-  listarProductos(busqueda);
-});
+$('#s_tipo_precio').change(function () { busqueda = $(this).val(); listarProductos(busqueda); });
 
 /* ---------------------------------------------------------------- */
 //                  LISTAR PRODUCTOS CAMPO BUSQUEDA
 
 let searchTimeout;
-
 $('#search_product').on('input', function () {
   const searchTerm = $(this).val();
-
   // Cancelar la búsqueda anterior
   clearTimeout(searchTimeout);
-
   // Retraso 1s
   searchTimeout = setTimeout(function () { listarProductos(searchTerm); }, 1000);
 });
@@ -209,18 +201,19 @@ $('#search_product').on('input', function () {
 //                   LISTAR PRODUCTOS POR CATEGORIA
 
 function listarPorCategoria(event) {
-  event.preventDefault();
+  
   $('#loader_product').show();
+  $('.cargando_cant_all').html(`<i class="fas fa-spinner fa-pulse fa-lg"></i>`);
 
   // Get the idfamilia from the clicked category
-  var idfamilia = event.target.getAttribute('data-idfamilia');
+  var idfamilia = $(event).attr('data-idfamilia'); console.log(`idfamilia: ${idfamilia}`);
 
   // Remove the 'select' class from all category elements
-  var allCategories = document.querySelectorAll('.categoryclic');
-  allCategories.forEach(category => {  category.classList.remove('select'); });
+  $('.categoryclic').removeClass('select'); 
 
   // Add the 'select' class to the clicked category
-  event.target.classList.add('select');
+  $(event).addClass('select');
+
   busqueda = $('#search_product').val();
 
   if (busqueda != '') {
@@ -256,16 +249,18 @@ function listarPorCategoria(event) {
 function listarCardProductos(data) {
 
   var productContainer = $('#product-container');
-  productContainer.empty(); // Limpiar productos existentes
+  productContainer.empty(); // Limpiar productos existentes 
+  console.log(data.cant_productos);
+  $('.cargando_cant_all').html(data.cant_productos);
 
   if (data.ListaProductos && data.ListaProductos.length > 0) {
-    data.ListaProductos.forEach(product => {
+    data.ListaProductos.forEach((val, key) => {
 
-      let productImage = product.imagen;
+      let productImage = val.imagen;
 
       // Verifica si la imagen termina con '/files/articulos/'
       if (!productImage || productImage.endsWith('/files/articulos/')) {
-        productImage = 'https://www.phswarnerhoward.co.uk/assets/images/no_img_avaliable.jpg';
+        productImage = '../files/articulos/no_img_avaliable.jpg';
       }
 
       var productCard = document.createElement('div');
@@ -273,57 +268,51 @@ function listarCardProductos(data) {
 
       var productCardAlert = document.createElement('div');
 
-      var productStock = parseFloat((product.stock).replace(',', ''));
+      var productStock = parseFloat((val.stock).replace(',', ''));
+
+      productCardAlert.setAttribute("id-producto", val.idarticulo);
 
       if (productStock < 5 && productStock > 0) {
         productCardAlert.classList.add('card', 'card-warning', 'product-card', 'cursor-pointer');
-      } else if (productStock == 0) {
+      } else if (productStock == 0 || productStock <= 0) {
         productCardAlert.classList.add('card', 'card-danger', 'product-card', 'cursor-pointer');
       } else {
         productCardAlert.classList.add('card', 'product-card', 'cursor-pointer');
       }
 
       var card = `
-        <span class="d-flex align-items-center text-muted mt-auto ms-2" style="font-size: 14px;"> Stock - <input id="p_stock" class="text-muted" readonly value="${productStock}" style="border-radius: 10px;width: 50%;height: 15px;border: none;font-size: 14px;pointer-events: none;user-select: none;"></span>
-        <span class="d-flex align-items-center text-muted mt-auto ms-2" style="font-size: 14px;"> Compra - S/ <input id="p_costo_compra" class="text-muted" readonly value="${product.costo_compra}" style="border-radius: 10px;width: 48%;height: 15px;border: none;font-size: 14px;pointer-events: none;user-select: none;"></span>
+        <span class="d-flex align-items-center text-muted mt-auto ms-2" style="font-size: 14px;"> Stock: <input id="p_stock_${val.idarticulo}" class="text-muted" readonly value="${productStock}" style="border-radius: 10px;width: 50%;height: 15px;border: none;font-size: 14px;pointer-events: none;user-select: none;"></span>
+        <span class="d-flex align-items-center text-muted mt-auto ms-2" style="font-size: 14px;"> Compra: S/ <input id="p_costo_compra_${val.idarticulo}" class="text-muted" readonly value="${val.costo_compra}" style="border-radius: 10px;width: 48%;height: 15px;border: none;font-size: 14px;pointer-events: none;user-select: none;"></span>
 
         <div class="text-center mt-1" style="height: 120px;">
-          <img src="${productImage}" alt="${product.nombre}" height="100%" class=" mb-2">
+          <img id="img-${val.idarticulo}" src="${productImage}" alt="${val.nombre}" height="100%" class=" mb-2">
         </div>
         <div class="card-body text-center p-0">
-          <label class="fw-bolder fs-12" id="p_nombre">${product.nombre}</label> `;
+          <span class="fw-bolder fs-12 text-primary" id="p_nombre_${val.idarticulo}">${val.nombre}</span> <br>
+          <span class="fw-bolder fs-12 text-muted" id="p_marca_${val.idarticulo}">${val.marca}</span> `;
 
       var s_tipo_precio = $('#s_tipo_precio').val();
 
       if (s_tipo_precio == 0) {
-
-        card += `
-          <p class="fs-6 fw-600" >S/ <span id="p_precio">${product.precio}</span></p>`;
-
+        card += `<p class="fs-6 fw-600 text-success" >S/ <span id="p_precio_${val.idarticulo}">${val.precio}</span></p>`;
       } else if (s_tipo_precio == 1) {
-
-        card += `
-          <p class="fs-6 fw-600" >S/ <span id="p_precio">${product.precio2}</span></p>`;
-
+        card += `<p class="fs-6 fw-600 text-success" >S/ <span id="p_precio_${val.idarticulo}">${val.precio2}</span></p>`;
       } else if (s_tipo_precio == 2) {
-
-        card += `
-          <p class="fs-6 fw-600" >S/ <span id="p_precio">${product.precio3}</span></p>`;
-
+        card += `<p class="fs-6 fw-600 text-success" >S/ <span id="p_precio_${val.idarticulo}">${val.precio3}</span></p>`;
       }
 
       card += `
         </div>
-        <input type="hidden" id="p_idarticulo" value="${product.idarticulo}">
-        <input type="hidden" id="p_codigoprod" value="${product.codigo}">
-        <input type="hidden" id="p_codigoprov" value="${product.codigo_proveedor}">
-        <input type="hidden" id="p_unimed" value="${product.abre}">
-        <input type="hidden" id="p_precio_unitario" value="${product.precio_unitario}">
-        <input type="hidden" id="p_cicbper" value="${product.cicbper}">
-        <input type="hidden" id="p_mticbperu" value="${product.mticbperu}">
-        <input type="hidden" id="p_factorc" value="${product.factorc}">
-        <input type="hidden" id="p_descrip" value="${product.descrip}">
-        <input type="hidden" id="p_tipoitem" value="${product.tipoitem}">
+        <input type="hidden" id="p_idarticulo_${val.idarticulo}" value="${val.idarticulo}">
+        <input type="hidden" id="p_codigoprod" value="${val.codigo}">
+        <input type="hidden" id="p_codigoprov" value="${val.codigo_proveedor}">
+        <input type="hidden" id="p_unimed" value="${val.abre}">
+        <input type="hidden" id="p_precio_unitario" value="${val.precio_unitario}">
+        <input type="hidden" id="p_cicbper" value="${val.cicbper}">
+        <input type="hidden" id="p_mticbperu" value="${val.mticbperu}">
+        <input type="hidden" id="p_factorc" value="${val.factorc}">
+        <input type="hidden" id="p_descrip" value="${val.descrip}">
+        <input type="hidden" id="p_tipoitem" value="${val.tipoitem}">
       `;
 
       productCardAlert.innerHTML = card;
@@ -344,9 +333,8 @@ function listarCardProductos(data) {
 // Enlace "Ver Todos"
 $('#ver-todos-link').on('click', function (e) { e.preventDefault(); listarTodosProductos(); });
 
-function listarTodosProductos() {
-  var allCategories = document.querySelectorAll('.categoryclic');
-  allCategories.forEach(category => {  category.classList.remove('select'); });
+function listarTodosProductos() {  
+  $('.categoryclic').removeClass('select');
   listarProductos('');
 }
 
@@ -391,34 +379,44 @@ $(document).on('click', '.product-card', function (e) {
   e.preventDefault();
   // console.log('clic');
 
+  var id = $(this).attr('id-producto');
+  // $(`#img-${id}`).hide();
+  // document.getElementById(`img-${id}`).style.visibility = 'hidden';
+
   sub_total = parseFloat($('#subtotal_boleta').val());
-  // console.log('subt',  sub_total);
 
   var productImage = $(this).find('img').attr('src');
-  var productName = $(this).find('#p_nombre').text();
-  var productPrice = parseFloat($(this).find('#p_precio').text());
+  var productName = $(`#p_nombre_${id}`).text();
+  var productPrice = parseFloat($(`#p_precio_${id}`).text());
 
-  var productStock = $(this).find('#p_stock').val();
-  var productId = $(this).find('#p_idarticulo').val();
+  var productStock = $(`#p_stock_${id}`).val();
+  var productId = $(`#p_idarticulo_${id}`).val();
 
-  var productCod = $(this).find('#p_codigoprod').val();
-  var productCodProv = $(this).find('#p_codigoprov').val();
+  var productCod = $(this).find(`#p_codigoprod`).val();
+  var productCodProv = $(this).find(`#p_codigoprov`).val();
 
-  var productUM = $(this).find('#p_unimed').val();
-  var productFactC = $(this).find('#p_factorc').val();
+  var productUM = $(this).find(`#p_unimed`).val();
+  var productFactC = $(this).find(`#p_factorc`).val();
 
-  agregarProductPedido(
-    productImage,
-    productName,
-    productPrice,
-    productStock,
-    productId,
-    productCod,
-    productCodProv,
-    productUM,
-    productFactC
-  );
+  agregarProductPedido( productImage,productName, productPrice, productStock, productId, productCod, productCodProv, productUM, productFactC );
+  
 });
+
+// async function asyncFunction() {
+//   try {
+//     console.log("Start");
+//     const promise = new Promise((resolve, reject) => {
+//       setTimeout(() => {
+//         resolve("Resolved");
+//       }, 2000);
+//     });
+//     const result = await promise;
+//     console.log(result);
+//     console.log("End");
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
 /* ---------------------------------------------------------------- */
 //              FUNCION AGREGAR PROFUCTO POR CODIGO BARRA
@@ -443,7 +441,7 @@ function eventoProductoxCodigo(e) {
 
           var productImage = '../files/articulos/' + data.imagen;
           if (!productImage || productImage === '../files/articulos/') {
-            productImage = 'https://www.phswarnerhoward.co.uk/assets/images/no_img_avaliable.jpg';
+            productImage = '../files/articulos/no_img_avaliable.jpg';
           }
 
           var productName = data.nombre;
@@ -494,189 +492,178 @@ function eventoProductoxCodigo(e) {
 }
 
 
-function agregarProductPedido(
-  productImage,
-  productName,
-  productPrice,
-  productStock,
-  productId,
-  productCod,
-  productCodProv,
-  productUM,
-  productFactC) {
+function agregarProductPedido( productImage, productName, productPrice, productStock, productId, productCod, productCodProv, productUM, productFactC) {
 
-  var tipocomprobante = $('#d_tipocomprobante').val();
-
-  if (tipocomprobante == 0) {
-
-    var productValUni = (productPrice / ($iva / 100 + 1)).toFixed(5);
-    var productSubTotal = (productPrice / ($iva / 100 + 1)).toFixed(2);
-    var igv = productPrice - productPrice / ($iva / 100 + 1);
-    var productIgv = (igv).toFixed(4);
-    var total = (productPrice).toFixed(2);
-    var pvu = productPrice / ($iva / 100 + 1);
-    var productPvu = (pvu).toFixed(5);
-    var productVvu = (pvu).toFixed(5);
-    var productIgvBD2 = ((productPvu * $iva) / 100).toFixed(4);
-    var mticbperuCalculado = (0.0).toFixed(2);
-    var productIgvBD = (igv).toFixed(2);
-    var productPvt = '';
-
-  } else if (tipocomprobante == 1) {
-
-    var pvu = productPrice / ($iva / 100 + 1);
-
-    var productPvu = redondeo(pvu, 5);
-    var productVvu = (0).toFixed(5);
-    var productPvt = (pvu).toFixed(5);
-    var productValUni = (pvu).toFixed(5);
-    var subtotal = productValUni - (productValUni * 0) / 100;
-    var igv = subtotal * ($iva / 100);
-    var inpIitem = pvu * ($iva / 100);
-    var mticbperuCalculado = 0.0;
-
-    sumtotal = subtotal + igv;
-    var total = redondeo(sumtotal, 2);
-
-    var productSubTotal = redondeo(subtotal, 2);
-    var productIgv = redondeo(igv, 2);
-    var productIgvBD = redondeo(inpIitem, 2);
-    var productIgvBD2 = redondeo(igv, 2);
-
-  } else if (tipocomprobante == 2) {
-
-    var productValUni = (productPrice).toFixed(5);
-    var productSubTotal = (productPrice).toFixed(2);
-    var productIgv = (0).toFixed(4);
-    var total = (productPrice).toFixed(2);
-    var productPvu = (0).toFixed(5);
-    var productVvu = (productPrice).toFixed(5);
-    var productIgvBD2 = (productPrice).toFixed(4);
-    var mticbperuCalculado = (0.0).toFixed(2);
-    var productIgvBD = (productPrice).toFixed(2);
-    var productPvt = '';
-  }
-
-  if (productStock == 0) {
+  if (productStock == 0 || productStock <= 0 ) {
     swal.fire({
       title: "Error",
       text: 'Este producto no se puede agregar porque no tiene stock.',
       icon: "error",
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
-    });
-    return;
-  }
+    });    
+  }else{  
 
-  // Verificar si el producto ya existe en la lista de pedidos
-  var existingItem = $('.items-order .card[data-product-code="' + productId + '"]');
+    var tipocomprobante = $('#d_tipocomprobante').val(); //console.log('ejecutado: agregarProductPedido()');
 
-  if (existingItem.length > 0) {
-    // aumentar la cantidad en 1
-    var inputBox = existingItem.closest('.card').find('.input-box');
-    var currentQuantity = parseInt(inputBox.val());
-    // console.log( 'Final stock', productStock - (currentQuantity));
-    var finalStock = productStock - (currentQuantity);
+    if (tipocomprobante == 0) {
 
-    if (finalStock == 0) {
-      swal.fire({
-        title: "Error",
-        text: 'Este producto no se puede agregar porque se alcanzó el limite de stock.',
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false
-      });
-      return;
-    }
+      var productValUni = (productPrice / ($iva / 100 + 1)).toFixed(5);
+      var productSubTotal = (productPrice / ($iva / 100 + 1)).toFixed(2);
+      var igv = productPrice - productPrice / ($iva / 100 + 1);
+      var productIgv = (igv).toFixed(4);
+      var total = (productPrice).toFixed(2);
+      var pvu = productPrice / ($iva / 100 + 1);
+      var productPvu = (pvu).toFixed(5);
+      var productVvu = (pvu).toFixed(5);
+      var productIgvBD2 = ((productPvu * $iva) / 100).toFixed(4);
+      var mticbperuCalculado = (0.0).toFixed(2);
+      var productIgvBD = (igv).toFixed(2);
+      var productPvt = '';
 
-    if (!isNaN(currentQuantity)) {
-      var cantidad = currentQuantity + 1;
-      inputBox.val(cantidad);
-      var inputcant = existingItem.closest('.card').find('input[name="cantidadreal[]"]');
-      inputcant.val(cantidad);
+    } else if (tipocomprobante == 1) {
 
-      // var tipocomprobante = $('#d_tipocomprobante').val();
-      // if (tipocomprobante == 0) {
-      //   calcularBoleta(existingItem, cantidad);
-      // } else if (tipocomprobante == 1) {
-      //   calcularFactura(existingItem, cantidad);
-      // } else if (tipocomprobante == 2) {
-      //   calcularNotaPedido(existingItem, cantidad);
-      // }
-      modificarSubtotales();
-    }
+      var pvu = productPrice / ($iva / 100 + 1);
 
-  } else {
+      var productPvu = redondeo(pvu, 5);
+      var productVvu = (0).toFixed(5);
+      var productPvt = (pvu).toFixed(5);
+      var productValUni = (pvu).toFixed(5);
+      var subtotal = productValUni - (productValUni * 0) / 100;
+      var igv = subtotal * ($iva / 100);
+      var inpIitem = pvu * ($iva / 100);
+      var mticbperuCalculado = 0.0;
 
-    if ($('.items-order .card').length < 1) {
-      numeroOrden = 1;
-    }
-    // Producto no existe, crear uno nuevo
-    var newItem = `
-      <div class="card mb-3 p-2" data-product-price data-product-code="${productId}" style="background: #F2F7FB !important; border-radius: .8rem !important; box-shadow: none;">
-        <div class="d-flex align-items-center">
-          <img src="${productImage}" alt="${productName}" height="40px" width="40px" class="d-none d-sm-inline d-md-inline d-lg-none d-xl-inline me-2">
-          <div class="w-100">
-            <div class="d-flex justify-content-between align-items-center">
-              <label class="fw-700 fs-7" id="ped_name">${productName}</label>
-              <div class="quantity rounded-pill d-flex justify-content-center align-items-center">
-                <button class="btn btn-sm btn-warning rounded-circle minus" id="ped_disminuir" aria-label="Decrease">&minus;</button>
-                <input type="number" class="input-box" name="cantidad_item_12[]" id="ped_cantidad" value="1" min="1" max="${productStock}">
-                <button class="btn btn-sm btn-warning rounded-circle plus" id="ped_aumentar" aria-label="Increase">&plus;</button>
+      sumtotal = subtotal + igv;
+      var total = redondeo(sumtotal, 2);
+
+      var productSubTotal = redondeo(subtotal, 2);
+      var productIgv = redondeo(igv, 2);
+      var productIgvBD = redondeo(inpIitem, 2);
+      var productIgvBD2 = redondeo(igv, 2);
+
+    } else if (tipocomprobante == 2) {
+
+      var productValUni = (productPrice).toFixed(5);
+      var productSubTotal = (productPrice).toFixed(2);
+      var productIgv = (0).toFixed(4);
+      var total = (productPrice).toFixed(2);
+      var productPvu = (0).toFixed(5);
+      var productVvu = (productPrice).toFixed(5);
+      var productIgvBD2 = (productPrice).toFixed(4);
+      var mticbperuCalculado = (0.0).toFixed(2);
+      var productIgvBD = (productPrice).toFixed(2);
+      var productPvt = '';
+    }  
+
+    // Verificar si el producto ya existe en la lista de pedidos
+    var existingItem = $('.items-order .card[data-product-code="' + productId + '"]');
+
+    if (existingItem.length > 0) {
+      // aumentar la cantidad en 1
+      var inputBox = existingItem.closest('.card').find('.input-box');
+      var currentQuantity = parseInt(inputBox.val());
+      // console.log( 'Final stock', productStock - (currentQuantity));
+      var finalStock = productStock - (currentQuantity);
+
+      if (finalStock == 0) {
+        swal.fire({
+          title: "Error",
+          text: 'Este producto no se puede agregar porque se alcanzó el limite de stock.',
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false
+        });
+        return;
+      }
+
+      if (!isNaN(currentQuantity)) {
+        var cantidad = currentQuantity + 1;
+        inputBox.val(cantidad);
+        var inputcant = existingItem.closest('.card').find('input[name="cantidadreal[]"]');
+        inputcant.val(cantidad);
+
+        // var tipocomprobante = $('#d_tipocomprobante').val();
+        // if (tipocomprobante == 0) {
+        //   calcularBoleta(existingItem, cantidad);
+        // } else if (tipocomprobante == 1) {
+        //   calcularFactura(existingItem, cantidad);
+        // } else if (tipocomprobante == 2) {
+        //   calcularNotaPedido(existingItem, cantidad);
+        // }
+        modificarSubtotales();
+      }
+
+    } else {
+
+      if ($('.items-order .card').length < 1) {
+        numeroOrden = 1;
+      }
+      // Producto no existe, crear uno nuevo
+      var newItem = `
+        <div class="card mb-3 p-2" data-product-price data-product-code="${productId}" style="background: #F2F7FB !important; border-radius: .8rem !important; box-shadow: none;">
+          <div class="d-flex align-items-center">
+            <img src="${productImage}" alt="${productName}" height="40px" width="40px" class="d-none d-sm-inline d-md-inline d-lg-none d-xl-inline me-2">
+            <div class="w-100">
+              <div class="d-flex justify-content-between align-items-center">
+                <label class="fw-700 fs-7" id="ped_name_${productId}">${productName}</label>
+                <div class="quantity rounded-pill d-flex justify-content-center align-items-center">
+                  <button class="btn btn-sm btn-warning rounded-circle minus" id="ped_disminuir" aria-label="Decrease">&minus;</button>
+                  <input type="number" class="input-box" name="cantidad_item_12[]" id="ped_cantidad" value="1" min="1" max="${productStock}">
+                  <button class="btn btn-sm btn-warning rounded-circle plus" id="ped_aumentar" aria-label="Increase">&plus;</button>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-baseline">
+                <span>S/  <input type="number" class="border-0" name="precio_unitario[]" id="precio_unitario[]" value="${productPrice}" onBlur="modificarSubtotales(1)" onkeyup="modificarSubtotales(1);" style="background: transparent;"></span>
+                <a href="#" class="text-danger text-decoration-none remove-item" style="font-size: 12px;">Eliminar</a>
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-baseline">
-
-              <span>S/  <input type="number" class="border-0" name="precio_unitario[]" id="precio_unitario[]" value="${productPrice}" onBlur="modificarSubtotales(1)" style="background: transparent;"></span>
-
-              <a href="#" class="text-danger text-decoration-none remove-item" style="font-size: 12px;">Eliminar</a>
-            </div>
           </div>
+
+          <input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="${numeroOrden}"  >
+          <select name="afectacionigv[]" class="" style="display:none;"> <option value="10">10-GOO</option><option value="20">20-EOO</option><option value="30">30-FRE</option></select>
+          <input type="hidden" name="idarticulo[]" value="${productId}">
+          <input type="hidden" name="codigotributo[]" value="1000">
+          <input type="hidden" name="afectacionigv[]" value="10">
+          
+          <span name="SumDCTO" id="SumDCTO" style="display:none">0</span>
+          <input type="hidden" name="descuento[]" id="descuento[]" >
+          <input type="hidden" name="sumadcto[]" id="sumadcto[]" value="0" required="true">
+          <input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]" value="${productCodProv}">
+          <input type="hidden" name="codigo[]" id="codigo[]" value="${productCod}">
+          <input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${productUM}">
+          
+          <input type="hidden" name="valor_unitario[]" id="valor_unitario[]" value="${productValUni}" >
+
+          <input type="hidden" name="subtotal" id="subtotal" value="${productSubTotal}">
+          <input type="hidden" name="subtotalBD[]" id="subtotalBD[${productId}]" value="${productSubTotal}">
+          <span name="igvG" id="igvG" style="display:none;">${productIgv}</span>
+          <input type="hidden" name="igvBD[]" id="igvBD[${productId}]" value="${productIgvBD}">
+          <input type="hidden" name="igvBD2[]" id="igvBD2[${productId}]" value="${productIgvBD2}">
+          <span name="total" id="total" style="display:none;" >${total}</span>
+          <input type="hidden" name="vvu[]" id="vvu[${productId}]" value="${productVvu}">
+          <input type="hidden" name="pvu_[]" id="pvu_[]" value="${productPvu}">
+          <input type="hidden" name="cicbper[]" id="cicbper[${productId}]" value="">
+          <input type="hidden" name="mticbperu[]" id="mticbperu[${productId}]" value="0.00">
+          <input type="hidden" name="factorc[]" id="factorc[]" value="${productFactC}" required="true">
+          <input type="hidden" name="cantidadreal[]" id="cantidadreal[]" value="1" required="true">
+
+          <input type="hidden" id="igvprod" value="${productIgvBD}">
+
+          <span name="mticbperuCalculado" id="mticbperuCalculado" style="display:none;">${mticbperuCalculado}</span>
+
+          <input type="hidden" name="pvt[]" id="pvt[]" value="${productPvt}">
         </div>
+      `;
 
-        <input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="${numeroOrden}"  >
-        <select name="afectacionigv[]" class="" style="display:none;"> <option value="10">10-GOO</option><option value="20">20-EOO</option><option value="30">30-FRE</option></select>
-        <input type="hidden" name="idarticulo[]" value="${productId}">
-        <input type="hidden" name="codigotributo[]" value="1000">
-        <input type="hidden" name="afectacionigv[]" value="10">
-        
-        <span name="SumDCTO" id="SumDCTO" style="display:none">0</span>
-        <input type="hidden" name="descuento[]" id="descuento[]" >
-        <input type="hidden" name="sumadcto[]" id="sumadcto[]" value="0" required="true">
-        <input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]" value="${productCodProv}">
-        <input type="hidden" name="codigo[]" id="codigo[]" value="${productCod}">
-        <input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${productUM}">
-        
-        <input type="hidden" name="valor_unitario[]" id="valor_unitario[]" value="${productValUni}" >
-
-        <input type="hidden" name="subtotal" id="subtotal" value="${productSubTotal}">
-        <input type="hidden" name="subtotalBD[]" id="subtotalBD[${productId}]" value="${productSubTotal}">
-        <span name="igvG" id="igvG" style="display:none;">${productIgv}</span>
-        <input type="hidden" name="igvBD[]" id="igvBD[${productId}]" value="${productIgvBD}">
-        <input type="hidden" name="igvBD2[]" id="igvBD2[${productId}]" value="${productIgvBD2}">
-        <span name="total" id="total" style="display:none;" >${total}</span>
-        <input type="hidden" name="vvu[]" id="vvu[${productId}]" value="${productVvu}">
-        <input type="hidden" name="pvu_[]" id="pvu_[]" value="${productPvu}">
-        <input type="hidden" name="cicbper[]" id="cicbper[${productId}]" value="">
-        <input type="hidden" name="mticbperu[]" id="mticbperu[${productId}]" value="0.00">
-        <input type="hidden" name="factorc[]" id="factorc[]" value="${productFactC}" required="true">
-        <input type="hidden" name="cantidadreal[]" id="cantidadreal[]" value="1" required="true">
-
-        <input type="hidden" id="igvprod" value="${productIgvBD}">
-
-        <span name="mticbperuCalculado" id="mticbperuCalculado" style="display:none;">${mticbperuCalculado}</span>
-
-        <input type="hidden" name="pvt[]" id="pvt[]" value="${productPvt}">
-      </div>
-    `;
-
-    $('.items-order').append(newItem);
-    // Incrementar el número de orden
-    numeroOrden++;
-    tributocodnon();
+      $('.items-order').append(newItem);
+      // Incrementar el número de orden
+      numeroOrden++;
+      tributocodnon();
+    }
+    updateTotals();
+    almacenarItems();
   }
-  updateTotals();
-  almacenarItems();
 }
 
 /* ---------------------------------------------------------------- */
@@ -775,7 +762,7 @@ function handleQuantityChange(input, inputBox, inputcant) {
       title: "Error",
       text: "El valor de stock máximo permitido es de " + maxStock + ".",
       icon: "error",
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
 
@@ -920,17 +907,13 @@ function updateTotals() {
   pvu = 0;
 
   $('.items-order .card').each(function (i) {
-
     sub_total += parseFloat($(this).find('#subtotal').val());
     total_igv += parseFloat($(this).find('#igvG').text());
     total_mticbperu += parseFloat($(this).find('#mticbperuCalculado').text());
     total += parseFloat($(this).find('#total').text());
     pvu += parseFloat($(this).find('#pvu_\\[\\]').val());
-
     console.log('total_igv', total_igv);
-
   });
-
 
   $("#subtotal_boleta").val(redondeo(sub_total, 2));
   // $("#subtotalflotante").val(redondeo(sub_total, 2));
@@ -942,7 +925,6 @@ function updateTotals() {
   // $("#totalflotante").val(number_format(redondeo(total, 2), 2));
   $("#total_final").val(redondeo(total, 2));
   $("#pre_v_u").val(redondeo(pvu, 2));
-
 }
 
 
@@ -960,16 +942,14 @@ function modificarSubtotales(modificar) {
       var inpP = prec[i];
 
       if (inpP.value == '') {
-
         document.getElementsByName("precio_unitario[]")[i].value = 0;
-
       } else if (isNaN(inpP.value) || inpP.value < 0) {
         // Si el valor no es un número válido o está vacío, muestra una alerta
         swal.fire({
           title: "Ops..!",
           text: "El valor insertado no es válido",
           icon: "warning",
-          timer: 2000,
+          timer: 5000,
           showConfirmButton: false
         });
 
@@ -1086,48 +1066,22 @@ function modificarSubtotales(modificar) {
         ); // Se asigan el valor al campo
       }
 
-
-
-      document.getElementsByName("subtotal")[i].innerHTML = redondeo(
-        inpS.value,
-        2
-      );
+      document.getElementsByName("subtotal")[i].innerHTML = redondeo( inpS.value, 2 );
       document.getElementsByName("igvG")[i].innerHTML = redondeo(inpI.value, 4);
-      document.getElementsByName("mticbperuCalculado")[i].innerHTML = redondeo(
-        mtiMonto.value,
-        2
-      );
-      document.getElementsByName("total")[i].innerHTML = redondeo(
-        inpT.value,
-        2
-      );
-      document.getElementsByName("pvu_[]")[i].innerHTML = redondeo(
-        inpPVU.value,
-        5
-      );
+      document.getElementsByName("mticbperuCalculado")[i].innerHTML = redondeo( mtiMonto.value,  2 );
+      document.getElementsByName("total")[i].innerHTML = redondeo( inpT.value, 2);
+      document.getElementsByName("pvu_[]")[i].innerHTML = redondeo( inpPVU.value, 5);
 
       // document.getElementsByName("numero_orden")[i].innerHTML = inpNOI.value;
-
       //Lineas abajo son para enviar el arreglo de inputs con los valor de IGV, Subtotal, y precio de venta
-
       //a la tala detalle_fact_art.
 
-      document.getElementsByName("subtotalBD[]")[i].value = redondeo(
-        inpS.value,
-        2
-      );
+      document.getElementsByName("subtotalBD[]")[i].value = redondeo( inpS.value, 2 );
       document.getElementsByName("igvBD[]")[i].value = redondeo(inpI.value, 4);
       document.getElementsByName("igvBD2[]")[i].value = redondeo(inpIitem, 4);
       document.getElementsByName("vvu[]")[i].value = redondeo(inpPVU.value, 5);
-      document.getElementsByName("SumDCTO")[i].innerHTML = redondeo(
-        inD2.value,
-        2
-      );
-      document.getElementsByName("sumadcto[]")[i].value = redondeo(
-        inD2.value,
-        2
-      );
-
+      document.getElementsByName("SumDCTO")[i].innerHTML = redondeo( inD2.value, 2 );
+      document.getElementsByName("sumadcto[]")[i].value = redondeo( inD2.value, 2 );
       // updateTotals();
     }
 
@@ -1198,8 +1152,7 @@ function modificarSubtotales(modificar) {
         inpI.value = inpI.value;
         sumaDcto.value = sumaDcto.value;
         inpS.value =
-          inpC.value * inpVuni.value -
-          (inpC.value * inpVuni.value * dctO.value) / 100;
+          inpC.value * inpVuni.value - (inpC.value * inpVuni.value * dctO.value) / 100;
         // inD2.value = (inpC.value * inpVuni.value * dctO.value) / 100;
         //inpI.value= inpS.value * 0.18;
         inpI.value = inpS.value * ($iva / 100);
@@ -1222,77 +1175,45 @@ function modificarSubtotales(modificar) {
         // }
       } else {
 
-        document.getElementsByName("valor_unitario[]")[i].value = redondeo(
-          inpP.value,
-          5
-        ); //Asignar valor unitario
+        document.getElementsByName("valor_unitario[]")[i].value = redondeo( inpP.value, 5 ); //Asignar valor unitario
         dctO.value = dctO.value;
         inpNOI.value = inpNOI.value;
         inpI.value = inpI.value;
         sumaDcto.value = sumaDcto.value;
         //inpS.value=(inpC.value * inpVuni.value)  - (inpC.value * inpVuni.value *  dctO.value)/100 ;
-        inpS.value =
-          inpC.value * inpP.value -
-          (inpC.value * inpP.value * dctO.value) / 100;
+        inpS.value = inpC.value * inpP.value - (inpC.value * inpP.value * dctO.value) / 100;
         sumaDcto.value = (inpC.value * inpVuni.value * dctO.value) / 100;
         inpI.value = 0.0;
-        inpPVU.value =
-          document.getElementsByName("precio_unitario[]")[i].value;
+        inpPVU.value = document.getElementsByName("precio_unitario[]")[i].value;
         //inpIitem = inpPVU.value;
         inpIitem = inpP.value;
         inpT.value = parseFloat(inpS.value) + parseFloat(inpI.value);
         mtiMonto.value = mticbperuNN.value * inpC.value; // Calculo de ICbper * cantidad (0.10 * 20)
         //document.getElementsByName("valor_unitario[]")[i].value = redondeo(inpVuni.value,5);
-        document.getElementsByName("precio_unitario[]")[i].value = redondeo(
-          inpP.value,
-          5
-        );
+        document.getElementsByName("precio_unitario[]")[i].value = redondeo( inpP.value, 5 );
 
       }
 
-      document.getElementsByName("subtotal")[i].innerHTML = redondeo(
-        inpS.value,
-        2
-      );
+      document.getElementsByName("subtotal")[i].innerHTML = redondeo( inpS.value, 2 );
       document.getElementsByName("igvG")[i].innerHTML = redondeo(inpI.value, 2);
-      document.getElementsByName("mticbperuCalculado")[i].innerHTML = redondeo(
-        mtiMonto.value,
-        2
-      );
-      document.getElementsByName("total")[i].innerHTML = redondeo(
-        inpT.value,
-        2
-      );
-      document.getElementsByName("pvu_[]")[i].innerHTML = redondeo(
-        inpPVU.value,
-        5
-      );
+      document.getElementsByName("mticbperuCalculado")[i].innerHTML = redondeo( mtiMonto.value, 2);
+      document.getElementsByName("total")[i].innerHTML = redondeo( inpT.value, 2);
+      document.getElementsByName("pvu_[]")[i].innerHTML = redondeo(inpPVU.value, 5 );
 
       // document.getElementsByName("numero_orden")[i].innerHTML = inpNOI.value;
-
       //Lineas abajo son para enviar el arreglo de inputs ocultos con los valor de IGV, Subtotal, y precio de venta
       //a la tala detalle_fact_art.
-      document.getElementsByName("subtotalBD[]")[i].value = redondeo(
-        inpS.value,
-        2
-      );
+      document.getElementsByName("subtotalBD[]")[i].value = redondeo( inpS.value, 2);
       document.getElementsByName("igvBD[]")[i].value = redondeo(inpIitem, 2);
       document.getElementsByName("igvBD2[]")[i].value = redondeo(inpI.value, 2);
       document.getElementsByName("pvt[]")[i].value = redondeo(inpPVU.value, 5);
       //Fin de comentario
 
-      // document.getElementsByName("SumDCTO")[i].innerHTML = redondeo(
-      //   inD2.value,
-      //   2
-      // );
-      // document.getElementsByName("sumadcto[]")[i].value = redondeo(
-      //   inD2.value,
-      //   2
-      // );
+      // document.getElementsByName("SumDCTO")[i].innerHTML = redondeo( inD2.value, 2 );
+      // document.getElementsByName("sumadcto[]")[i].value = redondeo( inD2.value, 2 );
     }
 
   } else if (tipocomprobante == 2) {
-
 
     var noi = document.getElementsByName("numero_orden_item_29[]");
     var cant = document.getElementsByName("cantidad_item_12[]");
@@ -1350,26 +1271,13 @@ function modificarSubtotales(modificar) {
       //   inStk.value / factorcc.value -
       //   (inStk.value - inpC.value) / factorcc.value;
 
-      document.getElementsByName("subtotalBD[]")[i].value = redondeo(
-        inpS.value,
-        2
-      );
-      document.getElementsByName("subtotal")[i].innerHTML = redondeo(
-        inpS.value,
-        2
-      );
+      document.getElementsByName("subtotalBD[]")[i].value = redondeo( inpS.value, 2 );
+      document.getElementsByName("subtotal")[i].innerHTML = redondeo(inpS.value, 2 );
       document.getElementsByName("igvG")[i].innerHTML = redondeo(inpI.value, 4);
-      document.getElementsByName("total")[i].innerHTML = redondeo(
-        inpT.value,
-        2
-      );
-      document.getElementsByName("pvu_[]")[i].innerHTML = redondeo(
-        inpPVU.value,
-        5
-      );
+      document.getElementsByName("total")[i].innerHTML = redondeo( inpT.value, 2 );
+      document.getElementsByName("pvu_[]")[i].innerHTML = redondeo( inpPVU.value, 5 );
 
       // document.getElementsByName("numero_orden")[i].innerHTML = inpNOI.value;
-
       //Lineas abajo son para enviar el arreglo de inputs con los valor de IGV, Subtotal, y precio de venta
       //a la tala detalle_fact_art.
       //document.getElementsByName("subtotalBD[]")[i].value = redondeo(inpS.value,2);
@@ -1836,12 +1744,9 @@ $.post("../ajax/factura.php?op=selectTributo", function (r) {
 /* ---------------------------------------------------------------- */
 //                   OBTENER VENDEDOR (vendedorsitio)  
 
-$.post(
-  "../ajax/vendedorsitio.php?op=selectVendedorsitio&idempresa=" + $idempresa,
-  function (r) {
-    $("#vendedorsitio").html(r);
-  }
-);
+$.post( "../ajax/vendedorsitio.php?op=selectVendedorsitio&idempresa=" + $idempresa, function (r) {
+  $("#vendedorsitio").html(r);
+});
 
 /* ---------------------------------------------------------------- */
 //                   OBTENER TIPO DOCUMENTO (tipo_doc_ide)  
@@ -2055,26 +1960,22 @@ function focusI() {
   limpiarDatos();
 
   if (tipo == "0") {
-    $.post(
-      "../ajax/persona.php?op=mostrarClienteVarios",
-      function (data, status) {
-        data = JSON.parse(data);
-        $("#idcliente").val(data.idpersona);
-        $("#numero_documento").val(data.numero_documento);
-        $("#razon_social").val(data.razon_social);
-        $("#domicilio_fiscal").val(data.domicilio_fiscal);
+    $.post("../ajax/persona.php?op=mostrarClienteVarios", function (data, status) {
+      data = JSON.parse(data);
+      $("#idcliente").val(data.idpersona);
+      $("#numero_documento").val(data.numero_documento);
+      $("#razon_social").val(data.razon_social);
+      $("#domicilio_fiscal").val(data.domicilio_fiscal);
 
-        $("#numero_documento").prop('readonly', true);
-        $("#razon_social").prop('readonly', true);
-        $("#domicilio_fiscal").prop('readonly', true);
-      }
-    );
+      $("#numero_documento").prop('readonly', true);
+      $("#razon_social").prop('readonly', true);
+      $("#domicilio_fiscal").prop('readonly', true);
+    });
 
     //document.getElementById('numero_documento').focus();
 
     $('.doc_dni').show();
     $('.doc_ruc').hide();
-
   }
 
   if (tipo == "1") {
@@ -2888,98 +2789,81 @@ function tipoimpresion() {
   if (select_tipocomp == 0) {
 
     // Si es boleta
-    $.post(
-      "../ajax/boleta.php?op=mostrarultimocomprobanteId",
-      function (data, status) {
-        data = JSON.parse(data);
-        if (data != null) {
-          $("#idultimocom").val(data.idboleta);
-        } else {
-          $("#idultimocom").val("");
-        }
-
-        if (data.tipoimpresion == "00") {
-          var rutacarpeta = "../reportes/exTicketBoleta.php?id=" + data.idboleta;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreview2").modal("show");
-        } else if (data.tipoimpresion == "01") {
-          var rutacarpeta = "../reportes/exBoleta.php?id=" + data.idboleta;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreview2").modal("show");
-        } else {
-          var rutacarpeta =
-            "../reportes/exBoletaCompleto.php?id=" + data.idboleta;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreview2").modal("show");
-        }
+    $.post( "../ajax/boleta.php?op=mostrarultimocomprobanteId",  function (data, status) {
+      data = JSON.parse(data);
+      if (data != null) {
+        $("#idultimocom").val(data.idboleta);
+      } else {
+        $("#idultimocom").val("");
       }
-    );
+
+      if (data.tipoimpresion == "00") {
+        var rutacarpeta = "../reportes/exTicketBoleta.php?id=" + data.idboleta;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreview2").modal("show");
+      } else if (data.tipoimpresion == "01") {
+        var rutacarpeta = "../reportes/exBoleta.php?id=" + data.idboleta;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreview2").modal("show");
+      } else {
+        var rutacarpeta = "../reportes/exBoletaCompleto.php?id=" + data.idboleta;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreview2").modal("show");
+      }
+    });
 
   } else if (select_tipocomp == 1) {
 
     // Si es Factura
-    $.post(
-      "../ajax/factura.php?op=mostrarultimocomprobanteId",
-      function (data, status) {
-        data = JSON.parse(data);
-        if (data != null) {
-          $("#idultimocom").val(data.idfactura);
-        } else {
-          $("#idultimocom").val("");
-        }
-
-        if (data.tipoimpresion == "00") {
-          var rutacarpeta =
-            "../reportes/exTicketFactura.php?id=" + data.idfactura;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreview2").modal("show");
-        } else if (data.tipoimpresion == "01") {
-          var rutacarpeta = "../reportes/exFactura.php?id=" + data.idfactura;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreview2").modal("show");
-        } else {
-          var rutacarpeta =
-            "../reportes/exFacturaCompleto.php?id=" + data.idfactura;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreview2").modal("show");
-        }
+    $.post( "../ajax/factura.php?op=mostrarultimocomprobanteId", function (data, status) {
+      data = JSON.parse(data);
+      if (data != null) {
+        $("#idultimocom").val(data.idfactura);
+      } else {
+        $("#idultimocom").val("");
       }
-    );
+
+      if (data.tipoimpresion == "00") {
+        var rutacarpeta = "../reportes/exTicketFactura.php?id=" + data.idfactura;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreview2").modal("show");
+      } else if (data.tipoimpresion == "01") {
+        var rutacarpeta = "../reportes/exFactura.php?id=" + data.idfactura;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreview2").modal("show");
+      } else {
+        var rutacarpeta ="../reportes/exFacturaCompleto.php?id=" + data.idfactura;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreview2").modal("show");
+      }
+    });
 
   } else if (select_tipocomp == 2) {
 
     // Si es Nota de Pedido
-    $.post(
-      "../ajax/notapedido.php?op=mostrarultimocomprobanteId",
-      function (data, status) {
-        data = JSON.parse(data);
-        if (data != null) {
-          $("#idultimocom").val(data.idboleta);
-        } else {
-          $("#idultimocom").val("");
-        }
-
-        if (data.tipoimpresion == "00") {
-          var rutacarpeta =
-            "../reportes/exNotapedidoTicket.php?id=" + data.idboleta;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreviewXml").modal("show");
-        } else if (data.tipoimpresion == "01") {
-          var rutacarpeta = "../reportes/exNotapedido.php?id=" + data.idboleta;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreviewXml").modal("show");
-        } else {
-          var rutacarpeta =
-            "../reportes/exNotapedidocompleto.php?id=" + data.idboleta;
-          $("#modalCom").attr("src", rutacarpeta);
-          $("#modalPreview2").modal("show");
-        }
+    $.post("../ajax/notapedido.php?op=mostrarultimocomprobanteId", function (data, status) {
+      data = JSON.parse(data);
+      if (data != null) {
+        $("#idultimocom").val(data.idboleta);
+      } else {
+        $("#idultimocom").val("");
       }
-    );
 
+      if (data.tipoimpresion == "00") {
+        var rutacarpeta = "../reportes/exNotapedidoTicket.php?id=" + data.idboleta;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreviewXml").modal("show");
+      } else if (data.tipoimpresion == "01") {
+        var rutacarpeta = "../reportes/exNotapedido.php?id=" + data.idboleta;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreviewXml").modal("show");
+      } else {
+        var rutacarpeta ="../reportes/exNotapedidocompleto.php?id=" + data.idboleta;
+        $("#modalCom").attr("src", rutacarpeta);
+        $("#modalPreview2").modal("show");
+      }
+    });
   }
-
-
 }
 
 

@@ -36,7 +36,7 @@
     <div class="header-content-right">
 
       <!-- ::::::::::::::::::::::::::::::::: POS - VENTAS ::::::::::::::::::::::::::::::::: -->
-      <div  class="header-element header-shortcuts-dropdown" data-tooltip="POS Ventas" title="POS Ventas" data-tooltip-color="black">
+      <div  class="header-element header-shortcuts-dropdown" data-tooltip="POS Ventas" data-tooltip-color="black" title="POS Ventas">
         <a href="../vistas/pos.php" class="header-link dropdown-toggle" >          
           <i class="header-link-icon fas fa-cart-plus "></i>
         </a>        
@@ -45,7 +45,7 @@
       <!-- ::::::::::::::::::::::::::::::::: PAIS ACTUAL ::::::::::::::::::::::::::::::::: -->
       <div class="header-element country-selector">
         <!-- Start::header-link|dropdown-toggle -->
-        <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" title="Pais: Perú">
+        <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown" data-tooltip="Pais: Perú" data-tooltip-color="black" title="Pais: Perú">
           <img src="../assets/images/flags/peru_flag.png" alt="img" class="rounded-circle header-link-icon">
         </a>
         <!-- End::header-link|dropdown-toggle -->
@@ -64,14 +64,14 @@
       <!-- ::::::::::::::::::::::::::::::::: PRECIO DEL DOLAR ::::::::::::::::::::::::::::::::: -->
       <div class="header-element header-fullscreen">
         <!-- Start::header-link -->
-        <a style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalTcambio" class="header-link" title="Precio dolar">
+        <a style="cursor:pointer;" class="header-link precio_dolar_hoy" data-tooltip="Precio dolar" data-tooltip-color="black" title="Precio dolar">
           <i class="bx bx-money full-screen-open header-link-icon"></i>
         </a>
         <!-- End::header-link -->
       </div>
 
       <!-- ::::::::::::::::::::::::::::::::: MODO OSCURO ::::::::::::::::::::::::::::::::: -->
-      <div class="header-element header-theme-mode">
+      <div class="header-element header-theme-mode" data-tooltip="Modo oscuro" data-tooltip-color="black" title="Modo oscuro">
         <!-- Start::header-link|layout-setting -->
         <a href="javascript:void(0);" class="header-link layout-setting">
           <span class="light-layout">
@@ -173,7 +173,7 @@
       <!-- End::header-element -->
 
       <!-- ::::::::::::::::::::::::::::::::: PANTALLA COMPLETA ::::::::::::::::::::::::::::::::: -->
-      <div class="header-element header-fullscreen">
+      <div class="header-element header-fullscreen" data-tooltip="Pantalla completa" data-tooltip-color="black" title="Pantalla completa">
         <!-- Start::header-link -->
         <a onclick="openFullscreen();" href="javascript:void(0);" class="header-link">
           <i class="bx bx-fullscreen full-screen-open header-link-icon"></i>
