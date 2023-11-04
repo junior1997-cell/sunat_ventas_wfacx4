@@ -80,6 +80,7 @@ switch ($_GET["op"]){
  		//Codificar el resultado utilizando json
  		echo json_encode($rspta);
 	break;
+
 	//quitar id persona por validacion
 	case 'mostrarClienteVarios':
 		$rspta=$persona->mostrarIdVarios($idpersona);
@@ -134,11 +135,9 @@ case 'listarc':
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>($reg->estado)?'<i class="fa fa-pencil" onclick="mostrar('.$reg->idpersona.')" style="color:orange;"> </i> '.
- 					'   <i class="fa fa-close" onclick="desactivar('.$reg->idpersona.')" style="color:red;"   ></i> ':
-
- 					'     <i class="fa fa-pencil" onclick="mostrar('.$reg->idpersona.')"></i> '.
- 					'     <i class="fa fa-check" onclick="activar('.$reg->idpersona.')" style="color:green;"></i> ',
+ 				"0"=> '<button class="btn btn-icon btn-sm btn-warning" onclick="mostrar('.$reg->idpersona.')"><i class="fa fa-pencil"> </i></button>'.
+				($reg->estado ? ' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar('.$reg->idpersona.')"><i class="fa fa-close" ></i></button> ':
+ 				' <button class="btn btn-icon btn-sm btn-success" onclick="activar('.$reg->idpersona.')"><i class="fa fa-check" ></i></button> '),
 
  				"1"=>htmlspecialchars_decode($reg->razon_social),
  				"2"=>$reg->descripcion,

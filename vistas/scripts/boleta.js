@@ -4422,7 +4422,7 @@ function cargarTiposDocIde() {
     path = path.replace("/vistas/", "/");
   }
 
-  var ajaxURL = new URL("ajax/catalogo6.php?action=listar2", baseURL + path);
+  var ajaxURL = new URL("ajax/catalogo6.php?action=listar2&op=", baseURL + path);
 
   $.ajax({
     url: ajaxURL.href,

@@ -115,7 +115,15 @@ switch ($_GET["op"]) {
           $rspta = $persona->insertardeBoleta($RazonSocial, $tipo_doc_ide, $rucCliente, $domicilio_fiscal);
           $IdC = $persona->mostrarId();
           while ($reg = $IdC->fetch_object()) { $idcl = $reg->idpersona;  }
-          $rspta = $boleta->insertar($idusuario, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $_POST["descdet"], $total_icbper, $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia, $_POST["ncuotahiden"], $_POST["montocuotacre"], $_POST["fechapago"], $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
+          $rspta = $boleta->insertar($idusuario, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, 
+          $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, 
+          $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, 
+          $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], 
+          $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], 
+          $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), 
+          $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $_POST["descdet"], $total_icbper, 
+          $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia, $_POST["ncuotahiden"], $_POST["montocuotacre"], 
+          $_POST["fechapago"], $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
           echo $rspta ? "Se guardo boleta correctamente" : "No se guardo boleta";
         } else {
 

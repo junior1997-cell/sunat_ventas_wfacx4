@@ -93,10 +93,10 @@ class Persona
 
 
 	//Implementar un método para mostrar los datos de un registro a modificar
-	public function mostrar($idpersona)
-	{
-
-		$sql = "SELECT idpersona, nombres, apellidos, tipo_documento, numero_documento, razon_social, nombre_comercial, domicilio_fiscal, departamento, ciudad, distrito , telefono1, telefono2, email from persona where idpersona='$idpersona' and estado='1'";
+	public function mostrar($idpersona) {
+		$sql = "SELECT idpersona, nombres, apellidos, tipo_documento, numero_documento, razon_social, nombre_comercial, domicilio_fiscal, 
+		departamento, ciudad, distrito , telefono1, telefono2, email 
+		from persona where idpersona='$idpersona' and estado='1'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
@@ -153,12 +153,12 @@ class Persona
 		return ejecutarConsulta($sql);
 	}
 
-	public function listarc()
-	{
-		$sql = "SELECT * from 
-		persona p inner join catalogo6 ct6 on p.tipo_documento=ct6.codigo 
-		where 
-		p.tipo_persona='CLIENTE'";
+	public function listarc()	{
+		$sql = "SELECT p.idpersona, p.tipo_persona, p.nombres, p.apellidos, p.tipo_documento, p.numero_documento, p.razon_social, 
+		p.nombre_comercial, p.domicilio_fiscal, p.departamento, p.ciudad, p.distrito, p.telefono1, p.telefono2, p.email, p.estado, 
+		ct6.codigo, ct6.descripcion, ct6.abrev
+		from persona p inner join catalogo6 ct6 on p.tipo_documento = ct6.codigo 
+		where p.tipo_persona='CLIENTE';";
 		return ejecutarConsulta($sql);
 	}
 
@@ -256,23 +256,24 @@ class Persona
 	}
 
 
-	public function buscarclienteRuc($key)
-	{
+	public function buscarclienteRuc($key)	{
 
-		define('DB_SERVER', 'localhost');
-		define('DB_SERVER_USERNAME', 'YOUR DATA BASE USERNAME');
-		define('DB_SERVER_PASSWORD', 'YOUR DATA BASE PASSWORD');
-		define('DB_DATABASE', 'YOUR DATA BASE NAME');
+		// define('DB_SERVER', 'localhost');
+		// define('DB_SERVER_USERNAME', 'YOUR DATA BASE USERNAME');
+		// define('DB_SERVER_PASSWORD', 'YOUR DATA BASE PASSWORD');
+		// define('DB_DATABASE', 'YOUR DATA BASE NAME');
 
-		$connexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+		// $connexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+		// $result = $connexion->query('');
 
 		$html = '';
 		$cc = 1;
 		//$key = $_POST['key'];
 
-		$result = $connexion->query(
-			'select * from persona where tipo_persona="cliente" and tipo_documento="6" and numero_documento like "%' . strip_tags($key) . '%" and not idpersona="1" limit 8'
-		);
+		$sql_1 = "SELECT * from persona 
+		where tipo_persona='cliente' and tipo_documento='6' and numero_documento like '%" . strip_tags($key) . "%' and not idpersona='1' limit 8";
+		$result = ejecutarConsulta($sql_1);
+		
 		if ($result->num_rows > 0) {
 			while ($row = $result->fetch_assoc()) {
 				$html .= '<div ><a class="suggest-element"  ndocumento="' . utf8_encode($row['numero_documento']) . '"  ncomercial="' . utf8_encode($row['razon_social']) . '"  domicilio="' . utf8_encode($row['domicilio_fiscal']) . '" id="' . $row['idpersona'] . '" email="' . $row['email'] . '">' . utf8_encode($row['razon_social']) . '</a></div>';

@@ -459,6 +459,10 @@
                         <input type="hidden" name="trans" id="trans">
                         <input type="hidden" name="itemno" id="itemno">
 
+                        <input type="hidden" name="ncuotahiden[]" id="ncuotahiden">
+                        <input type="hidden" name="montocuotacre[]" id="montocuotacre">
+                        <input type="hidden" name="fechapago[]" id="fechapago">
+
                         <!-- ***********************FACTURA*************-->
                         <input type="hidden" name="correo" id="correo" value="">
                         <input type="hidden" name="unidadMedida" id="unidadMedida" value="original">
