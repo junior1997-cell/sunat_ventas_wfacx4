@@ -228,7 +228,7 @@ switch ($_GET["op"]) {
 				,
 				"1" => $reg->nombre,
 				"2" => $reg->nombreal,
-				"3" => $reg->codigo,
+				"3" => substr($reg->codigo, 2),
 				"4" => $reg->stock,
 				"5" => $reg->precio,
 				"6" => $reg->costo_compra,
@@ -297,7 +297,7 @@ switch ($_GET["op"]) {
 
 				"1" => $reg->nombre,
 				"2" => $reg->nombreal,
-				"3" => $reg->codigo,
+				"3" => substr($reg->codigo, 2),
 				//"4"=>$reg->stock,
 				"4" => $reg->precio,
 				//"6"=>$reg->ccontable ,
