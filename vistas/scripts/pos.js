@@ -628,6 +628,7 @@ function agregarProductPedido( productImage, productName, productPrice, productS
           
           <span name="SumDCTO" id="SumDCTO" style="display:none">0</span>
           <input type="hidden" name="descuento[]" id="descuento[]" >
+          <input type="hidden" name="descdet[]" id="descdet[]" >
           <input type="hidden" name="sumadcto[]" id="sumadcto[]" value="0" required="true">
           <input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]" value="${productCodProv}">
           <input type="hidden" name="codigo[]" id="codigo[]" value="${productCod}">

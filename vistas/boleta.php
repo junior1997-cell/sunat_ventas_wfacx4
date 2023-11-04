@@ -56,7 +56,8 @@ if (!isset($_SESSION["nombre"])) {
                 </tbody>
               </table>
             </div>
-            <div class="panel-body" id="formularioregistros">
+            
+            <div class="panel-body" id="formularioregistros" style="display: none;">
               <form name="formulario" id="formulario" method="POST" autocomplete="off">
 
                 <div class="row">
@@ -800,9 +801,10 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
-    <!-- modal ticket -->
+
+    <!-- MODAL - TICKET -->
     <div class="modal fade text-left" id="modalPreviewticket" tabindex="-1" role="dialog" aria-labelledby="modalPreviewticket" aria-hidden="true">
-      <div class="modal-dialog modal-lg" style="width: 100% !important;">
+      <div class="modal-dialog modal-md" style="width: 100% !important;">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalPreviewticket">Ticket de Boleta</h5>
