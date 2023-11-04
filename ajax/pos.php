@@ -26,23 +26,16 @@ $fechaDesde = isset($_POST["fechaDesde"]) ? limpiarCadena($_POST["fechaDesde"]) 
 $fechaHasta = isset($_POST["fechaHasta"]) ? limpiarCadena($_POST["fechaHasta"]) : "";
 $tipoComprobante = isset($_POST["tipoComprobante"]) ? limpiarCadena($_POST["tipoComprobante"]) : "";
 
-
 //personas
 $tipo_documento = isset($_POST["tipo_documento"]) ? limpiarCadena($_POST["tipo_documento"]) : "";
 $numero_documento = isset($_POST["numero_documento"]) ? limpiarCadena($_POST["numero_documento"]) : "";
 $razon_social = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
 $domicilio_fiscal = isset($_POST["domicilio_fiscal"]) ? limpiarCadena($_POST["domicilio_fiscal"]) : "";
 
-
-
 //Limpiar Familia 
-
 $idfamilia = isset($_POST["idfamilia"]) ? limpiarcadena($_POST["idfamilia"]) : null;
 $idfamilia = isset($_GET["idfamilia"]) ? limpiarcadena($_GET["idfamilia"]) : null;
 $busqueda = isset($_GET["busqueda"]) ? limpiarcadena($_GET["busqueda"]) : null;
-
-
-
 
 require_once "../modelos/Rutas.php";
 $rutas = new Rutas();
@@ -71,43 +64,45 @@ if ($action == 'listarProducto') {
     $imagenURL = $baseURL . '/files/articulos/' . $reg->imagen;
 
     $data[] = array(
-      'idarticulo' => $reg->idarticulo,
-      'idfamilia' => $reg->idfamilia,
-      'codigo_proveedor' => $reg->codigo_proveedor,
-      'codigo' => $reg->codigo,
-      'familia' => $reg->familia,
-      'nombre' => $reg->nombre,
-      'stock' => $reg->stock,
-      'precio' => $reg->precio,
-      'costo_compra' => $reg->costo_compra,
+      'idarticulo'      => $reg->idarticulo,
+      'idfamilia'       => $reg->idfamilia,
+      'codigo_proveedor'=> $reg->codigo_proveedor,
+      'codigo'          => $reg->codigo,
+      'familia'         => $reg->familia,
+      'nombre'          => $reg->nombre,
+      'marca'           => $reg->marca,
+      'stock'           => $reg->stock ,
+      'precio'          => $reg->precio,
+      'costo_compra'    => $reg->costo_compra,
       'precio_unitario' => $reg->precio_unitario,
-      'cicbper' => $reg->cicbper,
-      'mticbperu' => $reg->mticbperu,
+      'cicbper'         => $reg->cicbper,
+      'mticbperu'       => $reg->mticbperu,
       // 'factorconversion' => $reg->factorconversion,
       //(a.factorc * a.stock) as factorconversion,
-      'factorc' => $reg->factorc,
-      'descrip' => $reg->descrip,
-      'tipoitem' => $reg->tipoitem,
-      'imagen' => $imagenURL,
+      'factorc'         => $reg->factorc,
+      'descrip'         => $reg->descrip,
+      'tipoitem'        => $reg->tipoitem,
+      'imagen'          => $imagenURL,
       // Utilizar la URL completa de la imagen
       'precio_final_kardex' => $reg->precio_final_kardex,
-      'precio2' => $reg->precio2,
-      'precio3' => $reg->precio3,
-      'unidad_medida' => $reg->unidad_medida,
-      'ccontable' => $reg->ccontable,
-      'st2' => $reg->st2,
-      'nombreum' => $reg->nombreum,
-      'abre' => $reg->abre,
+      'precio2'         => $reg->precio2,
+      'precio3'         => $reg->precio3,
+      'unidad_medida'   => $reg->unidad_medida,
+      'ccontable'       => $reg->ccontable,
+      'st2'             => $reg->st2,
+      'nombreum'        => $reg->nombreum,
+      'abre'            => $reg->abre,
       'fechavencimiento' => $reg->fechavencimiento,
-      'nombreal' => $reg->nombreal
+      'nombreal'        => $reg->nombreal
     );
   }
   $results = array(
-    "ListaProductos" => $data
+    "ListaProductos" => $data,
+    "cant_productos" => count($data) 
   );
 
-  header('Content-type: application/json');
-  echo json_encode($results);
+  // header('Content-type: application/json');
+  echo json_encode($results, true);
 }
 
 
@@ -115,27 +110,13 @@ if ($action == 'listarProducto') {
 
 if ($action == 'listarCategorias') {
   $rspta = $posmodelo->listarcategorias();
-  $data = array();
-
-  while ($reg = $rspta->fetch_object()) {
-    $data[] = array(
-      'idfamilia' => $reg->idfamilia,
-      'familia' => $reg->familia,
-      'estado' => $reg->estado
-    );
-  }
-  $results = array(
-    "ListaCategorias" => $data
-  );
-
-  header('Content-type: application/json');
-  echo json_encode($results);
+ 
+  $results = array(  "ListaCategorias" => $rspta );
+  // header('Content-type: application/json');
+  echo json_encode($results, true);
 }
 
-
-
 //Comprobantes boleta, factura y nota de venta
-
 $data = json_decode(file_get_contents("php://input"), true);
 if ($data) { // Verificamos si se ha enviado algo en formato JSON
   $idempresa = isset($data['idempresa']) ? $data['idempresa'] : "";
@@ -161,22 +142,16 @@ if ($action == 'listarComprobantesVarios') {
     );
   }
 
-  $results = array(
-    "ListaComprobantes" => $data
-  );
+  $results = array( "ListaComprobantes" => $data );
 
   header('Content-type: application/json');
   echo json_encode($results);
 }
 
 
-//insertar personas  - clientes : 
-
-
+//insertar personas  - clientes :
 
 if ($action == 'insertarClientePOS') {
-
-
   // Primero verifica si el cliente ya existe.
   if ($persona->clienteExiste($numero_documento)) {
     echo json_encode(['status' => 'error', 'message' => 'El cliente ya existe.']);

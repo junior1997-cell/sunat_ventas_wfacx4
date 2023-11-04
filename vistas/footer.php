@@ -59,12 +59,12 @@ $datose = $datos->fetch_object();
 <script src="../public/datatables/pdfmake.min.js"></script>
 <script src="../public/datatables/vfs_fonts.js"></script>
 
-
-
-
+<!-- sweet alert -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
+<script>
+  $('.precio_dolar_hoy').on('click', function () { $('#modalTcambio').modal('show'); console.log('ver precio dolar'); });
+</script>
 
 </body>
 

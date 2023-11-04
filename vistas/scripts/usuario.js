@@ -28,18 +28,18 @@ function init() {
 
 //Función limpiar
 function limpiar() {
-    $("#nombre").val("");
-    $("#apellidos").val("");
-    $("#num_documento").val("");
-    $("#direccion").val("");
-    $("#telefono").val("");
-    $("#email").val("");
-    $("#cargo").val("");
-    $("#login").val("");
-    $("#clave").val("");
-    $("#imagenmuestra").attr("src", "../assets/images/faces/9.jpg");
-    $("#imagenactual").val("");
-    $("#idusuario").val("");
+	$("#nombre").val("");
+	$("#apellidos").val("");
+	$("#num_documento").val("");
+	$("#direccion").val("");
+	$("#telefono").val("");
+	$("#email").val("");
+	$("#cargo").val("");
+	$("#login").val("");
+	$("#clave").val("");
+	$("#imagenmuestra").attr("src", "../assets/images/faces/9.jpg");
+	$("#imagenactual").val("");
+	$("#idusuario").val("");
 }
 
 $("#imagenmuestra").css("display", "block");
@@ -55,9 +55,9 @@ function mostrarform(flag) {
 		document.getElementById('nombre').focus();
 		$("#imagenmuestra").attr("src", "../assets/images/faces/9.jpg").show();
 		var imagenMuestra = document.getElementById('imagenmuestra');
-        if (!imagenMuestra.src || imagenMuestra.src == "") {
-            imagenMuestra.src = '../assets/images/faces/9.jpg';
-        }
+		if (!imagenMuestra.src || imagenMuestra.src == "") {
+			imagenMuestra.src = '../assets/images/faces/9.jpg';
+		}
 	}
 	else {
 		$("#listadoregistros").show();
@@ -90,7 +90,7 @@ function listar() {
 			"aServerSide": true,//Paginación y filtrado realizados por el servidor
 			dom: 'Bfrtip',//Definimos los elementos del control de tabla
 			buttons: [
-				
+
 			],
 			"ajax":
 			{
@@ -280,105 +280,121 @@ document.onkeypress = stopRKey;
 
 
 function NumCheck(e, field) {
-    field = $(field);
-    var key = e.keyCode ? e.keyCode : e.which;
+	field = $(field);
+	var key = e.keyCode ? e.keyCode : e.which;
 
-    // Permitir backspace y tab
-    if (key == 8 || key == 9) return true;
+	// Permitir backspace y tab
+	if (key == 8 || key == 9) return true;
 
-    // Permitir números
-    if (key > 47 && key < 58) return true;
+	// Permitir números
+	if (key > 47 && key < 58) return true;
 
-    // Permitir punto, pero solo si no hay uno ya y si hay al menos un número antes
-    if (key == 46) {
-        if (field.val().indexOf('.') === -1 && field.val() !== "") {
-            return true;
-        }
-    }
+	// Permitir punto, pero solo si no hay uno ya y si hay al menos un número antes
+	if (key == 46) {
+		if (field.val().indexOf('.') === -1 && field.val() !== "") {
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 
 function cambiarImagen() {
-    var imagenInput = document.getElementById('imagen');
-    imagenInput.click();
+	var imagenInput = document.getElementById('imagen');
+	imagenInput.click();
 }
 
 function removerImagen() {
-    var imagenMuestra = document.getElementById('imagenmuestra');
-    var imagenActualInput = document.getElementById('imagenactual');
-    imagenMuestra.src = '../assets/images/faces/9.jpg';
-    imagenActualInput.value = '';
+	var imagenMuestra = document.getElementById('imagenmuestra');
+	var imagenActualInput = document.getElementById('imagenactual');
+	imagenMuestra.src = '../assets/images/faces/9.jpg';
+	imagenActualInput.value = '';
 }
 
 // Esto se encarga de mostrar la imagen cuando se selecciona una nueva
-document.addEventListener('DOMContentLoaded', function() {
-    var imagenMuestra = document.getElementById('imagenmuestra');
-    var imagenInput = document.getElementById('imagen');
+document.addEventListener('DOMContentLoaded', function () {
+	var imagenMuestra = document.getElementById('imagenmuestra');
+	var imagenInput = document.getElementById('imagen');
 
-    imagenInput.addEventListener('change', function() {
-        if (imagenInput.files && imagenInput.files[0]) {
-            var reader = new FileReader();
+	imagenInput.addEventListener('change', function () {
+		if (imagenInput.files && imagenInput.files[0]) {
+			var reader = new FileReader();
 
-            reader.onload = function(e) {
-                imagenMuestra.src = e.target.result;
-            }
+			reader.onload = function (e) {
+				imagenMuestra.src = e.target.result;
+			}
 
-            reader.readAsDataURL(imagenInput.files[0]);
-        }
-    });
+			reader.readAsDataURL(imagenInput.files[0]);
+		}
+	});
 });
 
 
-$(document).ready(function() {
-    $('#tipo_documento').change(function() {
-        if ($(this).val() == 'DNI') {
-            $('#num_documento').focus(); // Asumiendo que tu input para ingresar el número tiene el id 'num_documento'.
-        }
-    });
+$(document).ready(function () {
+	$('#tipo_documento').change(function () {
+		if ($(this).val() == 'DNI') {
+			$('#num_documento').focus(); // Asumiendo que tu input para ingresar el número tiene el id 'num_documento'.
+		}
+	});
 });
 
-$('#num_documento').keypress(function(e) {
-    if (e.which == 13) { // 13 es el código de tecla para Enter
-        var numero = $(this).val();
-        if (numero) { // verifica si el número no está vacío
-            consultaDniSunat(numero);
-        } else {
-            alert('Por favor, ingrese un número.');
-        }
-    }
+$('#num_documento').keypress(function (e) {
+	if (e.which == 13) { // 13 es el código de tecla para Enter
+		var numero = $(this).val();
+		if (numero) { // verifica si el número no está vacío
+			consultaDniSunat(numero);
+		} else {
+			alert('Por favor, ingrese un número.');
+		}
+	}
 });
 
 
 function consultaDniSunat(numero) {
-    $.ajax({
-        type: 'POST',
-        url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + numero,
-        dataType: 'json',
-        beforeSend: function() {
-            // Aquí puedes mostrar un loader o similar
-        },
-        complete: function(data) {
-            // Acciones después de completar la solicitud, por ejemplo, ocultar el loader
-        },
-        success: function(data) {
+	$.ajax({
+		type: 'POST',
+		url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + numero,
+		dataType: 'json',
+		beforeSend: function () {
+			// Aquí puedes mostrar un loader o similar
+		},
+		complete: function (data) {
+			// Acciones después de completar la solicitud, por ejemplo, ocultar el loader
+		},
+		success: function (data) {
 			console.log(data);
-            if (data.error) {
-                alert(data.error);
-            } else {
-                $("#num_documento").val(data.numeroDocumento);
+			if (data.error) {
+				alert(data.error);
+			} else {
+				$("#num_documento").val(data.numeroDocumento);
 				$('#nombre').val(data.nombres);
 				$('#apellidos').val(data.apellidoPaterno + ' ' + data.apellidoMaterno);
-            }
-        },
-        error: function(data) {
-            alert("Problemas al tratar de enviar el formulario");
-        }
-    });
+			}
+		},
+		error: function (data) {
+			alert("Problemas al tratar de enviar el formulario");
+		}
+	});
 }
 
+function ver_password(click) {
+  var x = document.getElementById("clave"); 
+	//var y = document.getElementById("confirm_password");
+  if (x.type === "password") {
+    x.type = "text"; 
+		//y.type = "text"; 
+		$('#icon-view-password').html(`<i class="fa-solid fa-eye-slash text-white"></i>`); 
+    $(click).attr('data-original-title', 'Ocultar contraseña');
+  } else {
+    x.type = "password"; 
+		//y.type = "password";  
+		$('#icon-view-password').html(`<i class="fa-solid fa-eye text-white"></i>`);
+    $(click).attr('data-original-title', 'Ver contraseña');
+  }
 
+  $('[data-toggle="tooltip"]').tooltip();
+}
 
 
 init();

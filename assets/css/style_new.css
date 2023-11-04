@@ -654,17 +654,17 @@ table th { vertical-align: top !important; }
 .font-size-30px{ font-size: 30px; }
 
 /*  ══════════════════════════════════════════ - B O R D E R   R A D I U S - ══════════════════════════════════════════ */
-.b-radio-0px{ border-radius: 0px; }
-.b-radio-1px{ border-radius: 1px; }
-.b-radio-2px{ border-radius: 2px; }
-.b-radio-3px{ border-radius: 3px; }
-.b-radio-4px{ border-radius: 4px; }
-.b-radio-5px{ border-radius: 5px; }
-.b-radio-6px{ border-radius: 6px; }
-.b-radio-7px{ border-radius: 7px; }
-.b-radio-8px{ border-radius: 8px; }
-.b-radio-9px{ border-radius: 9px; }
-.b-radio-10px{ border-radius: 10px; }
+.b-radio-0px{ border-radius: 0px !important; }
+.b-radio-1px{ border-radius: 1px !important; }
+.b-radio-2px{ border-radius: 2px !important; }
+.b-radio-3px{ border-radius: 3px !important; }
+.b-radio-4px{ border-radius: 4px !important; }
+.b-radio-5px{ border-radius: 5px !important; }
+.b-radio-6px{ border-radius: 6px !important; }
+.b-radio-7px{ border-radius: 7px !important; }
+.b-radio-8px{ border-radius: 8px !important; }
+.b-radio-9px{ border-radius: 9px !important; }
+.b-radio-10px{ border-radius: 10px !important; }
 
 /*  ══════════════════════════════════════════ - S H A D O W  C O L O R - ══════════════════════════════════════════ */
 /* celeste */
