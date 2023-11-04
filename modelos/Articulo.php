@@ -21,6 +21,11 @@ class Articulo
 
   public function insertar($idalmacen, $codigo_proveedor, $codigo, $nombre, $idfamilia, $unidad_medida, $costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma, $precio_venta, $imagen, $codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi, $ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $marca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor, $seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion)
   {
+    $und_pr_sr="";
+
+    $Str_code = substr($codigo,0, 2);
+
+    if ($Str_code=="PR") { $und_pr_sr=$umedidacompra; }else{ $und_pr_sr=$unidad_medida; }
 
     $sql = "INSERT INTO articulo (
     idalmacen, codigo_proveedor, codigo, nombre, idfamilia, unidad_medida, costo_compra, saldo_iniu, valor_iniu, saldo_finu, 
@@ -28,11 +33,11 @@ class Articulo
     codigosunat,  ccontable, precio2, precio3, cicbper, nticbperi, ctticbperi, mticbperu, codigott, desctt, 
     codigointtt, nombrett, lote, marca, fechafabricacion, fechavencimiento, procedencia, fabricante, registrosanitario, fechaingalm, 
     fechafinalma, proveedor, seriefaccompra, numerofaccompra, fechafacturacompra, limitestock, tipoitem, umedidacompra, factorc, descrip)
-    values ('$idalmacen','$codigo_proveedor','$codigo','$nombre','$idfamilia','$unidad_medida','$costo_compra','$saldo_iniu','$valor_iniu', '$saldo_finu',
+    values ('$idalmacen','$codigo_proveedor','$codigo','$nombre','$idfamilia','$und_pr_sr','$costo_compra','$saldo_iniu','$valor_iniu', '$saldo_finu',
     '$valor_finu','$stock','$comprast','$ventast','$portador','$merma','$precio_venta','$imagen','$valor_finu','$costo_compra', now(),
     '$codigosunat', '$ccontable','$precio2', '$precio3' ,'$cicbper','$nticbperi','$ctticbperi','$mticbperu', '$codigott', '$desctt', 
     '$codigointtt', '$nombrett', '$lote', '$marca', '$fechafabricacion', '$fechavencimiento', '$procedencia', '$fabricante', '$registrosanitario', '$fechaingalm', 
-    '$fechafinalma', '$proveedor', '$seriefaccompra', '$numerofaccompra', '$fechafacturacompra', '$limitestock', '$tipoitem', '$umedidacompra', '$factorc', '$descripcion')";
+    '$fechafinalma', '$proveedor', '$seriefaccompra', '$numerofaccompra', '$fechafacturacompra', '$limitestock', '$tipoitem', '$und_pr_sr', '$factorc', '$descripcion')";
     $idartinew = ejecutarConsulta_retornarID($sql);
 
     $sqlreginv = "INSERT INTO reginventariosanos ( codigo,  denominacion, costoinicial, saldoinicial, valorinicial, compras, ventas, saldofinal, costo, valorfinal, ano ) 
@@ -195,11 +200,12 @@ class Articulo
         date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento,
         al.nombre as nombreal
 
-        from 
-
-        articulo a inner join familia f on a.idfamilia=f.idfamilia inner join almacen al on a.idalmacen=al.idalmacen inner join empresa e on al.idempresa=e.idempresa inner join umedida um on a.umedidacompra=um.idunidad and a.tipoitem='productos'
-         where 
-         not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1'";
+        from articulo a 
+        inner join familia f on a.idfamilia=f.idfamilia 
+        inner join almacen al on a.idalmacen=al.idalmacen 
+        inner join empresa e on al.idempresa=e.idempresa 
+        inner join umedida um on a.umedidacompra=um.idunidad and a.tipoitem='productos'
+        where not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1'";
 
     return ejecutarConsulta($sql);
   }
@@ -226,11 +232,12 @@ class Articulo
         date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento,
         al.nombre as nombreal
 
-        from 
-
-        articulo a inner join familia f on a.idfamilia=f.idfamilia inner join almacen al on a.idalmacen=al.idalmacen inner join empresa e on al.idempresa=e.idempresa inner join umedida um on a.umedidacompra=um.idunidad and a.tipoitem='servicios'
-         where 
-         not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1'";
+        from articulo a 
+        inner join familia f on a.idfamilia=f.idfamilia 
+        inner join almacen al on a.idalmacen=al.idalmacen 
+        inner join empresa e on al.idempresa=e.idempresa 
+        inner join umedida um on a.umedidacompra=um.idunidad and a.tipoitem='servicios'
+        where not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1'";
 
     return ejecutarConsulta($sql);
   }
@@ -1769,10 +1776,10 @@ format(((sum(mg.totalventas) - sum(mg.totalcompras))/ sum(mg.totalventas)) * 100
   }
 
 
-  public function GenerarCodigoCorrelativoAutomatico()
+  public function GenerarCodigoCorrelativoAutomatico($i_cod)
   {
     // Consulta para obtener el último código que comienza con 'PR' de la tabla: where codigo like 'PR%'
-    $sql = "SELECT max(codigo) as last_code from articulo;";
+    $sql = "SELECT max(codigo) as last_code from articulo where codigo like '$i_cod%';";
     $result = ejecutarConsulta($sql);
 
     $row = $result->fetch_assoc();
@@ -1782,12 +1789,15 @@ format(((sum(mg.totalventas) - sum(mg.totalcompras))/ sum(mg.totalventas)) * 100
     if ($last_code == NULL) {
       $new_num = 1;
     } else {
+      //
+      
       $num_part = (int) substr($last_code, 2);
+     // $num_part = intval($last_code);
       $new_num = $num_part + 1;
     }
 
     // Crear el nuevo código
-    $new_code = str_pad($new_num, 5, "0", STR_PAD_LEFT);
+    $new_code = $i_cod.str_pad($new_num, 5, "0", STR_PAD_LEFT);
 
     return $new_code;
   }

@@ -16,7 +16,7 @@ if (!isset($_SESSION["nombre"])) {
     <div class="">
       <div class="">
         <div class="content-header">
-          <h1>Productos <button class="btn btn-primary btn-sm" onclick="mostrarform(true);  generarCodigoAutomatico();" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
+          <h1>Productos <button class="btn btn-primary btn-sm" onclick="mostrarform(true);  generarCodigoAutomatico('PR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
             <label style="position:relative;top: 3px; float: right;" class="toggle-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Activar generador código de barra correlativamente automático">
               <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox" checked>
               <span class="slider"></span>

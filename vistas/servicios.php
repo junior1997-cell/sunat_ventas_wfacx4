@@ -19,7 +19,7 @@ if (!isset($_SESSION["nombre"])) {
     <div class="content-start transition  ">
       <div class="container-fluid dashboard">
         <div class="content-header">
-          <h1>Servicio <button class="btn btn-primary btn-sm" onclick="mostrarform(true)" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar tabla</button>
+          <h1>Servicio <button class="btn btn-primary btn-sm" onclick="mostrarform(true); generarCodigoAutomatico('SR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar tabla</button>
 
             <label style="position:relative;top: 3px; float: right;" class="toggle-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Activar generador código de barra correlativamente automático">
               <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox">
@@ -132,7 +132,7 @@ if (!isset($_SESSION["nombre"])) {
 
                 <div class="mb-3 col-lg-4">
                   <label for="recipient-name" class="col-form-label">Código de servicio:</label>
-                  <input type="text" class="form-control" name="codigo" id="codigo" placeholder="Código interno de servicio" required="true" onkeyup="mayus(this);" onchange="validarcodigo()">
+                  <input type="text" class="form-control codigo" name="codigo" id="codigo" placeholder="Código interno de servicio" required="true" onkeyup="mayus(this);" onchange="validarcodigo()">
 
                 </div>
 

@@ -184,7 +184,7 @@ function mostrarform(flag) {
 function cancelarform() { limpiar(); mostrarform(false);
 }
 
-//Función Listar
+//Función Listar PRODUCTOS
 function listar() {
   var $idempresa = $("#idempresa").val();
   tabla_articulo = $('#tbllistado').dataTable({
@@ -220,7 +220,7 @@ function listar() {
 
 function listarservicios() {
   var $idempresa = $("#idempresa").val();
-  tabla = $('#tbllistadoservicios').dataTable({
+  tabla_servicio = $('#tbllistadoservicios').dataTable({
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
     dom: 'Bfrtip',//Definimos los elementos del control de tabla
@@ -271,7 +271,7 @@ function mostrar(idarticulo) {
   mostrarform(true);
   $.post("../ajax/articulo.php?op=mostrar", { idarticulo: idarticulo }, function (data, status) {
     data = JSON.parse(data);   
-
+    console.log(data);
     $("#idarticulo").val(data.idarticulo);
     $("#idfamilia").val(data.idfamilia);
     $("#idalmacen").val(data.idalmacen);
@@ -1121,7 +1121,13 @@ $(".modal-wide").on("show.bs.modal", function () {
 
 function unidadvalor() { valor = $("#nombreu").val(); $("#abre").val(valor);}
 
-function refrescartabla() { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); } }
+function refrescartabla() { 
+
+  if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } 
+    
+  if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
+
+}
 
 document.getElementById("imagen").onchange = function (e) {
   // Creamos el objeto de la clase FileReader
@@ -1179,9 +1185,9 @@ function generarcodigonarti() {
 
 
 
-function generarCodigoAutomatico() {
+function generarCodigoAutomatico(i_cod) {
   if ($('#generar-cod-correlativo').prop('checked')) {
-    $.getJSON('../ajax/articulo.php?action=GenerarCodigo&op=', function (data) {
+    $.getJSON('../ajax/articulo.php?action=GenerarCodigo&op=',{i_cod:i_cod}, function (data) {
       $('#codigo').val(data.codigo);
       setCodigoFieldReadonly();  // Asegura que el campo esté como solo lectura
     });

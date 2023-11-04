@@ -82,7 +82,8 @@ if (isset($_GET['action'])) {
 }
 
 if ($action == 'GenerarCodigo') {
-	$generatedCode = $articulo->GenerarCodigoCorrelativoAutomatico();
+	$i_cod= $_GET['i_cod'];
+	$generatedCode = $articulo->GenerarCodigoCorrelativoAutomatico($i_cod);
 	$results = array("codigo" => $generatedCode);
 	header('Content-type: application/json');
 	echo json_encode($results);
@@ -193,7 +194,8 @@ switch ($_GET["op"]) {
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
 	break;
-
+	
+	//LISTAR PRODUCTOS
 	case 'listar':
 
 		$idempresa = "1";
@@ -248,7 +250,8 @@ switch ($_GET["op"]) {
 		);
 		echo json_encode($results);
 
-		break;
+		
+	break;
 
 
 
@@ -287,7 +290,7 @@ switch ($_GET["op"]) {
 											<div class="dropdown-menu" style="">
 													<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '">Código de barra</a>
 													<a class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar servicio</a>
-													<a class="dropdown-item" onclick="desactivar(' . $reg->idarticulo . ')" >Activar servicio</a>
+													<a class="dropdown-item" onclick="activar(' . $reg->idarticulo . ')" >Activar servicio</a>
 											</div>
 									</div>
 						    </div>',
