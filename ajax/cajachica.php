@@ -16,6 +16,24 @@ if (isset($_GET['action'])) {
   } else {
 	$action = '';
   }
+  //total de COMPRAS
+  if ($action == 'TotalCompras') {
+		$rspta = $cajachica->TotalCompras();
+		$data = array();
+		
+		while ($reg=$rspta->fetch_object()){
+			$data[]=array(
+				"total_compras"=>$reg->total_compras
+			);
+		}
+		$results = array(
+			"aaData"=>$data
+		);
+		
+		header('Content-type: application/json');
+		echo json_encode($results);
+	}
+
 
   //total de ventas
   if ($action == 'TotalVentas') {

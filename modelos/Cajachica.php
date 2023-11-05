@@ -8,7 +8,13 @@ class Cajachica
   public function __construct()
   {
   }
+  //hacer consulta a columa ingreso
 
+  public function TotalCompras()
+  {
+    $sql = "SELECT SUM(total) as total_compras FROM compra WHERE DATE(fecha) = CURRENT_DATE";
+    return ejecutarConsulta($sql);
+  }
 
   //mostrar todo el total de caja con todo y ventas
   public function TotalVentas()
@@ -90,9 +96,9 @@ class Cajachica
     $sql = "INSERT INTO cierrecaja (fecha_cierre, total_caja)
      SELECT 
        CURDATE(), 
-       (SELECT SUM(saldo_inicial) FROM saldocaja) 
-       + (SELECT SUM(gasto) FROM insumos) 
-       + (SELECT SUM(ingreso) FROM insumos) AS total";
+       (SELECT SUM(saldo_inicial) FROM saldocaja where fecha_creacion=CURDATE()) 
+       - (SELECT SUM(gasto) FROM insumos where fecharegistro=CURDATE()) 
+       + (SELECT SUM(ingreso) FROM insumos where fecharegistro=CURDATE()) AS total";
     return ejecutarConsulta($sql);
   }
 

@@ -20,6 +20,7 @@ var urlconsumo = new URL(path, baseURL);
 //Función que se ejecuta al inicio
 function init() {
   listar();
+  mostrarTotaldecompras();
   mostrarTotaldeVentas();
   mostrarTotaldeIngresos();
   mostrarTotaldeEgresos();
@@ -31,12 +32,33 @@ function init() {
   })
 }
 
+function mostrarTotaldecompras() {
+  $(document).ready(function () {
+    $.ajax({
+      url: urlconsumo + "cajachica.php?action=TotalCompras&op=",
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        const total_compras = data.aaData[0].total_compras;
+        const total_comprasElement = $('#total-compras');
 
+        if (total_compras !== null && total_compras !== "") {
+          total_comprasElement.html('S/ ' + total_compras);
+        } else {
+          total_comprasElement.html('S/ 0');
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log('Error:', textStatus, errorThrown);
+      }
+    });
+  });
+}
 
 function mostrarTotaldeVentas() {
   $(document).ready(function () {
     $.ajax({
-      url: urlconsumo + "cajachica.php?action=TotalVentas",
+      url: urlconsumo + "cajachica.php?action=TotalVentas&op=",
       type: 'GET',
       dataType: 'json',
       success: function (data) {
@@ -60,7 +82,7 @@ function mostrarTotaldeVentas() {
 function mostrarTotaldeIngresos() {
   $(document).ready(function () {
     $.ajax({
-      url: urlconsumo + "cajachica.php?action=TotalIngresos",
+      url: urlconsumo + "cajachica.php?action=TotalIngresos&op=",
       type: 'GET',
       dataType: 'json',
       success: function (data) {
@@ -84,7 +106,7 @@ function mostrarTotaldeIngresos() {
 function mostrarTotaldeEgresos() {
   $(document).ready(function () {
     $.ajax({
-      url: urlconsumo + "cajachica.php?action=TotalGastos",
+      url: urlconsumo + "cajachica.php?action=TotalGastos&op=",
       type: 'GET',
       dataType: 'json',
       success: function (data) {

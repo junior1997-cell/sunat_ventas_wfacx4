@@ -32,7 +32,7 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="d-flex flex-wrap align-items-top p-4">
                   <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-primary shadow-sm"> <i class="ti ti-package fs-18"></i> </span> </div>
                   <div class="flex-fill">
-                    <h5 class="fw-semibold mb-1">S/ 0</h5>
+                    <h5 class="fw-semibold mb-1" id="total-compras"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
                     <p class="text-muted mb-0 fs-12">Compras</p>
                   </div>
                   <div hidden> <span class="badge bg-success-transparent"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>1.31%</span> </div>
@@ -42,7 +42,7 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="d-flex flex-wrap align-items-top p-4">
                   <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-secondary shadow-sm"> <i class="ti ti-rocket fs-18"></i> </span> </div>
                   <div class="flex-fill">
-                    <h5 class="fw-semibold mb-1" id="total_ingreso">10,500</h5>
+                    <h5 class="fw-semibold mb-1" id="total_ingreso"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
                     <p class=" text-muted mb-0 fs-12">Ingresos</p>
                   </div>
                   <div hidden> <span class="badge bg-danger-transparent"><i class="ri-arrow-down-s-line align-middle me-1"></i>1.14%</span> </div>
@@ -52,7 +52,7 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="d-flex flex-wrap align-items-top p-4">
                   <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-success shadow-sm"> <i class="ti ti-wallet fs-18"></i> </span> </div>
                   <div class="flex-fill">
-                    <h5 class="fw-semibold mb-1" id="total_gasto"></h5>
+                    <h5 class="fw-semibold mb-1" id="total_gasto"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
                     <p class="text-muted mb-0 fs-12">Egresos</p>
                   </div>
                   <div hidden> <span class="badge bg-success-transparent"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>2.58%</span> </div>
@@ -62,7 +62,7 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="d-flex flex-wrap align-items-top p-4">
                   <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-warning shadow-sm"> <i class="ti ti-packge-import fs-18"></i> </span> </div>
                   <div class="flex-fill">
-                    <h5 class="fw-semibold mb-1" id="total_saldoini"></h5>
+                    <h5 class="fw-semibold mb-1" id="total_saldoini"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
                     <p class="text-muted mb-0 fs-12">Saldo Inicial</p>
                   </div>
                   <div hidden> <span class="badge bg-success-transparent"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>12.05%</span> </div>
@@ -78,7 +78,7 @@ if (!isset($_SESSION["nombre"])) {
             <div class="d-flex align-items-top p-4 flex-wrap">
               <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-white text-primary shadow-sm"> <i class="ti ti-coin fs-18"></i> </span> </div>
               <div class="flex-fill">
-                <h5 class="fw-semibold mb-1 text-fixed-white" id="total-ventas"></h5>
+                <h5 class="fw-semibold mb-1 text-fixed-white" id="total-ventas"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
                 <p class="op-7 mb-0 fs-12">Total en caja</p>
               </div>
               <div hidden> <span class="badge bg-success"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>14.69%</span> </div>
