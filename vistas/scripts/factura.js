@@ -19,67 +19,23 @@ $iva = $("#iva").val();
 
 //Función que se ejecuta al inicio
 function init() {
-  $("#formulario").on("submit", function (e) {
-    guardaryeditarFactura(e);
-  });
+  $idempresa = $("#idempresa").val();
 
-  $("#formularioncliente").on("submit", function (e) {
-    guardaryeditarcliente(e);
-  });
-
-  $("#formularionarticulo").on("submit", function (e) {
-    guardaryeditararticulo(e);
-  });
-
-  $("#formularionnotificacion").on("submit", function (e) {
-    guardaryeditarnotificacion(e);
-  });
+  $("#formulario").on("submit", function (e) {  guardaryeditarFactura(e); });
+  $("#formularioncliente").on("submit", function (e) {  guardaryeditarcliente(e); });
+  $("#formularionarticulo").on("submit", function (e) { guardaryeditararticulo(e); });
+  $("#formularionnotificacion").on("submit", function (e) { guardaryeditarnotificacion(e); });
 
   // Carga de departamentos para clientes =====================
-  $.post("../ajax/persona.php?op=selectDepartamento", function (r) {
-    $("#iddepartamento").html(r);
-    //$('#iddepartamento').selectpicker('refresh');
-  });
-  // Carga de departamentos para clientes =====================
-
-  // Carga de combo para vendedores =====================
-  $.post(
-    "../ajax/vendedorsitio.php?op=selectVendedorsitio&idempresa=" + $idempr,
-    function (r) {
-      $("#vendedorsitio").html(r);
-      //$('#vendedorsitio').selectpicker('refresh');
-    }
-  );
-
-  // Carga de combo para tributo =====================
-  $.post("../ajax/factura.php?op=selectAlmacen", function (r) {
-    $("#almacenlista").html(r);
-    //$('#almacenlista').selectpicker('refresh');
-  });
-
-  $.post("../ajax/factura.php?op=selectTributo", function (r) {
-    $("#nombre_tributo_4_p").html(r);
-    //$('#nombre_tributo_4_p').selectpicker('refresh');
-  });
-
-  // Carga tipo de cambio =====================
-  $.post("../ajax/factura.php?op=tcambiodia", function (r) {
-    $("#tcambio").val(r);
-  });
-
-  // Carga de unidades de medida
-  $.post("../ajax/factura.php?op=selectunidadmedida", function (r) {
-    $("#iddepartamento").html(r);
-    //$('#iddepartamento').selectpicker('refresh');
-
-    $("#unidadm").html(r);
-    //$('#unidadm').selectpicker('refresh');
-  });
-
-  $.post("../ajax/factura.php?op=selectunidadmedidanuevopro", function (r) {
-    $("#umedidanp").html(r);
-    //$('#umedidanp').selectpicker('refresh');
-  });
+  $.post("../ajax/persona.php?op=selectDepartamento", function (r) {  $("#iddepartamento").html(r); });
+  $.post( "../ajax/vendedorsitio.php?op=selectVendedorsitio&idempresa=" + $idempr, function (r) { $("#vendedorsitio").html(r); });
+  $.post("../ajax/factura.php?op=selectAlmacen", function (r) { $("#almacenlista").html(r); });
+  $.post("../ajax/factura.php?op=selectTributo", function (r) { $("#nombre_tributo_4_p").html(r); });
+  $.post("../ajax/factura.php?op=tcambiodia", function (r) { $("#tcambio").val(r); });
+  $.post("../ajax/factura.php?op=selectunidadmedida", function (r) { $("#iddepartamento").html(r); $("#unidadm").html(r); });
+  $.post("../ajax/factura.php?op=selectunidadmedidanuevopro", function (r) { $("#umedidanp").html(r); });
+  $.post( "../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacennarticulo").html(r); });
+  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilianarticulo").html(r); });
 
   cont = 0;
   conNO = 1;
@@ -95,21 +51,7 @@ function init() {
   //onOff=false;
   //counter=setInterval(timer, 5000);
   //listar();
-  //pause();
-
-  $idempresa = $("#idempresa").val();
-  $.post(
-    "../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa,
-    function (r) {
-      $("#idalmacennarticulo").html(r);
-      //$('#idalmacennarticulo').selectpicker('refresh');
-    }
-  );
-
-  $.post("../ajax/articulo.php?op=selectFamilia", function (r) {
-    $("#idfamilianarticulo").html(r);
-    //$('#idfamilianarticulo').selectpicker('refresh');
-  });
+  //pause(); 
 }
 
 function cambioUm() {
@@ -207,7 +149,7 @@ function listarenvioautomatico() {
     })
     .DataTable();
   let refreshTable = setInterval(function () {
-    tabla.ajax.reload();
+    tabla.ajax.reload(null, false);
   }, 10000); // Actualiza la tabla cada 30 segundos
 }
 
@@ -599,27 +541,25 @@ function agregarCliente(
 
 //Función ListarClientes
 function listarClientes() {
-  tablaCLiente = $("#tblaclientes")
-    .dataTable({
-      aProcessing: false, //Activamos el procesamiento del datatables
-      "bRetrieve ": false, //Paginación y filtrado realizados por el servidor
-      dom: "Bfrtip", //Definimos los elementos del control de tabla
-      buttons: [],
-      ajax: {
-        url: "../ajax/factura.php?op=listarClientesfactura",
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-        },
+  tablaCLiente = $("#tblaclientes").dataTable({
+    aProcessing: false, //Activamos el procesamiento del datatables
+    "bRetrieve ": false, //Paginación y filtrado realizados por el servidor
+    dom: "Bfrtip", //Definimos los elementos del control de tabla
+    buttons: [],
+    ajax: {
+      url: "../ajax/factura.php?op=listarClientesfactura",
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
       },
-      bDestroy: true,
-      iDisplayLength: 8, //Paginación
-      order: [[0, "desc"]], //Ordenar (columna,orden)
-    })
-    .DataTable();
+    },
+    bDestroy: true,
+    iDisplayLength: 8, //Paginación
+    order: [[0, "desc"]], //Ordenar (columna,orden)
+  }).DataTable();
 
-  $("#tblaclientes").DataTable().ajax.reload();
+  $("#tblaclientes").DataTable().ajax.reload(null, false);
 }
 
 function listarArticulos() {
@@ -701,7 +641,7 @@ function listarArticulos() {
                     timer: 1500,
                     text: response,
                   });
-                  $("#tblarticulos").DataTable().ajax.reload();
+                  $("#tblarticulos").DataTable().ajax.reload(null, false);
                 },
                 error: function () {
                   Swal.fire({
@@ -749,7 +689,7 @@ function listarArticulos() {
                         timer: 1500,
                         text: response,
                       });
-                      $("#tblarticulos").DataTable().ajax.reload();
+                      $("#tblarticulos").DataTable().ajax.reload(null, false);
                     },
                     error: function () {
                       Swal.fire({
@@ -761,7 +701,7 @@ function listarArticulos() {
                   });
                 } else if (result.isDenied) {
                   Swal.fire("Los cambios no se guardaron", "", "info");
-                  $("#tblarticulos").DataTable().ajax.reload();
+                  $("#tblarticulos").DataTable().ajax.reload(null, false);
                 }
               });
             });
@@ -782,7 +722,7 @@ function listarArticulos() {
     })
     .DataTable();
 
-  $("#tblarticulos").DataTable().ajax.reload();
+  $("#tblarticulos").DataTable().ajax.reload(null, false);
 
   //controlastock();
 }
@@ -890,7 +830,7 @@ $("#ipagado").on("input", function () {
 //     }
 //     ).DataTable();
 
-// $('#tblarticulos_').DataTable().ajax.reload();
+// $('#tblarticulos_').DataTable().ajax.reload(null, false);
 
 // //controlastock();
 // }
@@ -1029,9 +969,7 @@ function guardaryeditarFactura(e) {
 }
 
 function tipoimpresion() {
-  $.post(
-    "../ajax/factura.php?op=mostrarultimocomprobanteId",
-    function (data, status) {
+  $.post( "../ajax/factura.php?op=mostrarultimocomprobanteId", function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idultimocom").val(data.idfactura);
@@ -1040,8 +978,7 @@ function tipoimpresion() {
       }
 
       if (data.tipoimpresion == "00") {
-        var rutacarpeta =
-          "../reportes/exTicketFactura.php?id=" + data.idfactura;
+        var rutacarpeta = "../reportes/exTicketFactura.php?id=" + data.idfactura;
         $("#modalCom").attr("src", rutacarpeta);
         $("#modalPreview2").modal("show");
       } else if (data.tipoimpresion == "01") {
@@ -1049,8 +986,7 @@ function tipoimpresion() {
         $("#modalCom").attr("src", rutacarpeta);
         $("#modalPreview2").modal("show");
       } else {
-        var rutacarpeta =
-          "../reportes/exFacturaCompleto.php?id=" + data.idfactura;
+        var rutacarpeta = "../reportes/exFacturaCompleto.php?id=" + data.idfactura;
         $("#modalCom").attr("src", rutacarpeta);
         $("#modalPreview2").modal("show");
       }
@@ -1059,9 +995,7 @@ function tipoimpresion() {
 }
 
 function mostrarultimocomprobante() {
-  $.post(
-    "../ajax/factura.php?op=mostrarultimocomprobante",
-    function (data, status) {
+  $.post( "../ajax/factura.php?op=mostrarultimocomprobante", function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idultimocom").val(data.numeracion_08);
@@ -1075,20 +1009,16 @@ function mostrarultimocomprobante() {
       //$("#modalCom").attr('src',fileName);
       $("#modalPreview").modal("show");
       //$("#ultimocomprobante").val(data.numeracion_08);
-      document.getElementById("ultimocomprobante").innerHTML =
-        data.numeracion_08;
+      document.getElementById("ultimocomprobante").innerHTML = data.numeracion_08;
       document.getElementById("ultimocomprobantecorreo").innerHTML = data.email;
       document.getElementById("estadofact").style.background = "white";
       document.getElementById("estadofact").style.color = "black";
       document.getElementById("estadofact").innerHTML = "Documento Emitido";
-    }
-  ); // codigo igual hasta aqui.
+  }); // codigo igual hasta aqui.
 }
 
 function preticket() {
-  $.post(
-    "../ajax/factura.php?op=mostrarultimocomprobanteId",
-    function (data, status) {
+  $.post( "../ajax/factura.php?op=mostrarultimocomprobanteId", function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idultimocom").val(data.idfactura);
@@ -1109,9 +1039,7 @@ function preticket2(idfactura) {
 }
 
 function prea42copias() {
-  $.post(
-    "../ajax/factura.php?op=mostrarultimocomprobanteId",
-    function (data, status) {
+  $.post( "../ajax/factura.php?op=mostrarultimocomprobanteId", function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idultimocom").val(data.idfactura);
@@ -1133,17 +1061,14 @@ function prea42copias2(idfactura) {
 }
 
 function prea4completo() {
-  $.post(
-    "../ajax/factura.php?op=mostrarultimocomprobanteId",
-    function (data, status) {
+  $.post( "../ajax/factura.php?op=mostrarultimocomprobanteId", function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idultimocom").val(data.idfactura);
       } else {
         $("#idultimocom").val("");
       }
-      var rutacarpeta =
-        "../reportes/exFacturaCompleto.php?id=" + data.idfactura;
+      var rutacarpeta =  "../reportes/exFacturaCompleto.php?id=" + data.idfactura;
       $("#modalCom").attr("src", rutacarpeta);
       $("#modalPreview2").modal("show");
     }
@@ -1157,21 +1082,15 @@ function prea4completo2(idfactura) {
 }
 
 function enviarcorreoprew() {
-  bootbox.confirm(
-    "¿Está Seguro de enviar correo al cliente?",
-    function (result) {
-      if (result) {
-        $.post(
-          "../ajax/factura.php?op=enviarcorreoultimocomprobante",
-          function (data, status) {
-            bootbox.alert(e);
-            //document.getElementById("estadofact").innerHTML = e;
-            tabla.ajax.reload();
-          }
-        );
-      }
+  bootbox.confirm( "¿Está Seguro de enviar correo al cliente?", function (result) {
+    if (result) {
+      $.post( "../ajax/factura.php?op=enviarcorreoultimocomprobante", function (data, status) {
+        bootbox.alert(e);
+        //document.getElementById("estadofact").innerHTML = e;
+        tabla.ajax.reload(null, false);
+      });
     }
-  );
+  });
 }
 
 function actualizar() {
@@ -1189,7 +1108,6 @@ function guardaryeditarcliente(e) {
     data: formData,
     contentType: false,
     processData: false,
-
     success: function (datos) {
       //bootbox.alert(datos);
       if (datos) {
@@ -1198,7 +1116,7 @@ function guardaryeditarcliente(e) {
         toastr.danger("Problema al registrar");
       }
 
-      tabla.ajax.reload();
+      tabla.ajax.reload(null, false);
       limpiarcliente();
       agregarClientexRucNuevo();
     },
@@ -1222,7 +1140,7 @@ function guardaryeditararticulo(e) {
 
     success: function (datos) {
       bootbox.alert(datos);
-      tabla.ajax.reload();
+      tabla.ajax.reload(null, false);
       refrescartabla();
       limpiarnuevoarticulo();
       //agregarClientexRucNuevo();
@@ -1330,7 +1248,7 @@ function anular(idfactura) {
         { idfactura: idfactura },
         function (e) {
           bootbox.alert(e);
-          tabla.ajax.reload();
+          tabla.ajax.reload(null, false);
         }
       );
     }
@@ -1371,7 +1289,7 @@ function enviarcorreo(idfactura) {
             timer: 2000,
             showConfirmButton: false,
           });
-          tabla.ajax.reload();
+          tabla.ajax.reload(null, false);
         }
       );
     }
@@ -1446,7 +1364,7 @@ function generarxml(idfactura) {
             timer: 2000,
             showConfirmButton: false,
           });
-          tabla.ajax.reload();
+          tabla.ajax.reload(null, false);
         }
       );
       refrescartabla();
@@ -1464,10 +1382,7 @@ function enviarxmlSUNAT(idfactura) {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.value) {
-      $.post(
-        "../ajax/factura.php?op=enviarxmlSUNAT",
-        { idfactura: idfactura },
-        function (e) {
+      $.post( "../ajax/factura.php?op=enviarxmlSUNAT",{ idfactura: idfactura }, function (e) {
           Swal.fire({
             title: "¡Archivo enviado!",
             text: e,
@@ -1475,7 +1390,7 @@ function enviarxmlSUNAT(idfactura) {
             timer: 2000,
             showConfirmButton: false,
           });
-          tabla.ajax.reload();
+          tabla.ajax.reload(null, false);
           refrescartabla();
         }
       );
@@ -1495,14 +1410,14 @@ function consultarcdr(idfactura) {
           function (e) {
             //data2=JSON.parse(e);
             bootbox.alert(e);
-            tabla.ajax.reload();
+            tabla.ajax.reload(null, false);
           }
         );
         refrescartabla();
       }
     }
   );
-  tabla.ajax.reload();
+  tabla.ajax.reload(null, false);
   refrescartabla();
 }
 
@@ -1567,7 +1482,7 @@ function baja(idfactura) {
             timer: 2000,
             showConfirmButton: false,
           });
-          tabla.ajax.reload();
+          tabla.ajax.reload(null, false);
         }
       );
     }
@@ -1582,7 +1497,7 @@ function uploadFtp(idfactura) {
         { idfactura: idfactura },
         function (e) {
           bootbox.alert(e);
-          tabla.ajax.reload();
+          tabla.ajax.reload(null, false);
         }
       );
     }
@@ -2947,8 +2862,8 @@ function redirecionescritorio() {
 }
 
 function refrescartabla() {
-  tabla.ajax.reload();
-  //tablaArti.ajax.reload();
+  tabla.ajax.reload(null, false);
+  //tablaArti.ajax.reload(null, false);
 }
 
 // $("#modalcuotas").on("hidden.bs.modal", function () {
@@ -2967,8 +2882,7 @@ function focusnroreferencia() {
   countmes = 30;
   ncuota = $("#ccuotas").val();
   totalcompCu = $("#total_final").val();
-  document.getElementById("totalcomp").innerHTML =
-    "TOTAL COMPROBANTE " + totalcompCu;
+  document.getElementById("totalcomp").innerHTML = "TOTAL COMPROBANTE " + totalcompCu;
   $("#modalcuotas").modal("show");
   toFi = $("#total_final").val();
   for (var i = 1; i <= ncuota; i++) {
@@ -2978,12 +2892,7 @@ function focusnroreferencia() {
     mes = ("0" + fechahoy.getMonth() + 1).slice(-2); // +1 porque los meses empiezan en 0
     anio = fechahoy.getFullYear();
     fechahoy.setDate(fechahoy.getDate() + countmes);
-    today =
-      fechahoy.getFullYear() +
-      "-" +
-      ("0" + fechahoy.getMonth()).slice(-2) +
-      "-" +
-      ("0" + fechahoy.getDate()).slice(-2);
+    today = fechahoy.getFullYear() + "-" + ("0" + fechahoy.getMonth()).slice(-2) + "-" + ("0" + fechahoy.getDate()).slice(-2);
 
     var input = document.createElement("input");
     input.setAttribute("type", "text");
@@ -3036,7 +2945,6 @@ $(document).ready(function () {
       type: "POST",
       url: "../ajax/persona.php?op=buscarclienteRuc",
       data: dataString,
-
       success: function (data) {
         //Escribimos las sugerencias que nos manda la consulta
         $("#suggestions").fadeIn().html(data);
@@ -3222,7 +3130,7 @@ function listarServicios() {
     })
     .DataTable();
 
-  $("#tblaservicios").DataTable().ajax.reload();
+  $("#tblaservicios").DataTable().ajax.reload(null, false);
 }
 
 function tributocodnon() {
@@ -3628,7 +3536,7 @@ if ($("#estado").val() == "1") {
         url: "../ajax/ventas.php?op=listarValidarComprobantesSiempre",
       });
     }, 10000);
-    tabla.ajax.reload();
+    tabla.ajax.reload(null, false);
   });
 }
 
@@ -3787,7 +3695,7 @@ function cambiartarjetadc(idfactura) {
           { idfactura: idfactura },
           function (e) {
             bootbox.alert(e);
-            tabla.ajax.reload();
+            tabla.ajax.reload(null, false);
           }
         );
       }
@@ -3807,7 +3715,7 @@ function montotarjetadc(idfactura) {
           { idfactura: idfactura },
           function (e) {
             bootbox.alert(e);
-            tabla.ajax.reload();
+            tabla.ajax.reload(null, false);
           }
         );
       }
@@ -3838,7 +3746,7 @@ function cambiartransferencia(idfactura) {
           { idfactura: idfactura },
           function (e) {
             bootbox.alert(e);
-            tabla.ajax.reload();
+            tabla.ajax.reload(null, false);
           }
         );
       }
@@ -3858,7 +3766,7 @@ function montotransferencia(idfactura) {
           { idfactura: idfactura },
           function (e) {
             bootbox.alert(e);
-            tabla.ajax.reload();
+            tabla.ajax.reload(null, false);
           }
         );
       }
@@ -3889,7 +3797,7 @@ function duplicarf(idfactura) {
           { idfactura: idfactura },
           function (e) {
             bootbox.alert(e);
-            tabla.ajax.reload();
+            tabla.ajax.reload(null, false);
           }
         );
       }
@@ -3958,7 +3866,7 @@ function guardaryeditarnotificacion(e) {
       } else {
         toastr.danger("Problemas al registrar");
       }
-      tabla.ajax.reload();
+      tabla.ajax.reload(null, false);
       limpiarnotifi();
     },
   });

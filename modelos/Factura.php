@@ -3,8 +3,7 @@
 require "../config/Conexion.php";
 
 
-class CustomHeaders extends SoapHeader
-{
+class CustomHeaders extends SoapHeader {
   private $wss_ns = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
 
   public function __construct($user, $pass, $ns = null)
@@ -36,78 +35,57 @@ class CustomHeaders extends SoapHeader
   }
 }
 
-
-
-
-class Factura
-{
+class Factura {
 
   //Implementamos nuestro constructor
   public function __construct()
   {
   }
 
-
-  public function insertarTc($fechatc, $compra, $venta)
-  {
-    $sql = "insert into tcambio (fecha, compra, venta)
-        values ('$fechatc', '$compra', '$venta')";
+  public function insertarTc($fechatc, $compra, $venta)  {
+    $sql = "INSERT into tcambio (fecha, compra, venta) values ('$fechatc', '$compra', '$venta')";
     return ejecutarConsulta($sql);
   }
 
   //Implementamos un método para editar registros
-  public function editarTc($id, $fechatc, $compra, $venta)
-  {
-    $sql = "update tcambio  set fecha='$fechatc', compra='$compra', venta='$venta' where idtipocambio='$id' ";
+  public function editarTc($id, $fechatc, $compra, $venta) {
+    $sql = "UPDATE tcambio  set fecha='$fechatc', compra='$compra', venta='$venta' where idtipocambio='$id' ";
     return ejecutarConsulta($sql);
   }
 
-
-  public function insertarCaja($fechacaja, $montoi, $montof, $idempresa)
-  {
-    $sql = "insert into caja (fecha, montoi, montof, idempresa)
-        values ('$fechacaja', '$montoi', '$montof', '$idempresa')";
+  public function insertarCaja($fechacaja, $montoi, $montof, $idempresa) {
+    $sql = "INSERT into caja (fecha, montoi, montof, idempresa) values ('$fechacaja', '$montoi', '$montof', '$idempresa')";
     return ejecutarConsulta($sql);
   }
-
 
   public function registraringreso($idcaja, $concepto, $monto)
   {
     $sw = true;
-    $sql = "insert into ingresocaja (idcaja, concepto, monto)
-        values ('$idcaja', '$concepto', '$monto')";
+    $sql = "INSERT into ingresocaja (idcaja, concepto, monto) values ('$idcaja', '$concepto', '$monto')";
     ejecutarConsulta($sql) or $sw = false;
 
     $sqlupdate = "update caja set montof = montof + '$monto' where idcaja='$idcaja' ";
     ejecutarConsulta($sqlupdate) or $sw = false;
 
-
     return $sw;
   }
 
 
-  public function registrarsalida($idcaja, $concepto, $monto)
-  {
+  public function registrarsalida($idcaja, $concepto, $monto) {
     $sw = true;
-    $sql = "insert into salidacaja (idcaja, concepto, monto)
-        values ('$idcaja', '$concepto', '$monto')";
+    $sql = "INSERT into salidacaja (idcaja, concepto, monto) values ('$idcaja', '$concepto', '$monto')";
     ejecutarConsulta($sql) or $sw = false;
 
     $sqlupdate = "update caja set montof = montof - '$monto' where idcaja='$idcaja' ";
     ejecutarConsulta($sqlupdate) or $sw = false;
-
-
     return $sw;
   }
 
   //Implementamos un método para editar registros
-  public function editarCaja($idcaja, $fecha, $montoi, $montof, $st, $idempresa)
-  {
-    $sql = "update caja  set fecha='$fecha', montoi='$montoi', montof='$montof', estado='$st', idempresa='$idempresa' where idcaja='$idcaja' ";
+  public function editarCaja($idcaja, $fecha, $montoi, $montof, $st, $idempresa) {
+    $sql = "UPDATE caja  set fecha='$fecha', montoi='$montoi', montof='$montof', estado='$st', idempresa='$idempresa' where idcaja='$idcaja' ";
     return ejecutarConsulta($sql);
   }
-
-
 
   //Implementamos un método para insertar registros para factura
   public function insertar($idusuario, $fecha_emision, $firma_digital, $idempresa, $tipo_documento, $numeracion, $idcliente, $total_operaciones_gravadas_codigo, $total_operaciones_gravadas_monto, $sumatoria_igv_1, $sumatoria_igv_2, $codigo_tributo_3, $nombre_tributo_4, $codigo_internacional_5, $importe_total_venta, $tipo_documento_guia, $guia_remision_29_2, $codigo_leyenda_1, $descripcion_leyenda_2, $version_ubl, $version_estructura, $tipo_moneda, $tasa_igv, $idarticulo, $numero_orden_item, $cantidad, $codigo_precio, $pvt, $igvBD2, $igvBD3, $afectacion_igv_3, $afectacion_igv_4, $afectacion_igv_5, $afectacion_igv_6, $igvBD, $valor_unitario, $subtotalBD, $codigo, $unidad_medida, $idserie, $SerieReal, $numero_factura, $tipodocuCliente, $rucCliente, $RazonSocial, $hora, $sumadcto, $vendedorsitio, $email, $domicilio_fiscal2, $codigotributo, $tdescuento, $tcambio, $tipopago, $nroreferencia, $ipagado, $saldo, $descdet, $total_icbper, $tipofactura, $cantidadreal, $idcotizacion, $ccuotas, $fechavecredito, $montocuota, $otroscargos, $tadc, $transferencia, $ncuotahiden, $montocuotacre, $fechapago, $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito)
@@ -130,7 +108,6 @@ class Factura
       $monedafpago = $tipo_moneda;
     }
 
-
     $montotar = 0;
     $montotran = 0;
     if ($tadc == '1') {
@@ -141,132 +118,24 @@ class Factura
       $montotran = $importe_total_venta;
     }
 
-    $sql = "insert into
-        factura
-         (
-
-            idusuario,
-            fecha_emision_01,
-            firmadigital_02,
-            idempresa,
-            tipo_documento_07,
-            numeracion_08,
-            idcliente,
-            total_operaciones_gravadas_codigo_18_1,
-            total_operaciones_gravadas_monto_18_2,
-            sumatoria_igv_22_1,
-            sumatoria_igv_22_2,
-            codigo_tributo_22_3,
-            nombre_tributo_22_4,
-            codigo_internacional_22_5,
-            importe_total_venta_27,
-            tipo_documento_29_1,
-             guia_remision_29_2,
-             codigo_leyenda_31_1,
-             descripcion_leyenda_31_2,
-             version_ubl_36,
-             version_estructura_37,
-             tipo_moneda_28,
-             tasa_igv,
-             estado,
-             tipodocuCliente,
-             rucCliente,
-             RazonSocial,
-             tdescuento,
-             vendedorsitio,
-             tcambio,
-             tipopago,
-             nroreferencia,
-             ipagado,
-             saldo,
-             DetalleSunat,
-             icbper,
-             tipofactura,
-             formapago,
-             montofpago,
-             monedafpago,
-             ccuotas,
-             fechavecredito,
-             montocuota,
-             otroscargos,
-             tarjetadc,
-             transferencia,
-             montotarjetadc,
-             montotransferencia,
-             fechavenc,
-             efectivo,
-             visa,
-             yape,
-             plin,
-             mastercard,
-             deposito
-
-          )
-          values
-          (
-
-          '$idusuario',
-          '$fecha_emision $hora',
-          '$firma_digital',
-          '$idempresa',
-          '$tipo_documento',
-          '$SerieReal-$numero_factura',
-          '$idcliente',
-          '$total_operaciones_gravadas_codigo',
-          '$total_operaciones_gravadas_monto',
-          '$sumatoria_igv_1',
-          '$sumatoria_igv_2',
-          (select codigo from catalogo5 where codigo='$codigo_tributo_3'),
-          (select descripcion from catalogo5 where codigo='$codigo_tributo_3'),
-          (select unece5153 from catalogo5 where codigo='$codigo_tributo_3'),
-          '$importe_total_venta',
-          '$tipo_documento_guia',
-          '$guia_remision_29_2',
-          '$codigo_leyenda_1',
-          '$descripcion_leyenda_2',
-          '$version_ubl',
-          '$version_estructura',
-          '$tipo_moneda',
-          '$tasa_igv',
-          '$st',
-          '$tipodocuCliente ',
-          '$rucCliente',
-          '$RazonSocial',
-          '$tdescuento',
-          '$vendedorsitio',
-          '$tcambio',
-          '$tipopago',
-          '$nroreferencia',
-          '$ipagado',
-          '$saldo',
-          'Emitido',
-          '$total_icbper',
-          '$tipofactura',
-          '$formapago',
-          '$montofpago',
-          '$monedafpago',
-          '$ccuotas',
-          '$fechavecredito',
-          '$montocuota',
-          '$otroscargos',
-          '$tadc',
-          '$transferencia',
-          '$montotar',
-          '$montotran',
-          '$fechavenc',
-          '$efectivo',
-          '$visa',
-          '$yape',
-          '$plin',
-          '$mastercard',
-          '$deposito'
-        )";
-    //return ejecutarConsulta($sql);
+    $sql = "INSERT into factura ( idusuario, fecha_emision_01, firmadigital_02, idempresa, tipo_documento_07, numeracion_08, idcliente, total_operaciones_gravadas_codigo_18_1, 
+    total_operaciones_gravadas_monto_18_2, sumatoria_igv_22_1, sumatoria_igv_22_2, codigo_tributo_22_3,
+    nombre_tributo_22_4,codigo_internacional_22_5,
+    importe_total_venta_27,tipo_documento_29_1, guia_remision_29_2, codigo_leyenda_31_1, descripcion_leyenda_31_2, version_ubl_36, version_estructura_37, tipo_moneda_28, 
+    tasa_igv, estado, tipodocuCliente, rucCliente, RazonSocial, tdescuento, vendedorsitio, tcambio, tipopago, nroreferencia, ipagado, saldo, 
+    DetalleSunat, icbper, tipofactura, formapago, montofpago, monedafpago, ccuotas, fechavecredito, montocuota, otroscargos, tarjetadc, 
+    transferencia, montotarjetadc, montotransferencia, fechavenc, efectivo, visa, yape, plin, mastercard, deposito)
+    values  ( '$idusuario', '$fecha_emision $hora', '$firma_digital', '$idempresa', '$tipo_documento', '$SerieReal-$numero_factura', '$idcliente', '$total_operaciones_gravadas_codigo',
+    '$total_operaciones_gravadas_monto', '$sumatoria_igv_1', '$sumatoria_igv_2', (select codigo from catalogo5 where codigo='$codigo_tributo_3'),
+    (select descripcion from catalogo5 where codigo='$codigo_tributo_3'), (select unece5153 from catalogo5 where codigo='$codigo_tributo_3'),
+    '$importe_total_venta', '$tipo_documento_guia', '$guia_remision_29_2', '$codigo_leyenda_1', '$descripcion_leyenda_2', '$version_ubl', '$version_estructura', '$tipo_moneda', 
+    '$tasa_igv', '$st', '$tipodocuCliente ', '$rucCliente', '$RazonSocial', '$tdescuento', '$vendedorsitio', '$tcambio', '$tipopago', '$nroreferencia', '$ipagado', '$saldo',
+    'Emitido', '$total_icbper', '$tipofactura', '$formapago', '$montofpago', '$monedafpago', '$ccuotas', '$fechavecredito', '$montocuota', '$otroscargos', '$tadc',
+    '$transferencia', '$montotar', '$montotran', '$fechavenc', '$efectivo', '$visa', '$yape', '$plin', '$mastercard', '$deposito' )";
+    
     $idfacturanew = ejecutarConsulta_retornarID($sql);
 
-    $sqlcotizacion = "update cotizacion set nrofactura=(select numeracion_08 from factura where idfactura='$idfacturanew'),
-        estado='5'
-        where idcotizacion='$idcotizacion' ";
+    $sqlcotizacion = "UPDATE cotizacion set nrofactura=(select numeracion_08 from factura where idfactura='$idfacturanew'), estado='5' where idcotizacion='$idcotizacion' ";
     ejecutarConsulta($sqlcotizacion);
 
     $sw = true;
@@ -282,191 +151,74 @@ class Factura
       while ($num_elementos < count($idarticulo)) {
 
         //Guardar en Detalle
-        $sql_detalle = "insert into
-        detalle_fac_art
-        (
-        idfactura,
-        idarticulo,
-        numero_orden_item_33,
-        cantidad_item_12,
-        codigo_precio_15_1,
-        precio_venta_item_15_2,
-        afectacion_igv_item_16_1,
-        afectacion_igv_item_16_2,
-        afectacion_igv_item_16_3,
-        afectacion_igv_item_16_4,
-        afectacion_igv_item_16_5,
-        afectacion_igv_item_16_6,
-        igv_item,
-        valor_uni_item_14,
-        valor_venta_item_21,
-        dcto_item,
-        descdet,
-        umedida
-        )
-          values
-          (
-          '$idfacturanew',
-          '$idarticulo[$num_elementos]',
-          '$numero_orden_item[$num_elementos]',
-          '$cantidad[$num_elementos]',
-          '$codigo_precio',
-          '$valor_unitario[$num_elementos]',
-          '$igvBD2[$num_elementos]',
-          '$igvBD3[$num_elementos]',
-          (select codigo from catalogo7 where codigo='$afectacion_igv_3[$num_elementos]'),
-          (select codigo from catalogo5 where codigo='$afectacion_igv_4[$num_elementos]'),
-          (select descripcion from catalogo5 where codigo='$afectacion_igv_4[$num_elementos]'),
-          (select unece5153 from catalogo5 where codigo='$afectacion_igv_4[$num_elementos]'),
-          '$igvBD[$num_elementos]',
-          '$pvt[$num_elementos]',
-          '$subtotalBD[$num_elementos]',
-          '$sumadcto[$num_elementos]',
-          '$descdet[$num_elementos]',
-          '$unidad_medida[$num_elementos]'
+        $sql_detalle = "INSERT into detalle_fac_art ( idfactura, idarticulo, numero_orden_item_33, cantidad_item_12, codigo_precio_15_1, precio_venta_item_15_2, 
+        afectacion_igv_item_16_1, afectacion_igv_item_16_2, afectacion_igv_item_16_3, 
+        afectacion_igv_item_16_4, afectacion_igv_item_16_5, 
+        afectacion_igv_item_16_6,  igv_item, valor_uni_item_14, valor_venta_item_21, dcto_item, descdet, umedida )
+        values ( '$idfacturanew', '$idarticulo[$num_elementos]', '$numero_orden_item[$num_elementos]', '$cantidad[$num_elementos]', '$codigo_precio', '$valor_unitario[$num_elementos]',
+          '$igvBD2[$num_elementos]', '$igvBD3[$num_elementos]', (select codigo from catalogo7 where codigo='$afectacion_igv_3[$num_elementos]'),
+          (select codigo from catalogo5 where codigo='$afectacion_igv_4[$num_elementos]'), (select descripcion from catalogo5 where codigo='$afectacion_igv_4[$num_elementos]'),
+          (select unece5153 from catalogo5 where codigo='$afectacion_igv_4[$num_elementos]'), '$igvBD[$num_elementos]', '$pvt[$num_elementos]',
+          '$subtotalBD[$num_elementos]', '$sumadcto[$num_elementos]', '$descdet[$num_elementos]', '$unidad_medida[$num_elementos]'
         )";
 
         //Guardar en Kardex
-        $sql_kardex = "insert into kardex
-            (
-            idcomprobante,
-            idarticulo,
-            transaccion,
-            codigo,
-            fecha,
-            tipo_documento,
-            numero_doc,
-            cantidad,
-            costo_1,
-            unidad_medida,
-            saldo_final,
-            costo_2,
-            valor_final,
-            idempresa,
-            tcambio,
-            moneda
-            )
-            values
-            (
-            '$idfacturanew',
-            '$idarticulo[$num_elementos]',
-            'VENTA',
-            '$codigo[$num_elementos]',
-            '$fecha_emision' ,
-            '$tipo_documento',
-            '$SerieReal-$numero_factura',
-            '$cantidadreal[$num_elementos]',
-            '$pvt[$num_elementos]',
-            '$unidad_medida[$num_elementos]',
-            (select saldo_finu - '$cantidad[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]') ,
-            (select precio_final_kardex from articulo where idarticulo='$idarticulo[$num_elementos]'), saldo_final * costo_2,
-            '$idempresa',
-            '$tcambio',
-            '$tipo_moneda'
-          )";
+        $sql_kardex = "INSERT into kardex ( idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, 
+        cantidad, costo_1, unidad_medida, saldo_final, costo_2, valor_final, idempresa, tcambio, moneda )
+        values ( '$idfacturanew', '$idarticulo[$num_elementos]', 'VENTA', '$codigo[$num_elementos]', '$fecha_emision', '$tipo_documento', '$SerieReal-$numero_factura',
+        '$cantidadreal[$num_elementos]', '$pvt[$num_elementos]', '$unidad_medida[$num_elementos]',
+        (select saldo_finu - '$cantidad[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]') ,
+        (select precio_final_kardex from articulo where idarticulo='$idarticulo[$num_elementos]'), saldo_final * costo_2,
+        '$idempresa', '$tcambio', '$tipo_moneda' )";
 
-        $sqlupdatecorreocliente = "update persona set email='$email', domicilio_fiscal='$domicilio_fiscal2', razon_social='$RazonSocial', nombre_comercial='$RazonSocial'   where idpersona='$idcliente'";
+        $sqlupdatecorreocliente = "UPDATE persona set email='$email', domicilio_fiscal='$domicilio_fiscal2', razon_social='$RazonSocial', nombre_comercial='$RazonSocial' where idpersona='$idcliente'";
 
         //return ejecutarConsulta($sql);
         ejecutarConsulta($sql_detalle);
         ejecutarConsulta($sql_kardex);
         ejecutarConsulta($sqlupdatecorreocliente);
 
-
-
         if ($tipofactura != 'servicios') {
           //ACTUALIZA TABLA ARTICULOS SI ES SERVICIO
-          $sql_update_articulo = "update
-            articulo set saldo_finu = saldo_finu - '$cantidadreal[$num_elementos]',
-            ventast = ventast + '$cantidadreal[$num_elementos]',
-            valor_finu = (saldo_iniu + comprast - ventast) * precio_final_kardex, stock = saldo_finu,
-            valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$num_elementos]' and transaccion='VENTA' order by idkardex desc limit 1)
-             where
-             idarticulo = '$idarticulo[$num_elementos]'";
+          $sql_update_articulo = "UPDATE  articulo set saldo_finu = saldo_finu - '$cantidadreal[$num_elementos]',  ventast = ventast + '$cantidadreal[$num_elementos]',
+          valor_finu = (saldo_iniu + comprast - ventast) * precio_final_kardex, stock = stock - '$cantidadreal[$num_elementos]',
+          valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$num_elementos]' and transaccion='VENTA' order by idkardex desc limit 1)
+          where  idarticulo = '$idarticulo[$num_elementos]'";
           ejecutarConsulta($sql_update_articulo);
         }
         $num_elementos = $num_elementos + 1;
       } //Fin While
 
 
-      $sqldetallesesionusuario = "insert into detalle_usuario_sesion
-              (idusuario, tcomprobante, idcomprobante, fechahora)
-               values
-              ('$idusuario', '$tipo_documento','$idfacturanew', now())";
+      $sqldetallesesionusuario = "INSERT into detalle_usuario_sesion (idusuario, tcomprobante, idcomprobante, fechahora)
+      values ('$idusuario', '$tipo_documento','$idfacturanew', now())";
       ejecutarConsulta($sqldetallesesionusuario);
 
       if ($tipopago == 'Credito') {
         $numcuotas = 0;
         while ($numcuotas < count($ncuotahiden)) {
           //Guardar en Detalle
-          $sql_detalle_cuota_credito = "insert into
-        cuotas
-        (
-        tipocomprobante,
-        idcomprobante,
-        ncuota,
-        montocuota,
-        fechacuota,
-        estadocuota
-        )
-          values
-          (
-          '$tipo_documento',
-          '$idfacturanew',
-          '$ncuotahiden[$numcuotas]',
-          '$montocuotacre[$numcuotas]',
-          '$fechapago[$numcuotas]',
-          '1'
-        )";
-
-          //return ejecutarConsulta($sql);
+          $sql_detalle_cuota_credito = "INSERT into cuotas ( tipocomprobante, idcomprobante, ncuota, montocuota, fechacuota, estadocuota )
+          values ( '$tipo_documento', '$idfacturanew', '$ncuotahiden[$numcuotas]', '$montocuotacre[$numcuotas]', '$fechapago[$numcuotas]', '1' )";         
           ejecutarConsulta($sql_detalle_cuota_credito) or $sw = false;
           $numcuotas = $numcuotas + 1;
         } //Fin While
       } else { // SI ES AL CONTADO
 
-        $sql_detalle_cuota_credito = "insert into
-        cuotas
-        (
-        tipocomprobante,
-        idcomprobante,
-        ncuota,
-        montocuota,
-        fechacuota,
-        estadocuota
-        )
-          values
-          (
-          '01',
-          '$idfacturanew',
-          '1',
-          '$importe_total_venta',
-          '$fecha_emision',
-          '0'
-        )";
+        $sql_detalle_cuota_credito = "INSERT into cuotas ( tipocomprobante, idcomprobante, ncuota, montocuota, fechacuota, estadocuota )
+        values ( '01', '$idfacturanew', '1', '$importe_total_venta', '$fecha_emision', '0' )";
         ejecutarConsulta($sql_detalle_cuota_credito) or $sw = false;
       }
     } //Fin IF
 
     //Para actualizar numeracion de las series de la factura
-    $sql_update_numeracion = "update
-                  numeracion
-                  set
-                  numero='$numero_factura'
-                  where
-                  idnumeracion='$idserie'";
+    $sql_update_numeracion = "UPDATE numeracion set numero='$numero_factura' where idnumeracion='$idserie'";
     ejecutarConsulta($sql_update_numeracion) or $sw = false;
     //Fin
-
-
-
     //================ EXPORTAR COMPROBANTES A TXT =============
-
-
 
     return $idfacturanew; //FIN DE LA FUNCION
     //=======================================
-
   }
 
 
@@ -703,85 +455,64 @@ class Factura
 
 
   //Implementamos un método para dar de baja a factura
-  public function baja($idfactura, $fecha_baja, $com, $hora)
-  {
+  public function baja($idfactura, $fecha_baja, $com, $hora) {
+    
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
+
     $sw = true;
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
 
     $query = "SELECT dt.idfactura, a.idarticulo, dt.cantidad_item_12,  dt.valor_uni_item_14, a.codigo, a.unidad_medida  from detalle_fac_art dt inner join articulo a on dt.idarticulo=a.idarticulo where idfactura = '$idfactura'";
-    $resultado = mysqli_query($connect, $query);
+    $resultado = ejecutarConsultaArray( $query);
 
-    $Idf = array();
-    $Ida = array();
-    $Ct = array();
-    $Cod = array();
-    $Vu = array();
-    $Um = array();
+    $Idf = '';
+    $Ida = '';
+    $Ct = '';
+    $Cod = '';
+    $Vu = '';
+    $Um = '';
     $sw = true;
 
-    while ($fila = mysqli_fetch_assoc($resultado)) {
-      for ($i = 0; $i < count($resultado); $i++) {
-        $Idf[$i] = $fila["idfactura"];
-        $Ida[$i] = $fila["idarticulo"];
-        $Ct[$i] = $fila["cantidad_item_12"];
-        $Cod[$i] = $fila["codigo"];
-        $Vu[$i] = $fila["valor_uni_item_14"];
-        $Um[$i] = $fila["unidad_medida"];
+    foreach ($resultado as $key => $fila) {     
+      
+        $Idf = $fila["idfactura"];
+        $Ida = $fila["idarticulo"];
+        $Ct = $fila["cantidad_item_12"];
+        $Cod = $fila["codigo"];
+        $Vu = $fila["valor_uni_item_14"];
+        $Um = $fila["unidad_medida"];
 
-        $sql_update_articulo = "update detalle_fac_art de inner join
-    articulo a on de.idarticulo=a.idarticulo
-    set
-     a.saldo_finu=a.saldo_finu + '$Ct[$i]',
-     a.stock=a.stock + '$Ct[$i]',
-     a.ventast=a.ventast - '$Ct[$i]'
-    where
-    de.idfactura='$Idf[$i]' and de.idarticulo='$Ida[$i]'";
+        $sql_update_articulo = "UPDATE detalle_fac_art de inner join
+        articulo a on de.idarticulo=a.idarticulo
+        set
+        a.saldo_finu=a.saldo_finu + '$Ct',
+        a.stock=a.stock + '$Ct',
+        a.ventast=a.ventast - '$Ct'
+        where
+        de.idfactura='$Idf' and de.idarticulo='$Ida'";
 
 
-        $sql_update_articulo_2 = "update detalle_fac_art de inner join articulo a on de.idarticulo=a.idarticulo
-    set
-    a.valor_finu=(a.saldo_iniu + a.comprast - ventast) * a.costo_compra
-    where
-    de.idfactura='$Idf[$i]' and de.idarticulo='$Ida[$i]'";
-
+        $sql_update_articulo_2 = "UPDATE detalle_fac_art de inner join articulo a on de.idarticulo=a.idarticulo
+        set a.valor_finu=(a.saldo_iniu + a.comprast - ventast) * a.costo_compra
+        where de.idfactura='$Idf' and de.idarticulo='$Ida'";
 
         //ACTUALIZAR TIPO TRANSACCIon KARDEX
         //Guardar en Kardex
-        $sql_kardex = "insert into kardex (idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, costo_2,valor_final)
-
-            values
-
-            ('$idfactura', '$Ida[$i]',
-
-            'ANULADO',
-
-            '$Cod[$i]',
-
-             '$fecha_baja $hora',
-             '01',
-             (select numeracion_08 from factura where idfactura='$Idf[$i]'),
-
-             '$Ct[$i]',
-
-             '$Vu[$i]',
-
-             '$Um[$i]',
-
-             0, 0, 0)";
-      }
+        $sql_kardex = "INSERT into kardex (idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, costo_2,valor_final)
+        values ('$idfactura', '$Ida', 'ANULADO', '$Cod', '$fecha_baja $hora', '01', (select numeracion_08 from factura where idfactura='$Idf'), '$Ct',
+        '$Vu', '$Um', 0, 0, 0)";
+      
       //Fin de FOR
       ejecutarConsulta($sql_update_articulo) or $sw = false;
       ejecutarConsulta($sql_update_articulo_2) or $sw = false;
       ejecutarConsulta($sql_kardex) or $sw = false;
 
-      $sqlestado = "update factura set estado='3', fecha_baja='$fecha_baja $hora', comentario_baja='$com' ,
-          DetalleSunat='C/Baja',  CodigoRptaSunat='3' where idfactura='$idfactura'";
+      $sqlestado = "UPDATE factura set estado='3', fecha_baja='$fecha_baja $hora', comentario_baja='$com', DetalleSunat='C/Baja',  CodigoRptaSunat='3' where idfactura='$idfactura'";
       ejecutarConsulta($sqlestado) or $sw = false;
     }
     //Fin de WHILE
@@ -892,63 +623,61 @@ class Factura
 
 
   //Implementamos un método para anular la factura
-  public function anular($idfactura)
-  {
+  public function anular($idfactura) {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     $query = "SELECT idfactura, idarticulo  from detalle_fac_art where idfactura = '$idfactura'";
-    $resultado = mysqli_query($connect, $query);
+    $resultado = ejecutarConsultaArray( $query);
 
-    $Idf = array();
-    $Ida = array();
+    $Idf = '';
+    $Ida = '';
     $sw = true;
 
-    while ($fila = mysqli_fetch_assoc($resultado)) {
-      for ($i = 0; $i < count($resultado); $i++) {
-        $Idf[$i] = $fila["idfactura"];
-        $Ida[$i] = $fila["idarticulo"];
+    foreach ($resultado as $key => $fila) {    
+      
+        $Idf = $fila["idfactura"];
+        $Ida = $fila["idarticulo"];
 
-        $sql_update_articulo = "update detalle_fac_art de
-    inner join
-    articulo a
-    on de.idarticulo=a.idarticulo
-    set
-     a.saldo_finu=a.saldo_finu + de.cantidad_item_12, a.stock=a.stock + de.cantidad_item_12, a.ventast=a.ventast - de.cantidad_item_12, a.valor_finu=(a.saldo_finu + a.comprast - a.ventast) * a.costo_compra
-    where
-    de.idfactura='$Idf[$i]' and de.idarticulo='$Ida[$i]'";
-
+        $sql_update_articulo = "UPDATE detalle_fac_art de
+        inner join
+        articulo a
+        on de.idarticulo=a.idarticulo
+        set
+        a.saldo_finu=a.saldo_finu + de.cantidad_item_12, a.stock=a.stock + de.cantidad_item_12, a.ventast=a.ventast - de.cantidad_item_12, a.valor_finu=(a.saldo_finu + a.comprast - a.ventast) * a.costo_compra
+        where
+        de.idfactura='$Idf' and de.idarticulo='$Ida'";
 
         //ACTUALIZAR TIPO TRANSACCION KARDEX
         //Guardar en Kardex
-        $sql_kardex = "insert into kardex (idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, costo_2,valor_final)
+        $sql_kardex = "INSERT into kardex (idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, costo_2,valor_final)
 
             values
 
-            ('$idfactura', (select a.idarticulo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+            ('$idfactura', (select a.idarticulo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
 
             'ANULADO',
 
-            (select a.codigo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+            (select a.codigo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
 
-             (select fecha_emision_01 from factura where idfactura='$Idf[$i]'),
+             (select fecha_emision_01 from factura where idfactura='$Idf'),
              '01',
-             (select numeracion_08 from factura where idfactura='$Idf[$i]'),
+             (select numeracion_08 from factura where idfactura='$Idf'),
 
-             (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+             (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
 
-             (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+             (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
 
-             (select a.unidad_medida from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+             (select a.unidad_medida from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
 
              0, 0, 0)";
-      }
+      
 
       $sqlestado = "update factura  set estado='0' where idfactura='$idfactura'";
 
@@ -985,18 +714,14 @@ class Factura
     return ejecutarConsultaSimpleFila($sql);
   }
 
-
-
-
-  public function mostrarxml($idfactura, $idempresa)
-  {
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+  public function mostrarxml($idfactura, $idempresa)  {
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -1022,41 +747,33 @@ class Factura
      from
      factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where idfactura='$idfactura' and f.estado in('1','4','5') order by numerodoc";
 
-    $result = mysqli_query($connect, $query);
+    $result = ejecutarConsultaArray( $query);
 
 
     if ($result) {
-      while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      foreach ($result as $key => $row) {      
+        
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
-        }
+        
       }
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       $rpta = array('rutafirma' => $cabextxml);
     } else {
-
       $rpta = array('rutafirma' => 'Aún no se ha creado el archivo XML.');
     }
-
-
     return $rpta;
   }
 
-
-
-
-
-  public function mostrarrpta($idfactura, $idempresa)
-  {
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+  public function mostrarrpta($idfactura, $idempresa)  {
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -1072,22 +789,22 @@ class Factura
     $rutaunzipxml = $Prutas->unziprpta; // ruta de la carpeta ruta unziprpta
 
 
-    $query = "SELECT
-     f.tipo_documento_07 as tipocomp,
-     f.numeracion_08 as numerodoc
-     from
-     factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where idfactura='$idfactura' and f.estado in('5','4') order by numerodoc";
+    $query = "SELECT f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc
+     from factura f 
+     inner join persona p on f.idcliente=p.idpersona 
+     inner join empresa e on f.idempresa=e.idempresa 
+     where idfactura='$idfactura' and f.estado in('5','4') order by numerodoc";
 
-    $result = mysqli_query($connect, $query);
+    $result = ejecutarConsultaArray( $query);
 
     $con = 0; //COntador de variable
-
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+    
+    foreach ($result as $key => $row) {
+      
         $tipocomp = $row["tipocomp"];
         $numerodoc = $row["numerodoc"];
         $ruc = $datose->numero_ruc;
-      }
+      
     }
 
     $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";
@@ -1104,19 +821,14 @@ class Factura
     return $rpta;
   }
 
-
-
-
-
-  public function generarxml($idfactura, $idempresa)
-  {
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+  public function generarxml($idfactura, $idempresa)  {
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -1124,8 +836,6 @@ class Factura
     $datose = $datos->fetch_object();
     $configuraciones = $factura->configuraciones($idempresa);
     $configE = $configuraciones->fetch_object();
-
-
 
     //Inclusion de la tabla RUTAS
     require_once "../modelos/Rutas.php";
@@ -1166,8 +876,6 @@ class Factura
      f.montocuota,
      f.otroscargos,
      f.fechavenc
-
-
      from
      factura f inner join persona p on f.idcliente=p.idpersona
      inner join empresa e on f.idempresa=e.idempresa
@@ -1183,7 +891,6 @@ class Factura
      from
      cuotas cu inner join factura fa on cu.idcomprobante=fa.idfactura
      where idcomprobante='$idfactura' and cu.tipocomprobante='01'";
-
 
     $querydetfac = "SELECT
        f.tipo_documento_07 as tipocomp,
@@ -1214,9 +921,9 @@ class Factura
           f.idfactura='$idfactura' and f.estado in ('1','4') order by f.fecha_emision_01";
 
 
-    $result = mysqli_query($connect, $query);
-    $resultf = mysqli_query($connect, $querydetfac);
-    $resultcuotas = mysqli_query($connect, $querycuotas);
+    $result = ejecutarConsultaArray( $query);
+    $resultf = ejecutarConsultaArray( $querydetfac);
+    $resultcuotas = ejecutarConsultaArray( $querycuotas);
 
     $nombrecomercial = $datose->nombre_comercial;
     $domiciliofiscal = $datose->domicilio_fiscal;
@@ -1246,7 +953,6 @@ class Factura
     $ubigueo = "";
     $fechavenc = "";
 
-
     $otroscargos = "";
     $formapago = "";
     $montofpago = "";
@@ -1259,13 +965,12 @@ class Factura
     // $montocuotacredito=array();
     // $fechacuotacredito=array();
 
-
-
-
     $con = 0; //COntador de variable
     $icbper = "";
-
-    while ($row = mysqli_fetch_assoc($result)) {
+    
+    foreach ($result as $key => $row) {
+      
+      // while ($row = mysqli_fetch_assoc($result)) {
       //for($i=0; $i <= count($result); $i++){
       $fecha = $row["fecha"]; //Fecha emision
       $serie = $row["serie"];
@@ -1285,11 +990,9 @@ class Factura
       $opera = $row["opera"];
       $fechavenc = $row["fechavenc"];
 
-
       $codigotrib = $row["codigotrib"]; //codigo de tributo de la tabla catalo 5
       $nombretrib = $row["nombretrib"]; //NOmbre de tributo de la tabla catalo 5
       $codigointtrib = $row["codigointtrib"]; //Codigo internacional de la tabla catalo 5
-
 
       $formapago = $row["formapago"];
       $montofpago = $row["montofpago"];
@@ -1305,7 +1008,6 @@ class Factura
       }
 
       $icbper = $row["icbper"];
-
 
       require_once "Letras.php";
       $V = new EnLetras();
@@ -1412,28 +1114,26 @@ class Factura
                 <cbc:Amount currencyID="' . $moneda . '">' . $total . '</cbc:Amount>
                 </cac:PaymentTerms>';
 
-        $ncuotacredito = array();
-        $montocuotacredito = array();
-        $fechacuotacredito = array();
-        $formapagocre = array();
-        $monedaf = array();
+        $ncuotacredito = '';
+        $montocuotacredito = '';
+        $fechacuotacredito = '';
+        $formapagocre = '';
+        $monedaf = '';
 
-        while ($rowb = mysqli_fetch_assoc($resultcuotas)) {
-          for ($i = 0; $i < count($resultcuotas); $i++) {
-            $ncuotacredito[$i] = $rowb["ncuota"];
-            $montocuotacredito[$i] = $rowb["montocuota"];
-            $fechacuotacredito[$i] = $rowb["fechacuota"];
-            $formapagocre[$i] = $rowb["formapago"];
-            $monedaf[$i] = $rowb["monedaf"];
+        foreach ($resultcuotas as $key => $rowb) {         
+          
+          $ncuotacredito = $rowb["ncuota"];
+          $montocuotacredito = $rowb["montocuota"];
+          $fechacuotacredito = $rowb["fechacuota"];
+          $formapagocre = $rowb["formapago"];
+          $monedaf = $rowb["monedaf"];
 
-            $facturaXML .= '<cac:PaymentTerms>
-                <cbc:ID>FormaPago</cbc:ID>
-                <cbc:PaymentMeansID>Cuota' . $ncuotacredito[$i] . '</cbc:PaymentMeansID>
-                <cbc:Amount currencyID="' . $monedaf[$i] . '">' . $montocuotacredito[$i] . '</cbc:Amount>
-                <cbc:PaymentDueDate>' . $fechacuotacredito[$i] . '</cbc:PaymentDueDate>
-                </cac:PaymentTerms>';
-          }
-          $i = $i + 1;
+          $facturaXML .= '<cac:PaymentTerms>
+              <cbc:ID>FormaPago</cbc:ID>
+              <cbc:PaymentMeansID>Cuota' . $ncuotacredito . '</cbc:PaymentMeansID>
+              <cbc:Amount currencyID="' . $monedaf . '">' . $montocuotacredito . '</cbc:Amount>
+              <cbc:PaymentDueDate>' . $fechacuotacredito . '</cbc:PaymentDueDate>
+              </cac:PaymentTerms>';          
         }
       }
 
@@ -1497,51 +1197,50 @@ class Factura
       $con = $con + 1;
     } //While cabecera
 
-    $codigo = array();
-    $cantidad = array();
-    $descripcion = array();
-    $um = array();
-    $vui = array();
-    $igvi = array();
-    $pvi = array();
-    $vvi = array();
-    $sutribitem = array();
-    $aigv = array();
-    $codtrib = array();
-    $nomtrib = array();
-    $coditrib = array();
-    $codigosunat = array();
-    $numorden = array();
-    $monedaD = array();
-    $mticbperu = array();
+    $codigo = '';
+    $cantidad = '';
+    $descripcion = '';
+    $um = '';
+    $vui = '';
+    $igvi = '';
+    $pvi = '';
+    $vvi = '';
+    $sutribitem = '';
+    $aigv = '';
+    $codtrib = '';
+    $nomtrib = '';
+    $coditrib = '';
+    $codigosunat = '';
+    $numorden = '';
+    $monedaD = '';
+    $mticbperu = '';
 
-
-    while ($rowf = mysqli_fetch_assoc($resultf)) {
-      for ($if = 0; $if < count($resultf); $if++) {
-        $codigo[$if] = $rowf["codigo"];
-        $cantidad[$if] = $rowf["cantidad"];
-        $descripcion[$if] = $rowf["descripcion"];
-        $vui[$if] = $rowf["vui"];
-        $sutribitem[$if] = $rowf["sutribitem"];
-        $igvi[$if] = $rowf["igvi"];
-        $pvi[$if] = $rowf["pvi"];
-        $vvi[$if] = $rowf["vvi"];
-        $um[$if] = $rowf["um"];
+    foreach ($resultf as $key => $rowf) {     
+      
+        $codigo = $rowf["codigo"];
+        $cantidad = $rowf["cantidad"];
+        $descripcion = $rowf["descripcion"];
+        $vui = $rowf["vui"];
+        $sutribitem = $rowf["sutribitem"];
+        $igvi = $rowf["igvi"];
+        $pvi = $rowf["pvi"];
+        $vvi = $rowf["vvi"];
+        $um = $rowf["um"];
         $tipocompf = $rowf["tipocomp"];
         $numerodocf = $rowf["numerodoc"];
         $ruc = $datose->numero_ruc;
-        $aigv[$if] = $rowf["aigv"];
-        $codtrib[$if] = $rowf["codtrib"];
-        $nomtrib[$if] = $rowf["nomtrib"];
-        $coditrib[$if] = $rowf["coditrib"];
-        $codigosunat[$if] = $rowf["codigosunat"];
-        $numorden[$if] = $rowf["numorden"];
-        $monedaD[$if] = $rowf["moneda"];
+        $aigv = $rowf["aigv"];
+        $codtrib = $rowf["codtrib"];
+        $nomtrib = $rowf["nomtrib"];
+        $coditrib = $rowf["coditrib"];
+        $codigosunat = $rowf["codigosunat"];
+        $numorden = $rowf["numorden"];
+        $monedaD = $rowf["moneda"];
 
-        $mticbperu[$if] = $rowf["mticbperu"];
+        $mticbperu = $rowf["mticbperu"];
         $icbperD = $rowf["icbper"];
 
-        if ($codtrib[$if] == '9997') {
+        if ($codtrib == '9997') {
           $igv_ = "0";
         } else {
           $igv_ = $configE->igv;
@@ -1558,15 +1257,15 @@ class Factura
 
         $facturaXML .= '
                 <cac:InvoiceLine>
-                    <cbc:ID>' . $numorden[$if] . '</cbc:ID>
-                    <cbc:InvoicedQuantity unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 2, '.', '') . '</cbc:InvoicedQuantity>
-                    <cbc:LineExtensionAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:LineExtensionAmount>
+                    <cbc:ID>' . $numorden . '</cbc:ID>
+                    <cbc:InvoicedQuantity unitCode="' . $um . '">' . number_format($cantidad, 2, '.', '') . '</cbc:InvoicedQuantity>
+                    <cbc:LineExtensionAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:LineExtensionAmount>
 
 
 
                     <cac:PricingReference>
                         <cac:AlternativeConditionPrice>
-                            <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($pvi[$if], 2, '.', '') . '</cbc:PriceAmount>
+                            <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($pvi, 2, '.', '') . '</cbc:PriceAmount>
                             <cbc:PriceTypeCode>01</cbc:PriceTypeCode>
                         </cac:AlternativeConditionPrice>
                     </cac:PricingReference>
@@ -1580,47 +1279,47 @@ class Factura
 
                     <!-- Inicio Tributos -->
                     <cac:TaxTotal>
-                        <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                        <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
 
- <!--<cac:TaxSubtotal>
-        <cbc:TaxableAmount currencyID="PEN">21.19</cbc:TaxableAmount>
-        <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
-        <cac:TaxCategory>
-          <cbc:ID schemeAgencyName="United Nations Economic Commission for Europe" schemeID="UN/ECE 5305" schemeName="Tax Category Identifier">S</cbc:ID>
-          <cbc:Percent>0.00</cbc:Percent>
-          <cbc:TierRange>0</cbc:TierRange>
-          <cac:TaxScheme>
-          <cbc:ID schemeAgencyName="PE:SUNAT" schemeID="UN/ECE 5153" schemeName="Codigo de tributos">2000</cbc:ID>
-          <cbc:Name>ISC</cbc:Name>
-          <cbc:TaxTypeCode>EXC</cbc:TaxTypeCode>
-          </cac:TaxScheme>
-        </cac:TaxCategory>
-</cac:TaxSubtotal>-->
+                <!--<cac:TaxSubtotal>
+                        <cbc:TaxableAmount currencyID="PEN">21.19</cbc:TaxableAmount>
+                        <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+                        <cac:TaxCategory>
+                          <cbc:ID schemeAgencyName="United Nations Economic Commission for Europe" schemeID="UN/ECE 5305" schemeName="Tax Category Identifier">S</cbc:ID>
+                          <cbc:Percent>0.00</cbc:Percent>
+                          <cbc:TierRange>0</cbc:TierRange>
+                          <cac:TaxScheme>
+                          <cbc:ID schemeAgencyName="PE:SUNAT" schemeID="UN/ECE 5153" schemeName="Codigo de tributos">2000</cbc:ID>
+                          <cbc:Name>ISC</cbc:Name>
+                          <cbc:TaxTypeCode>EXC</cbc:TaxTypeCode>
+                          </cac:TaxScheme>
+                        </cac:TaxCategory>
+                </cac:TaxSubtotal>-->
 
 
                         <cac:TaxSubtotal>
-                            <cbc:TaxableAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:TaxableAmount>
-                            <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                            <cbc:TaxableAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:TaxableAmount>
+                            <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
                             <cac:TaxCategory>
                                 <cbc:Percent>' . $igv_ . '</cbc:Percent>
-                                <cbc:TaxExemptionReasonCode>' . $aigv[$if] . '</cbc:TaxExemptionReasonCode>
+                                <cbc:TaxExemptionReasonCode>' . $aigv . '</cbc:TaxExemptionReasonCode>
                                 <cac:TaxScheme>
-                                    <cbc:ID>' . $codtrib[$if] . '</cbc:ID>
-                                    <cbc:Name>' . $nomtrib[$if] . '</cbc:Name>
-                                    <cbc:TaxTypeCode>' . $coditrib[$if] . '</cbc:TaxTypeCode>
+                                    <cbc:ID>' . $codtrib . '</cbc:ID>
+                                    <cbc:Name>' . $nomtrib . '</cbc:Name>
+                                    <cbc:TaxTypeCode>' . $coditrib . '</cbc:TaxTypeCode>
                                 </cac:TaxScheme>
                             </cac:TaxCategory>
                         </cac:TaxSubtotal>';
 
 
-        if ($codigo[$if] == "ICBPER") {
+        if ($codigo == "ICBPER") {
 
           $facturaXML .= '
                 <cac:TaxSubtotal>
-                <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . $icbperD . '</cbc:TaxAmount>
-                    <cbc:BaseUnitMeasure unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 0, '.', '') . '</cbc:BaseUnitMeasure>
+                <cbc:TaxAmount currencyID="' . $monedaD . '">' . $icbperD . '</cbc:TaxAmount>
+                    <cbc:BaseUnitMeasure unitCode="' . $um . '">' . number_format($cantidad, 0, '.', '') . '</cbc:BaseUnitMeasure>
                     <cac:TaxCategory>
-                    <cbc:PerUnitAmount currencyID="' . $monedaD[$if] . '">' . number_format($mticbperu[$if], 2, '.', '') . '</cbc:PerUnitAmount>
+                    <cbc:PerUnitAmount currencyID="' . $monedaD . '">' . number_format($mticbperu, 2, '.', '') . '</cbc:PerUnitAmount>
                        <cac:TaxScheme>
                           <cbc:ID>7152</cbc:ID>
                           <cbc:Name>ICBPER</cbc:Name>
@@ -1630,23 +1329,22 @@ class Factura
                  </cac:TaxSubtotal>';
         };
 
-
         $facturaXML .= '
                      </cac:TaxTotal>
 
                     <cac:Item>
-                        <cbc:Description><![CDATA[' . $descripcion[$if] . ']]></cbc:Description>
+                        <cbc:Description><![CDATA[' . $descripcion . ']]></cbc:Description>
                          <cac:SellersItemIdentification>
-                            <cbc:ID>' . $codigo[$if] . '</cbc:ID>
+                            <cbc:ID>' . $codigo . '</cbc:ID>
                         </cac:SellersItemIdentification>
                     </cac:Item>
 
                     <cac:Price>
-                        <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
+                        <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($vui, 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-      } //Fin for
-    } //Find e while
+      
+    } //Find e foreach
     $facturaXML .= '</Invoice>';
     //FIN DE CABECERA ===================================================================
 
@@ -1704,15 +1402,15 @@ class Factura
 
 
 
-  public function generarxmlEA($ano, $mes, $dia, $idfactura, $estado, $check, $idempresa)
-  {
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+  public function generarxmlEA($ano, $mes, $dia, $idfactura, $estado, $check, $idempresa)  {
+    
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -1720,8 +1418,6 @@ class Factura
     $datose = $datos->fetch_object();
     $configuraciones = $factura->configuraciones($idempresa);
     $configE = $configuraciones->fetch_object();
-
-
 
     //Inclusion de la tabla RUTAS
     require_once "../modelos/Rutas.php";
@@ -1756,14 +1452,12 @@ class Factura
      f.total_operaciones_gravadas_codigo_18_1 as opera,
      e.ubigueo,
      f.icbper,
-
      f.formapago,
      f.montofpago,
      f.monedafpago,
      f.ccuotas,
      f.fechavecredito,
      f.montocuota
-
      from
      factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where
       year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by numerodoc";
@@ -1790,15 +1484,15 @@ class Factura
        f.tipo_moneda_28 as moneda,
        a.mticbperu,
        f.icbper
+       from factura f 
+       inner join detalle_fac_art df on f.idfactura=df.idfactura 
+       inner join articulo a on df.idarticulo=a.idarticulo 
+       inner join umedida um on a.unidad_medida=um.idunidad
+      where year(f.fecha_emision_01)='$ano' and  month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by f.fecha_emision_01";
 
-       from
-       factura f inner join detalle_fac_art df on f.idfactura=df.idfactura inner join articulo a on df.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
-          where
-          year(f.fecha_emision_01)='$ano' and  month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by f.fecha_emision_01";
 
-
-      $result = mysqli_query($connect, $query);
-      $resultf = mysqli_query($connect, $querydetfac);
+      $result = ejecutarConsultaArray( $query);
+      $resultf = ejecutarConsultaArray( $querydetfac);
 
       $nombrecomercial = $datose->nombre_comercial;
       $domiciliofiscal = $datose->domicilio_fiscal;
@@ -1809,85 +1503,77 @@ class Factura
       $interior = $datose->interior;
       $codigopais = $datose->codigopais;
 
-
-
-
       //Parametros de salida
-      $fecha = array();
-      $hora = array();
-      $serie = array();
-      $tipodocu = array();
-      $numdocu = array();
-      $rasoc = array();
-      $moneda = array();
-      $codigotrib = array();
-      $nombretrib = array();
-      $codigointtrib = array();
-      $subtotal = array();
-      $igv = array();
-      $total = array();
-      $tdescu = array();
-      $opera = array();
-      $ubigueo = array();
+      $fecha = '';
+      $hora = '';
+      $serie = '';
+      $tipodocu = '';
+      $numdocu = '';
+      $rasoc = '';
+      $moneda = '';
+      $codigotrib = '';
+      $nombretrib = '';
+      $codigointtrib = '';
+      $subtotal = '';
+      $igv = '';
+      $total = '';
+      $tdescu = '';
+      $opera = '';
+      $ubigueo = '';
 
-
-      $formapago = array();
-      $montofpago = array();
-      $monedafpago = array();
-      $ccuotas = array();
-      $fechavecredito = array();
-      $montocuota = array();
+      $formapago = '';
+      $montofpago = '';
+      $monedafpago = '';
+      $ccuotas = '';
+      $fechavecredito = '';
+      $montocuota = '';
 
       $igv_ = "0";
-
-
 
       $con = 0; //COntador de variable
       $icbper = "";
 
-      while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
-          $fecha[$i] = $row["fecha"]; //Fecha emision
-          $serie[$i] = $row["serie"];
-          $tipodocu[$i] = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
-          $numdocu[$i] = $row["numero_documento"]; //NUmero de docuemnto de cliente
-          $rasoc[$i] = $row["razon_social"]; //Nombre de cliente
-          $moneda[$i] = $row["tipo_moneda_28"];
-          $subtotal[$i] = $row["subtotal"];
-          $igv[$i] = $row["igv"];
-          $total[$i] = $row["total"];
-          $tdescu[$i] = $row["tdescuento"];
-          $hora[$i] = $row["hora"];
+      foreach ($result as $key => $row) {
+        
+        
+          $fecha = $row["fecha"]; //Fecha emision
+          $serie = $row["serie"];
+          $tipodocu = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
+          $numdocu = $row["numero_documento"]; //NUmero de docuemnto de cliente
+          $rasoc = $row["razon_social"]; //Nombre de cliente
+          $moneda = $row["tipo_moneda_28"];
+          $subtotal = $row["subtotal"];
+          $igv = $row["igv"];
+          $total = $row["total"];
+          $tdescu = $row["tdescuento"];
+          $hora = $row["hora"];
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
           $ubigueo = $datose->ubigueo;
-          $opera[$i] = $row["opera"];
+          $opera = $row["opera"];
 
+          $codigotrib = $row["codigotrib"]; //codigo de tributo de la tabla catalo 5
+          $nombretrib = $row["nombretrib"]; //NOmbre de tributo de la tabla catalo 5
+          $codigointtrib = $row["codigointtrib"]; //Codigo internacional de la tabla catalo 5
 
-          $codigotrib[$i] = $row["codigotrib"]; //codigo de tributo de la tabla catalo 5
-          $nombretrib[$i] = $row["nombretrib"]; //NOmbre de tributo de la tabla catalo 5
-          $codigointtrib[$i] = $row["codigointtrib"]; //Codigo internacional de la tabla catalo 5
-
-          $formapago[$i] = $row["formapago"];
-          $montofpago[$i] = $row["montofpago"];
-          $monedafpago[$i] = $row["monedafpago"];
-          $ccuotas[$i] = $row["ccuotas"];
-          $fechavecredito[$i] = $row["fechavecredito"];
-          $montocuota[$i] = $row["montocuota"];
+          $formapago = $row["formapago"];
+          $montofpago = $row["montofpago"];
+          $monedafpago = $row["monedafpago"];
+          $ccuotas = $row["ccuotas"];
+          $fechavecredito = $row["fechavecredito"];
+          $montocuota = $row["montocuota"];
 
           $Lmoneda = "NUEVOS SOLES";
-          if ($moneda[$i] == 'USD') {
+          if ($moneda == 'USD') {
             $Lmoneda = "DOLARES AMERICANOS";
           }
 
           $icbper = $row["icbper"];
 
-
           require_once "Letras.php";
           $V = new EnLetras();
-          $con_letra = strtoupper($V->ValorEnLetras($total[$i], $Lmoneda));
-
+          $con_letra = strtoupper($V->ValorEnLetras($total, $Lmoneda));
 
           //======================================== FORMATO XML ========================================================
           $domiciliofiscal = $datose->domicilio_fiscal;
@@ -1906,15 +1592,15 @@ class Factura
                 <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
                 <cbc:CustomizationID>2.0</cbc:CustomizationID>
                 <cbc:ID>' . $numerodoc . '</cbc:ID>
-                <cbc:IssueDate>' . $fecha[$i] . '</cbc:IssueDate>
-                <cbc:IssueTime>' . $hora[$i] . '</cbc:IssueTime>
+                <cbc:IssueDate>' . $fecha . '</cbc:IssueDate>
+                <cbc:IssueTime>' . $hora . '</cbc:IssueTime>
 
                 <cbc:InvoiceTypeCode listID="0101">' . $tipocomp . '</cbc:InvoiceTypeCode>
 
                 <cbc:Note languageLocaleID="1000">' . $con_letra . '</cbc:Note>
 
               <cbc:Note languageLocaleID="2006">Leyenda: Operación sujeta a detracción</cbc:Note>
-              <cbc:DocumentCurrencyCode>' . $moneda[$i] . '</cbc:DocumentCurrencyCode>
+              <cbc:DocumentCurrencyCode>' . $moneda . '</cbc:DocumentCurrencyCode>
 
                 <cac:Signature>
                     <cbc:ID>' . $ruc . '</cbc:ID>
@@ -1965,28 +1651,28 @@ class Factura
                 <cac:AccountingCustomerParty>
                     <cac:Party>
                         <cac:PartyIdentification>
-                            <cbc:ID schemeID="' . $tipodocu[$i] . '">' . $numdocu[$i] . '</cbc:ID>
+                            <cbc:ID schemeID="' . $tipodocu . '">' . $numdocu . '</cbc:ID>
                         </cac:PartyIdentification>
                         <cac:PartyLegalEntity>
-                            <cbc:RegistrationName><![CDATA[' . $rasoc[$i] . ']]></cbc:RegistrationName>
+                            <cbc:RegistrationName><![CDATA[' . $rasoc . ']]></cbc:RegistrationName>
                         </cac:PartyLegalEntity>
                     </cac:Party>
                 </cac:AccountingCustomerParty>';
 
 
 
-          if ($formapago[$i] == 'Contado') {
+          if ($formapago == 'Contado') {
             $facturaXML .= '<cac:PaymentTerms>
                 <cbc:ID>FormaPago</cbc:ID>
-              <cbc:PaymentMeansID>' . $formapago[$i] . '</cbc:PaymentMeansID>
+              <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
           } else {
 
             $facturaXML .= '<cac:PaymentTerms>
                 <cbc:ID>FormaPago</cbc:ID>
-                <cbc:PaymentMeansID>' . $formapago[$i] . '</cbc:PaymentMeansID>
-                <cbc:Amount currencyID="' . $monedafpago[$i] . '">' . $montocuota[$i] . '</cbc:Amount>
-                <cbc:PaymentDueDate>' . $fechavecredito[$i] . '</cbc:PaymentDueDate>
+                <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
+                <cbc:Amount currencyID="' . $monedafpago . '">' . $montocuota . '</cbc:Amount>
+                <cbc:PaymentDueDate>' . $fechavecredito . '</cbc:PaymentDueDate>
                 </cac:PaymentTerms>';
           }
 
@@ -1994,15 +1680,15 @@ class Factura
           $facturaXML .= '
                 <!-- Inicio Tributos cabecera-->
                 <cac:TaxTotal>
-                    <cbc:TaxAmount currencyID="' . $moneda[$i] . '">' . $igv[$i] . '</cbc:TaxAmount>
+                    <cbc:TaxAmount currencyID="' . $moneda . '">' . $igv . '</cbc:TaxAmount>
                         <cac:TaxSubtotal>
-                        <cbc:TaxableAmount currencyID="' . $moneda[$i] . '">' . $subtotal[$i] . '</cbc:TaxableAmount>
-                        <cbc:TaxAmount currencyID="' . $moneda[$i] . '">' . $igv[$i] . '</cbc:TaxAmount>
+                        <cbc:TaxableAmount currencyID="' . $moneda . '">' . $subtotal . '</cbc:TaxableAmount>
+                        <cbc:TaxAmount currencyID="' . $moneda . '">' . $igv . '</cbc:TaxAmount>
                         <cac:TaxCategory>
                             <cac:TaxScheme>
-                                <cbc:ID>' . $codigotrib[$i] . '</cbc:ID>
-                                <cbc:Name>' . $nombretrib[$i] . '</cbc:Name>
-                                <cbc:TaxTypeCode>' . $codigointtrib[$i] . '</cbc:TaxTypeCode>
+                                <cbc:ID>' . $codigotrib . '</cbc:ID>
+                                <cbc:Name>' . $nombretrib . '</cbc:Name>
+                                <cbc:TaxTypeCode>' . $codigointtrib . '</cbc:TaxTypeCode>
                             </cac:TaxScheme>
                         </cac:TaxCategory>
                     </cac:TaxSubtotal>';
@@ -2013,7 +1699,7 @@ class Factura
           if ($icbper > 0) {
             $facturaXML .= '
                 <cac:TaxSubtotal>
-                  <cbc:TaxAmount currencyID="' . $moneda[$i] . '">' . $icbper . '</cbc:TaxAmount>
+                  <cbc:TaxAmount currencyID="' . $moneda . '">' . $icbper . '</cbc:TaxAmount>
                          <cac:TaxCategory>
                             <cac:TaxScheme>
                                <cbc:ID>7152</cbc:ID>
@@ -2029,64 +1715,63 @@ class Factura
               <!-- Fin Tributos  Cabecera-->
 
                 <cac:LegalMonetaryTotal>
-                    <cbc:LineExtensionAmount currencyID="' . $moneda[$i] . '">' . $subtotal[$i] . '</cbc:LineExtensionAmount>
-                    <cbc:TaxInclusiveAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:TaxInclusiveAmount>
-                    <cbc:AllowanceTotalAmount currencyID="' . $moneda[$i] . '">0.00</cbc:AllowanceTotalAmount>
-                    <cbc:ChargeTotalAmount currencyID="' . $moneda[$i] . '">0.00</cbc:ChargeTotalAmount>
-                    <cbc:PrepaidAmount currencyID="' . $moneda[$i] . '">0.00</cbc:PrepaidAmount>
-                    <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
+                    <cbc:LineExtensionAmount currencyID="' . $moneda . '">' . $subtotal . '</cbc:LineExtensionAmount>
+                    <cbc:TaxInclusiveAmount currencyID="' . $moneda . '">' . $total . '</cbc:TaxInclusiveAmount>
+                    <cbc:AllowanceTotalAmount currencyID="' . $moneda . '">0.00</cbc:AllowanceTotalAmount>
+                    <cbc:ChargeTotalAmount currencyID="' . $moneda . '">0.00</cbc:ChargeTotalAmount>
+                    <cbc:PrepaidAmount currencyID="' . $moneda . '">0.00</cbc:PrepaidAmount>
+                    <cbc:PayableAmount currencyID="' . $moneda . '">' . $total . '</cbc:PayableAmount>
                 </cac:LegalMonetaryTotal>';
-        } //For cabecera
-        $i = $i + 1;
+        
         $con = $con + 1;
-      } //While cabecera
+      } //foreach cabecera
 
-      $codigo = array();
-      $cantidad = array();
-      $descripcion = array();
-      $um = array();
-      $vui = array();
-      $igvi = array();
-      $pvi = array();
-      $vvi = array();
-      $sutribitem = array();
-      $aigv = array();
-      $codtrib = array();
-      $nomtrib = array();
-      $coditrib = array();
-      $codigosunat = array();
-      $numorden = array();
-      $monedaD = array();
-      $mticbperu = array();
+      $codigo = '';
+      $cantidad = '';
+      $descripcion = '';
+      $um = '';
+      $vui = '';
+      $igvi = '';
+      $pvi = '';
+      $vvi = '';
+      $sutribitem = '';
+      $aigv = '';
+      $codtrib = '';
+      $nomtrib = '';
+      $coditrib = '';
+      $codigosunat = '';
+      $numorden = '';
+      $monedaD = '';
+      $mticbperu = '';
 
-
-      while ($rowf = mysqli_fetch_assoc($resultf)) {
-        for ($if = 0; $if < count($resultf); $if++) {
-          $codigo[$if] = $rowf["codigo"];
-          $cantidad[$if] = $rowf["cantidad"];
-          $descripcion[$if] = $rowf["descripcion"];
-          $vui[$if] = $rowf["vui"];
-          $sutribitem[$if] = $rowf["sutribitem"];
-          $igvi[$if] = $rowf["igvi"];
-          $pvi[$if] = $rowf["pvi"];
-          $vvi[$if] = $rowf["vvi"];
-          $um[$if] = $rowf["um"];
+      foreach ($resultf as $key => $rowf) {
+        
+        
+          $codigo = $rowf["codigo"];
+          $cantidad = $rowf["cantidad"];
+          $descripcion = $rowf["descripcion"];
+          $vui = $rowf["vui"];
+          $sutribitem = $rowf["sutribitem"];
+          $igvi = $rowf["igvi"];
+          $pvi = $rowf["pvi"];
+          $vvi = $rowf["vvi"];
+          $um = $rowf["um"];
           $tipocompf = $rowf["tipocomp"];
           $numerodocf = $rowf["numerodoc"];
           $ruc = $datose->numero_ruc;
-          $aigv[$if] = $rowf["aigv"];
-          $codtrib[$if] = $rowf["codtrib"];
-          $nomtrib[$if] = $rowf["nomtrib"];
-          $coditrib[$if] = $rowf["coditrib"];
-          $codigosunat[$if] = $rowf["codigosunat"];
-          $numorden[$if] = $rowf["numorden"];
-          $monedaD[$if] = $rowf["moneda"];
+          $aigv = $rowf["aigv"];
+          $codtrib = $rowf["codtrib"];
+          $nomtrib = $rowf["nomtrib"];
+          $coditrib = $rowf["coditrib"];
+          $codigosunat = $rowf["codigosunat"];
+          $numorden = $rowf["numorden"];
+          $monedaD = $rowf["moneda"];
 
-          $mticbperu[$if] = $rowf["mticbperu"];
+          $mticbperu = $rowf["mticbperu"];
           $icbperD = $rowf["icbper"];
 
 
-          if ($codtrib[$if] == '9997') {
+          if ($codtrib == '9997') {
             $igv_ = "0";
           } else {
             $igv_ = $configE->igv;
@@ -2099,43 +1784,43 @@ class Factura
 
           $facturaXML .= '
                 <cac:InvoiceLine>
-                    <cbc:ID>' . $numorden[$if] . '</cbc:ID>
-                    <cbc:InvoicedQuantity unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 2, '.', '') . '</cbc:InvoicedQuantity>
-                    <cbc:LineExtensionAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:LineExtensionAmount>
+                    <cbc:ID>' . $numorden . '</cbc:ID>
+                    <cbc:InvoicedQuantity unitCode="' . $um . '">' . number_format($cantidad, 2, '.', '') . '</cbc:InvoicedQuantity>
+                    <cbc:LineExtensionAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:LineExtensionAmount>
 
                     <cac:PricingReference>
                         <cac:AlternativeConditionPrice>
-                            <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($pvi[$if], 2, '.', '') . '</cbc:PriceAmount>
+                            <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($pvi, 2, '.', '') . '</cbc:PriceAmount>
                             <cbc:PriceTypeCode>01</cbc:PriceTypeCode>
                         </cac:AlternativeConditionPrice>
                     </cac:PricingReference>
 
                     <!-- Inicio Tributos -->
                     <cac:TaxTotal>
-                        <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                        <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
                         <cac:TaxSubtotal>
-                            <cbc:TaxableAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:TaxableAmount>
-                            <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                            <cbc:TaxableAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:TaxableAmount>
+                            <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
                             <cac:TaxCategory>
                                 <cbc:Percent>' . $igv_ . '</cbc:Percent>
-                                <cbc:TaxExemptionReasonCode>' . $aigv[$if] . '</cbc:TaxExemptionReasonCode>
+                                <cbc:TaxExemptionReasonCode>' . $aigv . '</cbc:TaxExemptionReasonCode>
                                 <cac:TaxScheme>
-                                    <cbc:ID>' . $codtrib[$if] . '</cbc:ID>
-                                    <cbc:Name>' . $nomtrib[$if] . '</cbc:Name>
-                                    <cbc:TaxTypeCode>' . $coditrib[$if] . '</cbc:TaxTypeCode>
+                                    <cbc:ID>' . $codtrib . '</cbc:ID>
+                                    <cbc:Name>' . $nomtrib . '</cbc:Name>
+                                    <cbc:TaxTypeCode>' . $coditrib . '</cbc:TaxTypeCode>
                                 </cac:TaxScheme>
                             </cac:TaxCategory>
                         </cac:TaxSubtotal>';
 
 
-          if ($codigo[$if] == "ICBPER") {
+          if ($codigo == "ICBPER") {
 
             $facturaXML .= '
                 <cac:TaxSubtotal>
-                <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . $icbperD . '</cbc:TaxAmount>
-                    <cbc:BaseUnitMeasure unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 0, '.', '') . '</cbc:BaseUnitMeasure>
+                <cbc:TaxAmount currencyID="' . $monedaD . '">' . $icbperD . '</cbc:TaxAmount>
+                    <cbc:BaseUnitMeasure unitCode="' . $um . '">' . number_format($cantidad, 0, '.', '') . '</cbc:BaseUnitMeasure>
                     <cac:TaxCategory>
-                    <cbc:PerUnitAmount currencyID="' . $monedaD[$if] . '">' . number_format($mticbperu[$if], 2, '.', '') . '</cbc:PerUnitAmount>
+                    <cbc:PerUnitAmount currencyID="' . $monedaD . '">' . number_format($mticbperu, 2, '.', '') . '</cbc:PerUnitAmount>
                        <cac:TaxScheme>
                           <cbc:ID>7152</cbc:ID>
                           <cbc:Name>ICBPER</cbc:Name>
@@ -2150,18 +1835,19 @@ class Factura
                      </cac:TaxTotal>
 
                     <cac:Item>
-                        <cbc:Description><![CDATA[' . $descripcion[$if] . ']]></cbc:Description>
+                        <cbc:Description><![CDATA[' . $descripcion . ']]></cbc:Description>
                          <cac:SellersItemIdentification>
-                            <cbc:ID>' . $codigo[$if] . '</cbc:ID>
+                            <cbc:ID>' . $codigo . '</cbc:ID>
                         </cac:SellersItemIdentification>
                     </cac:Item>
 
                     <cac:Price>
-                        <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
+                        <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($vui, 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-        } //Fin for
-      } //Find e while
+        
+      } //Find e foreach
+
       $facturaXML .= '</Invoice>';
       //FIN DE CABECERA ===================================================================
 
@@ -2241,13 +1927,13 @@ class Factura
       $rutarpta = $Prutas->rutarpta; // ruta de la carpeta FIRMA
       $rutaunzip = $Prutas->unziprpta; // ruta de la carpeta rpta xml
 
-      $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-      mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-      //Si tenemos un posible error en la conexión lo mostramos
-      if (mysqli_connect_errno()) {
-        printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-        exit();
-      }
+      // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+      // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+      // //Si tenemos un posible error en la conexión lo mostramos
+      // if (mysqli_connect_errno()) {
+      //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+      //   exit();
+      // }
 
       $sqlsendmail = "SELECT
         f.idfactura,
@@ -2268,13 +1954,14 @@ class Factura
         day(f.fecha_emision_01)='$dia' and
         f.idfactura='$idfactura' and f.estado='$estado' and not f.estado='3'";
 
-      $result = mysqli_query($connect, $sqlsendmail);
+      $result = ejecutarConsultaArray( $sqlsendmail);
 
       $con = 0;
-      while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      foreach ($result as $key => $row) {
+        
+      
           $correocliente = $row["email"];
-        }
+        
 
         //Agregar=====================================================
         // Ruta del directorio donde están los archivos
@@ -2369,9 +2056,6 @@ class Factura
           ejecutarConsulta($sqlCodigo);
           return $data[0];
 
-
-
-
           // Llamada al WebService=======================================================================
         } catch (SoapFault $exception) {
           $exception = print_r($client->__getLastResponse());
@@ -2381,38 +2065,17 @@ class Factura
       } //Fin While
     } //Fin de if
 
-
-
-
-
   } //Fin de funcion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   public function regenerarxml($idfactura, $idempresa)
   {
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -2511,9 +2174,9 @@ class Factura
           f.idfactura='$idfactura' and f.estado in ('1','4','3','5') order by f.fecha_emision_01";
 
 
-    $result = mysqli_query($connect, $query);
-    $resultf = mysqli_query($connect, $querydetfac);
-    $resultcuotas = mysqli_query($connect, $querycuotas);
+    $result = ejecutarConsultaArray($query);
+    $resultf = ejecutarConsultaArray($querydetfac);
+    $resultcuotas = ejecutarConsultaArray($querycuotas);
 
     $nombrecomercial = $datose->nombre_comercial;
     $domiciliofiscal = $datose->domicilio_fiscal;
@@ -2556,14 +2219,12 @@ class Factura
     // $montocuotacredito=array();
     // $fechacuotacredito=array();
 
-
-
-
     $con = 0; //COntador de variable
     $icbper = "";
-
-    while ($row = mysqli_fetch_assoc($result)) {
-      //for($i=0; $i <= count($result); $i++){
+    foreach ($result as $key => $row) {
+      
+    
+      
       $fecha = $row["fecha"]; //Fecha emision
       $serie = $row["serie"];
       $tipodocu = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
@@ -2709,28 +2370,29 @@ class Factura
                 <cbc:Amount currencyID="' . $moneda . '">' . $total . '</cbc:Amount>
                 </cac:PaymentTerms>';
 
-        $ncuotacredito = array();
-        $montocuotacredito = array();
-        $fechacuotacredito = array();
-        $formapagocre = array();
-        $monedaf = array();
+        $ncuotacredito = '';
+        $montocuotacredito = '';
+        $fechacuotacredito = '';
+        $formapagocre = '';
+        $monedaf = '';
 
-        while ($rowb = mysqli_fetch_assoc($resultcuotas)) {
-          for ($i = 0; $i < count($resultcuotas); $i++) {
-            $ncuotacredito[$i] = $rowb["ncuota"];
-            $montocuotacredito[$i] = $rowb["montocuota"];
-            $fechacuotacredito[$i] = $rowb["fechacuota"];
-            $formapagocre[$i] = $rowb["formapago"];
-            $monedaf[$i] = $rowb["monedaf"];
+        foreach ($resultcuotas as $key => $rowb) {
+          
+       
+          
+            $ncuotacredito = $rowb["ncuota"];
+            $montocuotacredito = $rowb["montocuota"];
+            $fechacuotacredito = $rowb["fechacuota"];
+            $formapagocre = $rowb["formapago"];
+            $monedaf = $rowb["monedaf"];
 
             $facturaXML .= '<cac:PaymentTerms>
                 <cbc:ID>FormaPago</cbc:ID>
-                <cbc:PaymentMeansID>Cuota' . $ncuotacredito[$i] . '</cbc:PaymentMeansID>
-                <cbc:Amount currencyID="' . $monedaf[$i] . '">' . $montocuotacredito[$i] . '</cbc:Amount>
-                <cbc:PaymentDueDate>' . $fechacuotacredito[$i] . '</cbc:PaymentDueDate>
+                <cbc:PaymentMeansID>Cuota' . $ncuotacredito . '</cbc:PaymentMeansID>
+                <cbc:Amount currencyID="' . $monedaf . '">' . $montocuotacredito . '</cbc:Amount>
+                <cbc:PaymentDueDate>' . $fechacuotacredito . '</cbc:PaymentDueDate>
                 </cac:PaymentTerms>';
-          }
-          $i = $i + 1;
+          
         }
       }
 
@@ -2789,61 +2451,58 @@ class Factura
 
 
 
-      //}//For cabecera
-      //$i=$i+1;
+      
       $con = $con + 1;
     } //While cabecera
 
-    $codigo = array();
-    $cantidad = array();
-    $descripcion = array();
-    $um = array();
-    $vui = array();
-    $igvi = array();
-    $pvi = array();
-    $vvi = array();
-    $sutribitem = array();
-    $aigv = array();
-    $codtrib = array();
-    $nomtrib = array();
-    $coditrib = array();
-    $codigosunat = array();
-    $numorden = array();
-    $monedaD = array();
-    $mticbperu = array();
+    $codigo = '';
+    $cantidad = '';
+    $descripcion = '';
+    $um = '';
+    $vui = '';
+    $igvi = '';
+    $pvi = '';
+    $vvi = '';
+    $sutribitem = '';
+    $aigv = '';
+    $codtrib = '';
+    $nomtrib = '';
+    $coditrib = '';
+    $codigosunat = '';
+    $numorden = '';
+    $monedaD = '';
+    $mticbperu = '';
 
-
-    while ($rowf = mysqli_fetch_assoc($resultf)) {
-      for ($if = 0; $if < count($resultf); $if++) {
-        $codigo[$if] = $rowf["codigo"];
-        $cantidad[$if] = $rowf["cantidad"];
-        $descripcion[$if] = $rowf["descripcion"];
-        $vui[$if] = $rowf["vui"];
-        $sutribitem[$if] = $rowf["sutribitem"];
-        $igvi[$if] = $rowf["igvi"];
-        $pvi[$if] = $rowf["pvi"];
-        $vvi[$if] = $rowf["vvi"];
-        $um[$if] = $rowf["um"];
+    foreach ($resultf as $key => $rowf) {     
+      
+        $codigo = $rowf["codigo"];
+        $cantidad = $rowf["cantidad"];
+        $descripcion = $rowf["descripcion"];
+        $vui = $rowf["vui"];
+        $sutribitem = $rowf["sutribitem"];
+        $igvi = $rowf["igvi"];
+        $pvi = $rowf["pvi"];
+        $vvi = $rowf["vvi"];
+        $um = $rowf["um"];
         $tipocompf = $rowf["tipocomp"];
         $numerodocf = $rowf["numerodoc"];
         $ruc = $datose->numero_ruc;
-        $aigv[$if] = $rowf["aigv"];
-        $codtrib[$if] = $rowf["codtrib"];
-        $nomtrib[$if] = $rowf["nomtrib"];
-        $coditrib[$if] = $rowf["coditrib"];
-        $codigosunat[$if] = $rowf["codigosunat"];
-        $numorden[$if] = $rowf["numorden"];
-        $monedaD[$if] = $rowf["moneda"];
+        $aigv = $rowf["aigv"];
+        $codtrib = $rowf["codtrib"];
+        $nomtrib = $rowf["nomtrib"];
+        $coditrib = $rowf["coditrib"];
+        $codigosunat = $rowf["codigosunat"];
+        $numorden = $rowf["numorden"];
+        $monedaD = $rowf["moneda"];
 
-        $mticbperu[$if] = $rowf["mticbperu"];
+        $mticbperu = $rowf["mticbperu"];
         $icbperD = $rowf["icbper"];
 
-        if ($codtrib[$if] == '9997') {
+        if ($codtrib == '9997') {
           $igv_ = "0";
         } else {
           $igv_ = $configE->igv;
         }
-
 
         /* Número de orden del Ítem
            Cantidad y Unidad de medida por ítem
@@ -2855,15 +2514,12 @@ class Factura
 
         $facturaXML .= '
                 <cac:InvoiceLine>
-                    <cbc:ID>' . $numorden[$if] . '</cbc:ID>
-                    <cbc:InvoicedQuantity unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 2, '.', '') . '</cbc:InvoicedQuantity>
-                    <cbc:LineExtensionAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:LineExtensionAmount>
-
-
-
+                    <cbc:ID>' . $numorden . '</cbc:ID>
+                    <cbc:InvoicedQuantity unitCode="' . $um . '">' . number_format($cantidad, 2, '.', '') . '</cbc:InvoicedQuantity>
+                    <cbc:LineExtensionAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:LineExtensionAmount>
                     <cac:PricingReference>
                         <cac:AlternativeConditionPrice>
-                            <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($pvi[$if], 2, '.', '') . '</cbc:PriceAmount>
+                            <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($pvi, 2, '.', '') . '</cbc:PriceAmount>
                             <cbc:PriceTypeCode>01</cbc:PriceTypeCode>
                         </cac:AlternativeConditionPrice>
                     </cac:PricingReference>
@@ -2872,52 +2528,48 @@ class Factura
               <cbc:ChargeIndicator>true</cbc:ChargeIndicator>
               <cbc:Amount currencyID="PEN">0.00</cbc:Amount>
               </cac:AllowanceCharge>-->
-
-
-
                     <!-- Inicio Tributos -->
                     <cac:TaxTotal>
-                        <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                        <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
 
- <!--<cac:TaxSubtotal>
-        <cbc:TaxableAmount currencyID="PEN">21.19</cbc:TaxableAmount>
-        <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
-        <cac:TaxCategory>
-          <cbc:ID schemeAgencyName="United Nations Economic Commission for Europe" schemeID="UN/ECE 5305" schemeName="Tax Category Identifier">S</cbc:ID>
-          <cbc:Percent>0.00</cbc:Percent>
-          <cbc:TierRange>0</cbc:TierRange>
-          <cac:TaxScheme>
-          <cbc:ID schemeAgencyName="PE:SUNAT" schemeID="UN/ECE 5153" schemeName="Codigo de tributos">2000</cbc:ID>
-          <cbc:Name>ISC</cbc:Name>
-          <cbc:TaxTypeCode>EXC</cbc:TaxTypeCode>
-          </cac:TaxScheme>
-        </cac:TaxCategory>
-</cac:TaxSubtotal>-->
-
+              <!--<cac:TaxSubtotal>
+                      <cbc:TaxableAmount currencyID="PEN">21.19</cbc:TaxableAmount>
+                      <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+                      <cac:TaxCategory>
+                        <cbc:ID schemeAgencyName="United Nations Economic Commission for Europe" schemeID="UN/ECE 5305" schemeName="Tax Category Identifier">S</cbc:ID>
+                        <cbc:Percent>0.00</cbc:Percent>
+                        <cbc:TierRange>0</cbc:TierRange>
+                        <cac:TaxScheme>
+                        <cbc:ID schemeAgencyName="PE:SUNAT" schemeID="UN/ECE 5153" schemeName="Codigo de tributos">2000</cbc:ID>
+                        <cbc:Name>ISC</cbc:Name>
+                        <cbc:TaxTypeCode>EXC</cbc:TaxTypeCode>
+                        </cac:TaxScheme>
+                      </cac:TaxCategory>
+              </cac:TaxSubtotal>-->
 
                         <cac:TaxSubtotal>
-                            <cbc:TaxableAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:TaxableAmount>
-                            <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                            <cbc:TaxableAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:TaxableAmount>
+                            <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
                             <cac:TaxCategory>
                                 <cbc:Percent>' . $igv_ . '</cbc:Percent>
-                                <cbc:TaxExemptionReasonCode>' . $aigv[$if] . '</cbc:TaxExemptionReasonCode>
+                                <cbc:TaxExemptionReasonCode>' . $aigv . '</cbc:TaxExemptionReasonCode>
                                 <cac:TaxScheme>
-                                    <cbc:ID>' . $codtrib[$if] . '</cbc:ID>
-                                    <cbc:Name>' . $nomtrib[$if] . '</cbc:Name>
-                                    <cbc:TaxTypeCode>' . $coditrib[$if] . '</cbc:TaxTypeCode>
+                                    <cbc:ID>' . $codtrib . '</cbc:ID>
+                                    <cbc:Name>' . $nomtrib . '</cbc:Name>
+                                    <cbc:TaxTypeCode>' . $coditrib . '</cbc:TaxTypeCode>
                                 </cac:TaxScheme>
                             </cac:TaxCategory>
                         </cac:TaxSubtotal>';
 
 
-        if ($codigo[$if] == "ICBPER") {
+        if ($codigo == "ICBPER") {
 
           $facturaXML .= '
                 <cac:TaxSubtotal>
-                <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . $icbperD . '</cbc:TaxAmount>
-                    <cbc:BaseUnitMeasure unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 0, '.', '') . '</cbc:BaseUnitMeasure>
+                <cbc:TaxAmount currencyID="' . $monedaD . '">' . $icbperD . '</cbc:TaxAmount>
+                    <cbc:BaseUnitMeasure unitCode="' . $um . '">' . number_format($cantidad, 0, '.', '') . '</cbc:BaseUnitMeasure>
                     <cac:TaxCategory>
-                    <cbc:PerUnitAmount currencyID="' . $monedaD[$if] . '">' . number_format($mticbperu[$if], 2, '.', '') . '</cbc:PerUnitAmount>
+                    <cbc:PerUnitAmount currencyID="' . $monedaD . '">' . number_format($mticbperu, 2, '.', '') . '</cbc:PerUnitAmount>
                        <cac:TaxScheme>
                           <cbc:ID>7152</cbc:ID>
                           <cbc:Name>ICBPER</cbc:Name>
@@ -2928,22 +2580,21 @@ class Factura
         };
 
 
-        $facturaXML .= '
-                     </cac:TaxTotal>
+        $facturaXML .= '</cac:TaxTotal>
+            <cac:Item>
+                <cbc:Description><![CDATA[' . $descripcion . ']]></cbc:Description>
+                  <cac:SellersItemIdentification>
+                    <cbc:ID>' . $codigo . '</cbc:ID>
+                </cac:SellersItemIdentification>
+            </cac:Item>
 
-                    <cac:Item>
-                        <cbc:Description><![CDATA[' . $descripcion[$if] . ']]></cbc:Description>
-                         <cac:SellersItemIdentification>
-                            <cbc:ID>' . $codigo[$if] . '</cbc:ID>
-                        </cac:SellersItemIdentification>
-                    </cac:Item>
-
-                    <cac:Price>
-                        <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
-                    </cac:Price>
-                </cac:InvoiceLine>';
-      } //Fin for
+            <cac:Price>
+                <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($vui, 5, '.', '') . '</cbc:PriceAmount>
+            </cac:Price>
+        </cac:InvoiceLine>';
+      
     } //Find e while
+
     $facturaXML .= '</Invoice>';
     //FIN DE CABECERA ===================================================================
 
@@ -2995,15 +2646,7 @@ class Factura
     return $rpta;
   } //Fin de funcion
 
-
-
-
-
-
-
-
-  public function enviarxmlSUNAT($idfactura, $idempresa)
-  {
+  public function enviarxmlSUNAT($idfactura, $idempresa)  {
     require_once "../modelos/Factura.php";
     $factura = new Factura();
     $datos = $factura->correo();
@@ -3025,13 +2668,13 @@ class Factura
     $rutarpta = $Prutas->rutarpta; // ruta de la carpeta FIRMA
     $rutaunzip = $Prutas->unziprpta; // ruta de la carpeta rpta xml
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     $sqlsendmail = "SELECT
         f.idfactura,
@@ -3049,13 +2692,13 @@ class Factura
         where
         f.idfactura='$idfactura' and e.idempresa='$idempresa' ";
 
-    $result = mysqli_query($connect, $sqlsendmail);
+    $result = ejecutarConsultaArray( $sqlsendmail);
 
     $con = 0;
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+    foreach ($result as $key => $row) {     
+      
         $correocliente = $row["email"];
-      }
+      
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3214,13 +2857,13 @@ class Factura
     $rutarpta = $Prutas->rutarpta; // ruta de la carpeta FIRMA
     $rutaunzip = $Prutas->unziprpta; // ruta de la carpeta rpta xml
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     $sqlsendmail = "SELECT
         f.idfactura,
@@ -3240,13 +2883,14 @@ class Factura
         where
         f.idfactura='$idfactura' and e.idempresa='$idempresa' ";
 
-    $result = mysqli_query($connect, $sqlsendmail);
+    $result = ejecutarConsultaArray($sqlsendmail);
 
     $con = 0;
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+
+    foreach ($result as $key => $row) {    
+      
         $correocliente = $row["email"];
-      }
+      
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3361,10 +3005,6 @@ class Factura
     //return $cdr->statusCode;;
   }
 
-
-
-
-
   public function enviarxmlSUNATbajas($idfactura, $idempresa)
   {
     require_once "../modelos/Factura.php";
@@ -3388,13 +3028,13 @@ class Factura
     $rutarpta = $Prutas->rutarpta; // ruta de la carpeta FIRMA
     $rutaunzip = $Prutas->unziprpta; // ruta de la carpeta rpta xml
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     $sqlsendmail = "SELECT
         f.idfactura,
@@ -3412,13 +3052,15 @@ class Factura
         where
         f.idfactura='$idfactura' and e.idempresa='$idempresa' ";
 
-    $result = mysqli_query($connect, $sqlsendmail);
+    $result = ejecutarConsultaArray( $sqlsendmail);
 
     $con = 0;
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+
+    foreach ($result as $key => $row) {
+      
+      
         $correocliente = $row["email"];
-      }
+      
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3518,22 +3160,12 @@ class Factura
     //return $exception;
   }
 
-
-  public function traercorreocliente($idfactura)
-  {
-    $sql = "SELECT
-        p.email
-        from
-        factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'";
+  public function traercorreocliente($idfactura) {
+    $sql = "SELECT  p.email from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'";
     return ejecutarConsultaSimpleFila($sql);
   }
 
-
-
-
-
-  public function enviarcorreo($idfactura, $ema)
-  {
+  public function enviarcorreo($idfactura, $ema) {
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -3549,20 +3181,19 @@ class Factura
     $rutarpta = $Prutas->rutarpta; // ruta de la carpeta FIRMA
     $rutasalidafactura = $Prutas->salidafacturas;
 
-
     $archivoFactura = "";
     $archivoFacturaRpta = "";
     $fichero = "";
     $ficherorpta = "";
 
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    // $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    // mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
+    // //Si tenemos un posible error en la conexión lo mostramos
+    // if (mysqli_connect_errno()) {
+    //   printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
+    //   exit();
+    // }
 
     $sqlsendmail = "SELECT
         f.idfactura,
@@ -3581,14 +3212,14 @@ class Factura
         where
         f.idfactura='$idfactura'";
 
-    $result = mysqli_query($connect, $sqlsendmail);
+    $result = ejecutarConsultaArray( $sqlsendmail);
 
     $con = 0;
 
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+    foreach ($result as $key => $row) {     
+      
         $correocliente = $row["email"];
-      }
+      
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3760,16 +3391,6 @@ class Factura
     //Guardar en tabla envicorreo =========================================
   }
 
-
-
-
-
-
-
-
-
-
-
   public function enviarUltimoComprobantecorreo($idempresa)
   {
 
@@ -3784,15 +3405,7 @@ class Factura
     $Rrutas = $rutas->mostrar2($idempresa);
     $Prutas = $Rrutas->fetch_object();
     $rutafirma = $Prutas->rutafirma; // ruta de la carpeta FIRMA
-    $rutarpta = $Prutas->rutarpta; // ruta de la carpeta FIRMA
-
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    $rutarpta = $Prutas->rutarpta; // ruta de la carpeta FIRMA      
 
     $sqlsendmail = "SELECT
         f.idfactura,
@@ -3809,14 +3422,14 @@ class Factura
         f.idempresa=e.idempresa
         where e.idempresa='$idempresa' order by f.idfactura desc limit 1";
 
-    $result = mysqli_query($connect, $sqlsendmail);
+    $result = ejecutarConsultaArray( $sqlsendmail);
 
     $con = 0;
 
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+    foreach ($result as $key => $row) {
+
         $correocliente = $row["email"];
-      }
+      
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -4178,26 +3791,20 @@ class Factura
     return ejecutarConsulta($sql);
   }
 
-  public function listarValidarcaja($ano, $mes, $dia, $idempresa)
-  {
-    $sql = "SELECT
-        fecha,
-        monto,
-        concepto,
-        tipo,
-        idempresa
-        from
-(select c.fecha, ic.monto, ic.concepto, ic.tipo, c.idempresa from
-caja c inner join ingresocaja ic on c.idcaja=ic.idcaja inner join empresa e on c.idempresa=e.idempresa
- union all
- select c.fecha, sc.monto, sc.concepto, sc.tipo, c.idempresa from
-caja c inner join salidacaja sc on c.idcaja=sc.idcaja inner join empresa e on c.idempresa=e.idempresa)
-as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' and idempresa='$idempresa'";
+  public function listarValidarcaja($ano, $mes, $dia, $idempresa) {
+    $sql = "SELECT fecha, monto, concepto, tipo, idempresa
+    from (
+      select c.fecha, ic.monto, ic.concepto, ic.tipo, c.idempresa 
+      from caja c inner join ingresocaja ic on c.idcaja=ic.idcaja inner join empresa e on c.idempresa=e.idempresa
+      union all
+      select c.fecha, sc.monto, sc.concepto, sc.tipo, c.idempresa 
+      from caja c inner join salidacaja sc on c.idcaja=sc.idcaja inner join empresa e on c.idempresa=e.idempresa
+    ) as tabla 
+    where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' and idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
-  public function listarDR($ano, $mes, $idempresa)
-  {
+  public function listarDR($ano, $mes, $idempresa) {
     $sql = "SELECT
         idfactura,
         idcliente,
@@ -4249,8 +3856,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
     return ejecutarConsulta($sql);
   }
 
-  public function listarDRdetallado($idcomp, $idempresa)
-  {
+  public function listarDRdetallado($idcomp, $idempresa) {
     $sql = "SELECT
         ncd.codigo_nota,
         ncd.numeroserienota as numero,
@@ -4269,8 +3875,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
   }
 
 
-  public function ventacabecera($idfactura, $idempresa)
-  {
+  public function ventacabecera($idfactura, $idempresa) {
     $sql = "SELECT
         f.idfactura,
         f.idcliente,
@@ -4309,8 +3914,8 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         f.visa,
         f.yape,
         f.plin,
-        f.mastercard,
-        f.deposito,
+        f.mastercard as masterC,
+        f.deposito as dep,
         f.tipo_moneda_28 as moneda,
         f.hashc,
         f.descripcion_leyenda_31_2,
@@ -4331,12 +3936,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
     return ejecutarConsulta($sql);
   }
 
-
-
-
-
-  public function ventadetalle($idfactura)
-  {
+  public function ventadetalle($idfactura) {
     $sql = "SELECT
         a.nombre as articulo,
         a.codigo,
@@ -4353,7 +3953,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         dfa.numero_orden_item_33 as norden,
         um.nombreum as unidad_medida,
         dfa.numero_orden_item_33 as norden
-
         from
         detalle_fac_art dfa inner join articulo a on dfa.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
         where
@@ -4361,102 +3960,70 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
     return ejecutarConsulta($sql);
   }
 
-  public function listarD()
-  {
+  public function listarD() {
     $sql = "SELECT documento from correlativo where documento='factura' or documento='boleta' or documento='nota de credito'or documento='nota de debito' group by documento";
     return ejecutarConsulta($sql);
   }
 
-
-  public function listarS($serie)
-  {
+  public function listarS($serie) {
     $sql = "SELECT serie from correlativo where documento='$serie'";
     return ejecutarConsulta($sql);
   }
 
-  public function sumarC($tipo_comprobante, $serie_comprobante)
-  {
-
+  public function sumarC($tipo_comprobante, $serie_comprobante) {
     $sql = "SELECT (numero + 1) as addnumero from `correlativo` where documento='$tipo_comprobante' and serie='$serie_comprobante' order by numero desc limit 1";
     return ejecutarConsulta($sql);
   }
 
-  public function autogenerarN()
-  {
-
+  public function autogenerarN() {
     $sql = "SELECT (idfactura + 1) as Nnum from factura order by idfactura desc limit 1";
     return ejecutarConsulta($sql);
   }
 
-  public function datosemp($idempresa)
-  {
-
+  public function datosemp($idempresa) {
     $sql = "SELECT * from empresa where idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
-  public function datosempImpresiones($idempresa)
-  {
-
+  public function datosempImpresiones($idempresa) {
     $sql = "SELECT * from empresa e inner join rutas r on e.idempresa=r.idempresa where e.idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
-  public function datosempExcel()
-  {
-
+  public function datosempExcel() {
     $sql = "SELECT * from empresa";
     return ejecutarConsulta($sql);
   }
 
-
-  public function configuraciones($idempresa)
-  {
-
+  public function configuraciones($idempresa) {
     $sql = "SELECT * from configuraciones where idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
-
-  public function tributo()
-  {
-
-    $sql = "SELECT * from catalogo5 where estado='1'";
+  public function tributo() {
+    $sql = "SELECT * from catalogo5 where estado='1' ORDER BY descripcion asc";
     return ejecutarConsulta($sql);
   }
 
-  public function afectacionigv()
-  {
-
+  public function afectacionigv() {
     $sql = "SELECT * from catalogo7";
     return ejecutarConsulta($sql);
   }
 
-  public function correo()
-  {
-
+  public function correo() {
     $sql = "SELECT * from correo";
     return ejecutarConsulta($sql);
   }
 
 
-  public function downftp($idfactura, $idempresa)
-  {
+  public function downftp($idfactura, $idempresa) {
 
     //Inclusion de la tabla RUTAS
     require_once "../modelos/Rutas.php";
     $rutas = new Rutas();
     $Rrutas = $rutas->mostrar2($idempresa);
     $Prutas = $Rrutas->fetch_object();
-    $rutadata = $Prutas->rutadata; // ruta de la carpeta data
-
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    $rutadata = $Prutas->rutadata; // ruta de la carpeta data    
 
     $sql = "SELECT
         f.idfactura,
@@ -4475,10 +4042,11 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         f.idfactura='$idfactura' and e.idempresa='$idempresa' ";
     $result = mysqli_query($connect, $sql);
     $con = 0;
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
-        $correocliente = $row["email"];
-      }
+
+    foreach ($result as $key => $row) {
+      
+      $correocliente = $row["email"];
+      
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
       $path = $rutadata;
@@ -4586,28 +4154,17 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
   }
 
 
-  public function AutocompletarRuc($buscar)
-  {
+  public function AutocompletarRuc($buscar) {    
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
+    $sql = "SELECT numero_documento, razon_social, domicilio_fiscal from persona where numero_documento like '%$buscar' and estado='1' and tipo_persona='cliente'";    
+    $result = ejecutarConsultaArray( $sql);
+
+    $datos = [];
+    foreach ($result as $key => $fila) {    
+      $datos[] = $fila['numero_documento'];
     }
 
-    $sql = "SELECT numero_documento, razon_social, domicilio_fiscal from persona where numero_documento like '%$buscar' and estado='1' and tipo_persona='cliente'";
-
-    // Asignamos el valor del resultado de la consulta SQL a la variable $result
-    $result = mysqli_query($connect, $sql);
-
-    if ($result->num_rows > 0) {
-      while ($fila = $result->fecth_array()) {
-        $datos[] = $fila['numero_documento'];
-      }
-      echo json_encode($datos);
-    }
+    echo json_encode($datos);    
   }
 
 
@@ -4788,36 +4345,25 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
   }
 
 
-  public function duplicar($idfactura)
-  {
+  public function duplicar($idfactura) {
 
-    $sw = true;
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    $sw = true;    
 
     $seriebol = "SELECT left(numeracion_08,4) as serie from factura where idfactura='$idfactura'";
-    $buscaserie = mysqli_query($connect, $seriebol);
+    $buscaserie = ejecutarConsultaArray($seriebol);
     $serie = "";
 
-    while ($row = mysqli_fetch_assoc($buscaserie)) {
-      for ($i = 0; $i < count($buscaserie); $i++) {
-        $serie = $row["serie"];
-      }
+    foreach ($buscaserie as $key => $row) {       
+      $serie = $row["serie"];      
     }
 
     $buscanumero = "SELECT numero from numeracion  where serie='$serie'";
-    $numeroobt = mysqli_query($connect, $buscanumero);
+    $numeroobt = ejecutarConsultaArray( $buscanumero);
 
     $nnumero = 0;
-    while ($row = mysqli_fetch_assoc($numeroobt)) {
-      for ($i = 0; $i < count($numeroobt); $i++) {
-        $nnumero = $row["numero"];
-      }
+
+    foreach ($numeroobt as $key => $row) {      
+      $nnumero = $row["numero"];      
     }
 
     $nnumero = $nnumero + 1;
@@ -4965,45 +4511,43 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         factura f inner join detalle_fac_art df on f.idfactura=df.idfactura
         where f.idfactura='$idfactura'";
 
-    $resultdf = mysqli_query($connect, $sqldetalle1);
+    $resultdf = ejecutarConsultaArray( $sqldetalle1);
 
-    $idarticulo = array();
-    $numero_orden_item_33 = array();
-    $cantidad_item_12 = array();
-    $codigo_precio_15_1 = array();
-    $precio_venta_item_15_2 = array();
-    $afectacion_igv_item_16_1 = array();
-    $afectacion_igv_item_16_2 = array();
-    $afectacion_igv_item_16_3 = array();
-    $afectacion_igv_item_16_4 = array();
-    $afectacion_igv_item_16_5 = array();
-    $afectacion_igv_item_16_6 = array();
-    $igv_item = array();
-    $valor_uni_item_14 = array();
-    $valor_venta_item_21 = array();
-    $dcto_item = array();
-    $descdet = array();
+    $idarticulo = '';
+    $numero_orden_item_33 = '';
+    $cantidad_item_12 = '';
+    $codigo_precio_15_1 = '';
+    $precio_venta_item_15_2 = '';
+    $afectacion_igv_item_16_1 = '';
+    $afectacion_igv_item_16_2 = '';
+    $afectacion_igv_item_16_3 = '';
+    $afectacion_igv_item_16_4 = '';
+    $afectacion_igv_item_16_5 = '';
+    $afectacion_igv_item_16_6 = '';
+    $igv_item = '';
+    $valor_uni_item_14 = '';
+    $valor_venta_item_21 = '';
+    $dcto_item = '';
+    $descdet = '';
 
+    foreach ($resultdf as $key => $row) {
 
-    while ($row = mysqli_fetch_assoc($resultdf)) {
-      for ($i = 0; $i < count($resultdf); $i++) {
-
-        $idarticulo[$i] = $row["idarticulo"];
-        $numero_orden_item_33[$i] = $row["numero_orden_item_33"];
-        $cantidad_item_12[$i] = $row["cantidad_item_12"];
-        $codigo_precio_15_1[$i] = $row["codigo_precio_15_1"];
-        $precio_venta_item_15_2[$i] = $row["precio_venta_item_15_2"];
-        $afectacion_igv_item_16_1[$i] = $row["afectacion_igv_item_16_1"];
-        $afectacion_igv_item_16_2[$i] = $row["afectacion_igv_item_16_2"];
-        $afectacion_igv_item_16_3[$i] = $row["afectacion_igv_item_16_3"];
-        $afectacion_igv_item_16_4[$i] = $row["afectacion_igv_item_16_4"];
-        $afectacion_igv_item_16_5[$i] = $row["afectacion_igv_item_16_5"];
-        $afectacion_igv_item_16_6[$i] = $row["afectacion_igv_item_16_6"];
-        $igv_item[$i] = $row["igv_item"];
-        $valor_uni_item_14[$i] = $row["valor_uni_item_14"];
-        $valor_venta_item_21[$i] = $row["valor_venta_item_21"];
-        $dcto_item[$i] = $row["dcto_item"];
-        $descdet[$i] = $row["descdet"];
+        $idarticulo = $row["idarticulo"];
+        $numero_orden_item_33 = $row["numero_orden_item_33"];
+        $cantidad_item_12 = $row["cantidad_item_12"];
+        $codigo_precio_15_1 = $row["codigo_precio_15_1"];
+        $precio_venta_item_15_2 = $row["precio_venta_item_15_2"];
+        $afectacion_igv_item_16_1 = $row["afectacion_igv_item_16_1"];
+        $afectacion_igv_item_16_2 = $row["afectacion_igv_item_16_2"];
+        $afectacion_igv_item_16_3 = $row["afectacion_igv_item_16_3"];
+        $afectacion_igv_item_16_4 = $row["afectacion_igv_item_16_4"];
+        $afectacion_igv_item_16_5 = $row["afectacion_igv_item_16_5"];
+        $afectacion_igv_item_16_6 = $row["afectacion_igv_item_16_6"];
+        $igv_item = $row["igv_item"];
+        $valor_uni_item_14 = $row["valor_uni_item_14"];
+        $valor_venta_item_21 = $row["valor_venta_item_21"];
+        $dcto_item = $row["dcto_item"];
+        $descdet = $row["descdet"];
 
         $sqldetalle = "insert into
          detalle_fac_art
@@ -5029,71 +4573,54 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         values
         (
         '$idfacturaNew',
-        '$idarticulo[$i]',
-        '$numero_orden_item_33[$i]',
-        '$cantidad_item_12[$i]',
-        '$codigo_precio_15_1[$i]',
-        '$precio_venta_item_15_2[$i]',
-        '$afectacion_igv_item_16_1[$i]',
-        '$afectacion_igv_item_16_2[$i]',
-        '$afectacion_igv_item_16_3[$i]',
-        '$afectacion_igv_item_16_4[$i]',
-        '$afectacion_igv_item_16_5[$i]',
-        '$afectacion_igv_item_16_6[$i]',
-        '$igv_item[$i]',
-        '$valor_uni_item_14[$i]',
-        '$valor_venta_item_21[$i]',
-        '$dcto_item[$i]',
-        '$descdet[$i]'
+        '$idarticulo',
+        '$numero_orden_item_33',
+        '$cantidad_item_12',
+        '$codigo_precio_15_1',
+        '$precio_venta_item_15_2',
+        '$afectacion_igv_item_16_1',
+        '$afectacion_igv_item_16_2',
+        '$afectacion_igv_item_16_3',
+        '$afectacion_igv_item_16_4',
+        '$afectacion_igv_item_16_5',
+        '$afectacion_igv_item_16_6',
+        '$igv_item',
+        '$valor_uni_item_14',
+        '$valor_venta_item_21',
+        '$dcto_item',
+        '$descdet'
         )";
-      }
+      
       $detalle = ejecutarConsulta($sqldetalle); // or $sw=false;
-      $i++;
+      
     }
 
     return $detalle;
   }
 
+  public function crearnoti($idfactura) {
 
-
-
-
-  public function crearnoti($idfactura)
-  {
-
-    $sw = true;
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    $sw = true;    
 
     $seriebol = "SELECT left(numeracion_08,4) as serie from factura where idfactura='$idfactura'";
-    $buscaserie = mysqli_query($connect, $seriebol);
+    $buscaserie = ejecutarConsultaArray( $seriebol);
     $serie = "";
 
-    while ($row = mysqli_fetch_assoc($buscaserie)) {
-      for ($i = 0; $i < count($buscaserie); $i++) {
-        $serie = $row["serie"];
-      }
+    foreach ($buscaserie as $key => $row) {  
+      $serie = $row["serie"];      
     }
 
     $buscanumero = "SELECT numero from numeracion  where serie='$serie'";
-    $numeroobt = mysqli_query($connect, $buscanumero);
+    $numeroobt = ejecutarConsultaArray( $buscanumero);
 
     $nnumero = 0;
-    while ($row = mysqli_fetch_assoc($numeroobt)) {
-      for ($i = 0; $i < count($numeroobt); $i++) {
-        $nnumero = $row["numero"];
-      }
+    foreach ($numeroobt as $key => $row) {       
+      $nnumero = $row["numero"];      
     }
 
     $nnumero = $nnumero + 1;
 
-
-    $sqlcabecera = "insert into factura (
+    $sqlcabecera = "INSERT into factura (
         idusuario,
         fecha_emision_01,
         firmadigital_02,
@@ -5209,8 +4736,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
     ejecutarConsulta($updatenumeracion);
     //ejecutarConsulta($sqlcabecera) or $sw=false;
 
-    $sqldetalle1 = "
-         select
+    $sqldetalle1 = "SELECT
         iddetalle,
         df.idfactura,
         idarticulo,
@@ -5233,45 +4759,43 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         factura f inner join detalle_fac_art df on f.idfactura=df.idfactura
         where f.idfactura='$idfactura'";
 
-    $resultdf = mysqli_query($connect, $sqldetalle1);
+    $resultdf = ejecutarConsultaArray( $sqldetalle1);
 
-    $idarticulo = array();
-    $numero_orden_item_33 = array();
-    $cantidad_item_12 = array();
-    $codigo_precio_15_1 = array();
-    $precio_venta_item_15_2 = array();
-    $afectacion_igv_item_16_1 = array();
-    $afectacion_igv_item_16_2 = array();
-    $afectacion_igv_item_16_3 = array();
-    $afectacion_igv_item_16_4 = array();
-    $afectacion_igv_item_16_5 = array();
-    $afectacion_igv_item_16_6 = array();
-    $igv_item = array();
-    $valor_uni_item_14 = array();
-    $valor_venta_item_21 = array();
-    $dcto_item = array();
-    $descdet = array();
+    $idarticulo = '';
+    $numero_orden_item_33 = '';
+    $cantidad_item_12 = '';
+    $codigo_precio_15_1 = '';
+    $precio_venta_item_15_2 = '';
+    $afectacion_igv_item_16_1 = '';
+    $afectacion_igv_item_16_2 = '';
+    $afectacion_igv_item_16_3 = '';
+    $afectacion_igv_item_16_4 = '';
+    $afectacion_igv_item_16_5 = '';
+    $afectacion_igv_item_16_6 = '';
+    $igv_item = '';
+    $valor_uni_item_14 = '';
+    $valor_venta_item_21 = '';
+    $dcto_item = '';
+    $descdet = '';
 
+    foreach ($resultdf as $key => $row) {        
 
-    while ($row = mysqli_fetch_assoc($resultdf)) {
-      for ($i = 0; $i < count($resultdf); $i++) {
-
-        $idarticulo[$i] = $row["idarticulo"];
-        $numero_orden_item_33[$i] = $row["numero_orden_item_33"];
-        $cantidad_item_12[$i] = $row["cantidad_item_12"];
-        $codigo_precio_15_1[$i] = $row["codigo_precio_15_1"];
-        $precio_venta_item_15_2[$i] = $row["precio_venta_item_15_2"];
-        $afectacion_igv_item_16_1[$i] = $row["afectacion_igv_item_16_1"];
-        $afectacion_igv_item_16_2[$i] = $row["afectacion_igv_item_16_2"];
-        $afectacion_igv_item_16_3[$i] = $row["afectacion_igv_item_16_3"];
-        $afectacion_igv_item_16_4[$i] = $row["afectacion_igv_item_16_4"];
-        $afectacion_igv_item_16_5[$i] = $row["afectacion_igv_item_16_5"];
-        $afectacion_igv_item_16_6[$i] = $row["afectacion_igv_item_16_6"];
-        $igv_item[$i] = $row["igv_item"];
-        $valor_uni_item_14[$i] = $row["valor_uni_item_14"];
-        $valor_venta_item_21[$i] = $row["valor_venta_item_21"];
-        $dcto_item[$i] = $row["dcto_item"];
-        $descdet[$i] = $row["descdet"];
+        $idarticulo = $row["idarticulo"];
+        $numero_orden_item_33 = $row["numero_orden_item_33"];
+        $cantidad_item_12 = $row["cantidad_item_12"];
+        $codigo_precio_15_1 = $row["codigo_precio_15_1"];
+        $precio_venta_item_15_2 = $row["precio_venta_item_15_2"];
+        $afectacion_igv_item_16_1 = $row["afectacion_igv_item_16_1"];
+        $afectacion_igv_item_16_2 = $row["afectacion_igv_item_16_2"];
+        $afectacion_igv_item_16_3 = $row["afectacion_igv_item_16_3"];
+        $afectacion_igv_item_16_4 = $row["afectacion_igv_item_16_4"];
+        $afectacion_igv_item_16_5 = $row["afectacion_igv_item_16_5"];
+        $afectacion_igv_item_16_6 = $row["afectacion_igv_item_16_6"];
+        $igv_item = $row["igv_item"];
+        $valor_uni_item_14 = $row["valor_uni_item_14"];
+        $valor_venta_item_21 = $row["valor_venta_item_21"];
+        $dcto_item = $row["dcto_item"];
+        $descdet = $row["descdet"];
 
         $sqldetalle = "insert into
          detalle_fac_art
@@ -5297,43 +4821,32 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
         values
         (
         '$idfacturaNew',
-        '$idarticulo[$i]',
-        '$numero_orden_item_33[$i]',
-        '$cantidad_item_12[$i]',
-        '$codigo_precio_15_1[$i]',
-        '$precio_venta_item_15_2[$i]',
-        '$afectacion_igv_item_16_1[$i]',
-        '$afectacion_igv_item_16_2[$i]',
-        '$afectacion_igv_item_16_3[$i]',
-        '$afectacion_igv_item_16_4[$i]',
-        '$afectacion_igv_item_16_5[$i]',
-        '$afectacion_igv_item_16_6[$i]',
-        '$igv_item[$i]',
-        '$valor_uni_item_14[$i]',
-        '$valor_venta_item_21[$i]',
-        '$dcto_item[$i]',
-        '$descdet[$i]'
+        '$idarticulo',
+        '$numero_orden_item_33',
+        '$cantidad_item_12',
+        '$codigo_precio_15_1',
+        '$precio_venta_item_15_2',
+        '$afectacion_igv_item_16_1',
+        '$afectacion_igv_item_16_2',
+        '$afectacion_igv_item_16_3',
+        '$afectacion_igv_item_16_4',
+        '$afectacion_igv_item_16_5',
+        '$afectacion_igv_item_16_6',
+        '$igv_item',
+        '$valor_uni_item_14',
+        '$valor_venta_item_21',
+        '$dcto_item',
+        '$descdet'
         )";
-      }
+      
       $detalle = ejecutarConsulta($sqldetalle); // or $sw=false;
-      $i++;
+      
     }
 
     return $detalle;
   }
 
-
-
-
-  public function solofirma($ano, $mes, $dia, $idfactura, $estado, $check, $idempresa)
-  {
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+  public function solofirma($ano, $mes, $dia, $idfactura, $estado, $check, $idempresa) {    
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -5341,8 +4854,6 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
     $datose = $datos->fetch_object();
     $configuraciones = $factura->configuraciones($idempresa);
     $configE = $configuraciones->fetch_object();
-
-
 
     //Inclusion de la tabla RUTAS
     require_once "../modelos/Rutas.php";
@@ -5419,8 +4930,8 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
           year(f.fecha_emision_01)='$ano' and  month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by f.fecha_emision_01";
 
 
-      $result = mysqli_query($connect, $query);
-      $resultf = mysqli_query($connect, $querydetfac);
+      $result = ejecutarConsultaArray( $query);
+      $resultf = ejecutarConsultaArray( $querydetfac);
 
       $nombrecomercial = $datose->nombre_comercial;
       $domiciliofiscal = $datose->domicilio_fiscal;
@@ -5431,34 +4942,31 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       $interior = $datose->interior;
       $codigopais = $datose->codigopais;
 
-
-
-
       //Parametros de salida
-      $fecha = array();
-      $hora = array();
-      $serie = array();
-      $tipodocu = array();
-      $numdocu = array();
-      $rasoc = array();
-      $moneda = array();
-      $codigotrib = array();
-      $nombretrib = array();
-      $codigointtrib = array();
-      $subtotal = array();
-      $igv = array();
-      $total = array();
-      $tdescu = array();
-      $opera = array();
-      $ubigueo = array();
+      $fecha = '';
+      $hora = '';
+      $serie = '';
+      $tipodocu = '';
+      $numdocu = '';
+      $rasoc = '';
+      $moneda = '';
+      $codigotrib = '';
+      $nombretrib = '';
+      $codigointtrib = '';
+      $subtotal = '';
+      $igv = '';
+      $total = '';
+      $tdescu = '';
+      $opera = '';
+      $ubigueo = '';
 
 
-      $formapago = array();
-      $montofpago = array();
-      $monedafpago = array();
-      $ccuotas = array();
-      $fechavecredito = array();
-      $montocuota = array();
+      $formapago = '';
+      $montofpago = '';
+      $monedafpago = '';
+      $ccuotas = '';
+      $fechavecredito = '';
+      $montocuota = '';
 
       $igv_ = "0";
 
@@ -5467,39 +4975,40 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       $con = 0; //COntador de variable
       $icbper = "";
 
-      while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
-          $fecha[$i] = $row["fecha"]; //Fecha emision
-          $serie[$i] = $row["serie"];
-          $tipodocu[$i] = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
-          $numdocu[$i] = $row["numero_documento"]; //NUmero de docuemnto de cliente
-          $rasoc[$i] = $row["razon_social"]; //Nombre de cliente
-          $moneda[$i] = $row["tipo_moneda_28"];
-          $subtotal[$i] = $row["subtotal"];
-          $igv[$i] = $row["igv"];
-          $total[$i] = $row["total"];
-          $tdescu[$i] = $row["tdescuento"];
-          $hora[$i] = $row["hora"];
+      foreach ($result as $key => $row) {       
+     
+        
+          $fecha = $row["fecha"]; //Fecha emision
+          $serie = $row["serie"];
+          $tipodocu = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
+          $numdocu = $row["numero_documento"]; //NUmero de docuemnto de cliente
+          $rasoc = $row["razon_social"]; //Nombre de cliente
+          $moneda = $row["tipo_moneda_28"];
+          $subtotal = $row["subtotal"];
+          $igv = $row["igv"];
+          $total = $row["total"];
+          $tdescu = $row["tdescuento"];
+          $hora = $row["hora"];
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
           $ubigueo = $datose->ubigueo;
-          $opera[$i] = $row["opera"];
+          $opera = $row["opera"];
 
 
-          $codigotrib[$i] = $row["codigotrib"]; //codigo de tributo de la tabla catalo 5
-          $nombretrib[$i] = $row["nombretrib"]; //NOmbre de tributo de la tabla catalo 5
-          $codigointtrib[$i] = $row["codigointtrib"]; //Codigo internacional de la tabla catalo 5
+          $codigotrib = $row["codigotrib"]; //codigo de tributo de la tabla catalo 5
+          $nombretrib = $row["nombretrib"]; //NOmbre de tributo de la tabla catalo 5
+          $codigointtrib = $row["codigointtrib"]; //Codigo internacional de la tabla catalo 5
 
-          $formapago[$i] = $row["formapago"];
-          $montofpago[$i] = $row["montofpago"];
-          $monedafpago[$i] = $row["monedafpago"];
-          $ccuotas[$i] = $row["ccuotas"];
-          $fechavecredito[$i] = $row["fechavecredito"];
-          $montocuota[$i] = $row["montocuota"];
+          $formapago = $row["formapago"];
+          $montofpago = $row["montofpago"];
+          $monedafpago = $row["monedafpago"];
+          $ccuotas = $row["ccuotas"];
+          $fechavecredito = $row["fechavecredito"];
+          $montocuota = $row["montocuota"];
 
           $Lmoneda = "NUEVOS SOLES";
-          if ($moneda[$i] == 'USD') {
+          if ($moneda == 'USD') {
             $Lmoneda = "DOLARES AMERICANOS";
           }
 
@@ -5508,7 +5017,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
           require_once "Letras.php";
           $V = new EnLetras();
-          $con_letra = strtoupper($V->ValorEnLetras($total[$i], $Lmoneda));
+          $con_letra = strtoupper($V->ValorEnLetras($total, $Lmoneda));
 
 
           //======================================== FORMATO XML ========================================================
@@ -5528,15 +5037,15 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
                 <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
                 <cbc:CustomizationID>2.0</cbc:CustomizationID>
                 <cbc:ID>' . $numerodoc . '</cbc:ID>
-                <cbc:IssueDate>' . $fecha[$i] . '</cbc:IssueDate>
-                <cbc:IssueTime>' . $hora[$i] . '</cbc:IssueTime>
+                <cbc:IssueDate>' . $fecha . '</cbc:IssueDate>
+                <cbc:IssueTime>' . $hora . '</cbc:IssueTime>
 
                 <cbc:InvoiceTypeCode listID="0101">' . $tipocomp . '</cbc:InvoiceTypeCode>
 
                 <cbc:Note languageLocaleID="1000">' . $con_letra . '</cbc:Note>
 
               <cbc:Note languageLocaleID="2006">Leyenda: Operación sujeta a detracción</cbc:Note>
-              <cbc:DocumentCurrencyCode>' . $moneda[$i] . '</cbc:DocumentCurrencyCode>
+              <cbc:DocumentCurrencyCode>' . $moneda . '</cbc:DocumentCurrencyCode>
 
                 <cac:Signature>
                     <cbc:ID>' . $ruc . '</cbc:ID>
@@ -5587,28 +5096,28 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
                 <cac:AccountingCustomerParty>
                     <cac:Party>
                         <cac:PartyIdentification>
-                            <cbc:ID schemeID="' . $tipodocu[$i] . '">' . $numdocu[$i] . '</cbc:ID>
+                            <cbc:ID schemeID="' . $tipodocu . '">' . $numdocu . '</cbc:ID>
                         </cac:PartyIdentification>
                         <cac:PartyLegalEntity>
-                            <cbc:RegistrationName><![CDATA[' . $rasoc[$i] . ']]></cbc:RegistrationName>
+                            <cbc:RegistrationName><![CDATA[' . $rasoc . ']]></cbc:RegistrationName>
                         </cac:PartyLegalEntity>
                     </cac:Party>
                 </cac:AccountingCustomerParty>';
 
 
 
-          if ($formapago[$i] == 'Contado') {
+          if ($formapago == 'Contado') {
             $facturaXML .= '<cac:PaymentTerms>
                 <cbc:ID>FormaPago</cbc:ID>
-              <cbc:PaymentMeansID>' . $formapago[$i] . '</cbc:PaymentMeansID>
+              <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
           } else {
 
             $facturaXML .= '<cac:PaymentTerms>
                 <cbc:ID>FormaPago</cbc:ID>
-                <cbc:PaymentMeansID>' . $formapago[$i] . '</cbc:PaymentMeansID>
-                <cbc:Amount currencyID="' . $monedafpago[$i] . '">' . $montocuota[$i] . '</cbc:Amount>
-                <cbc:PaymentDueDate>' . $fechavecredito[$i] . '</cbc:PaymentDueDate>
+                <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
+                <cbc:Amount currencyID="' . $monedafpago . '">' . $montocuota . '</cbc:Amount>
+                <cbc:PaymentDueDate>' . $fechavecredito . '</cbc:PaymentDueDate>
                 </cac:PaymentTerms>';
           }
 
@@ -5616,15 +5125,15 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
           $facturaXML .= '
                 <!-- Inicio Tributos cabecera-->
                 <cac:TaxTotal>
-                    <cbc:TaxAmount currencyID="' . $moneda[$i] . '">' . $igv[$i] . '</cbc:TaxAmount>
+                    <cbc:TaxAmount currencyID="' . $moneda . '">' . $igv . '</cbc:TaxAmount>
                         <cac:TaxSubtotal>
-                        <cbc:TaxableAmount currencyID="' . $moneda[$i] . '">' . $subtotal[$i] . '</cbc:TaxableAmount>
-                        <cbc:TaxAmount currencyID="' . $moneda[$i] . '">' . $igv[$i] . '</cbc:TaxAmount>
+                        <cbc:TaxableAmount currencyID="' . $moneda . '">' . $subtotal . '</cbc:TaxableAmount>
+                        <cbc:TaxAmount currencyID="' . $moneda . '">' . $igv . '</cbc:TaxAmount>
                         <cac:TaxCategory>
                             <cac:TaxScheme>
-                                <cbc:ID>' . $codigotrib[$i] . '</cbc:ID>
-                                <cbc:Name>' . $nombretrib[$i] . '</cbc:Name>
-                                <cbc:TaxTypeCode>' . $codigointtrib[$i] . '</cbc:TaxTypeCode>
+                                <cbc:ID>' . $codigotrib . '</cbc:ID>
+                                <cbc:Name>' . $nombretrib . '</cbc:Name>
+                                <cbc:TaxTypeCode>' . $codigointtrib . '</cbc:TaxTypeCode>
                             </cac:TaxScheme>
                         </cac:TaxCategory>
                     </cac:TaxSubtotal>';
@@ -5635,7 +5144,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
           if ($icbper > 0) {
             $facturaXML .= '
                 <cac:TaxSubtotal>
-                  <cbc:TaxAmount currencyID="' . $moneda[$i] . '">' . $icbper . '</cbc:TaxAmount>
+                  <cbc:TaxAmount currencyID="' . $moneda . '">' . $icbper . '</cbc:TaxAmount>
                          <cac:TaxCategory>
                             <cac:TaxScheme>
                                <cbc:ID>7152</cbc:ID>
@@ -5651,64 +5160,62 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
               <!-- Fin Tributos  Cabecera-->
 
                 <cac:LegalMonetaryTotal>
-                    <cbc:LineExtensionAmount currencyID="' . $moneda[$i] . '">' . $subtotal[$i] . '</cbc:LineExtensionAmount>
-                    <cbc:TaxInclusiveAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:TaxInclusiveAmount>
-                    <cbc:AllowanceTotalAmount currencyID="' . $moneda[$i] . '">0.00</cbc:AllowanceTotalAmount>
-                    <cbc:ChargeTotalAmount currencyID="' . $moneda[$i] . '">0.00</cbc:ChargeTotalAmount>
-                    <cbc:PrepaidAmount currencyID="' . $moneda[$i] . '">0.00</cbc:PrepaidAmount>
-                    <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
+                    <cbc:LineExtensionAmount currencyID="' . $moneda . '">' . $subtotal . '</cbc:LineExtensionAmount>
+                    <cbc:TaxInclusiveAmount currencyID="' . $moneda . '">' . $total . '</cbc:TaxInclusiveAmount>
+                    <cbc:AllowanceTotalAmount currencyID="' . $moneda . '">0.00</cbc:AllowanceTotalAmount>
+                    <cbc:ChargeTotalAmount currencyID="' . $moneda . '">0.00</cbc:ChargeTotalAmount>
+                    <cbc:PrepaidAmount currencyID="' . $moneda . '">0.00</cbc:PrepaidAmount>
+                    <cbc:PayableAmount currencyID="' . $moneda . '">' . $total . '</cbc:PayableAmount>
                 </cac:LegalMonetaryTotal>';
-        } //For cabecera
-        $i = $i + 1;
+        
         $con = $con + 1;
       } //While cabecera
 
-      $codigo = array();
-      $cantidad = array();
-      $descripcion = array();
-      $um = array();
-      $vui = array();
-      $igvi = array();
-      $pvi = array();
-      $vvi = array();
-      $sutribitem = array();
-      $aigv = array();
-      $codtrib = array();
-      $nomtrib = array();
-      $coditrib = array();
-      $codigosunat = array();
-      $numorden = array();
-      $monedaD = array();
-      $mticbperu = array();
+      $codigo = '';
+      $cantidad = '';
+      $descripcion = '';
+      $um = '';
+      $vui = '';
+      $igvi = '';
+      $pvi = '';
+      $vvi = '';
+      $sutribitem = '';
+      $aigv = '';
+      $codtrib = '';
+      $nomtrib = '';
+      $coditrib = '';
+      $codigosunat = '';
+      $numorden = '';
+      $monedaD = '';
+      $mticbperu = '';
 
-
-      while ($rowf = mysqli_fetch_assoc($resultf)) {
-        for ($if = 0; $if < count($resultf); $if++) {
-          $codigo[$if] = $rowf["codigo"];
-          $cantidad[$if] = $rowf["cantidad"];
-          $descripcion[$if] = $rowf["descripcion"];
-          $vui[$if] = $rowf["vui"];
-          $sutribitem[$if] = $rowf["sutribitem"];
-          $igvi[$if] = $rowf["igvi"];
-          $pvi[$if] = $rowf["pvi"];
-          $vvi[$if] = $rowf["vvi"];
-          $um[$if] = $rowf["um"];
+      foreach ($resultf as $key => $rowf) {
+        
+          $codigo = $rowf["codigo"];
+          $cantidad = $rowf["cantidad"];
+          $descripcion = $rowf["descripcion"];
+          $vui = $rowf["vui"];
+          $sutribitem = $rowf["sutribitem"];
+          $igvi = $rowf["igvi"];
+          $pvi = $rowf["pvi"];
+          $vvi = $rowf["vvi"];
+          $um = $rowf["um"];
           $tipocompf = $rowf["tipocomp"];
           $numerodocf = $rowf["numerodoc"];
           $ruc = $datose->numero_ruc;
-          $aigv[$if] = $rowf["aigv"];
-          $codtrib[$if] = $rowf["codtrib"];
-          $nomtrib[$if] = $rowf["nomtrib"];
-          $coditrib[$if] = $rowf["coditrib"];
-          $codigosunat[$if] = $rowf["codigosunat"];
-          $numorden[$if] = $rowf["numorden"];
-          $monedaD[$if] = $rowf["moneda"];
+          $aigv = $rowf["aigv"];
+          $codtrib = $rowf["codtrib"];
+          $nomtrib = $rowf["nomtrib"];
+          $coditrib = $rowf["coditrib"];
+          $codigosunat = $rowf["codigosunat"];
+          $numorden = $rowf["numorden"];
+          $monedaD = $rowf["moneda"];
 
-          $mticbperu[$if] = $rowf["mticbperu"];
+          $mticbperu = $rowf["mticbperu"];
           $icbperD = $rowf["icbper"];
 
 
-          if ($codtrib[$if] == '9997') {
+          if ($codtrib == '9997') {
             $igv_ = "0";
           } else {
             $igv_ = $configE->igv;
@@ -5721,43 +5228,43 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
 
           $facturaXML .= '
                 <cac:InvoiceLine>
-                    <cbc:ID>' . $numorden[$if] . '</cbc:ID>
-                    <cbc:InvoicedQuantity unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 2, '.', '') . '</cbc:InvoicedQuantity>
-                    <cbc:LineExtensionAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:LineExtensionAmount>
+                    <cbc:ID>' . $numorden . '</cbc:ID>
+                    <cbc:InvoicedQuantity unitCode="' . $um . '">' . number_format($cantidad, 2, '.', '') . '</cbc:InvoicedQuantity>
+                    <cbc:LineExtensionAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:LineExtensionAmount>
 
                     <cac:PricingReference>
                         <cac:AlternativeConditionPrice>
-                            <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($pvi[$if], 2, '.', '') . '</cbc:PriceAmount>
+                            <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($pvi, 2, '.', '') . '</cbc:PriceAmount>
                             <cbc:PriceTypeCode>01</cbc:PriceTypeCode>
                         </cac:AlternativeConditionPrice>
                     </cac:PricingReference>
 
                     <!-- Inicio Tributos -->
                     <cac:TaxTotal>
-                        <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                        <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
                         <cac:TaxSubtotal>
-                            <cbc:TaxableAmount currencyID="' . $monedaD[$if] . '">' . number_format($vvi[$if], 2, '.', '') . '</cbc:TaxableAmount>
-                            <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . number_format($sutribitem[$if], 2, '.', '') . '</cbc:TaxAmount>
+                            <cbc:TaxableAmount currencyID="' . $monedaD . '">' . number_format($vvi, 2, '.', '') . '</cbc:TaxableAmount>
+                            <cbc:TaxAmount currencyID="' . $monedaD . '">' . number_format($sutribitem, 2, '.', '') . '</cbc:TaxAmount>
                             <cac:TaxCategory>
                                 <cbc:Percent>' . $igv_ . '</cbc:Percent>
-                                <cbc:TaxExemptionReasonCode>' . $aigv[$if] . '</cbc:TaxExemptionReasonCode>
+                                <cbc:TaxExemptionReasonCode>' . $aigv . '</cbc:TaxExemptionReasonCode>
                                 <cac:TaxScheme>
-                                    <cbc:ID>' . $codtrib[$if] . '</cbc:ID>
-                                    <cbc:Name>' . $nomtrib[$if] . '</cbc:Name>
-                                    <cbc:TaxTypeCode>' . $coditrib[$if] . '</cbc:TaxTypeCode>
+                                    <cbc:ID>' . $codtrib . '</cbc:ID>
+                                    <cbc:Name>' . $nomtrib . '</cbc:Name>
+                                    <cbc:TaxTypeCode>' . $coditrib . '</cbc:TaxTypeCode>
                                 </cac:TaxScheme>
                             </cac:TaxCategory>
                         </cac:TaxSubtotal>';
 
 
-          if ($codigo[$if] == "ICBPER") {
+          if ($codigo == "ICBPER") {
 
             $facturaXML .= '
                 <cac:TaxSubtotal>
-                <cbc:TaxAmount currencyID="' . $monedaD[$if] . '">' . $icbperD . '</cbc:TaxAmount>
-                    <cbc:BaseUnitMeasure unitCode="' . $um[$if] . '">' . number_format($cantidad[$if], 0, '.', '') . '</cbc:BaseUnitMeasure>
+                <cbc:TaxAmount currencyID="' . $monedaD . '">' . $icbperD . '</cbc:TaxAmount>
+                    <cbc:BaseUnitMeasure unitCode="' . $um . '">' . number_format($cantidad, 0, '.', '') . '</cbc:BaseUnitMeasure>
                     <cac:TaxCategory>
-                    <cbc:PerUnitAmount currencyID="' . $monedaD[$if] . '">' . number_format($mticbperu[$if], 2, '.', '') . '</cbc:PerUnitAmount>
+                    <cbc:PerUnitAmount currencyID="' . $monedaD . '">' . number_format($mticbperu, 2, '.', '') . '</cbc:PerUnitAmount>
                        <cac:TaxScheme>
                           <cbc:ID>7152</cbc:ID>
                           <cbc:Name>ICBPER</cbc:Name>
@@ -5772,17 +5279,17 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
                      </cac:TaxTotal>
 
                     <cac:Item>
-                        <cbc:Description><![CDATA[' . $descripcion[$if] . ']]></cbc:Description>
+                        <cbc:Description><![CDATA[' . $descripcion . ']]></cbc:Description>
                          <cac:SellersItemIdentification>
-                            <cbc:ID>' . $codigo[$if] . '</cbc:ID>
+                            <cbc:ID>' . $codigo . '</cbc:ID>
                         </cac:SellersItemIdentification>
                     </cac:Item>
 
                     <cac:Price>
-                        <cbc:PriceAmount currencyID="' . $monedaD[$if] . '">' . number_format($vui[$if], 5, '.', '') . '</cbc:PriceAmount>
+                        <cbc:PriceAmount currencyID="' . $monedaD . '">' . number_format($vui, 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-        } //Fin for
+        
       } //Find e while
       $facturaXML .= '</Invoice>';
       //FIN DE CABECERA ===================================================================
@@ -5829,14 +5336,7 @@ as tabla where year(fecha)='$ano' and month(fecha)='$mes' and day(fecha)='$dia' 
       $sxe->registerXPathNamespace('ds', $urn['ds']);
       $data = $sxe->xpath('//ds:DigestValue');
     } //Fin de if
-
-
-
-
-
   } //Fin de funcion
-
-
 
   public function traerclinoti($idfactura)
   {

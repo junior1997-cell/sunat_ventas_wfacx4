@@ -26,70 +26,28 @@ function init() {
   //   mayor700();
   // });
 
-  $("#formulario").on("submit", function (e) {
-    guardaryeditarBoleta(e);
-  });
-
-  $("#formularioncliente").on("submit", function (e) {
-    guardaryeditarcliente(e);
-  });
-
-  $("#formularionarticulo").on("submit", function (e) {
-    guardaryeditararticulo(e);
-  });
+  $("#formulario").on("submit", function (e) {  guardaryeditarBoleta(e); });
+  $("#formularioncliente").on("submit", function (e) { guardaryeditarcliente(e); });
+  $("#formularionarticulo").on("submit", function (e) { guardaryeditararticulo(e); });
 
   // Carga de combo para tributo =====================
-  $.post("../ajax/factura.php?op=selectTributo", function (r) {
-    $("#codigo_tributo_18_3").html(r);
-    //$('#codigo_tributo_18_3').selectpicker('refresh');
-  });
+  $.post("../ajax/factura.php?op=selectTributo", function (r) {  $("#codigo_tributo_18_3").html(r); });
 
   // Carga de combo para vendedores =====================
-
-  $.post(
-    "../ajax/vendedorsitio.php?op=selectVendedorsitio&idempresa=" + $idempresa,
-    function (r) {
-      $("#vendedorsitio").html(r);
-      //$('#vendedorsitio').selectpicker('refresh');
-    }
-  );
+  $.post("../ajax/vendedorsitio.php?op=selectVendedorsitio&idempresa=" + $idempresa, function (r) { $("#vendedorsitio").html(r); });
 
   // Carga de combo para tributo =====================
-  $.post("../ajax/boleta.php?op=selectAlmacen", function (r) {
-    $("#almacenlista").html(r);
-    //$('#almacenlista').selectpicker('refresh');
-  });
+  $.post("../ajax/boleta.php?op=selectAlmacen", function (r) { $("#almacenlista").html(r); });
 
   // Carga de combo para vendedores ======================
-
   // Carga de unidades de medida
-
   // Carga tipo de cambio =====================
-
-  // $.post("../ajax/factura.php?op=tcambiodia", function(r){
-  //         $("#tcambio").val(r);
-  // });
-
-  $.post(
-    "../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa,
-    function (r) {
-      $("#idalmacennarticulo").html(r);
-      //$('#idalmacennarticulo').selectpicker('refresh');
-    }
-  );
-
-  $.post("../ajax/articulo.php?op=selectFamilia", function (r) {
-    $("#idfamilianarticulo").html(r);
-    //$('#idfamilianarticulo').selectpicker('refresh');
-  });
-
-  $.post("../ajax/factura.php?op=selectunidadmedidanuevopro", function (r) {
-    $("#umedidanp").html(r);
-    //$('#umedidanp').selectpicker('refresh');
-  });
+  $.post("../ajax/factura.php?op=tcambiodia", function(r){ $("#tcambio").val(r); });
+  $.post( "../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) {  $("#idalmacennarticulo").html(r); });
+  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilianarticulo").html(r); });
+  $.post("../ajax/factura.php?op=selectunidadmedidanuevopro", function (r) {  $("#umedidanp").html(r); });
 
   cont = 0;
-
   conNO = 1;
 
   mostrarform(false);
@@ -100,14 +58,11 @@ function init() {
   //listar();
   //console.log(listar());
 }
+
 let count = 0;
-function timer() {
-  count++;
-  tabla.ajax.reload(null, false);
-}
+function timer() { count++; tabla.ajax.reload(null, false); }
 
 //PARA ACTUALIZAR ESTADO
-
 let onOff = true;
 function pause() {
   if (onOff) {
@@ -128,25 +83,16 @@ function pause() {
 }
 
 //PARA ACTUALIZAR ESTADO
-
-function nuevoarticulo() {
-  $("#modalnuevoarticulo").modal("show");
-}
+function nuevoarticulo() { $("#modalnuevoarticulo").modal("show"); }
 
 function incremetarNum() {
   var serie = $("#serie option:selected").val();
-  $.post(
-    "../ajax/boleta.php?op=autonumeracion&ser=" +
-    serie +
-    "&idempresa=" +
-    $idempresa,
-    function (r) {
-      var n2 = pad(r, 0);
-      $("#numero_boleta").val(n2);
-      var SerieReal = $("#serie option:selected").text();
-      $("#SerieReal").val(SerieReal);
-    }
-  );
+  $.post( "../ajax/boleta.php?op=autonumeracion&ser=" + serie + "&idempresa=" + $idempresa,    function (r) {
+    var n2 = pad(r, 0);
+    $("#numero_boleta").val(n2);
+    var SerieReal = $("#serie option:selected").text();
+    $("#SerieReal").val(SerieReal);
+  });
   document.getElementById("tipo_doc_ide").focus();
 }
 
@@ -179,10 +125,7 @@ function limpiar() {
   $("#tcambio").val("0");
   document.getElementById("mensaje700").style.display = "none";
   $("#tipo_doc_ide").val("0");
-  $.post("../ajax/factura.php?op=selectTributo", function (r) {
-    $("#codigo_tributo_18_3").html(r);
-    //$('#codigo_tributo_18_3').selectpicker('refresh');
-  });
+  $.post("../ajax/factura.php?op=selectTributo", function (r) { $("#codigo_tributo_18_3").html(r); });
 
   $("#codigo_tributo_h").val($("#codigo_tributo_18_3 option:selected").val());
   $("#total").val("");
@@ -217,10 +160,7 @@ function limpiar() {
     );
 
     // Verificar si se ha seleccionado una fecha anterior a la actual
-    if (
-      fechaSeleccionada < fechaActual &&
-      fechaSeleccionada.toDateString() !== fechaActual.toDateString()
-    ) {
+    if ( fechaSeleccionada < fechaActual && fechaSeleccionada.toDateString() !== fechaActual.toDateString() ) {
       Swal.fire({
         title: "Error",
         text: "La fecha de vencimiento no puede ser posterior a 6 días a partir de la fecha actual normado por sunat",
@@ -272,23 +212,26 @@ function mostrarform(flag) {
     $("#btnAgregarArt").show();
     $("#btnAgregarCli").hide();
     $("#refrescartabla").hide();
+
+    $(".charge-serie").html(`<i class="fas fa-spinner fa-pulse"></i>`);
+    $(".charge-numero").html(`<i class="fas fa-spinner fa-pulse"></i>`);
     $.post("../ajax/boleta.php?op=selectSerie", function (r) {
-      $("#serie").html(r);
-      //$("#serie").selectpicker('refresh');
-      var serieL = document.getElementById("serie");
-      var opt = serieL.value;
-      $.post(
-        "../ajax/boleta.php?op=autonumeracion&ser=" +
-        opt +
-        "&idempresa=" +
-        $idempresa,
-        function (r) {
+      if (r == '' || r == null) {
+        $(".no-tienes-permiso-boleta").html('No tienes permiso para emitir boleta.');  
+        $(".charge-numero").html(``);
+      } else {  
+        $("#serie").html(r);        
+        var serieL = document.getElementById("serie");
+        var opt = serieL.value;
+        $.post( "../ajax/boleta.php?op=autonumeracion&ser=" + opt + "&idempresa=" +  $idempresa, function (r) {
           var n2 = pad(r, 0);
           $("#numero_boleta").val(n2);
           var SerieReal = $("#serie option:selected").text();
           $("#SerieReal").val(SerieReal);
-        }
-      );
+          $(".charge-numero").html(``);
+        });
+      }      
+      $(".charge-serie").html(``);
     });
 
     document.getElementById("codigob").focus();
@@ -311,7 +254,7 @@ function cancelarform() {
     cancelButtonText: "No",
   }).then((result) => {
     if (result.value) {
-      window.location = "boleta";
+      window.location = "boleta.php";
     } else {
       limpiar();
       evaluar2();
@@ -419,36 +362,24 @@ function listarArticulos() {
   $tipoprecio = $("#tipoprecio").val();
   $iteno = $("#itemno").val();
   almacen = $("#almacenlista").val();
-  tablaArti = $("#tblarticulos")
-    .dataTable({
+  tablaArti = $("#tblarticulos").dataTable({
       aProcessing: true, //Activamos el procesamiento del datatables
       aServerSide: true, //Paginación y filtrado realizados por el servidor
       searching: true,
-
       dom: "Bfrtip", //Definimos los elementos del control de tabla
       buttons: [],
       ajax: {
-        url:
-          "../ajax/boleta.php?op=listarArticulosboleta&tprecio=" +
-          $tipoprecio +
-          "&tb=" +
-          tpb +
-          "&itm=" +
-          $iteno +
-          "&alm=" +
-          almacen,
+        url: "../ajax/boleta.php?op=listarArticulosboleta&tprecio=" + $tipoprecio + "&tb=" + tpb + "&itm=" + $iteno + "&alm=" + almacen,
         type: "get",
         dataType: "json",
         error: function (e) {
           console.log(e.responseText);
         },
       },
-
       //Para cambiar el color del stock cuando es 0
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         // Agregar el input y el botón en la columna correspondiente (índice 5)
-        $(nRow)
-          .find("td:eq(5)")
+        $(nRow) .find("td:eq(5)")
           .html(
             '<div class="row">' +
             '<div class="col-8">' +
@@ -1612,171 +1543,157 @@ function agregarArticuloxCodigo(e) {
   var codigob = $("#codigob").val();
 
   if (e.keyCode === 13 && !e.shiftKey) {
-    $.post(
-      "../ajax/boleta.php?op=listarArticulosboletaxcodigo&codigob=" +
-      codigob +
-      "&idempresa=" +
-      $idempresa,
-      function (data, status) {
-        data = JSON.parse(data);
-        if (data != null) {
-          if (parseFloat(data.stock) == "0") {
-            Swal.fire({
-              title: "El stock es 0, actualizar stock!",
-              icon: "warning",
-            });
-            $("#codigob").val("");
-            quitasuge3();
+    $.post( "../ajax/boleta.php?op=listarArticulosboletaxcodigo&codigob=" + codigob + "&idempresa=" + $idempresa, function (data, status) {
+      data = JSON.parse(data);
+      if (data != null) {
+        if (parseFloat(data.stock) == "0") {
+          Swal.fire({  title: "El stock es 0, actualizar stock!", icon: "warning",  });
+          $("#codigob").val("");
+          quitasuge3();
+        } else {
+          if ($("#codigo_tributo_18_3").val() == "9997") {
+            exo = "";
+            op = "";
+            precioOculto = data.precio_venta;
+            precio_factura = 0;
+            rd = "readonly";
           } else {
-            if ($("#codigo_tributo_18_3").val() == "9997") {
-              exo = "";
-              op = "";
-              precioOculto = data.precio_venta;
-              precio_factura = 0;
-              rd = "readonly";
-            } else {
-              op = "";
-              exo = "";
-              rd = "";
-              precioOculto = data.precio_venta;
+            op = "";
+            exo = "";
+            rd = "";
+            precioOculto = data.precio_venta;
+          }
+
+          var contador = 1;
+          var fila =
+            '<tr class="filas" id="fila' +
+            cont +
+            '">' +
+            '<td><i class="fa fa-close" onclick="eliminarDetalle(' +
+            cont +
+            ')" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>' +
+            '<td><span name="numero_orden" id="numero_orden' +
+            cont +
+            '" ></span>' +
+            '<input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="' +
+            conNO +
+            '"  ></td>' +
+            '<td><input type="hidden" name="idarticulo[]" style="font-family: times, serif; font-size:14pt; font-style:italic" value="' +
+            data.idarticulo +
+            '">' +
+            data.nombre +
+            "</td>" +
+            '<td hidden><select name="codigotributo[]" class="" style="display:none;"> <option value="1000">IGV</option><option value="9997">EXO</option><option value="9998">INA</option></select>' +
+            '<select name="afectacionigv[]" class="" style="display:none;"> <option value="10">10-GOO</option><option value="20">20-EOO</option><option value="30">30-FRE</option></select></td>' +
+            '<td><input type="text"  class="" required="true" name="cantidad_item_12[]" id="cantidad_item_12[]"  onBlur="modificarSubototales(1)" size="6" onkeypress="return NumCheck(event, this)" value="1" ></td>' +
+            '<td><input type="text"  class="" name="descuento[]" id="descuento[]"  onBlur="modificarSubototales(1)" size="2" onkeypress="return NumCheck(event, this)" >' +
+            '<span name="SumDCTO" id="SumDCTO' +
+            cont +
+            '" style="display:none"></span> <input type="hidden"  required="true" class="" name="sumadcto[]" id="sumadcto[]" >  </td>' +
+            '<td hidden><input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]" value="' +
+            data.codigo_proveedor +
+            '">' +
+            data.codigo_proveedor +
+            "</td>" +
+            '<td hidden><input type="text" name="codigo[]" id="codigo[]" value="' +
+            data.codigo +
+            '" class="" style="display:none;" ></td>' +
+            '<td><input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="' +
+            data.abre +
+            '">' +
+            data.abre +
+            "</td>" +
+            '<td><input type="text" class="" name="precio_unitario[]" id="precio_unitario[]" value="' +
+            data.precio_venta +
+            '" onBlur="modificarSubototales(1)" size="7" onkeypress="return NumCheck2(event, this)" OnFocus="focusTest(this); return false;"  ></td>' +
+            '<td><input type="text" class="" name="valor_unitario[]" id="valor_unitario[]" size="5"  value="' +
+            precioOculto +
+            '"    ' +
+            exo +
+            ' onBlur="modificarSubototales(1"></td>' +
+            '<td><input type="text" class="" name="stock[]" id="stock[]" value="' +
+            data.factorconversion +
+            '" disabled="true" size="7"></td>' +
+            '<td><span name="subtotal" id="subtotal' +
+            cont +
+            '"></span>' +
+            '<input type="hidden" name="subtotalBD[]" id="subtotalBD["' +
+            cont +
+            '"]">' +
+            '<span name="igvG" id="igvG' +
+            cont +
+            '" style="background-color:#9fde90bf; display:none;"></span>' +
+            '<input type="hidden" name="igvBD[]" id="igvBD["' +
+            cont +
+            '"]"><input type="hidden" name="igvBD2[]" id="igvBD2["' +
+            cont +
+            '"]">' +
+            '<span name="total" id="total' +
+            cont +
+            '" style="background-color:#9fde90bf; display:none;" ></span>' +
+            '<span name="pvu_" id="pvu_' +
+            cont +
+            '"  style="display:none"  ></span>' +
+            '<input  type="hidden" name="vvu[]" id="vvu["' +
+            cont +
+            '"] size="2">' +
+            '<input  type="hidden" name="cicbper[]" id="cicbper["' +
+            cont +
+            '"] value="' +
+            data.cicbper +
+            '" >' +
+            '<input  type="hidden" name="mticbperu[]" id="mticbperu["' +
+            cont +
+            '"]" value="' +
+            data.mticbperuSunat +
+            '">' +
+            '<input type="hidden"  class="" required="true" name="factorc[]" id="factorc[]"   value="' +
+            data.factorc +
+            '">' +
+            '<input type="hidden"  class="" required="true" name="cantidadreal[]" id="cantidadreal[]" >' +
+            '<span name="mticbperuCalculado" id="mticbperuCalculado' +
+            cont +
+            '" style="background-color:#9fde90bf;display:none;"></span>' +
+            "</td>" +
+            "</tr>";
+          var id = document.getElementsByName("idarticulo[]");
+          var can = document.getElementsByName("cantidad_item_12[]");
+
+          for (var i = 0; i < id.length; i++) {
+            var idA = id[i];
+            var cantiS = can[i];
+            if (data.tipoitem != "servicios") {
+              if (idA.value == data.idarticulo) {
+                cantiS.value = parseFloat(cantiS.value) + 1;
+                fila = "";
+                cont = cont - 1;
+                conNO = conNO - 1;
+              } else {
+                detalles = detalles;
+              }
             }
 
-            var contador = 1;
-            var fila =
-              '<tr class="filas" id="fila' +
-              cont +
-              '">' +
-              '<td><i class="fa fa-close" onclick="eliminarDetalle(' +
-              cont +
-              ')" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>' +
-              '<td><span name="numero_orden" id="numero_orden' +
-              cont +
-              '" ></span>' +
-              '<input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="' +
-              conNO +
-              '"  ></td>' +
-              '<td><input type="hidden" name="idarticulo[]" style="font-family: times, serif; font-size:14pt; font-style:italic" value="' +
-              data.idarticulo +
-              '">' +
-              data.nombre +
-              "</td>" +
-              '<td hidden><select name="codigotributo[]" class="" style="display:none;"> <option value="1000">IGV</option><option value="9997">EXO</option><option value="9998">INA</option></select>' +
-              '<select name="afectacionigv[]" class="" style="display:none;"> <option value="10">10-GOO</option><option value="20">20-EOO</option><option value="30">30-FRE</option></select></td>' +
-              '<td><input type="text"  class="" required="true" name="cantidad_item_12[]" id="cantidad_item_12[]"  onBlur="modificarSubototales(1)" size="6" onkeypress="return NumCheck(event, this)" value="1" ></td>' +
-              '<td><input type="text"  class="" name="descuento[]" id="descuento[]"  onBlur="modificarSubototales(1)" size="2" onkeypress="return NumCheck(event, this)" >' +
-              '<span name="SumDCTO" id="SumDCTO' +
-              cont +
-              '" style="display:none"></span> <input type="hidden"  required="true" class="" name="sumadcto[]" id="sumadcto[]" >  </td>' +
-              '<td hidden><input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]" value="' +
-              data.codigo_proveedor +
-              '">' +
-              data.codigo_proveedor +
-              "</td>" +
-              '<td hidden><input type="text" name="codigo[]" id="codigo[]" value="' +
-              data.codigo +
-              '" class="" style="display:none;" ></td>' +
-              '<td><input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="' +
-              data.abre +
-              '">' +
-              data.abre +
-              "</td>" +
-              '<td><input type="text" class="" name="precio_unitario[]" id="precio_unitario[]" value="' +
-              data.precio_venta +
-              '" onBlur="modificarSubototales(1)" size="7" onkeypress="return NumCheck2(event, this)" OnFocus="focusTest(this); return false;"  ></td>' +
-              '<td><input type="text" class="" name="valor_unitario[]" id="valor_unitario[]" size="5"  value="' +
-              precioOculto +
-              '"    ' +
-              exo +
-              ' onBlur="modificarSubototales(1"></td>' +
-              '<td><input type="text" class="" name="stock[]" id="stock[]" value="' +
-              data.factorconversion +
-              '" disabled="true" size="7"></td>' +
-              '<td><span name="subtotal" id="subtotal' +
-              cont +
-              '"></span>' +
-              '<input type="hidden" name="subtotalBD[]" id="subtotalBD["' +
-              cont +
-              '"]">' +
-              '<span name="igvG" id="igvG' +
-              cont +
-              '" style="background-color:#9fde90bf; display:none;"></span>' +
-              '<input type="hidden" name="igvBD[]" id="igvBD["' +
-              cont +
-              '"]"><input type="hidden" name="igvBD2[]" id="igvBD2["' +
-              cont +
-              '"]">' +
-              '<span name="total" id="total' +
-              cont +
-              '" style="background-color:#9fde90bf; display:none;" ></span>' +
-              '<span name="pvu_" id="pvu_' +
-              cont +
-              '"  style="display:none"  ></span>' +
-              '<input  type="hidden" name="vvu[]" id="vvu["' +
-              cont +
-              '"] size="2">' +
-              '<input  type="hidden" name="cicbper[]" id="cicbper["' +
-              cont +
-              '"] value="' +
-              data.cicbper +
-              '" >' +
-              '<input  type="hidden" name="mticbperu[]" id="mticbperu["' +
-              cont +
-              '"]" value="' +
-              data.mticbperuSunat +
-              '">' +
-              '<input type="hidden"  class="" required="true" name="factorc[]" id="factorc[]"   value="' +
-              data.factorc +
-              '">' +
-              '<input type="hidden"  class="" required="true" name="cantidadreal[]" id="cantidadreal[]" >' +
-              '<span name="mticbperuCalculado" id="mticbperuCalculado' +
-              cont +
-              '" style="background-color:#9fde90bf;display:none;"></span>' +
-              "</td>" +
-              "</tr>";
-            var id = document.getElementsByName("idarticulo[]");
-            var can = document.getElementsByName("cantidad_item_12[]");
+            detalles = detalles;
+          } //Fin while
+          detalles = detalles + 1;
+          cont++;
+          conNO++;
+          $("#detalles").append(fila);
 
-            for (var i = 0; i < id.length; i++) {
-              var idA = id[i];
-              var cantiS = can[i];
-              if (data.tipoitem != "servicios") {
-                if (idA.value == data.idarticulo) {
-                  cantiS.value = parseFloat(cantiS.value) + 1;
-                  fila = "";
-                  cont = cont - 1;
-                  conNO = conNO - 1;
-                } else {
-                  detalles = detalles;
-                }
-              }
-
-              detalles = detalles;
-            } //Fin while
-            detalles = detalles + 1;
-            cont++;
-            conNO++;
-            $("#detalles").append(fila);
-
-            document.getElementById("numero_documento").focus();
-            tributocodnon();
-            modificarSubototales(1);
-            $("#codigob").val("");
-
-            document.getElementById("codigob").focus();
-          }
-        } else {
-          Swal.fire({
-            title: "No existe",
-            icon: "warning",
-          });
-
+          document.getElementById("numero_documento").focus();
+          tributocodnon();
+          modificarSubototales(1);
           $("#codigob").val("");
-          document.getElementById("btnAgregarArt").style.backgroundColor =
-            "#35770c";
+
           document.getElementById("codigob").focus();
         }
+      } else {
+        Swal.fire({ title: "No existe", icon: "warning", });
+        $("#codigob").val("");
+        document.getElementById("btnAgregarArt").style.backgroundColor = "#35770c";
+        document.getElementById("codigob").focus();
       }
-    );
+    });
   }
 
   quitasuge3();
@@ -2197,30 +2114,30 @@ function botonrapido20() {
   );
 }
 
-// function agregarMontoPer() {
-//   // Reemplazar el h6 con un input
-//   $("#ipagado").replaceWith('<input style="text-align: right;height: 2%;border: none; font-weight: bold;width: 70%;float: right;position: relative;/*! margin-right: ; */" type="text" step="0.01" min="0" id="ipagado_input" placeholder="0.00">');
+function agregarMontoPer() {
+  // Reemplazar el h6 con un input
+  $("#ipagado").replaceWith('<input style="text-align: right;height: 2%;border: none; font-weight: bold;width: 70%;float: right;position: relative;/*! margin-right: ; */" type="text" step="0.01" min="0" id="ipagado_input" placeholder="0.00">');
 
-//   // Obtener el input y el total
-//   var ipag_input = $("#ipagado_input");
-//   var itot=$("#total").html();
+  // Obtener el input y el total
+  var ipag_input = $("#ipagado_input");
+  var itot=$("#total").html();
 
-//   // Al cambiar el valor del input, actualizar el saldo
-//   ipag_input.on("input", function() {
-//       var ipag = parseFloat(ipag_input.val());
-//       var saldo = ipag - parseFloat(itot);
-//       $("#saldo").html(number_format(redondeo(saldo, 2), 2));
-//       $("#ipagado_final").val(number_format(redondeo(ipag, 2), 2));
-//       $("#saldo_final").val(number_format(redondeo(saldo, 2), 2));
-//   });
+  // Al cambiar el valor del input, actualizar el saldo
+  ipag_input.on("input", function() {
+      var ipag = parseFloat(ipag_input.val());
+      var saldo = ipag - parseFloat(itot);
+      $("#saldo").html(number_format(redondeo(saldo, 2), 2));
+      $("#ipagado_final").val(number_format(redondeo(ipag, 2), 2));
+      $("#saldo_final").val(number_format(redondeo(saldo, 2), 2));
+  });
 
-//   // Enfocar el input para que sea más fácil ingresar el monto
-//   ipag_input.focus();
+  // Enfocar el input para que sea más fácil ingresar el monto
+  ipag_input.focus();
 
-//   $(window).on("beforeunload", function() {
-//     $("#ipagado_input").replaceWith('<h6 id="ipagado" class="d-inline">0.00</h6>');
-//   });
-// }
+  $(window).on("beforeunload", function() {
+    $("#ipagado_input").replaceWith('<h6 id="ipagado" class="d-inline">0.00</h6>');
+  });
+}
 
 function botonrapido50() {
   $("#ipagado").html(number_format(redondeo("50", 2), 2));
@@ -2452,9 +2369,7 @@ function focusI() {
   var tipo = $("#tipo_doc_ide option:selected").val();
 
   if (tipo == "0") {
-    $.post(
-      "../ajax/persona.php?op=mostrarClienteVarios",
-      function (data, status) {
+    $.post( "../ajax/persona.php?op=mostrarClienteVarios", function (data, status) {
         data = JSON.parse(data);
         $("#idcliente").val(data.idpersona);
         $("#numero_documento").val(data.numero_documento);
@@ -2518,31 +2433,22 @@ function focusI() {
 
 function agregardni() {
   var dni = $("#numero_documento").val();
-  $.post(
-    "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni,
-    function (data, status) {
+  $.post( "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni,  function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idcliente").val(data.idpersona);
         $("#razon_social").val(data.nombres + " " + data.apellidos);
         $("#domicilio_fiscal").val(data.domicilio_fiscal);
-        document.getElementById("btnAgregarArt").style.backgroundColor =
-          "#367fa9";
+        document.getElementById("btnAgregarArt").style.backgroundColor =  "#367fa9";
         document.getElementById("mensaje700").style.display = "none";
         document.getElementById("btnAgregarArt").focus();
       } else {
         var url = "../ajax/consulta_reniec.php";
-        $.ajax({
-          type: "POST",
-          url: url,
-          data: "dni=" + dni,
-          success: function (datos_dni) {
+        $.ajax({ type: "POST", url: url, data: "dni=" + dni, success: function (datos_dni) {
             var datos = eval(datos_dni);
             if (datos != null) {
               $("#idcliente").val("N");
-              $("#razon_social").val(
-                datos[1] + " " + datos[2] + " " + datos[3]
-              );
+              $("#razon_social").val( datos[1] + " " + datos[2] + " " + datos[3] );
               $("#domicilio_fiscal").val("");
               document.getElementById("domicilio_fiscal").focus();
             } else {
@@ -2572,108 +2478,95 @@ function agregarClientexDoc(e) {
     $("#razon_social").val("");
     $("#domicilio_fiscal").val("");
 
-    $.post(
-      "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni,
-      function (data, status) {
-        data = JSON.parse(data);
-        if (data != null) {
-          $("#idcliente").val(data.idpersona);
-          $("#razon_social").val(data.nombres);
-          $("#domicilio_fiscal").val(data.domicilio_fiscal);
-          document.getElementById("btnAgregarArt").style.backgroundColor =
-            "#367fa9";
-          document.getElementById("mensaje700").style.display = "none";
-          document.getElementById("btnAgregarArt").focus();
-          $("#suggestions").fadeOut();
-          $("#suggestions2").fadeOut();
-          $("#suggestions3").fadeOut();
-        } else if ($("#tipo_doc_ide").val() == "1") {
-          // SI ES DNI
-          $("#razon_social").val("");
-          $("#domicilio_fiscal").val("");
-          var dni = $("#numero_documento").val();
-          //var url = '../ajax/consulta_reniec.php';
-          $.post(
-            "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni,
-            function (data, status) {
-              data = JSON.parse(data);
-              if (data != null) {
-                $("#idcliente").val("N");
-                // $("#numero_documento3").val(data.numeroDocumento);
-                $("#razon_social").val(data.nombre);
-              } else {
-                alert(data);
-                document.getElementById("razon_social").focus();
-                $("#idcliente").val("N");
-              }
+    $.post( "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni, function (data, status) {
+      data = JSON.parse(data); console.log(data);
+      if (data != null) {
+        $("#idcliente").val(data.idpersona);
+        $("#razon_social").val(data.nombres);
+        $("#domicilio_fiscal").val(data.domicilio_fiscal);
+        document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
+        document.getElementById("mensaje700").style.display = "none";
+        document.getElementById("btnAgregarArt").focus();
+        $("#suggestions").fadeOut();
+        $("#suggestions2").fadeOut();
+        $("#suggestions3").fadeOut();
+      } else if ($("#tipo_doc_ide").val() == "1") {
+        // SI ES DNI
+        $("#razon_social").val("");
+        $("#domicilio_fiscal").val("");
+        var dni = $("#numero_documento").val();
+        //var url = '../ajax/consulta_reniec.php';
+        $.post( "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni,
+          function (data, status) {
+            data = JSON.parse(data);
+            if (data != null) {
+              $("#idcliente").val("N");
+              // $("#numero_documento3").val(data.numeroDocumento);
+              $("#razon_social").val(data.nombre);
+            } else {
+              alert(data);
+              document.getElementById("razon_social").focus();
+              $("#idcliente").val("N");
             }
-          );
-          $("#suggestions").fadeOut();
-          $("#suggestions2").fadeOut();
-          $("#suggestions3").fadeOut();
-        } else if ($("#tipo_doc_ide").val() == "6") {
-          // SI ES RUC
-          $("#razon_social").val("");
-          $("#domicilio_fiscal").val("");
-          var dni = $("#numero_documento").val();
-          $.post(
-            "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni,
-            function (data, status) {
-              data = JSON.parse(data);
-              if (data != null) {
-                $("#idcliente").val(data.idpersona);
-                $("#razon_social").val(data.razon_social);
-                $("#domicilio_fiscal").val(data.domicilio_fiscal);
-              } else {
-                $("#idcliente").val("");
-                $("#razon_social").val("No registrado");
-                $("#domicilio_fiscal").val("No registrado");
-                Swal.fire({
-                  title: "Cliente no registrado",
-                  icon: "warning",
-                });
+          }
+        );
+        $("#suggestions").fadeOut();
+        $("#suggestions2").fadeOut();
+        $("#suggestions3").fadeOut();
+      } else if ($("#tipo_doc_ide").val() == "6") {
+        // SI ES RUC
+        $("#razon_social").val("");
+        $("#domicilio_fiscal").val("");
+        var dni = $("#numero_documento").val();
+        $.post( "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni,  function (data, status) {
+            data = JSON.parse(data);
+            if (data != null) {
+              $("#idcliente").val(data.idpersona);
+              $("#razon_social").val(data.razon_social);
+              $("#domicilio_fiscal").val(data.domicilio_fiscal);
+            } else {
+              $("#idcliente").val("");
+              $("#razon_social").val("No registrado");
+              $("#domicilio_fiscal").val("No registrado");
+              Swal.fire({
+                title: "Cliente no registrado",
+                icon: "warning",
+              });
 
-                $("#ModalNcliente").modal("show");
-                $("#nruc").val($("#numero_documento").val());
-              }
+              $("#ModalNcliente").modal("show");
+              $("#nruc").val($("#numero_documento").val());
             }
-          );
-          $("#suggestions").fadeOut();
-          $("#suggestions2").fadeOut();
-          $("#suggestions3").fadeOut();
-        } else {
-          $("#idcliente").val("N");
-          $("#razon_social").val("");
-          document.getElementById("razon_social").placeholder = "No Registrado";
-          $("#domicilio_fiscal").val("");
-          document.getElementById("domicilio_fiscal").placeholder =
-            "No Registrado";
-          document.getElementById("btnAgregarArt").style.backgroundColor =
-            "#35770c";
-          document.getElementById("razon_social").style.Color = "#35770c";
-          document.getElementById("razon_social").focus();
-        }
+          }
+        );
+        $("#suggestions").fadeOut();
+        $("#suggestions2").fadeOut();
+        $("#suggestions3").fadeOut();
+      } else {
+        $("#idcliente").val("N");
+        $("#razon_social").val("");
+        $("#domicilio_fiscal").val("");
+        document.getElementById("razon_social").placeholder = "No Registrado";        
+        document.getElementById("domicilio_fiscal").placeholder = "No Registrado";
+        document.getElementById("btnAgregarArt").style.backgroundColor = "#35770c";
+        document.getElementById("razon_social").style.Color = "#35770c";
+        document.getElementById("razon_social").focus();
       }
-    );
+    });
   }
 }
 
 function agregarClientexDocCha() {
   var dni = $("#numero_documento").val();
-
   $("#razon_social").val("");
   $("#domicilio_fiscal").val("");
 
-  $.post(
-    "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni,
-    function (data, status) {
+  $.post( "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni, function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idcliente").val(data.idpersona);
         $("#razon_social").val(data.nombres);
         $("#domicilio_fiscal").val(data.domicilio_fiscal);
-        document.getElementById("btnAgregarArt").style.backgroundColor =
-          "#367fa9";
+        document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
         document.getElementById("mensaje700").style.display = "none";
         document.getElementById("btnAgregarArt").focus();
         $("#suggestions").fadeOut();
@@ -2760,16 +2653,13 @@ function agregarClientexDocCha() {
 
 function agregarClientexDoc2() {
   var dni = $("#numero_documento").val();
-  $.post(
-    "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni,
-    function (data, status) {
+  $.post("../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni, function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         $("#idcliente").val(data.idpersona);
         $("#razon_social").val(data.nombres);
         $("#domicilio_fiscal").val(data.domicilio_fiscal);
-        document.getElementById("btnAgregarArt").style.backgroundColor =
-          "#367fa9";
+        document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
         document.getElementById("mensaje700").style.display = "none";
         document.getElementById("btnAgregarArt").focus();
       } else if ($("#tipo_doc_ide").val() == "1") {
@@ -2887,14 +2777,10 @@ function enviarwhatsapp(idboleta) {
   });
 }
 
-function mayus(e) {
-  e.value = e.value.toUpperCase();
-}
+function mayus(e) { e.value = e.value.toUpperCase(); }
 
 function focusDir(e) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("domicilio_fiscal").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) {  document.getElementById("domicilio_fiscal").focus(); }
 }
 
 function agregarArt(e) {
@@ -2906,7 +2792,6 @@ function agregarArt(e) {
 function focusAgrArt(e) {
   if (e.keyCode === 13 && !e.shiftKey) {
     document.getElementById("btnAgregarArt").focus();
-
     document.getElementById("btnAgregarArt").style.backgroundColor = "#35770c";
   }
 }
@@ -4414,6 +4299,8 @@ function borrarcuotas() {
 
 //llenar documentos
 function cargarTiposDocIde() {
+  $(".charge-doc-identidad").html(`<i class="fas fa-spinner fa-pulse"></i>`);
+
   var baseURL = window.location.protocol + '//' + window.location.host;
 
   // Verificar si pathname contiene '/vistas/' y eliminarlo.
@@ -4442,22 +4329,13 @@ function cargarTiposDocIde() {
 function llenarSelect(data) {
   var select = $("#tipo_doc_ide");
   select.empty();
-  select.append(
-    $("<option>", {
-      value: "",
-      text: "Tipo de documento",
-    })
-  );
+  select.append( $("<option>", { value: "", text: "Tipo de documento", }) );
   $.each(data, function (index, value) {
     if (value.estado === "1") {
-      select.append(
-        $("<option>", {
-          value: value.codigo,
-          text: value.documento,
-        })
-      );
+      select.append( $("<option>", { value: value.codigo, text: value.documento, }));
     }
   });
+  $(".charge-doc-identidad").html(``);
 }
 
 $(document).ready(function () {

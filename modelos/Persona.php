@@ -256,30 +256,22 @@ class Persona
 	}
 
 
-	public function buscarclienteRuc($key)	{
-
-		// define('DB_SERVER', 'localhost');
-		// define('DB_SERVER_USERNAME', 'YOUR DATA BASE USERNAME');
-		// define('DB_SERVER_PASSWORD', 'YOUR DATA BASE PASSWORD');
-		// define('DB_DATABASE', 'YOUR DATA BASE NAME');
-
-		// $connexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-		// $result = $connexion->query('');
+	public function buscarclienteRuc($key)	{		
 
 		$html = '';
-		$cc = 1;
-		//$key = $_POST['key'];
+		$cc = 1;	
 
-		$sql_1 = "SELECT * from persona 
-		where tipo_persona='cliente' and tipo_documento='6' and numero_documento like '%" . strip_tags($key) . "%' and not idpersona='1' limit 8";
-		$result = ejecutarConsulta($sql_1);
+		$sql_1 = "SELECT * from persona where tipo_persona='cliente' and tipo_documento='6' and numero_documento like '%" . $key . "%' and not idpersona='1' limit 8";
+		$result = ejecutarConsultaArray($sql_1);
 		
-		if ($result->num_rows > 0) {
-			while ($row = $result->fetch_assoc()) {
-				$html .= '<div ><a class="suggest-element"  ndocumento="' . utf8_encode($row['numero_documento']) . '"  ncomercial="' . utf8_encode($row['razon_social']) . '"  domicilio="' . utf8_encode($row['domicilio_fiscal']) . '" id="' . $row['idpersona'] . '" email="' . $row['email'] . '">' . utf8_encode($row['razon_social']) . '</a></div>';
-				$cc =  $cc +  1;
-			}
+		foreach ($result as $key => $row) {
+			$num_doc = utf8_encode($row['numero_documento']);
+			$razon_s = utf8_encode($row['razon_social']);
+			$dom_fiscal = utf8_encode($row['domicilio_fiscal']);
+			$html .= '<div ><a class="suggest-element"  ndocumento="'.$num_doc.'"  ncomercial="' . $razon_s . '"  domicilio="' . $dom_fiscal . '" id="' . $row['idpersona'] . '" email="' . $row['email'] . '">' . $razon_s . '</a></div>';
+			$cc =  $cc +  1;
 		}
+		
 		echo $html;
 	}
 
