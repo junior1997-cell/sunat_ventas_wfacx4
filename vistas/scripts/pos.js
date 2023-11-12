@@ -1740,8 +1740,6 @@ $.post("../ajax/factura.php?op=selectTributo", function (r) {
   $("#codigo_tributo_18_3").html(r);
 });
 
-
-
 /* ---------------------------------------------------------------- */
 //                   OBTENER VENDEDOR (vendedorsitio)  
 

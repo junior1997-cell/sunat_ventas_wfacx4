@@ -65,33 +65,22 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="card">
                       <div class="card-body">
                         <div class="row">
+                          <div class="col-lg-12 text-danger no-tienes-permiso-boleta" ></div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Serie:</label>
+                            <label for="serie" class="col-form-label">Serie: <span class="charge-serie text-danger"><i class="fas fa-spinner fa-pulse"></i></span></label>
                             <SELECT class="form-control" name="serie" id="serie" onchange="incremetarNum()"></SELECT>
                             <input type="hidden" name="idnumeracion" id="idnumeracion">
                             <input type="hidden" name="SerieReal" id="SerieReal">
                           </div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Número:</label>
+                            <label for="numero_boleta" class="col-form-label">Número: <span class="charge-numero text-danger"><i class="fas fa-spinner fa-pulse"></i></span></label>
                             <input type="text" name="numero_boleta" id="numero_boleta" class="form-control" required="true" readonly>
-                          </div>
-                          <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Tipo de
-                              boleta:</label>
-                            <select class="form-control" name="tipoboleta" id="tipoboleta" onchange="cambiarlistado()">
-                              TIPO DE BOLETA
-                              <option value="st">SELECCIONE TIPO DE BOLETA</option>
-                              <option value="productos" selected="true">PRODUCTOS</option>
-                              <option value="servicios">SERVICIOS</option>
-                            </select>
-                          </div>
+                          </div>                          
                           <!--Campos para guardar comprobante Factura-->
-                          <input type="hidden" name="idboleta" id="idboleta">
+                          <input type="hidden" name="idboleta" id="idboleta"> 
                           <input type="hidden" name="firma_digital_36" id="firma_digital_36" value="44477344">
                           <!--Datos de empresa -->
                           <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
-
-
                           <input type="hidden" name="tipo_documento_06" id="tipo_documento_06" value="03">
                           <input type="hidden" name="numeracion_07" id="numeracion_07" value="">
                           <!--Datos del cliente-->
@@ -114,27 +103,34 @@ if (!isset($_SESSION["nombre"])) {
                           <input type="hidden" name="hora" id="hora">
                           <!--DETALLE-->
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Fe. emisión:</label>
+                            <label for="fecha_emision_01" class="col-form-label">Fe. emisión:</label>
                             <input type="date" disabled="true" style="font-size: 12pt;" class="form-control" name="fecha_emision_01" id="fecha_emision_01" disabled="true" required="true" onchange="focusTdoc()">
                           </div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">F.
-                              vencimiento:</label>
+                            <label for="fechavenc" class="col-form-label">F. vencimiento:</label>
                             <input type="date" class="form-control" name="fechavenc" id="fechavenc" required="true" min="<?php echo date('Y-m-d'); ?>">
                           </div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Moneda:</label>
+                            <label for="tipo_moneda_24" class="col-form-label">Moneda:</label>
                             <select class="form-control" name="tipo_moneda_24" id="tipo_moneda_24" onchange="tipodecambiosunat();">
                               <option value="PEN" selected="true">PEN</option>
                               <option value="USD">USD</option>
                             </select>
                           </div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">T. camb:</label>
+                            <label for="tcambio" class="col-form-label">T. camb:</label>
                             <input type="text" name="tcambio" id="tcambio" class="form-control" readonly="true">
                           </div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Documento:</label>
+                            <label for="tipoboleta" class="col-form-label">Tipo de boleta:</label>
+                            <select class="form-control" name="tipoboleta" id="tipoboleta" onchange="cambiarlistado()">                              
+                              <option value="st">SELECCIONE TIPO DE BOLETA</option>
+                              <option value="productos" selected="true">PRODUCTOS</option>
+                              <option value="servicios">SERVICIOS</option>
+                            </select>
+                          </div>
+                          <div class="mb-3 col-lg-6">
+                            <label for="tipo_doc_ide" class="col-form-label">Documento: <span class="charge-doc-identidad text-danger"><i class="fas fa-spinner fa-pulse"></i></span></label>
                             <select class="form-control" name="tipo_doc_ide" id="tipo_doc_ide" onchange="focusI()">
                               <!-- <OPTION value="0">S/D</OPTION>
                             <OPTION value="1">DNI</OPTION>
@@ -142,40 +138,40 @@ if (!isset($_SESSION["nombre"])) {
                             <OPTION value="7">PASAPORTE</OPTION>
                             <OPTION value="A">CED. D. IDE.</OPTION> -->
                             </select>
-                          </div>
+                          </div>                          
                           <div class="mb-3 col-lg-12">
-                            <label for="recipient-name" class="col-form-label">Nro (Presione
-                              Enter):</label>
-                            <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)" onchange="agregarClientexDocCha();">
-                            <div id="suggestions">
+                            <label for="numero_documento" class="col-form-label">Nro (Presione Enter):</label>
+                            <div class="input-group mb-1">                              
+                              <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)" onchange="agregarClientexDocCha();">                            
+                              <button class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar Reniec/Sunat" style="margin: 0 auto;"><i class="fas fa-search"></i></button>
                             </div>
+                            <div id="suggestions"> </div>
                           </div>
                           <div class="mb-3 col-lg-12">
-                            <label for="recipient-name" class="col-form-label">Nombres y
-                              apellidos:</label>
+                            <label for="razon_social" class="col-form-label">Nombres y apellidos:</label>
                             <input type="text" class="form-control" name="razon_social" id="razon_social" maxlength="50" placeholder="NOMBRE COMERCIAL" width="50x" value="-" required="true" onkeyup="mayus(this);" onkeypress="focusDir(event)" onblur="quitasuge2()">
                             <div id="suggestions2">
                             </div>
                           </div>
                           <div class="mb-3 col-lg-12">
-                            <label for="recipient-name" class="col-form-label">Dirección:</label>
+                            <label for="domicilio_fiscal" class="col-form-label">Dirección:</label>
                             <input type="text" class="form-control" name="domicilio_fiscal" id="domicilio_fiscal" value="-" onkeyup="mayus(this);" placeholder="Dirección" onkeypress="agregarArt(event)">
                           </div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Vendedor:</label>
+                            <label for="vendedorsitio" class="col-form-label">Vendedor:</label>
                             <select autofocus name="vendedorsitio" id="vendedorsitio" class="form-control">
                             </select>
                           </div>
                           <div hidden class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Nro Guia:</label>
+                            <label for="guia_remision_25" class="col-form-label">Nro Guia:</label>
                             <input type="text" name="guia_remision_25" id="guia_remision_25" class="form-control" placeholder="NRO DE GUÍA">
                           </div>
                           <div class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Impuesto:</label>
+                            <label for="codigo_tributo_18_3" class="col-form-label">Impuesto:</label>
                             <select class="form-control" name="codigo_tributo_18_3" id="codigo_tributo_18_3" onchange="tributocodnon()">TRIBUTO</select>
                           </div>
                           <div hidden class="mb-3 col-lg-6">
-                            <label for="recipient-name" class="col-form-label">Nro
+                            <label for="nroreferencia" class="col-form-label">Nro
                               transferencia:</label>
                             <input type="text" name="nroreferencia" id="nroreferencia" class="form-control" style="color: blue;" placeholder="N° Operación">
                           </div>
@@ -183,7 +179,7 @@ if (!isset($_SESSION["nombre"])) {
                             <textarea name="descripcion_leyenda_26_2" id="descripcion_leyenda_26_2" cols="5" rows="3" class="form-control" placeholder="Observaciones"></textarea>
                           </div>
                           <div class="mb-3 col-lg-12">
-                            <label for="recipient-name" class="col-form-label">Tipo de pago:</label>
+                            <label for="tipopago" class="col-form-label">Tipo de pago:</label>
                             <select class="form-control" name="tipopago" id="tipopago" onchange="contadocredito()">
                               <option value="nn">SELECCIONE LA FORMA DE PAGO</option>
                               <option value="Contado" selected>CONTADO</option>
@@ -196,8 +192,7 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
                           <div id="tipopagodiv" style="display: none;">
                             <div class="mb-3 col-lg-12">
-                              <label for="recipient-name" class="col-form-label">N° de
-                                cuotas:</label>
+                              <label for="ccuotas" class="col-form-label">N° de cuotas:</label>
                               <div class="input-group">
                                 <span style="cursor:pointer;" class="input-group-text" data-bs-toggle="modal" title="mostrar cuotas" data-bs-target="#modalcuotas" id="basic-addon1">&#9769;</span>
                                 <span style="cursor:pointer;" class="input-group-text" onclick="borrarcuotas()" title="Editar cuotas">&#10000;</span>
@@ -293,142 +288,123 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="col-md-9">
                     <div class="card">
                       <div class="card-body">
-                        <input type="hidden" name="itemno" id="itemno" value="0">
-                        <button style="margin-left:0px;" type="button" data-bs-toggle="modal" data-bs-target="#myModalArt" id="btnAgregarArt" class="btn btn-danger btn-sm mb-3" onclick="cambiarlistadoum2()">
-                          Agregar Productos o serivicios
-                        </button>
-                        <div class="mb-3 col-lg-12">
-                          <!-- <label for="recipient-name" class="col-form-label">Código barra:</label> -->
-                          <input type="text" name="codigob" id="codigob" class="form-control" onkeypress="agregarArticuloxCodigo(event)" onkeyup="mayus(this);" placeholder="Digite o escanee el código de barras" onchange="quitasuge3()" style="background-color: #F5F589;">
-                          <div id="suggestions3">
+                        <div class="row">                        
+                          <input type="hidden" name="itemno" id="itemno" value="0">
+                          <div class="col-3">
+                            <button style="margin-left:0px;" type="button" data-bs-toggle="modal" data-bs-target="#myModalArt" id="btnAgregarArt" class="btn btn-primary mb-3" onclick="cambiarlistadoum2()">
+                              Agregar Productos o Servicios
+                            </button>
+                          </div>                        
+                          <div class="mb-3 col-lg-9">
+                            <!-- <label for="recipient-name" class="col-form-label">Código barra:</label> -->
+                            <div class="input-group">                              
+                              <span class="input-group-text cursor-pointer"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar por codigo de producto."><i class="fas fa-barcode fa-lg"></i></span>
+                              <input type="text" name="codigob" id="codigob" class="form-control" onkeypress="agregarArticuloxCodigo(event)" onkeyup="mayus(this);" placeholder="Digite o escanee el código de barras" onchange="quitasuge3()" style="background-color: #F5F589;">
+                            </div>                            
+                            <div id="suggestions3"> </div>
                           </div>
-                        </div>
-                        <!-- <button data-bs-toggle="modal" data-bs-target="#myModalnuevoitem" id="btnAgregarArt" type="button" class="btn btn-danger btn-sm" onclick="cambiarlistadoum()"> Otra u. medida </button> -->
-                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <label style="font-size: 16pt; color: red;" hidden="true" id="mensaje700" name="mensaje700">Agregar DNI o C.E. del
-                            cliente.</label>
-                        </div>
-                        <div class="table-responsive">
-                          <table id="detalles" class="table table-striped" style="text-align:center;">
-                            <thead align="center" >
-                              <th>Sup.</th>
-                              <th>Item</th>
-                              <th>Artículo</th>
-                              <!-- <th style="color:white;">Descripción</th> -->
-                              <th>Cantidad</th>
-                              <th>Dcto. %</th>
-                              <!-- <th style="color:white;">Cód. Prov.</th> -->
-                              <!-- <th style="color:white;">-</th> -->
-                              <th>U.M.</th>
-                              <th>Prec. Uni.</th>
-                              <th>Val. u.</th>
-                              <th>Stock</th>
-                              <th>Importe</th>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="form-group" style="background-color: #b4d4ee;">
-                          <div class="text-center">
-                            <div style="color:#081A51; font-weight: bold">Items de venta</div>
-                            <!-- <button style="background:#081A51; border:none;" type="button" value="1" name="botonpago1" id="botonpago1"
-                          class="btn btn-success btn-sm"
-                          onclick="botonrapido1()">1</button>
-                          <button style="background:#081A51; border:none;" type="button" value="2" name="botonpago2" id="botonpago2"
-                          class="btn btn-success btn-sm"
-                          onclick="botonrapido2()">2</button>
-                          <button style="background:#081A51; border:none;" value="5" type="button" name="botonpago5" id="botonpago5"
-                          class="btn btn-success btn-sm"
-                          onclick="botonrapido5()">5</button>
-                          <button style="background:#081A51; border:none;" value="10" type="button" name="botonpago10" id="botonpago10"
-                          class="btn btn-success btn-sm"
-                          onclick="botonrapido10()">10</button>
-                          <button style="background:#081A51; border:none;" value="20" name="botonpago20" type="button" id="botonpago20"
-                          class="btn btn-success btn-sm"
-                          onclick="botonrapido20()">20</button>
-                          <button style="background:#081A51; border:none;" ="button" value="50" name="botonpago50" type="button"
-                          id="botonpago50" class="btn btn-success btn-sm"
-                          onclick="botonrapido50()">50</button>
-                          <button style="background:#081A51; border:none;" value="100" name="botonpago100" id="botonpago100"
-                          type="button" class="btn btn-success btn-sm"
-                          onclick="botonrapido100()">100</button>
-                          <button style="background:#081A51; border:none;" value="200" name="botonpago200" id="botonpago200"
-                          type="button" class="btn btn-success btn-sm"
-                          onclick="botonrapido200()">200</button> -->
-                            <!-- <button style="background:#081A51; border:none;" value="200"
-                          name="botonpago200" id="botonpago200" type="button"
-                          class="btn btn-success btn-sm" onclick="agregarMontoPer()">Agregar
-                          monto perzonalizado</button> -->
+                          <!-- <button data-bs-toggle="modal" data-bs-target="#myModalnuevoitem" id="btnAgregarArt" type="button" class="btn btn-danger btn-sm" onclick="cambiarlistadoum()"> Otra u. medida </button> -->
+                          <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <label style="font-size: 16pt; color: red;" hidden="true" id="mensaje700" name="mensaje700">Agregar DNI o C.E. del cliente.</label>
                           </div>
-                        </div>
+                          <div class="table-responsive">
+                            <table id="detalles" class="table table-striped" style="text-align:center;">
+                              <thead align="center" >
+                                <th>Sup.</th>
+                                <th>Item</th>
+                                <th>Artículo</th>
+                                <!-- <th style="color:white;">Descripción</th> -->
+                                <th>Cantidad</th>
+                                <th>Dcto. %</th>
+                                <!-- <th style="color:white;">Cód. Prov.</th> -->
+                                <!-- <th style="color:white;">-</th> -->
+                                <th>U.M.</th>
+                                <th>Prec. Uni.</th>
+                                <th>Val. u.</th>
+                                <th>Stock</th>
+                                <th>Importe</th>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="form-group" style="background-color: #b4d4ee;">
+                            <div class="text-center">
+                              <div style="color:#081A51; font-weight: bold">Items de venta</div>
+                                <!-- <button style="background:#081A51; border:none;" type="button" value="1" name="botonpago1" id="botonpago1" class="btn btn-success btn-sm" onclick="botonrapido1()">1</button>
+                                <button style="background:#081A51; border:none;" type="button" value="2" name="botonpago2" id="botonpago2" class="btn btn-success btn-sm" onclick="botonrapido2()">2</button>
+                                <button style="background:#081A51; border:none;" value="5" type="button" name="botonpago5" id="botonpago5" class="btn btn-success btn-sm" onclick="botonrapido5()">5</button>
+                                <button style="background:#081A51; border:none;" value="10" type="button" name="botonpago10" id="botonpago10" class="btn btn-success btn-sm" onclick="botonrapido10()">10</button>
+                                <button style="background:#081A51; border:none;" value="20" name="botonpago20" type="button" id="botonpago20" class="btn btn-success btn-sm" onclick="botonrapido20()">20</button>
+                                <button style="background:#081A51; border:none;" type="button" value="50" name="botonpago50" type="button" id="botonpago50" class="btn btn-success btn-sm" onclick="botonrapido50()">50</button>
+                                <button style="background:#081A51; border:none;" value="100" name="botonpago100" id="botonpago100" type="button" class="btn btn-success btn-sm" onclick="botonrapido100()">100</button>
+                                <button style="background:#081A51; border:none;" value="200" name="botonpago200" id="botonpago200"  type="button" class="btn btn-success btn-sm" onclick="botonrapido200()">200</button>
+                                <button style="background:#081A51; border:none;" value="200" name="botonpago200" id="botonpago200" type="button" class="btn btn-success btn-sm" onclick="agregarMontoPer()">Agregar monto perzonalizado</button> -->
+                            </div>
+                          </div>
 
-
-
-
-                        <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                          <div class="card" style="border:none;">
-                            <div class="card custom-card">
-                              <div class="">
-                                <h4 class="card-title">Detalle del ingreso</h4>
-                                <p class="">
-                                  <th id="CuadroT" style="font-weight: bold; background-color:#FFB887;">
-                                    <div style="display:flex;">
-                                      <label for="">SubT. : </label>
-                                      <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" id="subtotal"> 0.00</h6> -->
-                                      <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none;width: 95px;" name="subtotal_boleta" id="subtotal_boleta">
-                                    </div>
-                                    <div style="display:flex;">
-                                      <label for="">IGV : </label>
-                                      <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none; width: 95px;" name="total_igv" id="total_igv">
-                                    </div>
-                                    <div style="display:flex;">
-                                      <label for="">Descuento : </label>
-                                      <h6 style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; " name="" id="tdescuentoL"> 0.00</h6>
-                                      <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" name="total_dcto" id="total_dcto"> 0.00</h6> -->
-                                    </div>
-                                    <div style="display:flex;">
-                                      <label for="">Total a pagar : </label>
-                                      <h6 style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" id="total"> 0.00</h6>
-                                    </div>
-                                    <br>
-                                    <h5 class="card-title">Calcular vuelto</h5>
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                      <label for="">Pago con : </label>
-                                      <!-- <h6 name="ipagado" id="ipagado"
-                                  style="font-weight: bold; margin: 0 auto; top: 10px; margin-right: 0px;">
-                                  0.00</h6> -->
-                                      <input type="number" class="form-control text-end hidebutton" name="ipagado" id="ipagado" value="0.00" style="width: 100px;">
-                                      <!-- <input hidden name="ipagado_final" id="ipagado_final" style="font-weight: bold; margin-left: 75px; width: 100px;"> -->
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                      <label for="" id="vuelto_text">Vuelto : </label>
-                                      <h6 style="font-weight: bold; margin: 0 auto; margin-right: 0px;" name="saldo" id="saldo"> 0.00</h6>
-                                      <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" name="saldo_final" id="saldo_final"> 0.00</h6> -->
-                                    </div>
-                                    <input type="hidden" name="total_final" id="total_final">
-                                    <input type="hidden" name="pre_v_u" id="pre_v_u">
-                                    <!-- <input type="hidden" name="subtotal_boleta" id="subtotal_boleta"> -->
-                                    <!-- <input type="hidden" name="total_igv" id="total_igv"> -->
-                                    <input type="hidden" name="total_icbper" id="total_icbper">
-                                    <input type="hidden" name="total_dcto" id="total_dcto">
-                                    <input type="hidden" name="ipagado_final" id="ipagado_final">
-                                  </th>
-                                  <!--Datos de impuestos--> <!--TOTAL-->
-                                  <input type="hidden" name="saldo_final" id="saldo_final">
+                          <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                            <div class="card" style="border:none;">
+                              <div class="card custom-card">
+                                <div class="">
+                                  <h4 class="card-title">Detalle del ingreso</h4>
+                                  <p class="">
+                                    <th id="CuadroT" style="font-weight: bold; background-color:#FFB887;">
+                                      <div style="display:flex;">
+                                        <label for="">SubT. : </label>
+                                        <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" id="subtotal"> 0.00</h6> -->
+                                        <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none;width: 95px;" name="subtotal_boleta" id="subtotal_boleta">
+                                      </div>
+                                      <div style="display:flex;">
+                                        <label for="">IGV : </label>
+                                        <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none; width: 95px;" name="total_igv" id="total_igv">
+                                      </div>
+                                      <div style="display:flex;">
+                                        <label for="">Descuento : </label>
+                                        <h6 style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; " name="" id="tdescuentoL"> 0.00</h6>
+                                        <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" name="total_dcto" id="total_dcto"> 0.00</h6> -->
+                                      </div>
+                                      <div style="display:flex;">
+                                        <label for="">Total a pagar : </label>
+                                        <h6 style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" id="total"> 0.00</h6>
+                                      </div>
+                                      <br>
+                                      <h5 class="card-title">Calcular vuelto</h5>
+                                      <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <label for="ipagado">Pago con : </label>
+                                        <!-- <h6 name="ipagado" id="ipagado" style="font-weight: bold; margin: 0 auto; top: 10px; margin-right: 0px;"> 0.00</h6> -->
+                                        <input type="number" class="form-control text-end hidebutton" name="ipagado" id="ipagado" value="0.00" style="width: 100px;">
+                                        <!-- <input hidden name="ipagado_final" id="ipagado_final" style="font-weight: bold; margin-left: 75px; width: 100px;"> -->
+                                      </div>
+                                      <div class="d-flex align-items-center">
+                                        <label for="saldo" id="vuelto_text">Vuelto : </label>
+                                        <h6 style="font-weight: bold; margin: 0 auto; margin-right: 0px;" name="saldo" id="saldo"> 0.00</h6>
+                                        <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" name="saldo_final" id="saldo_final"> 0.00</h6> -->
+                                      </div>
+                                      <input type="hidden" name="total_final" id="total_final">
+                                      <input type="hidden" name="pre_v_u" id="pre_v_u">
+                                      <!-- <input type="hidden" name="subtotal_boleta" id="subtotal_boleta"> -->
+                                      <!-- <input type="hidden" name="total_igv" id="total_igv"> -->
+                                      <input type="hidden" name="total_icbper" id="total_icbper">
+                                      <input type="hidden" name="total_dcto" id="total_dcto">
+                                      <input type="hidden" name="ipagado_final" id="ipagado_final">
+                                    </th>
+                                    <!--Datos de impuestos--> <!--TOTAL-->
+                                    <input type="hidden" name="saldo_final" id="saldo_final">
+                                    </th><!--Datos de impuestos--> <!--TOTAL-->
+                                  <h4 hidden id="icbper">0</h4>
                                   </th><!--Datos de impuestos--> <!--TOTAL-->
-                                <h4 hidden id="icbper">0</h4>
-                                </th><!--Datos de impuestos--> <!--TOTAL-->
-                                <!-- </th> -->
-                                </p>
+                                  <!-- </th> -->
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
+                          <button style="margin-left:0px;" class="btn btn-primary btn-sm" type="submit" id="btnGuardar" data-toggle="tooltip" title="Guardar boleta"><i class="fa fa-save"></i>
+                            Guardar
+                          </button>
+                          <button style="margin-left:0px;" id="btnCancelar" class="btn btn-danger btn-sm" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left" data-toggle="tooltip" title="Cancelar"></i> Cancelar</button>
                         </div>
-                        <button style="margin-left:0px;" class="btn btn-primary btn-sm" type="submit" id="btnGuardar" data-toggle="tooltip" title="Guardar boleta"><i class="fa fa-save"></i>
-                          Guardar
-                        </button>
-                        <button style="margin-left:0px;" id="btnCancelar" class="btn btn-danger btn-sm" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left" data-toggle="tooltip" title="Cancelar"></i> Cancelar</button>
                       </div>
                     </div>
                   </div>
@@ -588,6 +564,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Fin modal -->
+
     <!-- Modal -->
     <div class="modal fade text-left" id="myModalArt" tabindex="-1" role="dialog" aria-labelledby="myModalArt" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
@@ -599,7 +576,7 @@ if (!isset($_SESSION["nombre"])) {
           <div class="modal-body">
             <div class="row">
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Precio:</label>
+                <label for="tipoprecio" class="col-form-label">Precio:</label>
                 <select class="form-control" id="tipoprecio" onchange="listarArticulos()">
                   <option value='1'>PRECIO PÚBLICO</option>
                   <option value='2'>PRECIO POR MAYOR</option>
@@ -607,7 +584,7 @@ if (!isset($_SESSION["nombre"])) {
                 </select>
               </div>
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Sucursal:</label>
+                <label for="almacenlista" class="col-form-label">Sucursal:</label>
                 <select class="form-control" id="almacenlista" onchange="listarArticulos()">
                 </select>
               </div>
@@ -653,6 +630,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
     <!-- Modal  SERVICIOS -->
     <div class="modal fade" id="myModalserv" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="width: 100% !important;">
@@ -690,6 +668,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Fin modal -->
+
     <!-- Modal -->
     <div class="modal fade" id="myModalArtItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="width: 65% !important;">
@@ -729,6 +708,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Fin modal -->
+
     <!-- Modal -->
     <div class="modal fade" id="modalTcambio">
       <div class="modal-dialog" style="width: 100% !important;">
@@ -825,6 +805,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="ModalNcliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="width: 100% !important;">
@@ -952,6 +933,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
     <!-- Fin modal -->
     <div class="modal fade text-left" id="modalPreviewXml" tabindex="-1" role="dialog" aria-labelledby="modalPreviewXml" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
@@ -978,6 +960,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
     <div class="modal fade text-left" id="modalPreviewCdr" tabindex="-1" role="dialog" aria-labelledby="modalPreviewCdr" aria-hidden="true">
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -1003,6 +986,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
     <!-- Modal  nuevo articulo -->
     <div class="modal fade text-left" id="modalnuevoarticulo" tabindex="-1" role="dialog" aria-labelledby="modalnuevoarticulo" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
@@ -1016,12 +1000,12 @@ if (!isset($_SESSION["nombre"])) {
               <div class="mb-3 col-lg-6">
                 <input type="hidden" name="idarticulonuevo" id="idarticulonuevo">
                 <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
-                <label for="recipient-name" class="col-form-label">Selecciona el almacen:</label>
+                <label for="idalmacennarticulo" class="col-form-label">Selecciona el almacen:</label>
                 <select class="form-control" name="idalmacennarticulo" id="idalmacennarticulo" required data-live-search="true">
                 </select>
               </div>
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Selecciona tu categoria:</label>
+                <label for="idfamilianarticulo" class="col-form-label">Selecciona tu categoria:</label>
                 <select class="form-control" name="idfamilianarticulo" id="idfamilianarticulo" required data-live-search="true">
                 </select>
               </div>
@@ -1032,23 +1016,23 @@ if (!isset($_SESSION["nombre"])) {
                 </select>
               </div>
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Nombre del producto:</label>
+                <label for="nombrenarticulo" class="col-form-label">Nombre del producto:</label>
                 <input type="text" class="form-control" name="nombrenarticulo" id="nombrenarticulo" onkeyup="mayus(this);" onkeypress=" return limitestockf(event, this)" autofocus="true" onchange="generarcodigonarti()">
               </div>
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Cantidad del stock</label>
+                <label for="stocknarticulo" class="col-form-label">Cantidad del stock</label>
                 <input type="text" class="form-control" name="stocknarticulo" id="stocknarticulo" maxlength="100" required="true" onkeypress="return NumCheck(event, this)">
               </div>
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Precio de venta:</label>
+                <label for="precioventanarticulo" class="col-form-label">Precio de venta:</label>
                 <input type="text" class="form-control" name="precioventanarticulo" id="precioventanarticulo" onkeypress="return NumCheck(event, this)">
               </div>
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Codigo del interno del producto:</label>
+                <label for="codigonarticulonarticulo" class="col-form-label">Codigo del interno del producto:</label>
                 <input type="text" class="form-control" name="codigonarticulonarticulo" id="codigonarticulonarticulo">
               </div>
               <div class="mb-3 col-lg-6">
-                <label for="recipient-name" class="col-form-label">Unidad de medida:</label>
+                <label for="umedidanp" class="col-form-label">Unidad de medida:</label>
                 <select class="form-control" name="umedidanp" id="umedidanp" required data-live-search="true">
                 </select>
               </div>
@@ -1070,6 +1054,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
     <!-- Fin modal -->
   <?php
   } else {

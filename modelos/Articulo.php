@@ -1281,73 +1281,30 @@ class Articulo
     return ejecutarConsulta($sql);
   }
 
+  public function listarActivosVentaxCodigo($codigob) {
 
-
-
-
-  public function listarActivosVentaxCodigo($codigob)
-  {
-
-    $sql = "SELECT 
-        a.idarticulo,
-        a.idalmacen, 
-        a.codigo_proveedor, 
-        a.codigo, 
-        a.nombre, 
-        a.idfamilia, 
-        f.descripcion as familia, 
-        a.costo_compra, 
-        a.precio_venta, 
-        a.stock, 
-        a.imagen, 
-        a.estado, 
-        a.unidad_medida, 
-        (a.precio_venta * 1.18) as precio_unitario,
-        a.cicbper,
-        a.nticbperi,
-        a.ctticbperi,
-        format(a.mticbperu,2) as mticbperu,
-        (a.factorc * a.stock) as factorconversion,
-        a.stock,
-        a.factorc,
-        um.nombreum,
-        um.abre, 
-        a.tipoitem
-
-         from articulo a inner join familia f on a.idfamilia=f.idfamilia inner join almacen al on a.idalmacen=al.idalmacen inner join   umedida um on a.umedidacompra=um.idunidad
-         inner join subarticulo sub on a.idarticulo=sub.idarticulo 
-         where a.estado='1' and sub.codigobarra='$codigob'  or a.codigo='$codigob'";
-
+    $sql = "SELECT a.idarticulo, a.idalmacen, a.codigo_proveedor, a.codigo, a.nombre, a.idfamilia, f.descripcion as familia, a.costo_compra, a.precio_venta, a.stock, a.imagen, 
+    a.estado, a.unidad_medida, (a.precio_venta * 1.18) as precio_unitario, a.cicbper, a.nticbperi, a.ctticbperi, format(a.mticbperu,2) as mticbperu,
+    (a.factorc * a.stock) as factorconversion, a.stock, a.factorc, um.nombreum, um.abre, a.tipoitem
+    from articulo a 
+    inner join familia f on a.idfamilia=f.idfamilia 
+    inner join almacen al on a.idalmacen=al.idalmacen 
+    inner join umedida um on a.umedidacompra=um.idunidad
+    inner join subarticulo sub on a.idarticulo=sub.idarticulo 
+    where a.estado='1' and sub.codigobarra='$codigob' or a.codigo='$codigob'";
     return ejecutarConsultaSimpleFila($sql);
-
-    //format(a.precio_venta,2) as precio_venta,   
-
+    //format(a.precio_venta,2) as precio_venta,
   }
 
-
-
-
-
-
-
-
-
-  public function resetearvalores($codigo, $ano)
-  {
-
+  public function resetearvalores($codigo, $ano) {
     $sql = "delete from valfinarticulo";
     return ejecutarConsulta($sql);
   }
 
-  public function resetearvaloresTodos()
-  {
+  public function resetearvaloresTodos() {
     $sql = "delete from valfinarticulo";
     return ejecutarConsulta($sql);
   }
-
-
-
-
 
   public function buscararticulo($key) {
 

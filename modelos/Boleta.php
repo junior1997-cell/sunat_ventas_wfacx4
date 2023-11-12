@@ -91,8 +91,8 @@ class Boleta
 
           if ($tipoboleta != 'servicios') {
             $sql_update_articulo = "UPDATE  articulo set saldo_finu= saldo_finu - '$cantidadreal[$ii]', ventast=ventast + '$cantidadreal[$ii]', 
-            valor_finu=(saldo_iniu+comprast-ventast) * precio_final_kardex, stock=saldo_finu, 
-            valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$ii]' and transaccion='VENTA' order by idkardex desc limit 1)  
+            valor_finu=(saldo_iniu+comprast-ventast) * precio_final_kardex, stock=stock - '$cantidadreal[$ii]', 
+            valor_fin_kardex=(select valor_final  from kardex where idarticulo='$idarticulo[$ii]' and transaccion='VENTA' order by idkardex desc limit 1)  
             where  idarticulo='$idarticulo[$ii]'";
             ejecutarConsulta($sql_update_articulo);
           }
@@ -101,7 +101,8 @@ class Boleta
       }
 
 
-      $sqldetallesesionusuario = "INSERT INTO detalle_usuario_sesion (idusuario, tcomprobante, idcomprobante, fechahora) values  ('$idusuario', '$tipo_documento_06','$idBoletaNew', now())";
+      $sqldetallesesionusuario = "INSERT INTO detalle_usuario_sesion (idusuario, tcomprobante, idcomprobante, fechahora) values 
+      ('$idusuario', '$tipo_documento_06','$idBoletaNew', now())";
       ejecutarConsulta($sqldetallesesionusuario);
 
       if ($tipopago == 'Credito') {
@@ -2616,15 +2617,11 @@ class Boleta
   }
 
 
-  public function mostrartipocambio($fecha)
-  {
+  public function mostrartipocambio($fecha) {
 
     $sql = "SELECT idtipocambio, date_format(fecha, '%Y-%m-%d') as fecha, compra, venta from tcambio where fecha='$fecha'";
     return ejecutarConsultaSimpleFila($sql);
   }
-
-
-
 
   public function cambiartarjetadc($idboleta, $opcion)
   {

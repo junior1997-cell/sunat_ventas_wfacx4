@@ -208,12 +208,7 @@ class Consultas
     //return ejecutarConsulta($sql);
   }
 
-
-
-
-
-  public function mostrartipocambio($fechahoy)
-  {
+  public function mostrartipocambio($fechahoy) {
 
     $sql = "SELECT idtipocambio, date_format(fecha, '%Y-%m-%d') as fecha, compra, venta from tcambio where fecha='$fechahoy'";
     return ejecutarConsulta($sql);

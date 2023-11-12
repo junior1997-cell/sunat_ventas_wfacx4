@@ -88,9 +88,12 @@ class Numeracion
   }
 
   //Llenar combo de series de Boleta
-  public function llenarSerieBoleta($idusuario)
-  {
-    $sql = "SELECT n.idnumeracion, n.serie from numeracion n inner join detalle_usuario_numeracion dn on n.idnumeracion=dn.idnumeracion inner join usuario u on dn.idusuario=u.idusuario where n.tipo_documento='03' and dn.idusuario='$idusuario' group by n.serie";
+  public function llenarSerieBoleta($idusuario) {
+    $sql = "SELECT n.idnumeracion, n.serie 
+    from numeracion n 
+    inner join detalle_usuario_numeracion dn on n.idnumeracion=dn.idnumeracion 
+    inner join usuario u on dn.idusuario=u.idusuario 
+    where n.tipo_documento='03' and dn.idusuario='$idusuario' group by n.serie";
     return ejecutarConsulta($sql);    // Las series van deacuerdo a las asginaciones que e le de en los permisos de usuario       
   }
 

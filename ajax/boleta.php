@@ -323,10 +323,7 @@ switch ($_GET["op"]) {
     );
 
     echo json_encode($results);
-    break;
-
-
-
+  break;
 
   case 'listarArticulosboletaxcodigo':
     require_once "../modelos/Articulo.php";
@@ -335,9 +332,7 @@ switch ($_GET["op"]) {
     $codigob = $_GET['codigob'];
     $rspta = $articulo->listarActivosVentaxCodigo($codigob, $idempresa);
     echo json_encode($rspta);
-    break;
-
-
+  break;
 
   case 'listar':
     require_once "../modelos/Rutas.php";
@@ -784,7 +779,7 @@ switch ($_GET["op"]) {
               <a  class="dropdown-item" onclick="preticket2(' . $reg->idboleta . ')"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir Ticket"> </i> Formato Ticket</a>
               <a class="dropdown-item" onclick="prea4completo2(' . $reg->idboleta . ')"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir formato completo"> </i> Formato A4</a>
               <a  class="dropdown-item" onclick="baja(' . $reg->idboleta . ')" style="display:' . $stt . ';  color:red;"> Dar de baja</a>
-              <a hidden class="dropdown-item" onclick="enviarwhatsapp(' . $reg->idboleta . ')">Enviar por whatsapp</a>
+              <a  class="dropdown-item" onclick="enviarwhatsapp(' . $reg->idboleta . ')">Enviar por whatsapp</a>
               <a class="dropdown-item" onclick="enviarcorreo(' . $reg->idboleta . ')">Enviar por correo</a>                    
             </div>
           </div>
