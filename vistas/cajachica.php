@@ -18,8 +18,7 @@ if (!isset($_SESSION["nombre"])) {
 
     <div class="content-header">
       <h1>Caja chica del sistema <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#agregarsaldoInicial" onclick="verificarSaldoInicial()">Aperturar caja</button>
-        <button type="button" class="btn btn-primary" id="cerrarCajaBtn" onclick="cerrarCaja()">Cerrar caja Automatica
-          12pm</button>
+      <button type="button" class="btn btn-primary" id="cerrarCajaBtn" onclick="cerrarCaja();">Cerrar caja </button>
 
       </h1>
     </div>
@@ -28,7 +27,7 @@ if (!isset($_SESSION["nombre"])) {
         <div class="card custom-card">
           <div class="card-body p-0">
             <div class="row g-0">
-              <div class="col-xl-3 border-end border-inline-end-dashed">
+              <div class="col-xl-4 border-end border-inline-end-dashed " hidden>
                 <div class="d-flex flex-wrap align-items-top p-4">
                   <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-primary shadow-sm"> <i class="ti ti-package fs-18"></i> </span> </div>
                   <div class="flex-fill">
@@ -36,6 +35,26 @@ if (!isset($_SESSION["nombre"])) {
                     <p class="text-muted mb-0 fs-12">Compras</p>
                   </div>
                   <div hidden> <span class="badge bg-success-transparent"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>1.31%</span> </div>
+                </div>
+              </div>
+              <div class="col-xl-3 border-end border-inline-end-dashed">
+                <div class="d-flex flex-wrap align-items-top p-4">
+                  <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-warning shadow-sm"> <i class="ti ti-packge-import fs-18"></i> </span> </div>
+                  <div class="flex-fill">
+                    <h5 class="fw-semibold mb-1" id="total_saldoini"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
+                    <p class="text-muted mb-0 fs-12">Saldo Inicial</p>
+                  </div>
+                  <div hidden> <span class="badge bg-success-transparent"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>12.05%</span> </div>
+                </div>
+              </div>
+              <div class="col-xl-3 border-end border-inline-end-dashed" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Factura-Boleta-Nota-Pedido">
+                <div class="d-flex flex-wrap align-items-top p-4">
+                  <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-primary shadow-sm"> <i class="ti ti-package fs-18"></i> </span> </div>
+                  <div class="flex-fill">
+                    <h5 class="fw-semibold mb-1" id="total_ventas"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
+                    <p class=" text-muted mb-0 fs-12">Ventas</p>
+                  </div>
+                  <div hidden> <span class="badge bg-danger-transparent"><i class="ri-arrow-down-s-line align-middle me-1"></i>1.14%</span> </div>
                 </div>
               </div>
               <div class="col-xl-3 border-end border-inline-end-dashed">
@@ -48,7 +67,7 @@ if (!isset($_SESSION["nombre"])) {
                   <div hidden> <span class="badge bg-danger-transparent"><i class="ri-arrow-down-s-line align-middle me-1"></i>1.14%</span> </div>
                 </div>
               </div>
-              <div class="col-xl-3 border-end border-inline-end-dashed">
+              <div class="col-xl-3">
                 <div class="d-flex flex-wrap align-items-top p-4">
                   <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-success shadow-sm"> <i class="ti ti-wallet fs-18"></i> </span> </div>
                   <div class="flex-fill">
@@ -58,16 +77,7 @@ if (!isset($_SESSION["nombre"])) {
                   <div hidden> <span class="badge bg-success-transparent"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>2.58%</span> </div>
                 </div>
               </div>
-              <div class="col-xl-3">
-                <div class="d-flex flex-wrap align-items-top p-4">
-                  <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-warning shadow-sm"> <i class="ti ti-packge-import fs-18"></i> </span> </div>
-                  <div class="flex-fill">
-                    <h5 class="fw-semibold mb-1" id="total_saldoini"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
-                    <p class="text-muted mb-0 fs-12">Saldo Inicial</p>
-                  </div>
-                  <div hidden> <span class="badge bg-success-transparent"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>12.05%</span> </div>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -78,7 +88,7 @@ if (!isset($_SESSION["nombre"])) {
             <div class="d-flex align-items-top p-4 flex-wrap">
               <div class="me-3 lh-1"> <span class="avatar avatar-md avatar-rounded bg-white text-primary shadow-sm"> <i class="ti ti-coin fs-18"></i> </span> </div>
               <div class="flex-fill">
-                <h5 class="fw-semibold mb-1 text-fixed-white" id="total-ventas"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
+                <h5 class="fw-semibold mb-1 text-fixed-white" id="total_caja"><i class="fas fa-spinner fa-pulse fa-1x"></i></h5>
                 <p class="op-7 mb-0 fs-12">Total en caja</p>
               </div>
               <div hidden> <span class="badge bg-success"><i class="ri-arrow-up-s-line align-middle me-1 d-inline-block"></i>14.69%</span> </div>

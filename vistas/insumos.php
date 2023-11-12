@@ -94,7 +94,7 @@ if (!isset($_SESSION["nombre"])) {
                       <div class="row">
                         <div class="mb-3 col-lg-6">
                           <label for="recipient-name" class="col-form-label">Fecha de registro:</label>
-                          <input type="date" name="fecharegistro" id="fecharegistro" class="form-control" onchange="listar();">
+                          <input type="datetime-local" name="fecharegistro" id="fecharegistro" class="form-control" onchange="listar();">
                         </div>
                         <div class="mb-3 col-lg-6">
                           <label for="message-text" class="col-form-label">Tipo:</label>

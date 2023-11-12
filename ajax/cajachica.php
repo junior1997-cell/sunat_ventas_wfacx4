@@ -1,4 +1,5 @@
 <?php 
+if (strlen(session_id()) < 1){session_start();}
 require_once "../modelos/Cajachica.php";
 
 $cajachica=new Cajachica();
@@ -37,21 +38,45 @@ if (isset($_GET['action'])) {
 
   //total de ventas
   if ($action == 'TotalVentas') {
-	$rspta = $cajachica->TotalVentas();
-	$data = array();
-  
-	while ($reg=$rspta->fetch_object()){
-        $data[]=array(
-			"total_venta"=>$reg->total_venta
-        );
-    }
-	$results = array(
-		"aaData"=>$data
-	);
+
+		$rspta = $cajachica->TotalVentas();
+		$data = array();
 	
-	header('Content-type: application/json');
-	echo json_encode($results);
+		while ($reg=$rspta->fetch_object()){
+			$data[]=array(
+				"total_venta"=>$reg->total_venta
+			);
+		}
+		$results = array(
+			"aaData"=>$data
+		);
+		
+		header('Content-type: application/json');
+		echo json_encode($results);
+
   }
+
+    //total en caja.
+	if ($action == 'TotalCaja') {
+
+		$rspta = $cajachica->TotalCaja();
+		$data = array();
+	  
+		while ($reg=$rspta->fetch_object()){
+			$data[]=array(
+				"total_caja"=>$reg->total_caja
+			);
+		}
+		$results = array(
+			"aaData"=>$data
+		);
+		
+		header('Content-type: application/json');
+		echo json_encode($results);
+
+	}
+
+
 
   //Total gastos
 
@@ -119,7 +144,7 @@ if (isset($_GET['action'])) {
   
 	while ($reg=$rspta->fetch_object()){
         $data[]=array(
-			'fecha_cierre' => $reg->fecha_cierre,
+			'fecha_cierre' => '',
             'total_ingreso' => $reg->total_ingreso,
             'total_gasto' => $reg->total_gasto,
 			'saldo_inicial' => $reg->saldo_inicial,
@@ -147,7 +172,7 @@ if (isset($_GET['action'])) {
 	
 	case 'cerrarcaja':
 		// $cajachica->resetearValoresCierreCaja();
-		$resultado = $cajachica->cerrarCaja();
+		$resultado = $cajachica->cerrarCaja($_SESSION['tipo_doc_user'],$_SESSION['num_doc_user']);
 		echo $resultado ? "Caja cerrada" : "No se pudo cerrar la caja";
 		break;
 	

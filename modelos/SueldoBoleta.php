@@ -125,7 +125,10 @@ class empleadoboleta
 	public function listar2()
 	{
 		$sql = "SELECT idempleado, nombresE, apellidosE from empleadoboleta";
-		return ejecutarConsulta($sql);
+		
+		$return = ejecutarConsulta($sql);
+
+		return $return;
 	}
 
 

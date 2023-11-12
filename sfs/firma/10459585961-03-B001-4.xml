@@ -5,15 +5,15 @@
                         <ext:ExtensionContent><ds:Signature Id="SignIMM">
   <ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
     <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-  <ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>KrYHV1mxiCBSCQ3bc+vXfZEdbxM=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>QpiAuY9ngCM7t74jzqhi/fro1FnukJtHly+wMB5XfWyEU3ykDe8kglCKf5asDobrhibgSzlv+rZuluh8TiFnZbbe8lvggnS2Y1tbuDOVZVbbFLM6Te8bXxOSXQUXRN6qcZUELYKBkFYVABX0aDtobQIfxsmqPBgYSN5ObwWiddltqtpOEgrpoXwjzzAEcS7zPz4ZDG0VTmUUAuIny+PLg8AqOq7CP9ODPcJv4CtjK0qnXneM4hJ7xkFSHQDL8xV7u8Sbrq/w2GUMa48HUsfiqRqzfbr0HF1CpBr7QAt+4xw0vpi1YCgZ1tuy/rNwAQ32rYid5Mxg3U3YUPjgf0oJqQ==</ds:SignatureValue>
+  <ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>Z2VIuTpT2kqSRgGPb79a66lpL/Y=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>rKSNKzDy3+AKWeaTBrwdEM8FJILTRKINAI/3dRL8wgU46Q+kawQzIGb+OE29AA91saL0Mh1jZCU1kT+5nVxTibWXc5jMM2KQfVPUuZ2Z39jSzcSSUMlO4FYD+Y5f8QmtNGcn9O1K/x+VW6Xp0pHPU1/TyVsXq0KHL5jD+zY/AYeAszpdwju6m6tLqEPrf6UQt2Lh5dajzPosEfaTfayBAeqTN7dz7fMfqdxMhTrEvEdCLRHJi4LqRS4efD8Z/a3jv557LmsBXixM/SkTnpFJNBFgxgzBtmOYixYWppE8JP1Qczt6Y1UM/S/Q3VPghozcTOVkwgI9bC+WoVh8m+TICQ==</ds:SignatureValue>
 <ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIFBzCCA++gAwIBAgIISsm0IXk7l9IwDQYJKoZIhvcNAQELBQAwggENMRswGQYKCZImiZPyLGQBGRYLTExBTUEuUEUgU0ExCzAJBgNVBAYTAlBFMQ0wCwYDVQQIDARMSU1BMQ0wCwYDVQQHDARMSU1BMRgwFgYDVQQKDA9UVSBFTVBSRVNBIFMuQS4xRTBDBgNVBAsMPEROSSA5OTk5OTk5IFJVQyAxMDQ1OTU4NTk2MSAtIENFUlRJRklDQURPIFBBUkEgREVNT1NUUkFDScOTTjFEMEIGA1UEAww7Tk9NQlJFIFJFUFJFU0VOVEFOVEUgTEVHQUwgLSBDRVJUSUZJQ0FETyBQQVJBIERFTU9TVFJBQ0nDk04xHDAaBgkqhkiG9w0BCQEWDWRlbW9AbGxhbWEucGUwHhcNMjIwNzIyMTQzOTExWhcNMjQwNzIxMTQzOTExWjCCAQ0xGzAZBgoJkiaJk/IsZAEZFgtMTEFNQS5QRSBTQTELMAkGA1UEBhMCUEUxDTALBgNVBAgMBExJTUExDTALBgNVBAcMBExJTUExGDAWBgNVBAoMD1RVIEVNUFJFU0EgUy5BLjFFMEMGA1UECww8RE5JIDk5OTk5OTkgUlVDIDEwNDU5NTg1OTYxIC0gQ0VSVElGSUNBRE8gUEFSQSBERU1PU1RSQUNJw5NOMUQwQgYDVQQDDDtOT01CUkUgUkVQUkVTRU5UQU5URSBMRUdBTCAtIENFUlRJRklDQURPIFBBUkEgREVNT1NUUkFDScOTTjEcMBoGCSqGSIb3DQEJARYNZGVtb0BsbGFtYS5wZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALAHEccfmuGbgbI0YtPJWFD+nwRdWTCXJCQckWh2ejzlXgPXpaDiTkH6d+4V0MuPe5XkaGnkDUaWdrX2boueLYUoUNqu7YCrrOQVbixbPSt2pXGqOfD3rXnNjBzVDSeTwo7kOFFqRMQwVZLSd3x1+VGOB53IOa633XCg8GAZiCt1Nevh/5kqz6HtlemCR/1HZa0g65uxsrfii5Msx1fGH1ZfwdvYDeZStOgoxgVXiMUTWsMboHB3CQYcGWlVXkBifzqigD6JLWMTjD7ZUhOGwFM4eQs051WZzndu8EwBC5/gtAowxJPFcElznu812NX2OdNHznk5DepB7lzYs1j34ikCAwEAAaNnMGUwHQYDVR0OBBYEFIoCn715Xe1qlLMiYW/s4874ymSBMB8GA1UdIwQYMBaAFIoCn715Xe1qlLMiYW/s4874ymSBMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA4GA1UdDwEB/wQEAwIHgDANBgkqhkiG9w0BAQsFAAOCAQEAY9ErOIM68Ts+fZCVQm1kfpmwIA60Orw0Twx6vUBYVQFJU01o7WY4e+hlUlAErnrAR4WpUq1C8dsXWH5E3QosBs9l3JyzNZD83bgVI1xByTik9wmq+uQgp+9DNLU59DktOkkav2UxZZxvVsOTFwU5XF5uU0RQA5KLl5tIKLj1vbK4IoN34bHbqgxCdGYf5X3/e+Xf+GjQKL1+o76uZmnydnm0YN7OVUdgL0kfiVzTPEOuaXoC3RSxlxw0blpMsaa52LsQ1q3zS+y1SVjjZqV+aq/9sAff9ynPYw0pxgft7aAsY3wrQYkNKZROaicluFb1ujpDdUk8Ykdwaa8uupSsQA==</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></ext:ExtensionContent>
                     </ext:UBLExtension>
                 </ext:UBLExtensions>
                 <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
                 <cbc:CustomizationID>2.0</cbc:CustomizationID>
-                <cbc:ID>B001-2</cbc:ID>
-                <cbc:IssueDate>2023-11-05</cbc:IssueDate>
-                <cbc:IssueTime>15:35:43</cbc:IssueTime>
+                <cbc:ID>B001-4</cbc:ID>
+                <cbc:IssueDate>2023-11-08</cbc:IssueDate>
+                <cbc:IssueTime>07:27:18</cbc:IssueTime>
                 <cbc:InvoiceTypeCode listID="0101">03</cbc:InvoiceTypeCode>
                 <cbc:Note languageLocaleID="1000">NOVENTANOVENTA Y CEROCERO NUEVOS SOLES 00/100 M.N.</cbc:Note>
               <cbc:Note languageLocaleID="2006">Leyenda: Operación sujeta a detracción</cbc:Note>
@@ -79,4 +79,38 @@
             <cbc:ChargeTotalAmount currencyID="PEN">0.00</cbc:ChargeTotalAmount>  
             <cbc:PrepaidAmount currencyID="PEN">0.00</cbc:PrepaidAmount>  
             <cbc:PayableAmount currencyID="PEN">90.00</cbc:PayableAmount>
-        </cac:LegalMonetaryTotal></Invoice>
+        </cac:LegalMonetaryTotal><cac:InvoiceLine>
+        <cbc:ID>1</cbc:ID>
+        <cbc:InvoicedQuantity unitCode="NIU">1.00</cbc:InvoicedQuantity>
+        <cbc:LineExtensionAmount currencyID="PEN">76.27</cbc:LineExtensionAmount>
+        <cac:PricingReference>
+          <cac:AlternativeConditionPrice>
+            <cbc:PriceAmount currencyID="PEN">90.00</cbc:PriceAmount>
+            <cbc:PriceTypeCode>01</cbc:PriceTypeCode>
+          </cac:AlternativeConditionPrice>
+        </cac:PricingReference>
+        <cac:TaxTotal>
+          <cbc:TaxAmount currencyID="PEN">13.73</cbc:TaxAmount> 
+          <cac:TaxSubtotal>
+            <cbc:TaxableAmount currencyID="PEN">76.27</cbc:TaxableAmount>
+            <cbc:TaxAmount currencyID="PEN">13.73</cbc:TaxAmount>
+            <cac:TaxCategory>
+              <cbc:Percent>18.00</cbc:Percent>
+              <cbc:TaxExemptionReasonCode>10</cbc:TaxExemptionReasonCode>
+              <cac:TaxScheme>
+                <cbc:ID>1000</cbc:ID>
+                <cbc:Name>IGV</cbc:Name>
+                <cbc:TaxTypeCode>VAT</cbc:TaxTypeCode>
+              </cac:TaxScheme>
+            </cac:TaxCategory>
+          </cac:TaxSubtotal></cac:TaxTotal>
+          <cac:Item>
+            <cbc:Description><![CDATA[AGUA]]></cbc:Description>
+            <cac:SellersItemIdentification>
+              <cbc:ID>00010</cbc:ID>
+            </cac:SellersItemIdentification>
+          </cac:Item>
+          <cac:Price>
+            <cbc:PriceAmount currencyID="PEN">76.27119</cbc:PriceAmount>
+          </cac:Price>
+        </cac:InvoiceLine></Invoice>

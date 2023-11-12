@@ -22,6 +22,7 @@ function init() {
   listar();
   mostrarTotaldecompras();
   mostrarTotaldeVentas();
+  mostrarTotalencaja();
   mostrarTotaldeIngresos();
   mostrarTotaldeEgresos();
   mostrarSaldoINI();
@@ -63,12 +64,36 @@ function mostrarTotaldeVentas() {
       dataType: 'json',
       success: function (data) {
         const totalVentas = data.aaData[0].total_venta;
-        const totalVentasElement = $('#total-ventas');
+        const totalVentasElement = $('#total_ventas');
 
         if (totalVentas !== null && totalVentas !== "") {
           totalVentasElement.html('S/ ' + totalVentas);
         } else {
           totalVentasElement.html('S/ 0');
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log('Error:', textStatus, errorThrown);
+      }
+    });
+  });
+}
+
+function mostrarTotalencaja() {
+  $(document).ready(function () {
+    $.ajax({
+      url: urlconsumo + "cajachica.php?action=TotalCaja&op=",
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        const total_caja = data.aaData[0].total_caja;
+        console.log(total_caja);
+        const total_cajaElement = $('#total_caja');
+
+        if (total_caja !== null && total_caja !== "") {
+          total_cajaElement.html('S/ ' + total_caja);
+        } else {
+          total_cajaElement.html('S/ 0');
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -139,7 +164,7 @@ function mostrarSaldoINI() {
         if (Array.isArray(data.aaData) && data.aaData.length > 0) {
           const saldoIN = data.aaData[0].total_ingreso;
           saldoINElement.html('S/ ' + saldoIN);
-          $('#cerrarCajaBtn').prop('disabled', true); // Habilitar el botón de cerrar caja
+          //$('#cerrarCajaBtn').prop('disabled', true); // Habilitar el botón de cerrar caja
         } else {
           saldoINElement.html('S/ 0');
           $('#cerrarCajaBtn').prop('disabled', true); // Deshabilitar el botón de cerrar caja

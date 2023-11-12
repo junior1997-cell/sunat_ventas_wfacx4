@@ -70,6 +70,7 @@ typography
 :root {
   --body-bg-rgb: 240, 241, 247;
   --primary-rgb: 29,40, 77;
+  --negro1-rgb: 30, 30, 32;
   --secondary-rgb: 35, 183, 229;
   --warning-rgb: 245, 184, 73;
   --info-rgb: 73, 182, 245;
@@ -93,6 +94,7 @@ typography
   --primary07: rgba(var(--primary-rgb), 0.7);
   --primary08: rgba(var(--primary-rgb), 0.8);
   --primary09: rgba(var(--primary-rgb), 0.9);
+  --primary10: rgba(var(--negro1-rgb), 0.5);
   --primary005: rgba(var(--primary-rgb), 0.05);
   --default-font-family: "Inter", sans-serif;
   --default-font-weight: 400;
@@ -25013,7 +25015,7 @@ code[class*=language-] {
 }
 
 .border-end {
-  border-inline-end: 1px solid var(--default-border) !important;
+  border-inline-end: 1px solid var(--primary10) !important;
 }
 
 .border-end.border-inline-end-dashed {

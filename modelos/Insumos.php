@@ -54,7 +54,7 @@ class Insumos
 
   public function selectcategoria()
   {
-    $sql = "SELECT * from categoriainsumos order by idcategoriai desc ";
+    $sql = "SELECT * from categoriainsumos where idcategoriai>1 order by idcategoriai desc ";
     return ejecutarConsulta($sql);
   }
 

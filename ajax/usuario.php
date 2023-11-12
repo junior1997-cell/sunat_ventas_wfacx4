@@ -372,6 +372,8 @@ switch ($_GET["op"]) {
       //Declaramos las variables de sesión
       $_SESSION['idusuario'] = $fetch->idusuario;
       $_SESSION['nombre'] = $fetch->nombre;
+      $_SESSION['tipo_doc_user'] = $fetch->tipo_documento;
+      $_SESSION['num_doc_user'] = $fetch->num_documento;
       $_SESSION['cargo'] = $cargo;
       $_SESSION['imagen'] = $fetch->imagen;
       $_SESSION['login'] = $fetch->login;

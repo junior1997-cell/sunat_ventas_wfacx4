@@ -488,8 +488,8 @@ function cargarEmpleados() {
 	  path = path.replace("/vistas/", "/");
 	}
   
-	var ajaxURL = new URL("ajax/sueldoBoleta.php?action=listar2", baseURL + path);
-	
+	var ajaxURL = new URL("ajax/sueldoBoleta.php?action=listar2&op=", baseURL + path);
+
 	$.ajax({
 		url: ajaxURL.href,
 		type: 'GET',
@@ -505,6 +505,7 @@ function cargarEmpleados() {
   }
   
   function llenarSelect(data) {
+	console.log(data);
 	var select = $('#acredor');
 	select.empty();
 	select.append($('<option>', {
