@@ -50,14 +50,14 @@ if (!isset($_SESSION["nombre"])) {
         $costo_compra = $excel->getActiveSheet()->getCell('F' . $i)->getCalculatedValue();
         $precio_venta = $excel->getActiveSheet()->getCell('G' . $i)->getCalculatedValue();
         $stock = $excel->getActiveSheet()->getCell('H' . $i)->getCalculatedValue();
-        $saldo_iniu = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
-        $valor_iniu = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
-        $tipoitem = $excel->getActiveSheet()->getCell('K' . $i)->getCalculatedValue();
-        $codigott = $excel->getActiveSheet()->getCell('L' . $i)->getCalculatedValue();
-        $desctt = $excel->getActiveSheet()->getCell('M' . $i)->getCalculatedValue();
-        $codigointtt = $excel->getActiveSheet()->getCell('N' . $i)->getCalculatedValue();
-        $nombrett = $excel->getActiveSheet()->getCell('O' . $i)->getCalculatedValue();
-        $nombre_almacen = $excel->getActiveSheet()->getCell('P' . $i)->getCalculatedValue();
+        // $saldo_iniu = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
+        // $valor_iniu = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
+        $tipoitem = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
+        // $codigott = $excel->getActiveSheet()->getCell('L' . $i)->getCalculatedValue();
+        // $desctt = $excel->getActiveSheet()->getCell('M' . $i)->getCalculatedValue();
+        // $codigointtt = $excel->getActiveSheet()->getCell('N' . $i)->getCalculatedValue();
+        // $nombrett = $excel->getActiveSheet()->getCell('O' . $i)->getCalculatedValue();
+        $nombre_almacen = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
 
         $consultaObj->insertarArticulosMasivo(
           $codigo,
@@ -68,13 +68,7 @@ if (!isset($_SESSION["nombre"])) {
           $costo_compra,
           $precio_venta,
           $stock,
-          $saldo_iniu,
-          $valor_iniu,
           $tipoitem,
-          $codigott,
-          $desctt,
-          $codigointtt,
-          $nombrett,
           $nombre_almacen
         );
       }

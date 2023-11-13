@@ -16,7 +16,7 @@ class Articulo
   }
 
   //Implementamos un método para insertar registros
-  public function insertar($idalmacen, $codigo_proveedor, $codigo, $nombre, $idfamilia, $unidad_medida, $costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma, $precio_venta, $imagen, $codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi, $ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $marca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor, $seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion)
+  public function insertar($idalmacen, $codigo_proveedor, $codigo, $nombre, $idfamilia, $unidad_medida, $costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma, $precio_venta, $imagen, $codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi, $ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $idmarca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor, $seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion)
   {
     $und_pr_sr="";
 
@@ -28,12 +28,12 @@ class Articulo
     idalmacen, codigo_proveedor, codigo, nombre, idfamilia, unidad_medida, costo_compra, saldo_iniu, valor_iniu, saldo_finu, 
     valor_finu, stock, comprast, ventast, portador, merma, precio_venta, imagen, valor_fin_kardex, precio_final_kardex, fecharegistro,
     codigosunat,  ccontable, precio2, precio3, cicbper, nticbperi, ctticbperi, mticbperu, codigott, desctt, 
-    codigointtt, nombrett, lote, marca, fechafabricacion, fechavencimiento, procedencia, fabricante, registrosanitario, fechaingalm, 
+    codigointtt, nombrett, lote, idmarca, fechafabricacion, fechavencimiento, procedencia, fabricante, registrosanitario, fechaingalm, 
     fechafinalma, proveedor, seriefaccompra, numerofaccompra, fechafacturacompra, limitestock, tipoitem, umedidacompra, factorc, descrip)
     values ('$idalmacen','$codigo_proveedor','$codigo','$nombre','$idfamilia','$und_pr_sr','$costo_compra','$saldo_iniu','$valor_iniu', '$saldo_finu',
     '$valor_finu','$stock','$comprast','$ventast','$portador','$merma','$precio_venta','$imagen','$valor_finu','$costo_compra', now(),
     '$codigosunat', '$ccontable','$precio2', '$precio3' ,'$cicbper','$nticbperi','$ctticbperi','$mticbperu', '$codigott', '$desctt', 
-    '$codigointtt', '$nombrett', '$lote', '$marca', '$fechafabricacion', '$fechavencimiento', '$procedencia', '$fabricante', '$registrosanitario', '$fechaingalm', 
+    '$codigointtt', '$nombrett', '$lote', '$idmarca', '$fechafabricacion', '$fechavencimiento', '$procedencia', '$fabricante', '$registrosanitario', '$fechaingalm', 
     '$fechafinalma', '$proveedor', '$seriefaccompra', '$numerofaccompra', '$fechafacturacompra', '$limitestock', '$tipoitem', '$und_pr_sr', '$factorc', '$descripcion')";
     $idartinew = ejecutarConsulta_retornarID($sql);
 
@@ -48,7 +48,7 @@ class Articulo
   }
 
   //Implementamos un método para editar registros
-  public function editar($idarticulo, $idalmacen, $codigo_proveedor, $codigo, $nombre, $idfamilia, $unidad_medida, $costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma, $precio_venta, $imagen, $codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi, $ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $marca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor, $seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion)
+  public function editar($idarticulo, $idalmacen, $codigo_proveedor, $codigo, $nombre, $idfamilia, $unidad_medida, $costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma, $precio_venta, $imagen, $codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi, $ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $idmarca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor, $seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion)
   {
 
     $sql = "UPDATE articulo 
@@ -84,7 +84,7 @@ class Articulo
          codigointtt='$codigointtt', 
          nombrett='$nombrett',
          lote='$lote',
-         marca='$marca',
+         idmarca='$idmarca',
          fechafabricacion='$fechafabricacion',
          fechavencimiento='$fechavencimiento',
          procedencia='$procedencia',
@@ -175,44 +175,56 @@ class Articulo
   }
 
   public function filtros_table() {    
-    $sql = "SELECT f.idfamilia, f.descripcion, f.estado, COUNT(a.idarticulo) as cant
+
+    $sql="SELECT a.idalmacen, a.nombre, a.direccion, a.idempresa, COUNT(ar.idarticulo)  as cant
+    from almacen a 
+    INNER JOIN empresa e on a.idempresa=e.idempresa  
+    INNER JOIN articulo as ar ON a.idalmacen = ar.idalmacen
+    where  e.idempresa='$this->id_empresa_sesion'
+    GROUP BY a.nombre  order by a.idalmacen desc";
+		$almacen = ejecutarConsultaArray($sql);
+
+    $sql2 = "SELECT f.idfamilia, f.descripcion, f.estado, COUNT(a.idarticulo) as cant
     FROM familia as f
     INNER JOIN articulo as a ON f.idfamilia = a.idfamilia
     WHERE f.estado = '1' AND a.tipoitem = 'productos'
     GROUP BY f.descripcion;";
-    $familia = ejecutarConsultaArray($sql);
-
-    $sql="SELECT * from almacen a inner join empresa e on a.idempresa=e.idempresa  where  e.idempresa='$this->id_empresa_sesion' order by idalmacen desc";
-		$almacen = ejecutarConsultaArray($sql);
+    $familia = ejecutarConsultaArray($sql2);
+    
+    $sql3 = "SELECT m.idmarca, m.descripcion, m.estado, COUNT(a.idarticulo) as cant
+    FROM marca as m
+    INNER JOIN articulo as a ON m.idmarca = a.idmarca
+    WHERE m.estado = '1'
+    GROUP BY m.descripcion;";
+    $marca = ejecutarConsultaArray($sql3);
 
     return $retorno = array(
-			'filtro_categoria' 		=> $familia , 
-			'filtro_almacen' 	=> $almacen , 
-			'filtro_marca' 			=> $familia , 
+      'filtro_almacen' 	  => $almacen , 
+			'filtro_categoria'  => $familia ,			
+			'filtro_marca' 		  => $marca , 
 		);  
 
   }
 
   //Implementar un método para listar los registros
-  public function listar($idempresa, $idfamilia) {
+  public function listar( $idalmacen, $idfamilia, $idmarca) {
 
-    $tipo_familia = '';
+    $filtro_alamcen = ''; $filtro_familia = ''; $filtro_marca = '';
 
-    if ($idfamilia == 'todos') {
-      $tipo_familia = "";
-    } else{
-      $tipo_familia = "AND f.idfamilia = '$idfamilia'";
-    }
+    if ($idalmacen == 'todos' || empty($idalmacen)  ) { $filtro_alamcen = ""; } else{  $filtro_alamcen = "AND a.idalmacen = '$idalmacen'"; }
+    if ($idfamilia == 'todos' || empty($idfamilia) ) { $filtro_familia = ""; } else{  $filtro_familia = "AND a.idfamilia = '$idfamilia'"; }
+    if ($idmarca == 'todos' || empty($idmarca) ) { $filtro_marca = ""; } else{  $filtro_marca = "AND a.idmarca = '$idmarca'"; }
 
     $sql = "SELECT a.idarticulo, f.idfamilia, a.codigo_proveedor, a.codigo, f.descripcion as familia, left(a.nombre, 50) as nombre, 
     format(a.stock,2) as stock, a.precio_venta as precio, a.costo_compra, a.imagen, a.estado, a.precio_final_kardex, a.unidad_medida, 
-    a.ccontable, a.stock as st2, a.marca, um.nombreum, date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento, al.nombre as nombreal
+    a.ccontable, a.stock as st2, m.descripcion as marca, um.nombreum, date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento, al.nombre as nombreal
     from articulo a 
     inner join familia f on a.idfamilia=f.idfamilia 
     inner join almacen al on a.idalmacen=al.idalmacen 
     inner join empresa e on al.idempresa=e.idempresa 
     inner join umedida um on a.umedidacompra=um.idunidad and a.tipoitem='productos'
-    where not a.nombre='1000ncdg' and e.idempresa='$idempresa' $tipo_familia and al.estado='1'";
+    inner join marca m on a.idmarca=m.idmarca 
+    where not a.nombre='1000ncdg' and e.idempresa='$this->id_empresa_sesion' $filtro_alamcen $filtro_familia $filtro_marca and al.estado='1'";
     return ejecutarConsulta($sql);
   }
 

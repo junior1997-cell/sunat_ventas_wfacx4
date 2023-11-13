@@ -3,10 +3,13 @@ if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la 
 
 require_once "../modelos/Articulo.php";
 require_once "../modelos/Almacen.php";
-
+require_once "../modelos/Familia.php";	
+require_once "../modelos/Marca.php";	
 		
 $articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
 $almacen = new Almacen();
+$familia = new Familia();
+$marca = new Marca();
 
 date_default_timezone_set('America/Lima');
 $date_now = date("d_m_Y__h_i_s_A");
@@ -51,7 +54,7 @@ $nombrett = isset($_POST["nombrett"]) ? limpiarCadena($_POST["nombrett"]) : "";
 
 //N-----------------------
 $lote = isset($_POST["lote"]) ? limpiarCadena($_POST["lote"]) : "";
-$marca = isset($_POST["marca"]) ? limpiarCadena($_POST["marca"]) : "";
+$idmarca = isset($_POST["idmarca"]) ? limpiarCadena($_POST["idmarca"]) : "";
 $fechafabricacion = isset($_POST["fechafabricacion"]) ? limpiarCadena($_POST["fechafabricacion"]) : "";
 $fechavencimiento = isset($_POST["fechavencimiento"]) ? limpiarCadena($_POST["fechavencimiento"]) : "";
 $procedencia = isset($_POST["procedencia"]) ? limpiarCadena($_POST["procedencia"]) : "";
@@ -120,7 +123,7 @@ switch ($_GET["op"]) {
 				$idalmacen,	$codigo_proveedor,	$codigo,	html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'),	$idfamilia,	$unidad_medida,	
 				$costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast,	$ventast, $portador, $merma, $valor_venta, $imagen, 
 				$codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi,	$mticbperu,	$codigott,	$desctt,	$codigointtt,	$nombrett,
-				$lote, $marca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm,	$fechafinalma, $proveedor,
+				$lote, $idmarca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm,	$fechafinalma, $proveedor,
 				$seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion
 			);
 
@@ -130,7 +133,7 @@ switch ($_GET["op"]) {
 			$rspta = $articulo->editar(
 				$idarticulo, $idalmacen, $codigo_proveedor, $codigo, html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $idfamilia, $unidad_medida, $costo_compra,
 				$saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma,	$valor_venta, $imagen, $codigosunat, 
-				$ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $marca, 
+				$ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $idmarca, 
 				$fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor,	$seriefaccompra,
 				$numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion
 			);
@@ -200,24 +203,30 @@ switch ($_GET["op"]) {
 	case 'filtros_table':
 		$rspta = $articulo->filtros_table();
 		//Codificar el resultado utilizando json
-	
-		foreach ($rspta as $key => $reg) {
-			echo  '<option value="' . $reg['idfamilia'] . '" >' . $reg['descripcion'] . ' (' .$reg['cant']. ')' . '</option>';
+		$html_almacen = ""; $html_categoria = ""; $html_marca = "";
+		foreach ($rspta['filtro_almacen'] as $key => $reg) {
+			$html_almacen .=  '<option value="' . $reg['idalmacen'] . '" >' . $reg['nombre'] . ' (' .$reg['cant']. ')' . '</option>';
+		}
+		foreach ($rspta['filtro_categoria'] as $key => $reg) {
+			$html_categoria .=  '<option value="' . $reg['idfamilia'] . '" >' . $reg['descripcion'] . ' (' .$reg['cant']. ')' . '</option>';
+		}
+		foreach ($rspta['filtro_marca'] as $key => $reg) {
+			$html_marca .=  '<option value="' . $reg['idmarca'] . '" >' . $reg['descripcion'] . ' (' .$reg['cant']. ')' . '</option>';
 		}
 
 		$retorno = array(
-			'filtro_almacen' 		=> true, 
-			'filtro_categoria' 	=> 'Salió todo ok', 
-			'filtro_marca' 			=> '<option value="todos" >Todos </option>' . $data, 
+			'filtro_almacen' 		=> '<option value="todos" >Todos </option>' . $html_almacen, 
+			'filtro_categoria' 	=> '<option value="todos" >Todos </option>'. $html_categoria, 
+			'filtro_marca' 			=> '<option value="todos" >Todos </option>' . $html_marca, 
 		);  
+		echo json_encode($retorno, true);
 		
 	break;
 	
 	//LISTAR PRODUCTOS
 	case 'tbla_principal':
-
-		$idempresa = "1";
-		$rspta = $articulo->listar($idempresa, $_GET['idfamilia']);
+		
+		$rspta = $articulo->listar( $_GET['idalmacen'], $_GET['idfamilia'], $_GET['idmarca']);
 		$url = '../reportes/printbarcode.php?codigopr=';
 		//Vamos a declarar un array
 		$data = array();
@@ -372,9 +381,13 @@ switch ($_GET["op"]) {
 		echo json_encode($results);
 	break;
 
+	case "selectMarca":		
+		$rspta = $marca->select2_marca();
+		while ($reg = $rspta->fetch_object()) { echo '<option value=' . $reg->idmarca . '>' . $reg->descripcion . '</option>';	}
+	break;
+
 	case "selectFamilia":
-		require_once "../modelos/Familia.php";
-		$familia = new Familia();
+		
 		$rspta = $familia->select();
 		while ($reg = $rspta->fetch_object()) { echo '<option value=' . $reg->idfamilia . '>' . $reg->descripcion . '</option>';	}
 	break;

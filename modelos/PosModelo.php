@@ -18,12 +18,13 @@ class PosModelo
     format(a.stock,2) as stock, a.precio_venta as precio, a.costo_compra, (a.precio_venta * 0.18) as precio_unitario, a.cicbper, 
     format(a.mticbperu,2) as mticbperu, a.factorc, a.descrip, a.tipoitem, a.imagen, a.estado, a.precio_final_kardex, a.precio2, a.precio3, 
     a.unidad_medida, a.ccontable, a.stock as st2, um.nombreum, um.abre, date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento, 
-    al.nombre as nombreal, a.marca
+    al.nombre as nombreal, m.descripcion as marca
     from articulo a 
     inner join familia f on a.idfamilia=f.idfamilia 
     inner join almacen al on a.idalmacen=al.idalmacen 
     inner join empresa e on al.idempresa=e.idempresa 
     inner join umedida um on a.umedidacompra=um.idunidad 
+    inner join marca m on a.idmarca=m.idmarca 
     where a.tipoitem = 'productos' and not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1' $filtro";
 
     return ejecutarConsulta($sql);
