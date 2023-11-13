@@ -22,26 +22,49 @@ toastr.options = {
 function init() {
 
   mostrarform(false);
-  listar();
+  // listar_categorias();
+  listar_tabla_principal();
   listarservicios();
-  $idempresa = $("#idempresa").val();
+  $idempresa = $("#idempresa").val();  
 
+  // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
+  $.post("../ajax/articulo.php?op=filtros_table", function (r) { $("#filtro_idfamilia").html(r); });
+  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilia").html(r); });
+  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); $("#filtro_idalmacen").html(r); });
+  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
+
+  // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
   $("#formulario").on("submit", function (e) { guardaryeditar(e); });
   $("#formnewfamilia").on("submit", function (e) { guardaryeditarFamilia(e); });
   $("#formnewalmacen").on("submit", function (e) { guardaryeditarAlmacen(e); });
   $("#formnewumedida").on("submit", function (e) { guardaryeditarUmedida(e); });
   $("#formprintbar").on("submit", function (e) { });
 
-  //Cargamos los items al select familia
-  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilia").html(r); });
-  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
-  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
+  // ══════════════════════════════════════ I N I T I A L I Z E   N U M B E R   F O R M A T ══════════════════════════════════════
+  $("#filtro_idalmacen").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
+  $("#filtro_idfamilia").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });  
 
   $("#idfamilia").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#umedidacompra").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#unidad_medida").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
 
   $("#imagenmuestra").hide();
+}
+
+function listar_categorias() {
+  $(".lista-items").html(`<a class="nav-link active" data-bs-toggle="tab" > <div class="spinner-border spinner-border-sm" role="status"> <span class="visually-hidden">Loading...</span> </div></a>`); 
+
+  $.post(`../ajax/articulo.php?op=listar_categorias`, function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+    var data_html = '';
+    e.forEach((val, index) => {
+      data_html += `<a class="nav-link" onclick="listar_tabla_principal('${val.idfamilia}')" data-bs-toggle="tab" role="tab" href="#nav-home" aria-selected="true">${val.descripcion} <span class="badge bg-secondary ms-1 rounded-pill">${val.cant}</span></a>`;
+    });
+
+    $(".lista-items").html(`<a class="nav-link active" onclick="listar_tabla_principal('todos')" data-bs-toggle="tab" role="tab" aria-current="page" href="#nav-home" aria-selected="false" tabindex="-1">Todos</a>
+      ${data_html}
+    `); 
+  }).fail( function(e) { console.log(e); } );
 }
 
 //Función limpiar
@@ -185,7 +208,7 @@ function cancelarform() { limpiar(); mostrarform(false);
 }
 
 //Función Listar PRODUCTOS
-function listar() {
+function listar_tabla_principal(idfamilia = 'todos') {
   var $idempresa = $("#idempresa").val();
   tabla_articulo = $('#tbllistado').dataTable({
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
@@ -197,15 +220,17 @@ function listar() {
       { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
       { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
       { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
-      { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+      { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     "ajax": {
-      url: '../ajax/articulo.php?op=listar&idempresa=' + $idempresa,
+      url: `../ajax/articulo.php?op=tbla_principal&idempresa=${$idempresa}&idfamilia=${idfamilia}`,
       type: "get",
       dataType: "json",
       error: function (e) {
         console.log(e.responseText);
-      }
+      },
+      beforeSend: function () { $(".charge-p").html(`buscando`); },
+      complete: function () { $(".charge-p").html(`encontrado`); }
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -410,8 +435,7 @@ function activar(idarticulo) {
       $.post("../ajax/articulo.php?op=activar", { idarticulo: idarticulo }, function (e) {
         Swal.fire({ title: 'Artículo activado', text: e, icon: 'success', showConfirmButton: false, timer: 5000 });
         if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
-        if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
-        listar();
+        if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }        
       });
     }
   });
@@ -1008,56 +1032,23 @@ function preciov(e, field) {
 
   key = e.keyCode ? e.keyCode : e.which
 
-
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('valor_venta').focus();
-
-  }
-
+  if (e.keyCode === 13 && !e.shiftKey) {  document.getElementById('valor_venta').focus(); }
   // backspace
-
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
-
     if (field.value === "") return true;
-
     var existePto = (/[.]/).test(field.value);
-
-    if (existePto === false) {
-
-      regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
-      regexp = /.[0-9]{2}$/;
-
-    }
-
+    if (existePto === false) { regexp = /.[0-9]{10}$/; } else {  regexp = /.[0-9]{2}$/;  }
     return !(regexp.test(field.value));
-
   }
-
-
 
   if (key == 46) {
-
     if (field.value === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.value);
-
   }
-
   return false;
-
 }
 
 function limitest(e, field) {
@@ -1122,11 +1113,8 @@ $(".modal-wide").on("show.bs.modal", function () {
 function unidadvalor() { valor = $("#nombreu").val(); $("#abre").val(valor);}
 
 function refrescartabla() { 
-
-  if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } 
-    
+  if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }     
   if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
-
 }
 
 document.getElementById("imagen").onchange = function (e) {
@@ -1180,10 +1168,7 @@ function generarcodigonarti() {
     codale2 += caracteres2.charAt(Math.floor(Math.random() * caracteres2.length));
   }
   $("#codigo").val(codale + codale2);
-
 }
-
-
 
 function generarCodigoAutomatico(i_cod) {
   if ($('#generar-cod-correlativo').prop('checked')) {
@@ -1225,14 +1210,23 @@ $('#generar-cod-correlativo').change(function () {
 });
 
 
-
 // Función para establecer el campo de código como solo lectura
 function setCodigoFieldReadonly() {
   $('#codigo').attr('readonly', 'readonly');
 }
 
 
-
 init();
 
 
+// .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
+
+// .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
+
+function ver_img_zoom(file, nombre) {
+  $('.title-name-foto-zoom').html(nombre);
+  // $(".tooltip").remove();
+  $("#modal-ver-perfil-producto").modal("show");
+  $('#div-foto-zoom').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../assets/svg/404-v2.svg';" alt="Foto zoom" width="100%"></span>`);
+  $('.jq_image_zoom').zoom({ on:'grab' });
+}

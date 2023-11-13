@@ -1,4 +1,7 @@
 <?php
+
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
+
 require_once "../modelos/Almacen.php";
 
 $almacen = new Almacen();
@@ -27,27 +30,23 @@ switch ($_GET["op"]) {
 				echo $rspta ? "almacen actualizada" : "almacen no se pudo actualizar";
 			}
 		}
-		break;
-
+	break;
 
 	case 'desactivar':
 		$rspta = $almacen->desactivar($idalmacen);
 		echo $rspta ? "almacen Desactivado" : "almacen no se puede desactivar";
-		break;
-		break;
+	break;
 
 	case 'activar':
 		$rspta = $almacen->activar($idalmacen);
 		echo $rspta ? "almacen habilitado" : "almacen no se puede activar";
-		break;
-		break;
+	break;
 
 	case 'mostrar':
 		$rspta = $almacen->mostrar($idalmacen);
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
-		break;
-		break;
+	break;
 
 	case 'listar':
 		$rspta = $almacen->listar();
@@ -74,8 +73,8 @@ switch ($_GET["op"]) {
 			//enviamos el total registros a visualizar
 			"aaData" => $data
 		);
-		echo json_encode($results);
+		echo json_encode($results, true);
 
-		break;
+	break;
 }
 ?>

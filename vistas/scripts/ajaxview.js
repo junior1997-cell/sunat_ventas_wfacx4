@@ -33,9 +33,6 @@
 		$("#ajax-overlay").fadeIn(50);
 	};
 	$.ajaxunblock 	= function(){
-		$("#ajax-overlay").fadeOut(100, function()
-		{
-			$("#ajax-overlay").remove();
-		});
+		$("#ajax-overlay").fadeOut(100, function(){	$("#ajax-overlay").remove();	});
 	};
 })(jQuery);

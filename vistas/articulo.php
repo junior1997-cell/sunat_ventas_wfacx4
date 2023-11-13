@@ -16,7 +16,7 @@ if (!isset($_SESSION["nombre"])) {
     <div class="">
       <div class="">
         <div class="content-header">
-          <h1>Productos <button class="btn btn-primary btn-sm" onclick="mostrarform(true);  generarCodigoAutomatico('PR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
+          <h1>Productos <span class="charge-p"></span> <button class="btn btn-primary btn-sm" onclick="mostrarform(true);  generarCodigoAutomatico('PR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
             <label style="position:relative;top: 3px; float: right;" class="toggle-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Activar generador código de barra correlativamente automático">
               <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox" checked>
               <span class="slider"></span>
@@ -25,11 +25,42 @@ if (!isset($_SESSION["nombre"])) {
           <button hidden class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar tabla</button>
         </div>
         <div class="row">
+          <!-- <div class="col-xl-12"> 
+            <div class="card custom-card" > 
+              <div class="card-header" style="height: 100px; overflow-y: auto;"> 
+                <nav class="nav nav-pills nav-style-6 lista-items" role="tablist" >                  
+                  <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#nav-home" aria-selected="false" tabindex="-1">
+                    <div class="spinner-border spinner-border-sm" role="status"> <span class="visually-hidden">Loading...</span> </div>
+                  </a>                                   
+                </nav> 
+              </div> 
+              <div class="card-body">                 
+                <div class="tab-content"> 
+                  <div class="tab-pane text-muted show active" id="nav-home" role="tabpanel"> 
+                    -
+                  </div> 
+                </div> 
+              </div> 
+            </div> 
+          </div> -->
+          
           <div class="col-md-12">
-            <div class="card custom-card">
+            <div class="card">
+              <div class="card-header" > 
+                <div class="row">
+                  <div class="col-lg-4">                    
+                    <select class="form-control" name="filtro_idalmacen" id="filtro_idalmacen" style="width: 100%;">
+                    </select>
+                  </div>
+                  <div class="col-lg-4">                    
+                    <select class="form-control" name="filtro_idfamilia" id="filtro_idfamilia" style="width: 100%;">
+                    </select>
+                  </div>
+                </div>
+              </div> 
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="tbllistado" class="table table-striped" style="width: 100% !important;text-align: center;">
+                  <table id="tbllistado" class="table table-striped" style="width: 100% !important;">
                     <thead>
                       <th>Opciones</th>
                       <th>Descripción</th>
@@ -38,8 +69,6 @@ if (!isset($_SESSION["nombre"])) {
                       <th>Stock</th>
                       <th>Precio venta</th>
                       <th>Precio compra</th>
-                      <!-- <th>Cta. contable</th> -->
-                      <th>Imagen</th>
                       <th>Estado</th>
                     </thead>
                     <tbody>
@@ -64,6 +93,8 @@ if (!isset($_SESSION["nombre"])) {
         }
       }
     </style>
+    
+    <!-- MODAL - AGREGAR PRODUCTO -->
     <div class="modal fade text-left" id="modalAgregarProducto" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
@@ -382,8 +413,9 @@ if (!isset($_SESSION["nombre"])) {
           </form>
         </div>
       </div>
-    </div>
-    <!-- Importación de Productos -->
+    </div>    
+
+    <!--  MODAL - IMPORTAR PRODUCTO -->
     <div class="modal fade text-left" id="importararticulos" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -414,6 +446,26 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
+    <!-- MODAL - VER PERFIL INSUMO-->
+    <div class="modal fade" id="modal-ver-perfil-producto">
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content bg-color-0202022e shadow-none border-0">
+          <div class="modal-header">
+            <h4 class="modal-title text-white title-name-foto-zoom">Foto Zoom</h4>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+              <!-- <span class="text-white cursor-pointer" aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+          <div class="modal-body"> 
+            <div id="div-foto-zoom" class="text-center">
+              <!-- vemos la imagen en zoom -->
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+
     <script>
       // const multipleEvents = (element, eventNames, listener) => {
       //     const events = eventNames.split(' ');

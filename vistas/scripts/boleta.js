@@ -1338,24 +1338,13 @@ function agregarDetalle(
 
       // <textarea class="" name="descdet[]" id="descdet[]" rows="1" cols="70" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">'+descrip+'</textarea>
       var fila =
-        '<tr class="filas" id="fila' +
-        cont +
-        '">' +
-        '<td><i class="fa fa-close" onclick="eliminarDetalle(' +
-        cont +
-        ')" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>' +
-        '<td><span name="numero_orden" id="numero_orden' +
-        cont +
-        '" ></span>' +
-        '<input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="' +
-        conNO +
-        '"  ></td>' +
-        '<td><input type="hidden" name="idarticulo[]" style="font-family: times, serif; font-size:14pt; font-style:italic" value="' +
-        idarticulo +
-        '">' +
-        nombre +
-        "</td>" +
-        '<td hidden><select name="codigotributo[]" class="" style="display:none;"> <option value="1000">IGV</option><option value="9997">EXO</option><option value="9998">INA</option></select>' +
+        '<tr class="filas" id="fila' +  cont + '">' +
+        '<td><i class="fa fa-close" onclick="eliminarDetalle(' + cont + ')" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>' +
+        '<td><span name="numero_orden" id="numero_orden' + cont + '" ></span>' +
+        '<input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="' + conNO + '"  ></td>' +
+        '<td><input type="hidden" name="idarticulo[]" style="font-family: times, serif; font-size:14pt; font-style:italic" value="' + idarticulo + '">' + nombre + "</td>" +
+        '<td hidden><textarea class="" name="descdet[]" id="descdet[]" rows="1" cols="70" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">'+descrip+'</textarea>' +
+        '<select name="codigotributo[]" class="" style="display:none;"> <option value="1000">IGV</option><option value="9997">EXO</option><option value="9998">INA</option></select>' +
         '<select name="afectacionigv[]" class="" style="display:none;"> <option value="10">10-GOO</option><option value="20">20-EOO</option><option value="30">30-FRE</option></select></td>' +
         '<td><input type="text"  class="" required="true" name="cantidad_item_12[]" id="cantidad_item_12[]"  onBlur="modificarSubototales(1)" size="6" onkeypress="return NumCheck(event, this)" value="1" ></td>' +
         '<td><input type="text"  class="" name="descuento[]" id="descuento[]"  onBlur="modificarSubototales(1)" size="2" onkeypress="return NumCheck(event, this)" >' +

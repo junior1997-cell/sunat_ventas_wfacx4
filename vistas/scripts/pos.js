@@ -1,13 +1,12 @@
+var tabla_comprobante_venta;
+
 ///URL CONSUMO GLOBAL
 var baseURL = window.location.protocol + '//' + window.location.host;
-
 // Verificar si pathname contiene '/vistas/' y eliminarlo.
 var path = window.location.pathname;
 if (path.includes("/vistas/")) {  path = path.replace("/vistas/", "/"); }
-
 // Asegurarnos de que el path termine en "/ajax/"
 if (!path.endsWith("/ajax/")) {  var lastSlashIndex = path.lastIndexOf("/");  path = path.substring(0, lastSlashIndex) + "/ajax/"; }
-
 // Construir urlconsumo /consumir solo urlconsumo + "archivo.php?action="
 var urlconsumo = new URL(path, baseURL);
 
@@ -2074,9 +2073,7 @@ function agregarClientexDoc(e) {
     $("#razon_social").val("");
     $("#domicilio_fiscal").val("");
 
-    $.post(
-      "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni,
-      function (data, status) {
+    $.post( "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni, function (data, status) {
         data = JSON.parse(data);
         if (data != null) {
           $("#idcliente").val(data.idpersona);
@@ -2094,9 +2091,7 @@ function agregarClientexDoc(e) {
           $("#domicilio_fiscal").val("");
           var dni = $("#numero_documento").val();
           //var url = '../ajax/consulta_reniec.php';
-          $.post(
-            "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni,
-            function (data, status) {
+          $.post( "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni, function (data, status) {
               data = JSON.parse(data);
               if (data != null) {
                 $("#idcliente").val("N");
@@ -2117,9 +2112,7 @@ function agregarClientexDoc(e) {
           $("#razon_social").val("");
           $("#domicilio_fiscal").val("");
           var dni = $("#numero_documento").val();
-          $.post(
-            "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni,
-            function (data, status) {
+          $.post( "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni, function (data, status) {
               data = JSON.parse(data);
               if (data != null) {
                 $("#idcliente").val(data.idpersona);
@@ -2147,8 +2140,7 @@ function agregarClientexDoc(e) {
           $("#razon_social").val("");
           document.getElementById("razon_social").placeholder = "No Registrado";
           $("#domicilio_fiscal").val("");
-          document.getElementById("domicilio_fiscal").placeholder =
-            "No Registrado";
+          document.getElementById("domicilio_fiscal").placeholder = "No Registrado";
           // document.getElementById("btnAgregarArt").style.backgroundColor ="#35770c";
           document.getElementById("razon_social").style.Color = "#35770c";
           document.getElementById("razon_social").focus();
@@ -2157,8 +2149,6 @@ function agregarClientexDoc(e) {
     );
   }
 }
-
-
 
 $(document).ready(function () {
   $('#numero_documento').on('input', function () {
@@ -2190,9 +2180,6 @@ function buscarRUCcliente() {
   });
 
 }
-
-
-
 
 /* ---------------------------------------------------------------- */
 //             FUNCION agregarClientexDocCha (numero_documento)
@@ -2367,9 +2354,8 @@ function agregarClientexRuc(e) {
             $("#correocli").css("background-color", "#FBC6AA");
             document.getElementById("correocli").focus();
           } else {
-            document.getElementById("btnAgregarArt").style.backgroundColor =
-              "#367fa9";
-            document.getElementById("btnAgregarArt").focus();
+            // document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
+            // document.getElementById("btnAgregarArt").focus();
           }
         }
       }
@@ -2386,7 +2372,6 @@ $("#numero_documento2").on("keyup", function () {
     type: "POST",
     url: "../ajax/persona.php?op=buscarclienteRuc",
     data: dataString,
-
     success: function (data) {
       //Escribimos las sugerencias que nos manda la consulta
       $("#suggestions").fadeIn().html(data);
@@ -2507,7 +2492,7 @@ function focusDir(e) {
 
 function agregarArt(e) {
   if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("btnAgregarArt").focus();
+    // document.getElementById("btnAgregarArt").focus();
   }
 }
 
@@ -3095,28 +3080,13 @@ function redondeo(numero, decimales) {
 /*                            VENTAS COMPROBANTES                               */
 /********************************************************************************/
 
-function listarComprobante() {
+function listarComprobante() {  
 
-  var tipocomprobante = $('#tipoComprobante').val();
-
-  var tipo;
-
-  if (tipocomprobante == 'recibo') {
-    tipo = 'Boleta';
-  } else if (tipocomprobante == 'factura') {
-    tipo = 'Factura';
-  } else if (tipocomprobante == 'nota') {
-    tipo = 'NotaPedido';
-  } else {
-    tipo = 'Todos';
-
-  }
-
-  var table = $('#tbllistado').DataTable({
+  tabla_comprobante_venta = $('#tbllistado').DataTable({
     bDestroy: true,
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],
     iDisplayLength: 10, //Paginación
     order: [[0, "desc"]], //Ordenar (columna,orden)
-
     "ajax": {
       "url": urlconsumo + "pos.php?action=listarComprobantesVarios",
       "type": "POST",
@@ -3128,15 +3098,18 @@ function listarComprobante() {
           "idempresa": $idempresa,
           "fechainicio": $('#fechaDesde').val(),
           "fechafinal": $('#fechaHasta').val(),
-          "tipocomprobante": tipo
+          "tipocomprobante": $('#tipoComprobante').val()
         });
       },
       "dataSrc": "ListaComprobantes"
     },
-    "columns": [
-      { "data": "id", "visible": false },
+    "columns": [      
       { "data": "fecha" },
       { "data": "cliente" },
+      { "data": "tipo_comprobante" },
+      { "data": "producto" },
+      { "data": "unidades_vendidas" },
+      { "data": "total_producto" },
       {
         "data": "estado",
         "render": function (data, type, row) {
@@ -3146,42 +3119,29 @@ function listarComprobante() {
             data = parseInt(data); // Convertimos data a número
 
             switch (data) {
-              case 5:
-                displayText = 'Aceptado';
-                color = 'green';
-                break;
-              case 4:
-                displayText = 'Enviando a sunat';
-                color = 'orange';
-                break;
-              case 3:
-                displayText = 'Anulado';
-                color = 'red';
-                break;
-              case 0:
-                displayText = 'Error Anular y Volverlo hacer';
-                color = 'red';
-                break;
-              default:
-                displayText = 'Otro Estado';
-                break;
+              case 5: displayText = 'Aceptado';  color = 'green'; break;
+              case 4: displayText = 'Enviando a sunat'; color = 'orange'; break;
+              case 3: displayText = 'Anulado'; color = 'red'; break;
+              case 0: displayText = 'Error Anular y Volverlo hacer'; color = 'red'; break;
+              default: displayText = 'Otro Estado'; break;
             }
-
             return '<span style="color:' + color + '">' + displayText + '</span>';
           } else {
             return data;  // En caso de ordenación, filtrado, etc., regresamos el dato original
           }
         }
-      },
-      { "data": "tipo_comprobante" },
-      { "data": "producto" },
-      { "data": "unidades_vendidas" },
-      { "data": "total" }
-    ]
-
+      },      
+    ],
+    footerCallback: function( tfoot, data, start, end, display ) {
+      var api1 = this.api(); var total1 = api1.column( 5 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api1.column( 5 ).footer() ).html( `S/ ${formato_miles(total1)}` );       
+    },
+    columnDefs: [
+      // { targets: [9,10,11,12,13,14,15,16], visible: false, searchable: false, }, 
+      { targets: [0], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
+      { targets: [5], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },      
+    ],
   });
-
-
 }
 
 
@@ -3192,101 +3152,65 @@ function listarComprobante() {
 $('#btn_modalventas').click(function (e) {
   e.preventDefault();
 
-  $('#ModalListaVentas').modal('show');
-  $('#tipoComprobante').val('recibo');
+  $('#ModalListaVentas').modal('show');  
   $('#fechaDesde').val(today);
   $('#fechaHasta').val(today);
 
   listarComprobante();
 
-})
+});
 
-
-$('#fechaDesde').change(function () {
-  listarComprobante();
-})
-$('#fechaHasta').change(function () {
-  listarComprobante();
-})
-$('#tipoComprobante').change(function () {
-  listarComprobante();
-})
-
+$('#fechaDesde').change(function () { if (tabla_comprobante_venta) { tabla_comprobante_venta.ajax.reload(null, false); } });
+$('#fechaHasta').change(function () { if (tabla_comprobante_venta) { tabla_comprobante_venta.ajax.reload(null, false); } });
+$('#tipoComprobante').change(function () { if (tabla_comprobante_venta) { tabla_comprobante_venta.ajax.reload(null, false); } });
 
 /********************************************************************************/
 /*                                 CLIENTES                                     */
 /********************************************************************************/
 
 function focusRsocial(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("razon_social").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("razon_social").focus();  }
 }
 
 function focusDomi(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("domicilio_fiscal").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("domicilio_fiscal").focus(); }
 }
 
 function focustel(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("telefono1").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("telefono1").focus(); }
 }
 
 function focusemail(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("email").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("email").focus(); }
 }
 
 function focusguardar(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("btnguardarncliente").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("btnguardarncliente").focus(); }
 }
 
 function focusemail(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("email").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("email").focus(); }
 }
 
 function focusguardar(e, field) {
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("btnguardarncliente").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("btnguardarncliente").focus(); }
 }
 
-$.post("../ajax/persona.php?op=selectDepartamento", function (r) {
-  $("#iddepartamento").html(r);
-  //$('#iddepartamento').selectpicker('refresh');
-});
+$.post("../ajax/persona.php?op=selectDepartamento", function (r) { $("#iddepartamento").html(r); });
 
 function llenarCiudad() {
   var iddepartamento = $("#iddepartamento option:selected").val();
-  $.post(
-    "../ajax/persona.php?op=selectCiudad&id=" + iddepartamento,
-    function (r) {
-      $("#idciudad").html(r);
-      //$('#idciudad').selectpicker('refresh');
-      $("#idciudad").val("");
-    }
-  );
+  $.post( "../ajax/persona.php?op=selectCiudad&id=" + iddepartamento, function (r) {
+      $("#idciudad").html(r); $("#idciudad").val("");
+  });
 }
 
 function llenarDistrito() {
   var idciudad = $("#idciudad option:selected").val();
-  $.post("../ajax/persona.php?op=selectDistrito&id=" + idciudad, function (r) {
-    $("#iddistrito").html(r);
-    //$('#iddistrito').selectpicker('refresh');
-  });
+  $.post("../ajax/persona.php?op=selectDistrito&id=" + idciudad, function (r) { $("#iddistrito").html(r); });
 }
 
-$("#formularioncliente").on("submit", function (e) {
-  guardaryeditarcliente(e);
-});
+$("#formularioncliente").on("submit", function (e) { guardaryeditarcliente(e); });
 
 function guardaryeditarcliente(e) {
   e.preventDefault(); //No se activará la acción predeterminada del evento
@@ -3299,7 +3223,6 @@ function guardaryeditarcliente(e) {
     data: formData,
     contentType: false,
     processData: false,
-
     success: function (datos) {
       //bootbox.alert(datos);
       if (datos) {
@@ -3318,11 +3241,8 @@ function guardaryeditarcliente(e) {
 }
 
 function agregarClientexRucNuevo() {
-  $.post(
-    "../ajax/factura.php?op=listarClientesfacturaxDocNuevos",
-    function (data, status) {
+  $.post( "../ajax/factura.php?op=listarClientesfacturaxDocNuevos",  function (data, status) {
       data = JSON.parse(data);
-
       if (data != null) {
         $("#numero_documento2").val(data.numero_documento);
         $("#idpersona").val(data.idpersona);
@@ -3330,17 +3250,15 @@ function agregarClientexRucNuevo() {
         $("#domicilio_fiscal2").val(data.domicilio_fiscal);
         $("#correocli").val(data.email);
         $("#tipo_documento_cliente").val(data.tipo_documento);
-        document.getElementById("btnAgregarArt").style.backgroundColor =
-          "#367fa9";
-        document.getElementById("btnAgregarArt").focus();
+        // document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
+        // document.getElementById("btnAgregarArt").focus();
       } else {
         $("#idpersona").val("");
         $("#razon_social2").val("No existe");
         $("#domicilio_fiscal2").val("No existe");
         $("#tipo_documento_cliente").val("");
-        document.getElementById("btnAgregarArt").style.backgroundColor =
-          "#35770c";
-        document.getElementById("btnAgregarCli").focus();
+        // document.getElementById("btnAgregarArt").style.backgroundColor = "#35770c";
+        // document.getElementById("btnAgregarCli").focus();
       }
     }
   );

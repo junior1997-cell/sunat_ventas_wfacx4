@@ -1,13 +1,17 @@
 <?php
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
 
 require_once "../modelos/Articulo.php";
+require_once "../modelos/Almacen.php";
 
-$articulo = new Articulo();
+		
+$articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
+$almacen = new Almacen();
 
 date_default_timezone_set('America/Lima');
 $date_now = date("d_m_Y__h_i_s_A");
-$imagen_error = "this.src='../dist/svg/404-v2.svg'";
-$toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+$imagen_error = "this.src='../assets/svg/404-v2.svg'";
+$toltip = '<script> $(function () { $(\'[data-bs-toggle="tooltip"]\').tooltip(); }); </script>';
 
 $idarticulo = isset($_POST["idarticulo"]) ? limpiarCadena($_POST["idarticulo"]) : "";
 $idfamilia = isset($_POST["idfamilia"]) ? limpiarCadena($_POST["idfamilia"]) : "";
@@ -172,9 +176,7 @@ switch ($_GET["op"]) {
 		echo json_encode($rspta);
 	break;
 
-	case 'mostrarequivalencia':
-		// require_once "../modelos/Almacen.php";
-		// $almacen = new Almacen();
+	case 'mostrarequivalencia':		
 		// $idmm = $_GET['iduni'];
 		// $rspta = $almacen->selectunidadid($idmm);
 		//Codificar el resultado utilizando json
@@ -194,48 +196,68 @@ switch ($_GET["op"]) {
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
 	break;
+
+	case 'filtros_table':
+		$rspta = $articulo->filtros_table();
+		//Codificar el resultado utilizando json
+	
+		foreach ($rspta as $key => $reg) {
+			echo  '<option value="' . $reg['idfamilia'] . '" >' . $reg['descripcion'] . ' (' .$reg['cant']. ')' . '</option>';
+		}
+
+		$retorno = array(
+			'filtro_almacen' 		=> true, 
+			'filtro_categoria' 	=> 'Salió todo ok', 
+			'filtro_marca' 			=> '<option value="todos" >Todos </option>' . $data, 
+		);  
+		
+	break;
 	
 	//LISTAR PRODUCTOS
-	case 'listar':
+	case 'tbla_principal':
 
 		$idempresa = "1";
-		$rspta = $articulo->listar($idempresa);
+		$rspta = $articulo->listar($idempresa, $_GET['idfamilia']);
 		$url = '../reportes/printbarcode.php?codigopr=';
 		//Vamos a declarar un array
 		$data = array();
 		while ($reg = $rspta->fetch_object()) {
+			$imagen_pr = empty($reg->imagen) ? 'simagen.png' : $reg->imagen ;
 			$data[] = array(
 				"0" => ($reg->estado) ? '<div class="btn-group mb-1">
 						<div class="dropdown">
-							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</button>
+							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> </button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank">Código de barra</a>
-									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</button>
-									<button class="dropdown-item" onclick="desactivar(' . $reg->idarticulo . ')" >Desactivar articulo</button>
+									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank"><i class="fas fa-barcode"></i> Código de barra</a>
+									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" ><i class="fas fa-pencil-alt"></i> Editar</button>
+									<button class="dropdown-item" onclick="desactivar(' . $reg->idarticulo . ')" ><i class="fas fa-skull-crossbones"></i> Desactivar</button>
 								</div>
 						</div>
 					</div> ' :'
 					<div class="btn-group mb-1">
 						<div class="dropdown">
-							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</button>
+							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> </button>
 							<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank">Código de barra</a>
-									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</button>
-									<button class="dropdown-item" onclick="activar(' . $reg->idarticulo . ')" >Activar articulo</button>
+									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank"><i class="fas fa-barcode"></i> Código de barra</a>
+									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" ><i class="fas fa-pencil-alt"></i> Editar</button>
+									<button class="dropdown-item" onclick="activar(' . $reg->idarticulo . ')" ><i class="fas fa-skull-crossbones"></i> Activar</button>
 							</div>
 						</div>
 					</div>'
 				,
-				"1" => $reg->nombre,
+				"1" => '<div class="d-flex align-items-center"> 
+					<div class="me-2"> <span class="avatar avatar-rounded-3 cursor-pointer"> <img src="'.$rutaimagen.$imagen_pr.'" height="40px" width="auto" onerror="'.$imagen_error.'" onclick="ver_img_zoom(\'' . $rutaimagen.$imagen_pr . '\', \''.encodeCadenaHtml($reg->nombre).'\');" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver imagen"> </span> </div> 
+					<div> 
+						<span class="d-block fs-14 fw-semibold text-primary">'.$reg->nombre.'</span> 
+						<span class="d-block fs-12 text-muted">Marca: <b>'.$reg->marca.'</b> | Categoria: <b>'.$reg->familia.'</b></span> 
+					</div> 
+				</div>',
 				"2" => $reg->nombreal,
-				"3" => substr($reg->codigo, 2),
+				"3" => $reg->codigo,
 				"4" => $reg->stock,
 				"5" => $reg->precio,
-				"6" => $reg->costo_compra,
-				"7" => ($reg->imagen == "") ? "<img src='../files/articulos/simagen.png' height='40px' width='auto'>" :	"<img src='$rutaimagen$reg->imagen' height='40px' width='auto'>",
-				"8" => ($reg->estado) ? '<span class="label bg-green">A</span>
- 				' :
-					'<span class="label bg-red">I</span>'
+				"6" => $reg->costo_compra,				
+				"7" => ($reg->estado) ? '<span class="label bg-green">A</span>' :	'<span class="label bg-red">I</span>'.$toltip
 			);
 		}
 
@@ -252,8 +274,6 @@ switch ($_GET["op"]) {
 
 		
 	break;
-
-
 
 	case 'listarservicios':
 
@@ -323,7 +343,7 @@ switch ($_GET["op"]) {
 	break;
 
 	case 'inventarioValorizado':
-		$rspta = $articulo->listar( $_POST['idempresa'] );
+		$rspta = $articulo->listar( $_POST['idempresa'], 'todos' );
 		//Vamos a declarar un array
 		$data = array();
 		while ($reg = $rspta->fetch_object()) {
@@ -359,19 +379,15 @@ switch ($_GET["op"]) {
 		while ($reg = $rspta->fetch_object()) { echo '<option value=' . $reg->idfamilia . '>' . $reg->descripcion . '</option>';	}
 	break;
 
-	case "selectAlmacen":
-		require_once "../modelos/Almacen.php";
-		$almacen = new Almacen();
-		$idempresa = "1";
-		$rspta = $almacen->select($idempresa);
+	case "selectAlmacen":		
+		
+		$rspta = $almacen->select();
 		while ($reg = $rspta->fetch_object()) {
 			echo '<option value=' . $reg->idalmacen . '>' . $reg->nombre . '</option>';
 		}
 	break;
 
-	case "selectUnidad":
-		require_once "../modelos/Almacen.php";
-		$almacen = new Almacen();
+	case "selectUnidad":		
 		$rspta = $almacen->selectunidad();
 		while ($reg = $rspta->fetch_object()) {
 			echo '<option value=' . $reg->idunidad . '>' . $reg->nombreum . ' | ' . $reg->abre . '</option>';

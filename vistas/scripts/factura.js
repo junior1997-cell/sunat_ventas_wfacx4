@@ -1650,54 +1650,23 @@ function agregarDetalle(
       }
 
       var fila =
-        '<tr class="filas" id="fila' +
-        cont +
-        '">' +
-        '<td><i class="fa fa-close" onclick="eliminarDetalle(' +
-        cont +
-        ')" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>' +
-        '<td><span name="numero_orden" id="numero_orden' +
-        cont +
-        '"></span>' +
-        '<input type="hidden" name="numero_orden_item[]" id="numero_orden_item[]" value="' +
-        conNO +
-        '" size="1" ></td>' +
-        '<td><input type="hidden" name="idarticulo[]" value="' +
-        idarticulo +
-        '"> <input type="text" class="form-control" style="display:none;" name="descdet_[]" id="descdet_[]" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">' +
-        nombre +
-        "</td>" +
-        '<td hidden><textarea class="" name="descdet[]" id="descdet[]" rows="1" cols="30" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">' +
-        descrip +
-        "</textarea>" +
+        '<tr class="filas" id="fila' + cont + '">' +
+        '<td><i class="fa fa-close" onclick="eliminarDetalle(' + cont + ')" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>' +
+        '<td><span name="numero_orden" id="numero_orden' + cont + '"></span>' +
+        '<input type="hidden" name="numero_orden_item[]" id="numero_orden_item[]" value="' + conNO + '" size="1" ></td>' +
+        '<td><input type="hidden" name="idarticulo[]" value="' + idarticulo + '"> <input type="text" class="form-control" style="display:none;" name="descdet_[]" id="descdet_[]" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">' + nombre + "</td>" +
+        '<td hidden><textarea class="" name="descdet[]" id="descdet[]" rows="1" cols="30" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">' + descrip +  "</textarea>" +
         '<select name="codigotributo[]"  class="form-control" style="display:none;"> <option value="1000">IGV</option>   <option value="9997">EXO</option><option value="9998">INA</option></select>' +
         '<select name="afectacionigv[]" id="afectacionigv[]"   class="form-control" style="display:none;"> <option value="10">10-GOO</option>' +
         '<option value="20">20-EOO</option><option value="30">30-FREE</option></select></td>' +
         '<td><input type="text"  required="true" class="form-control" name="cantidad[]" id="cantidad[]"  onBlur="modificarSubototales(1)" size="2" onkeypress="return NumCheck(event, this)"  font-weight:bold;" value="1"></td>' +
         '<td><input type="text"  class="form-control" name="descuento[]" id="descuento[]"  onBlur="modificarSubototales(1)" size="2" onkeypress="return NumCheck(event, this)" >' +
-        '<span name="SumDCTO" id="SumDCTO' +
-        cont +
-        '" style="display:none"></span> <input type="hidden"  required="true" class="form-control" name="sumadcto[]" id="sumadcto[]" >  </td>' +
-        '<td><input type="hidden" name="codigo[]" id="codigo[]" value="' +
-        codigo +
-        '">' +
-        codigo +
-        '</td> <input type="text" name="codigo[]" id="codigo[]" value="' +
-        codigo +
-        '" class="form-control" size="4" style="display:none;">' +
-        '<td><input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="' +
-        abre +
-        '">' +
-        nombreum +
-        "</td>" +
-        '<td><input type="text" class="form-control" name="valor_unitario[]" id="valor_unitario[]" value="' +
-        precio_factura +
-        '"   onBlur="modificarSubototales(1)" size="5" onkeypress="return NumCheck2(event, this)"  OnFocus="focusTest(this);" ></td>' +
-        '<td><input type="text" class="form-control" name="valor_unitario2[]" id="valor_unitario2[]" size="5"  value="' +
-        precioOculto +
-        '"    ' +
-        exo +
-        ' onBlur="modificarSubototales(1)" OnFocus="focusTest(this);"></td>' +
+        '<span name="SumDCTO" id="SumDCTO' + cont + '" style="display:none"></span> <input type="hidden"  required="true" class="form-control" name="sumadcto[]" id="sumadcto[]" >  </td>' +
+        '<td><input type="hidden" name="codigo[]" id="codigo[]" value="' + codigo + '">' + codigo + '</td> <input type="text" name="codigo[]" id="codigo[]" value="' +
+        codigo + '" class="form-control" size="4" style="display:none;">' +
+        '<td><input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="' + abre + '">' + nombreum + "</td>" +
+        '<td><input type="text" class="form-control" name="valor_unitario[]" id="valor_unitario[]" value="' + precio_factura + '"   onBlur="modificarSubototales(1)" size="5" onkeypress="return NumCheck2(event, this)"  OnFocus="focusTest(this);" ></td>' +
+        '<td><input type="text" class="form-control" name="valor_unitario2[]" id="valor_unitario2[]" size="5"  value="' + precioOculto + '" ' + exo + ' onBlur="modificarSubototales(1)" OnFocus="focusTest(this);"></td>' +
         '<td><input type="text" class="form-control" name="stock[]" id="stock[]" value="' +
         factorconversion +
         '" disabled="true" size="4" ></td>' +

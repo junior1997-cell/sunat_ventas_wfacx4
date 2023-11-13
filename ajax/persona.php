@@ -232,17 +232,30 @@ switch ($_GET["op"]) {
 		break;
 
 
-	case 'buscarclienteRuc':
-		$key = $_POST['key'];
-		$rspta = $persona->buscarclienteRuc($key);
-		echo json_encode($rspta); // ? "Cliente ya existe": "Documento valido";
+	case 'buscarclienteRuc':		
+		$rspta = $persona->buscarclienteRuc($_POST['key']);
+		foreach ($rspta as $key => $row) {
+			$id = $row['idpersona'];
+			$num_doc = utf8_encode($row['numero_documento']);
+			$razon_s = utf8_encode($row['razon_social']);
+			$dom_fiscal = utf8_encode($row['domicilio_fiscal']);
+			$html = '<div ><a class="suggest-element"  ndocumento="'.$num_doc.'"  ncomercial="' . $razon_s . '"  domicilio="' . $dom_fiscal . '" id="' . $id . '" email="' . $row['email'] . '">' . $razon_s . '</a></div>';
+			echo $html;
+		}
 	break;
 
 	case 'buscarclienteDomicilio':
-		$key = $_POST['key'];
-		$rspta = $persona->buscarclientenombre($key);
-		echo json_encode($rspta); // ? "Cliente ya existe": "Documento valido";
-		break;
+		// $key = $_POST['key'];
+		$rspta = $persona->buscarclientenombre($_POST['key']);
+		
+		foreach ($rspta as $key => $row) {
+			$id = $row['idpersona'];
+			$num_doc = utf8_encode($row['numero_documento']);
+			$razon_s = utf8_encode($row['razon_social']);
+			$dom_fiscal = utf8_encode($row['domicilio_fiscal']);
+			echo '<div><a class="suggest-element"  ndocumento="' . $num_doc . '"  ncomercial="' . $razon_s . '"  domicilio="' . $dom_fiscal . '" id="' . $id . '" email="' . $row['email'] . '">' . $razon_s . '</a></div>';
+		}
+	break;
 
 
 	case 'combocliente':

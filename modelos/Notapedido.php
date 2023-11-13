@@ -16,234 +16,71 @@ class Notapedido
 
   {
 
-    $sql = "insert into
-        notapedido (idusuario,
-          fecha_emision_01,
-          firma_digital_36,
-          idempresa,
-          tipo_documento_06,
-          numeracion_07,
-          idcliente,
-          codigo_tipo_15_1,
-          monto_15_2,
-          sumatoria_igv_18_1,
-          sumatoria_igv_18_2,
-          codigo_tributo_18_3,
-          nombre_tributo_18_4,
-          codigo_internacional_18_5,
-          importe_total_23,
-          codigo_leyenda_26_1,
-          descripcion_leyenda_26_2,
-          tipo_documento_25_1,
-          guia_remision_25,
-          version_ubl_37,
-          version_estructura_38,
-          tipo_moneda_24,
-          tasa_igv,
-          estado,
-          tipodocuCliente,
-          rucCliente,
-          RazonSocial,
-          tdescuento,
-          vendedorsitio,
-          tiponota,
-          adelanto,
-          faltante,
-          ncotizacion,
-          ambtra,
-          efectivo,
-          visa,
-          yape,
-          plin,
-          mastercard,
-          deposito
-        )
-
-        values
-
-        ('$idusuario',
-        '$fecha_emision_01 $hora',
-        '$firma_digital_36',
-        '$idempresa',
-        '$tipo_documento_06',
-        '$SerieReal-$numero_boleta',
-        '$idcl',
-        '$codigo_tipo_15_1',
-        '$monto_15_2',
-        '$sumatoria_igv_18_1',
-        '$sumatoria_igv_18_2',
-        '$sumatoria_igv_18_3',
-        '$sumatoria_igv_18_4',
-        '$sumatoria_igv_18_5',
-        '$importe_total_23',
-        '$codigo_leyenda_26_1',
-        '$descripcion_leyenda_26_2',
-        '$tipo_documento_25_1',
-        '$guia_remision_25',
-        '$version_ubl_37',
-        '$version_estructura_38',
-        '$tipo_moneda_24',
-        '$tasa_igv',
-        '5',
-        '$tipodocuCliente',
-        '$rucCliente',
-        '$RazonSocial',
-        '0.00',
-        '$vendedorsitio',
-        '$tiponota',
-        '$adelanto',
-        '$faltante',
-        '$ncotizacion',
-        '$ambtra',
-        '$efectivo',
-        '$visa',
-        '$yape',
-        '$plin',
-        '$mastercard',
-        '$deposito'
-      )";
+    $sql = "INSERT into notapedido (idusuario, fecha_emision_01, firma_digital_36, idempresa, tipo_documento_06, numeracion_07, idcliente, codigo_tipo_15_1,
+    monto_15_2, sumatoria_igv_18_1, sumatoria_igv_18_2, codigo_tributo_18_3, nombre_tributo_18_4, codigo_internacional_18_5, 
+    importe_total_23, codigo_leyenda_26_1, descripcion_leyenda_26_2, tipo_documento_25_1, guia_remision_25, version_ubl_37, 
+    version_estructura_38, tipo_moneda_24, tasa_igv, estado, tipodocuCliente, rucCliente, RazonSocial, tdescuento, vendedorsitio,
+    tiponota, adelanto, faltante, ncotizacion, ambtra, efectivo, visa, yape, plin, mastercard, deposito)
+    values ('$idusuario', '$fecha_emision_01 $hora', '$firma_digital_36', '$idempresa', '$tipo_documento_06', '$SerieReal-$numero_boleta',
+    '$idcl', '$codigo_tipo_15_1', '$monto_15_2', '$sumatoria_igv_18_1', '$sumatoria_igv_18_2', '$sumatoria_igv_18_3', '$sumatoria_igv_18_4', 
+    '$sumatoria_igv_18_5', '$importe_total_23', '$codigo_leyenda_26_1', '$descripcion_leyenda_26_2', '$tipo_documento_25_1', 
+    '$guia_remision_25', '$version_ubl_37', '$version_estructura_38', '$tipo_moneda_24', '$tasa_igv', '5', '$tipodocuCliente', '$rucCliente', 
+    '$RazonSocial', '0.00', '$vendedorsitio', '$tiponota', '$adelanto', '$faltante', '$ncotizacion', '$ambtra', '$efectivo', '$visa', '$yape', 
+    '$plin', '$mastercard', '$deposito')";
     //return ejecutarConsulta($sql);
     $idBoletaNew = ejecutarConsulta_retornarID($sql);
 
-    $num_elementos = 0;
+    $rr = 0;
     $sw = true;
-    while ($num_elementos < count($idarticulo)) {
+    while ($rr < count($idarticulo)) {
       //Guardar en Detalle
-      $sql_detalle = "insert into
-        detalle_notapedido_producto(idboleta,
-          idarticulo,
-          numero_orden_item_29,
-          cantidad_item_12,
-          codigo_precio_14_1,
-          precio_uni_item_14_2,
-          afectacion_igv_item_monto_27_1,
-          afectacion_igv_item_monto_27_2,
-          afectacion_igv_3,
-          afectacion_igv_4,
-          afectacion_igv_5,
-          afectacion_igv_6,
-          igv_item,
-          valor_uni_item_31,
-          valor_venta_item_32,
-          descdet,
-          umedida
-          )
-
-            values
-
-            (
-            '$idBoletaNew',
-            '$idarticulo[$num_elementos]',
-            '$numero_orden_item_29[$num_elementos]',
-            '$cantidad_item_12[$num_elementos]',
-            '$codigo_precio_14_1',
-            '$precio_unitario[$num_elementos]',
-            '$igvBD[$num_elementos]',
-            '$igvBD[$num_elementos]',
-            '$afectacion_igv_3',
-            '$afectacion_igv_4',
-            '$afectacion_igv_5',
-            '$afectacion_igv_6',
-            '$igvBD2[$num_elementos]',
-            '$vvu[$num_elementos]',
-            '$subtotalBD[$num_elementos]',
-            '$descdet[$num_elementos]',
-            '$unidad_medida[$num_elementos]'
-            )";
+      $sql_detalle = "INSERT into detalle_notapedido_producto(idboleta, idarticulo, numero_orden_item_29, cantidad_item_12, codigo_precio_14_1, precio_uni_item_14_2, 
+      afectacion_igv_item_monto_27_1, afectacion_igv_item_monto_27_2, afectacion_igv_3, afectacion_igv_4, afectacion_igv_5, afectacion_igv_6,
+      igv_item, valor_uni_item_31, valor_venta_item_32, descdet, umedida )
+      values ( '$idBoletaNew', '$idarticulo[$rr]', '$numero_orden_item_29[$rr]', '$cantidad_item_12[$rr]', '$codigo_precio_14_1', 
+      '$precio_unitario[$rr]', '$igvBD[$rr]', '$igvBD[$rr]', '$afectacion_igv_3', '$afectacion_igv_4', '$afectacion_igv_5', '$afectacion_igv_6', 
+      '$igvBD2[$rr]', '$vvu[$rr]', '$subtotalBD[$rr]', '$descdet[$rr]', '$unidad_medida[$rr]' )";
 
       //Guardar en Kardex
-      $sql_kardex = "insert into
-            kardex
-            (idcomprobante,
-              idarticulo,
-              transaccion,
-              codigo,
-              fecha,
-              tipo_documento,
-              numero_doc,
-              cantidad,
-              costo_1,
-              unidad_medida,
-              saldo_final,
-              costo_2,
-              valor_final,
-              idempresa,
-              tcambio,
-              moneda )
-
-              values
-
-            ('$idBoletaNew',
-            '$idarticulo[$num_elementos]',
-            'VENTA',
-            '$codigo[$num_elementos]',
-            '$fecha_emision_01',
-            '50' ,
-            '$SerieReal-$numero_boleta',
-            '$cantidadreal[$num_elementos]',
-            '$precio_unitario[$num_elementos]',
-            '$unidad_medida[$num_elementos]',
-             '' ,
-             '' ,
-             '',
-            '$idempresa',
-            '',
-            '$tipo_moneda_24')";
+      $sql_kardex = "INSERT into kardex (idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, 
+      unidad_medida, saldo_final, costo_2, valor_final, idempresa, tcambio, moneda )
+      values ('$idBoletaNew', '$idarticulo[$rr]', 'VENTA', '$codigo[$rr]', '$fecha_emision_01', '50' ,
+      '$SerieReal-$numero_boleta', '$cantidadreal[$rr]', '$precio_unitario[$rr]', '$unidad_medida[$rr]',  '' ,
+      '' , '', '$idempresa', '', '$tipo_moneda_24')";
 
       ejecutarConsulta($sql_kardex) or $sw = false;
       ejecutarConsulta($sql_detalle) or $sw = false;
-
-
 
       // SI EL NUMERO DE COMPROBANTE YA EXISTE NO HARA LA OPERACION
       if ($idBoletaNew == "") {
         $sw = false;
       } else {
 
-        $sql_update_articulo = "update
-      articulo
-      set
-      saldo_finu=saldo_finu - '$cantidadreal[$num_elementos]',
-      ventast=ventast + '$cantidadreal[$num_elementos]',
-      valor_finu=(saldo_iniu+comprast-ventast) * precio_final_kardex,
-      stock=saldo_finu,
-      valor_fin_kardex=(select valor_final
-        from
-        kardex
-        where
-        idarticulo='$idarticulo[$num_elementos]' and transaccion='VENTA' order by idkardex desc limit 1)
-        where
-        idarticulo='$idarticulo[$num_elementos]'";
-
+        $sql_update_articulo = "UPDATE  articulo
+        set saldo_finu=saldo_finu - '$cantidadreal[$rr]', ventast=ventast + '$cantidadreal[$rr]',
+        valor_finu=(saldo_iniu+comprast-ventast) * precio_final_kardex,  stock= stock - $cantidadreal[$rr],
+        valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$rr]' and transaccion='VENTA' order by idkardex desc limit 1)
+        where idarticulo='$idarticulo[$rr]'";
         ejecutarConsulta($sql_update_articulo) or $sw = false;
 
-
         //Para actualizar numeracion de las series de la factura
-        $sql_update_numeracion = "update
-         numeracion
-         set
-         numero='$numero_boleta' where idnumeracion='$idserie'";
+        $sql_update_numeracion = "UPDATE numeracion set numero='$numero_boleta' where idnumeracion='$idserie'";
         ejecutarConsulta($sql_update_numeracion) or $sw = false;
         //Fin
-
       }
-      $num_elementos = $num_elementos + 1;
+      $rr = $rr + 1;
     }
 
 
-    if ($idnota != "") {
-
-      $num_elementos = 0;
+    if ($idnota == "" || $idnota == "0" || $idnota == null) { } else{
+      $ii = 0;
       $sw = true;
-      while ($num_elementos < count($idnota)) {
+      while ($ii < count($idnota)) {
         //Para actualizar numeracion de las series de la factura
-        $sqlupdateestado = "update
-         notapedido
-         set
-         estado='5' where idboleta='$idnota[$num_elementos]'";
+        $sqlupdateestado = "UPDATE notapedido set estado='5' where idboleta='$idnota[$ii]'";
         ejecutarConsulta($sqlupdateestado) or $sw = false;
         //Fin
-        $num_elementos = $num_elementos + 1;
+        $ii = $ii + 1;
       }
     }
 
@@ -341,8 +178,7 @@ class Notapedido
     return $sw;
   }
 
-  public function baja($idnotap, $fecha_baja, $com, $hora)
-  {
+  public function baja($idnotap, $fecha_baja, $com, $hora) {
     $sw = true;
     $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
     mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
@@ -360,14 +196,11 @@ class Notapedido
         $Idb[$i] = $fila["idboleta"];
         $Ida[$i] = $fila["idarticulo"];
 
-        $sql_update_articulo = "update
-     detalle_notapedido_producto de inner join articulo a  on de.idarticulo=a.idarticulo set
-       a.saldo_finu=a.saldo_finu + de.cantidad_item_12,
-       a.stock=a.stock + de.cantidad_item_12,
-       a.ventast=a.ventast - de.cantidad_item_12,
-       a.valor_finu=(a.saldo_finu + a.comprast - a.ventast) * a.costo_compra
-        where
-        de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
+        $sql_update_articulo = "UPDATE detalle_notapedido_producto de 
+        inner join articulo a  on de.idarticulo=a.idarticulo 
+        set a.saldo_finu=a.saldo_finu + de.cantidad_item_12, a.stock=a.stock + de.cantidad_item_12, a.ventast=a.ventast - de.cantidad_item_12,
+        a.valor_finu=(a.saldo_finu + a.comprast - a.ventast) * a.costo_compra
+        where de.idboleta='$Idb[$i]' and de.idarticulo='$Ida[$i]'";
 
         //ACTUALIZAR TIPO TRANSACCION KARDEX
         //Guardar en Kardex
@@ -515,6 +348,7 @@ class Notapedido
         np.numeracion_07 as numerofac,
         date_format(np.fecha_emision_01,'%d-%m-%Y') as fecha,
         date_format(np.fecha_emision_01,'%Y-%m-%d') as fecha2,
+        date_format(np.fecha_emision_01, '%H:%i:%s') as hora,
         np.importe_total_23 as totalLetras,
         np.importe_total_23 as itotal,
         np.estado,
@@ -529,8 +363,8 @@ class Notapedido
         np.visa,
         np.yape,
         np.plin,
-        np.mastercard,
-        np.deposito,
+        np.mastercard as masterC,
+        np.deposito as dep,
         np.adelanto,
         np.faltante,
         np.monto_15_2 as subtotal
@@ -551,21 +385,13 @@ class Notapedido
 
   public function ventadetalle($idboleta)
   {
-    $sql = "SELECT
-        a.nombre as articulo,
-        a.codigo,
-        format(db.cantidad_item_12,2) as cantidad_item_12,
-        db.valor_uni_item_31,
-        db.precio_uni_item_14_2,
-        db.valor_venta_item_32,
-        format(valor_venta_item_32,2) as subtotal,
-        db.dcto_item,
-        db.descdet,
-        um.abre
-        from
-        detalle_notapedido_producto db inner join articulo a on db.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
-        where
-        db.idboleta='$idboleta'";
+    $sql = "SELECT a.nombre as articulo, a.codigo, format(db.cantidad_item_12,2) as cantidad_item_12, db.valor_uni_item_31,
+    db.precio_uni_item_14_2, db.valor_venta_item_32, format(valor_venta_item_32,2) as subtotal, db.dcto_item, db.descdet,
+    um.abre
+    from detalle_notapedido_producto db 
+    inner join articulo a on db.idarticulo=a.idarticulo 
+    inner join umedida um on a.unidad_medida=um.idunidad
+    where db.idboleta='$idboleta'";
     return ejecutarConsulta($sql);
   }
 
@@ -650,30 +476,25 @@ class Notapedido
 
 
 
-  public function actualizarestados($idnota, $cestado)
-  {
-    $num_elementos = 0;
+  public function actualizarestados($idnota, $cestado) {
+    $ii = 0;
     $sw = true;
-    while ($num_elementos < count($idnota)) {
+    while ($ii < count($idnota)) {
       //Guardar en Detalle
-      $sql = "update notapedido set estado='$cestado' where idboleta= '$idnota[$num_elementos]'";
+      $sql = "update notapedido set estado='$cestado' where idboleta= '$idnota[$ii]'";
       ejecutarConsulta($sql) or $sw = false;
-      $num_elementos = $num_elementos + 1;
+      $ii = $ii + 1;
     }
-
     return $sw;
   }
 
-  public function almacenlista()
-  {
-
+  public function almacenlista() {
     $sql = "SELECT * from almacen where estado='1' order by idalmacen";
     return ejecutarConsulta($sql);
   }
 
 
-  public function mostrarultimocomprobanteId($idempresa)
-  {
+  public function mostrarultimocomprobanteId($idempresa) {
     $sql = "SELECT np.idboleta, e.tipoimpresion from notapedido np inner join empresa e on np.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
     return ejecutarConsultaSimpleFila($sql);
   }
