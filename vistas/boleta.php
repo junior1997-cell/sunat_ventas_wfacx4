@@ -222,11 +222,16 @@ if (!isset($_SESSION["nombre"])) {
                                     <div id="tipopagodiv" style="text-align: center;" class="row">
                                       <div class="col-lg-6">
                                         Monto de cuotas
-                                        <div id="divmontocuotas"></div>
+                                        <div id="divmontocuotas">
+                                          <input type="text" name="montocuotacre[]">
+                                          <input type="text" name="ncuotahiden[]">
+                                        </div>
                                       </div>
                                       <div class="col-lg-6">
                                         Fechas de pago
-                                        <div id="divfechaspago"></div>
+                                        <div id="divfechaspago">
+                                          <input type="text" name="fechapago[]">
+                                        </div>
                                       </div>
                                     </div>
                                   </div>

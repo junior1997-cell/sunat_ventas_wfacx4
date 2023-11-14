@@ -559,9 +559,9 @@ as tabla group by dia";
   }
 
 
-  public function insertarArticulosMasivo($codigo, $familia_descripcion, $nombre, $marca, $descrip, $costo_compra, $precio_venta, $stock, $saldo_iniu, $valor_iniu, $tipoitem, $codigott, $desctt, $codigointtt, $nombrett, $nombre_almacen)
+  public function insertarArticulosMasivo($codigo, $familia_descripcion, $nombre, $marca, $descrip, $costo_compra, $precio_venta, $stock, $tipoitem, $nombre_almacen)
   {
-    $sql = "CALL InsertarDatos('$codigo', '$familia_descripcion', '$nombre', '$marca', '$descrip', $costo_compra, $precio_venta, $stock, $saldo_iniu, '$valor_iniu', '$tipoitem', '$codigott', '$desctt', '$codigointtt', '$nombrett', '$nombre_almacen')";
+    $sql = "CALL InsertarDatos('$codigo', '$familia_descripcion', '$nombre', '$marca', '$descrip', $costo_compra, $precio_venta, $stock, '$tipoitem', '$nombre_almacen')";
     return ejecutarConsulta($sql);
   }
 

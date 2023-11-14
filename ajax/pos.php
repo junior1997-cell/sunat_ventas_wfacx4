@@ -131,14 +131,15 @@ if ($action == 'listarComprobantesVarios') {
 
   while ($reg = $rspta->fetch_object()) {
     $data[] = array(
-      'id' => $reg->id,
-      'fecha' => $reg->fecha,
-      'cliente' => $reg->cliente,
-      'estado' => $reg->estado,
-      'tipo_comprobante' => $reg->tipo_comprobante,
-      'producto' => $reg->producto,
+      'id'                => $reg->id,
+      'fecha'             => $reg->fecha,
+      'cliente'           => $reg->cliente,
+      'estado'            => $reg->estado,
+      'tipo_comprobante'  => $reg->tipo_comprobante,
+      'producto'          => $reg->producto,
       'unidades_vendidas' => $reg->unidades_vendidas,
-      'total' => $reg->total
+      'total'             => empty($reg->total) ? 0 : $reg->total,
+      'total_producto'    => empty($reg->total_producto) ? 0 : $reg->total_producto
     );
   }
 

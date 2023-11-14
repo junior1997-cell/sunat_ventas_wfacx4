@@ -806,13 +806,13 @@ table.dataTable td { padding-top: 5px; padding-bottom: 5px; }
   position:absolute; 
   top:0;
   right:0;
-  background:url(../../plugins/jquery-zoom/icon.png);
+  background:url(../../assets/libs/jquery-zoom/icon.png);
 }
 
 .jq_image_zoom img { display: block; }
 .jq_image_zoom img::selection { background-color: transparent; }
-.jq_image_zoom img:hover { cursor: url(../../plugins/jquery-zoom/grab.cur), default; }
-.jq_image_zoom img:active { cursor: url(../../plugins/jquery-zoom/grabbed.cur), default; }
+.jq_image_zoom img:hover { cursor: url(../../assets/libs/jquery-zoom/grab.cur), default; }
+.jq_image_zoom img:active { cursor: url(../../assets/libs/jquery-zoom/grabbed.cur), default; }
 
 /*  ══════════════════════════════════════════ - R E L O A D   A L L - ══════════════════════════════════════════ */
 

@@ -92,9 +92,7 @@ class Factura {
   {
 
     $st = '1';
-    if ($SerieReal == '0001' || $SerieReal == '0002') {
-      $st = '6';
-    }
+    if ($SerieReal == '0001' || $SerieReal == '0002') { $st = '6'; }
 
     $formapago = '';
     $montofpago = "";
@@ -110,13 +108,9 @@ class Factura {
 
     $montotar = 0;
     $montotran = 0;
-    if ($tadc == '1') {
-      $montotar = $importe_total_venta;
-    }
+    if ($tadc == '1') { $montotar = $importe_total_venta;  }
 
-    if ($transferencia == '1') {
-      $montotran = $importe_total_venta;
-    }
+    if ($transferencia == '1') { $montotran = $importe_total_venta; }
 
     $sql = "INSERT into factura ( idusuario, fecha_emision_01, firmadigital_02, idempresa, tipo_documento_07, numeracion_08, idcliente, total_operaciones_gravadas_codigo_18_1, 
     total_operaciones_gravadas_monto_18_2, sumatoria_igv_22_1, sumatoria_igv_22_2, codigo_tributo_22_3,

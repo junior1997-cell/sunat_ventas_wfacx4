@@ -25,22 +25,60 @@ if (!isset($_SESSION["nombre"])) {
           <button hidden class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar tabla</button>
         </div>
         <div class="row">
+          <!-- <div class="col-xl-12"> 
+            <div class="card custom-card" > 
+              <div class="card-header" style="height: 100px; overflow-y: auto;"> 
+                <nav class="nav nav-pills nav-style-6 lista-items" role="tablist" >                  
+                  <a class="nav-link active" data-bs-toggle="tab" role="tab" aria-current="page" href="#nav-home" aria-selected="false" tabindex="-1">
+                    <div class="spinner-border spinner-border-sm" role="status"> <span class="visually-hidden">Loading...</span> </div>
+                  </a>                                   
+                </nav> 
+              </div> 
+              <div class="card-body">                 
+                <div class="tab-content"> 
+                  <div class="tab-pane text-muted show active" id="nav-home" role="tabpanel"> 
+                    -
+                  </div> 
+                </div> 
+              </div> 
+            </div> 
+          </div> -->
+          
           <div class="col-md-12">
-            <div class="card custom-card">
+            <div class="card">
+              <div class="card-header" > 
+                <div class="row">
+                  <div class="col-lg-4">                    
+                    <select class="form-control" name="filtro_idalmacen" id="filtro_idalmacen" style="width: 100%;" onchange="cargando_search(); delay(function(){filtros()}, 100 );">
+                    </select>
+                  </div>
+                  <div class="col-lg-4">                    
+                    <select class="form-control" name="filtro_idfamilia" id="filtro_idfamilia" style="width: 100%;" onchange="cargando_search(); delay(function(){filtros()}, 100 );">
+                    </select>
+                  </div>
+                  <div class="col-lg-4">                    
+                    <select class="form-control" name="filtro_idmarca" id="filtro_idmarca" style="width: 100%;" onchange="cargando_search(); delay(function(){filtros()}, 100 );">
+                    </select>
+                  </div>
+                </div>
+              </div> 
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="tbllistado" class="table table-striped" style="width: 100% !important;text-align: center;">
+                  <table id="tbllistado" class="table table-striped" style="width: 100% !important;">
                     <thead>
-                      <th>Opciones</th>
-                      <th>Descripción</th>
-                      <th>Almacen</th>
-                      <th>Cod. interno</th>
-                      <th>Stock</th>
-                      <th>Precio venta</th>
-                      <th>Precio compra</th>
-                      <!-- <th>Cta. contable</th> -->
-                      <th>Imagen</th>
-                      <th>Estado</th>
+                      <tr > <th colspan="15" style="text-align: center !important;" class="cargando bg-danger p-1"><i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando... </th>
+                        
+                      </tr>
+                      <tr>
+                        <th>Opciones</th>
+                        <th>Descripción</th>
+                        <th>Almacen</th>
+                        <th>Cod. interno</th>
+                        <th>Stock</th>
+                        <th>Precio venta</th>
+                        <th>Precio compra</th>
+                        <th>Estado</th>
+                      </tr>                      
                     </thead>
                     <tbody>
                     </tbody>
@@ -64,6 +102,8 @@ if (!isset($_SESSION["nombre"])) {
         }
       }
     </style>
+    
+    <!-- MODAL - AGREGAR PRODUCTO -->
     <div class="modal fade text-left" id="modalAgregarProducto" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
@@ -136,19 +176,19 @@ if (!isset($_SESSION["nombre"])) {
                         </div> -->
                 </div>
                 <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Precio por mayor:</label>
+                  <label for="precio2" class="col-form-label">Precio por mayor:</label>
                   <input type="text" class="form-control" name="precio2" id="precio2" placeholder="Précio por mayor">
                 </div>
                 <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Precio distribuidor:</label>
+                  <label for="precio3" class="col-form-label">Precio distribuidor:</label>
                   <input type="text" class="form-control" name="precio3" id="precio3" placeholder="Précio distribuidor">
                 </div>
                 <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Precio compra:</label>
+                  <label for="costo_compra" class="col-form-label">Precio compra:</label>
                   <input type="text" class="form-control" name="costo_compra" id="costo_compra" maxlength="500" onkeypress="return focussaldoi(event, this)" required>
                 </div>
                 <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Imagen del producto:</label>
+                  <label for="imagenactual" class="col-form-label">Imagen del producto:</label>
                   <input type="file" class="form-control" name="imagen" id="imagen" value="" accept="image/*">
                   <input type="hidden" name="imagenactual" id="imagenactual">
                   <img src="../files/articulos/simagen.png" width="150px" height="120px" id="imagenmuestra">
@@ -157,7 +197,12 @@ if (!isset($_SESSION["nombre"])) {
                   </div>
                 </div>
                 <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">Cód. tipo de tributo:</label>
+                  <label for="idmarca" class="col-form-label">Marca:</label>
+                  <select class="form-control" name="idmarca" id="idmarca" >
+                  </select>
+                </div>
+                <div class="mb-3 col-lg-3">
+                  <label for="codigott" class="col-form-label">Cód. tipo de tributo:</label>
                   <select name="codigott" id="codigott" class="form-control">
                     <option value="1000">1000</option>
                     <option value="1016">1016</option>
@@ -318,11 +363,7 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="mb-3 col-lg-4">
                       <label for="recipient-name" class="col-form-label">Lote:</label>
                       <input type="text" name="lote" id="lote" class="form-control">
-                    </div>
-                    <div class="mb-3 col-lg-4">
-                      <label for="recipient-name" class="col-form-label">Marca:</label>
-                      <input type="text" name="marca" id="marca" class="form-control">
-                    </div>
+                    </div>                    
                     <div class="mb-3 col-lg-4">
                       <label for="recipient-name" class="col-form-label">Fecha de fabricación:</label>
                       <input type="date" name="fechafabricacion" id="fechafabricacion" class="form-control" style="color:blue;">
@@ -382,8 +423,9 @@ if (!isset($_SESSION["nombre"])) {
           </form>
         </div>
       </div>
-    </div>
-    <!-- Importación de Productos -->
+    </div>    
+
+    <!--  MODAL - IMPORTAR PRODUCTO -->
     <div class="modal fade text-left" id="importararticulos" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -392,6 +434,34 @@ if (!isset($_SESSION["nombre"])) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <div class="alert alert-danger border border-danger mb-3 p-2"> 
+              <div class="d-flex align-items-start"> 
+                <div class="me-2"> 
+                  <svg class="flex-shrink-0 svg-danger" xmlns="http://www.w3.org/2000/svg" height="1.5rem" viewBox="0 0 24 24" width="1.5rem" fill="#000000"> <path d="M0 0h24v24H0V0z" fill="none"></path><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>                  </svg>
+                </div> 
+                <div class="text-danger w-100"> 
+                  <div class="fw-semibold d-flex justify-content-between">Para importar productos masivamente.
+                    <button type="button" class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
+                  </div> 
+                  <div class="fs-12 op-8 mb-1">Tiene que tener encuenta los siguientes columnas y el orden:</div>    
+                  <div class="row fs-12">
+                    <div class="col-lg-4 px-0">                      
+                      <span>1. Codigo</span><br> <span>2. Categoria</span><br> <span>3. Nombre producto</span><br> <span>4. Descripcion</span>                           
+                    </div>
+                    <div class="col-lg-4 px-0"> 
+                      <span>5. Precio compra</span><br> <span>6. Marca</span><br> <span>7. Precio venta</span><br> <span>8. Stock</span><br>
+                    </div>
+                    <div class="col-lg-4 px-0"> 
+                      <span>9. Tipo (productos)</span><br> <span>10. Almacen</span> 
+                    </div>
+                  </div>  
+                  <div class="d-inline-flex mt-2"> 
+                    <button type="button" class="btn btn-outline-danger font-size-10px py-1 d-inline-block m-r-5px" data-bs-dismiss="alert" aria-label="Close">Cerrar</button> 
+                    <a href="../assets/excel/plantilla-productos.xls" class="btn btn-success font-size-10px py-1 d-inline-block" download="Plantilla">Descargar plantilla</a> 
+                  </div>           
+                </div> 
+              </div> 
+            </div>
             <form class="form" name="formularioImportar" id="formularioImportar" method="POST" action="importar.php" enctype="multipart/form-data">
               <div class="row">
                 <label class="form__container" id="upload-container">
@@ -414,6 +484,26 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
+    <!-- MODAL - VER PERFIL INSUMO-->
+    <div class="modal fade" id="modal-ver-perfil-producto">
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content bg-color-0202022e shadow-none border-0">
+          <div class="modal-header">
+            <h4 class="modal-title text-white title-name-foto-zoom">Foto Zoom</h4>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+              <!-- <span class="text-white cursor-pointer" aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+          <div class="modal-body"> 
+            <div id="div-foto-zoom" class="text-center">
+              <!-- vemos la imagen en zoom -->
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+
     <script>
       // const multipleEvents = (element, eventNames, listener) => {
       //     const events = eventNames.split(' ');
@@ -487,14 +577,15 @@ if (!isset($_SESSION["nombre"])) {
       fetch(this.action, { method: 'POST', body: data  })
       .then(response => response.json())
       .then(data => {
-          if (data.success) {
-            Swal.fire({  icon: 'success',  title: '¡Éxito!',  text: 'Los datos se han importado correctamente.',  showConfirmButton: false, timer: 1500  });
-            tabla.ajax.reload();
-            listar();
-            $('#importararticulos').modal('hide');
-          } else {
-            Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Ocurrió un error al importar los datos.' });
-          }
+        console.log(data); console.log(data.success);
+        if (data.success == true) {
+          Swal.fire({  icon: 'success',  title: '¡Éxito!',  text: 'Los datos se han importado correctamente.',  showConfirmButton: true, timer: 3500  });
+          tabla.ajax.reload();
+          listar();
+          $('#importararticulos').modal('hide');
+        } else {
+          Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Ocurrió un error al importar los datos.' });
+        }
       }).catch(err => {
         Swal.fire({ icon: 'error', title: 'Error', text: 'Ocurrió un error al enviar el archivo.' });
       });
@@ -503,7 +594,6 @@ if (!isset($_SESSION["nombre"])) {
     $('#importararticulos').on('hidden.bs.modal', function() {
       $('#upload-files').val(''); // Limpiar el input del archivo
     });
-
 
     $('button[data-bs-dismiss="modal"]').click(function() {
       $('#upload-files').val(''); // Limpiar el input del archivo

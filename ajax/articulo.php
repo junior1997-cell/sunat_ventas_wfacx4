@@ -1,13 +1,20 @@
 <?php
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
 
 require_once "../modelos/Articulo.php";
-
-$articulo = new Articulo();
+require_once "../modelos/Almacen.php";
+require_once "../modelos/Familia.php";	
+require_once "../modelos/Marca.php";	
+		
+$articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
+$almacen = new Almacen();
+$familia = new Familia();
+$marca = new Marca();
 
 date_default_timezone_set('America/Lima');
 $date_now = date("d_m_Y__h_i_s_A");
-$imagen_error = "this.src='../dist/svg/404-v2.svg'";
-$toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+$imagen_error = "this.src='../assets/svg/404-v2.svg'";
+$toltip = '<script> $(function () { $(\'[data-bs-toggle="tooltip"]\').tooltip(); }); </script>';
 
 $idarticulo = isset($_POST["idarticulo"]) ? limpiarCadena($_POST["idarticulo"]) : "";
 $idfamilia = isset($_POST["idfamilia"]) ? limpiarCadena($_POST["idfamilia"]) : "";
@@ -47,7 +54,7 @@ $nombrett = isset($_POST["nombrett"]) ? limpiarCadena($_POST["nombrett"]) : "";
 
 //N-----------------------
 $lote = isset($_POST["lote"]) ? limpiarCadena($_POST["lote"]) : "";
-$marca = isset($_POST["marca"]) ? limpiarCadena($_POST["marca"]) : "";
+$idmarca = isset($_POST["idmarca"]) ? limpiarCadena($_POST["idmarca"]) : "";
 $fechafabricacion = isset($_POST["fechafabricacion"]) ? limpiarCadena($_POST["fechafabricacion"]) : "";
 $fechavencimiento = isset($_POST["fechavencimiento"]) ? limpiarCadena($_POST["fechavencimiento"]) : "";
 $procedencia = isset($_POST["procedencia"]) ? limpiarCadena($_POST["procedencia"]) : "";
@@ -116,7 +123,7 @@ switch ($_GET["op"]) {
 				$idalmacen,	$codigo_proveedor,	$codigo,	html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'),	$idfamilia,	$unidad_medida,	
 				$costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast,	$ventast, $portador, $merma, $valor_venta, $imagen, 
 				$codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi,	$mticbperu,	$codigott,	$desctt,	$codigointtt,	$nombrett,
-				$lote, $marca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm,	$fechafinalma, $proveedor,
+				$lote, $idmarca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm,	$fechafinalma, $proveedor,
 				$seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion
 			);
 
@@ -126,7 +133,7 @@ switch ($_GET["op"]) {
 			$rspta = $articulo->editar(
 				$idarticulo, $idalmacen, $codigo_proveedor, $codigo, html_entity_decode($nombre, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $idfamilia, $unidad_medida, $costo_compra,
 				$saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma,	$valor_venta, $imagen, $codigosunat, 
-				$ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $marca, 
+				$ccontable, $precio2, $precio3, $cicbper, $nticbperi,	$ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $idmarca, 
 				$fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor,	$seriefaccompra,
 				$numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion
 			);
@@ -172,9 +179,7 @@ switch ($_GET["op"]) {
 		echo json_encode($rspta);
 	break;
 
-	case 'mostrarequivalencia':
-		// require_once "../modelos/Almacen.php";
-		// $almacen = new Almacen();
+	case 'mostrarequivalencia':		
 		// $idmm = $_GET['iduni'];
 		// $rspta = $almacen->selectunidadid($idmm);
 		//Codificar el resultado utilizando json
@@ -194,48 +199,74 @@ switch ($_GET["op"]) {
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
 	break;
+
+	case 'filtros_table':
+		$rspta = $articulo->filtros_table();
+		//Codificar el resultado utilizando json
+		$html_almacen = ""; $html_categoria = ""; $html_marca = "";
+		foreach ($rspta['filtro_almacen'] as $key => $reg) {
+			$html_almacen .=  '<option value="' . $reg['idalmacen'] . '" >' . $reg['nombre'] . ' (' .$reg['cant']. ')' . '</option>';
+		}
+		foreach ($rspta['filtro_categoria'] as $key => $reg) {
+			$html_categoria .=  '<option value="' . $reg['idfamilia'] . '" >' . $reg['descripcion'] . ' (' .$reg['cant']. ')' . '</option>';
+		}
+		foreach ($rspta['filtro_marca'] as $key => $reg) {
+			$html_marca .=  '<option value="' . $reg['idmarca'] . '" >' . $reg['descripcion'] . ' (' .$reg['cant']. ')' . '</option>';
+		}
+
+		$retorno = array(
+			'filtro_almacen' 		=> '<option value="todos" >Todos </option>' . $html_almacen, 
+			'filtro_categoria' 	=> '<option value="todos" >Todos </option>'. $html_categoria, 
+			'filtro_marca' 			=> '<option value="todos" >Todos </option>' . $html_marca, 
+		);  
+		echo json_encode($retorno, true);
+		
+	break;
 	
 	//LISTAR PRODUCTOS
-	case 'listar':
-
-		$idempresa = "1";
-		$rspta = $articulo->listar($idempresa);
+	case 'tbla_principal':
+		
+		$rspta = $articulo->listar( $_GET['idalmacen'], $_GET['idfamilia'], $_GET['idmarca']);
 		$url = '../reportes/printbarcode.php?codigopr=';
 		//Vamos a declarar un array
 		$data = array();
 		while ($reg = $rspta->fetch_object()) {
+			$imagen_pr = empty($reg->imagen) ? 'simagen.png' : $reg->imagen ;
 			$data[] = array(
 				"0" => ($reg->estado) ? '<div class="btn-group mb-1">
 						<div class="dropdown">
-							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</button>
+							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> </button>
 								<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank">Código de barra</a>
-									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</button>
-									<button class="dropdown-item" onclick="desactivar(' . $reg->idarticulo . ')" >Desactivar articulo</button>
+									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank"><i class="fas fa-barcode"></i> Código de barra</a>
+									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" ><i class="fas fa-pencil-alt"></i> Editar</button>
+									<button class="dropdown-item" onclick="desactivar(' . $reg->idarticulo . ')" ><i class="fas fa-skull-crossbones"></i> Desactivar</button>
 								</div>
 						</div>
 					</div> ' :'
 					<div class="btn-group mb-1">
 						<div class="dropdown">
-							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</button>
+							<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> </button>
 							<div class="dropdown-menu" style="">
-									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank">Código de barra</a>
-									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" >Editar artículo</button>
-									<button class="dropdown-item" onclick="activar(' . $reg->idarticulo . ')" >Activar articulo</button>
+									<a class="dropdown-item" href="' . $url . $reg->codigo . '&st=' . $reg->st2 . '&pr=' . $reg->precio . '" target="_blank"><i class="fas fa-barcode"></i> Código de barra</a>
+									<button class="dropdown-item" onclick="mostrar(' . $reg->idarticulo . ')" ><i class="fas fa-pencil-alt"></i> Editar</button>
+									<button class="dropdown-item" onclick="activar(' . $reg->idarticulo . ')" ><i class="fas fa-skull-crossbones"></i> Activar</button>
 							</div>
 						</div>
 					</div>'
 				,
-				"1" => $reg->nombre,
+				"1" => '<div class="d-flex align-items-center"> 
+					<div class="me-2"> <span class="avatar avatar-rounded-3 cursor-pointer"> <img src="'.$rutaimagen.$imagen_pr.'" height="40px" width="auto" onerror="'.$imagen_error.'" onclick="ver_img_zoom(\'' . $rutaimagen.$imagen_pr . '\', \''.encodeCadenaHtml($reg->nombre).'\');" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver imagen"> </span> </div> 
+					<div> 
+						<span class="d-block fs-14 fw-semibold text-primary">'.$reg->nombre.'</span> 
+						<span class="d-block fs-12 text-muted">Marca: <b>'.$reg->marca.'</b> | Categoria: <b>'.$reg->familia.'</b></span> 
+					</div> 
+				</div>',
 				"2" => $reg->nombreal,
-				"3" => substr($reg->codigo, 2),
+				"3" => $reg->codigo,
 				"4" => $reg->stock,
 				"5" => $reg->precio,
-				"6" => $reg->costo_compra,
-				"7" => ($reg->imagen == "") ? "<img src='../files/articulos/simagen.png' height='40px' width='auto'>" :	"<img src='$rutaimagen$reg->imagen' height='40px' width='auto'>",
-				"8" => ($reg->estado) ? '<span class="label bg-green">A</span>
- 				' :
-					'<span class="label bg-red">I</span>'
+				"6" => $reg->costo_compra,				
+				"7" => ($reg->estado) ? '<span class="label bg-green">A</span>' :	'<span class="label bg-red">I</span>'.$toltip
 			);
 		}
 
@@ -252,8 +283,6 @@ switch ($_GET["op"]) {
 
 		
 	break;
-
-
 
 	case 'listarservicios':
 
@@ -323,7 +352,7 @@ switch ($_GET["op"]) {
 	break;
 
 	case 'inventarioValorizado':
-		$rspta = $articulo->listar( $_POST['idempresa'] );
+		$rspta = $articulo->listar( $_POST['idempresa'], 'todos' );
 		//Vamos a declarar un array
 		$data = array();
 		while ($reg = $rspta->fetch_object()) {
@@ -352,26 +381,26 @@ switch ($_GET["op"]) {
 		echo json_encode($results);
 	break;
 
+	case "selectMarca":		
+		$rspta = $marca->select2_marca();
+		while ($reg = $rspta->fetch_object()) { echo '<option value=' . $reg->idmarca . '>' . $reg->descripcion . '</option>';	}
+	break;
+
 	case "selectFamilia":
-		require_once "../modelos/Familia.php";
-		$familia = new Familia();
+		
 		$rspta = $familia->select();
 		while ($reg = $rspta->fetch_object()) { echo '<option value=' . $reg->idfamilia . '>' . $reg->descripcion . '</option>';	}
 	break;
 
-	case "selectAlmacen":
-		require_once "../modelos/Almacen.php";
-		$almacen = new Almacen();
-		$idempresa = "1";
-		$rspta = $almacen->select($idempresa);
+	case "selectAlmacen":		
+		
+		$rspta = $almacen->select();
 		while ($reg = $rspta->fetch_object()) {
 			echo '<option value=' . $reg->idalmacen . '>' . $reg->nombre . '</option>';
 		}
 	break;
 
-	case "selectUnidad":
-		require_once "../modelos/Almacen.php";
-		$almacen = new Almacen();
+	case "selectUnidad":		
 		$rspta = $almacen->selectunidad();
 		while ($reg = $rspta->fetch_object()) {
 			echo '<option value=' . $reg->idunidad . '>' . $reg->nombreum . ' | ' . $reg->abre . '</option>';

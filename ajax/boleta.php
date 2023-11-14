@@ -1,6 +1,5 @@
 <?php
-if (strlen(session_id()) < 1)
-  session_start();
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
 
 require_once "../modelos/Boleta.php";
 require_once "../modelos/Numeracion.php";
@@ -327,7 +326,7 @@ switch ($_GET["op"]) {
 
   case 'listarArticulosboletaxcodigo':
     require_once "../modelos/Articulo.php";
-    $articulo = new Articulo();
+    $articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
     $idempresa = $_GET['idempresa'];
     $codigob = $_GET['codigob'];
     $rspta = $articulo->listarActivosVentaxCodigo($codigob, $idempresa);
@@ -897,7 +896,7 @@ switch ($_GET["op"]) {
     $almacen = $_GET['alm'];
 
     require_once "../modelos/Articulo.php";
-    $articulo = new Articulo();
+    $articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
 
     if ($tmm == '0') {
       $rspta = $articulo->listarActivosVentaumventa($_SESSION['idempresa'], $tipob, $almacen, $tipoprecio);
@@ -958,7 +957,7 @@ switch ($_GET["op"]) {
 
   case 'listarArticulosboletaItem':
     require_once "../modelos/Articulo.php";
-    $articulo = new Articulo();
+    $articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
     $tipob = $_GET['tb'];
 
     $rspta = $articulo->listarActivosVentaumventa($_SESSION['idempresa'], "productos", '', '');
@@ -992,7 +991,7 @@ switch ($_GET["op"]) {
 
   case 'listarArticulosservicio':
     require_once "../modelos/Articulo.php";
-    $bienservicio = new Articulo();
+    $bienservicio = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
     $rspta = $bienservicio->listarActivosVentaSoloServicio($_SESSION['idempresa']);
     //Vamos a declarar un array
     $data = array();

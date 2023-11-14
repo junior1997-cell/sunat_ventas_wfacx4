@@ -548,7 +548,7 @@
 
             <!-- Modal -->
             <div class="modal fade" id="modal_metodopago" tabindex="-1" aria-labelledby="modal_metodopago" aria-hidden="true">
-              <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Método de Pago</h5>
@@ -719,7 +719,7 @@
           <!-- MODAL VISUALIZAR COMPROBANTE -->
           <!-- Modal a4-->
           <div class="modal fade text-left" id="modalPreview2" tabindex="-1" role="dialog" aria-labelledby="modalPreview2" aria-hidden="true">
-            <div class="modal-dialog modal-lg" style="width: 100% !important;">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" style="width: 100% !important;">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="modalPreview2">PDF Boleta A4</h5>
@@ -830,7 +830,7 @@
           </style>
           <!-- MODAL LISTA DE VENTAS -->
           <div class="modal fade" id="ModalListaVentas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Lista de ventas</h5>
@@ -839,47 +839,52 @@
                 <div class="modal-body">
                   <form>
                     <div class="row">
-
                       <div class="mb-3 col-lg-4">
                         <label for="fechaDesde" class="form-label">Fecha Desde:</label>
                         <input type="date" class="form-control" id="fechaDesde">
                       </div>
-
                       <div class="mb-3 col-lg-4">
                         <label for="fechaHasta" class="form-label">Fecha Hasta:</label>
                         <input type="date" class="form-control" id="fechaHasta">
                       </div>
-
                       <div class="mb-3 col-lg-4">
                         <label for="tipoComprobante" class="form-label">Tipo de Comprobante:</label>
                         <select class="form-select" id="tipoComprobante">
-                          <option value="recibo">Boleta</option>
-                          <option value="factura">Factura</option>
-                          <option value="nota">Nota de Venta</option>
+                          <!-- <option value="Todos">Todos</option> -->
+                          <option value="Boleta" selected>Boleta</option>
+                          <option value="Factura">Factura</option>
+                          <option value="NotaPedido">Nota de Venta</option>
                           <!-- Aquí puedes añadir más opciones si lo necesitas -->
                         </select>
                       </div>
-
                     </div>
-
                   </form>
+
                   <div class="col-md-12">
 
                     <!-- centro -->
                     <div class="table-responsive">
-                      <table id="tbllistado" class="display nowrap" cellspacing="0" width="100%">
-                        <thead>
-                          <th hidden>id</th>
+                      <table id="tbllistado" class="display" cellspacing="0" width="100%">
+                        <thead>                          
                           <th>Fecha</th>
-                          <th>Cliente</th>
-                          <th>Estado</th>
-                          <th>Tipo de comprobante</th>
+                          <th>Cliente</th>                          
+                          <th>Tipo</th>
                           <th>Producto</th>
-                          <th>Unidades Vendidas</th>
+                          <th>Cantidad</th>
                           <th>Total</th>
+                          <th>Estado</th>
                         </thead>
                         <tbody>
                         </tbody>
+                        <tfoot>                          
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>                          
+                          <th class="text-nowrap">0.00</th>
+                          <th></th>
+                        </tfoot>
                       </table>
                     </div>
                   </div>
@@ -993,110 +998,7 @@
 
                 </form>
 
-                <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-                <script src="scripts/ajaxview.js"></script>
-
-                <script>
-                  //============== original ===========================================================
-                  $(document).ready(function() {
-                    $("#btn-submit").click(function(e) {
-                      var $this = $(this);
-                      e.preventDefault();
-                      //============== original ===========================================================
-
-                      var documento = $("#nruc").val();
-                      $.post("../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + documento, function(data, status) {
-                        data = JSON.parse(data);
-                        if (data != null) {
-                          swal.fire({
-                            title: "Ya esta registrado cliente, se agregarán sus datos!",
-                            type: "success",
-                            timer: 2000,
-                            showConfirmButton: false
-                          });
-                          $('#idpersona').val(data.idpersona);
-                          $('#numero_documento2').val(data.numero_documento);
-                          $("#razon_social2").val(data.razon_social);
-                          $('#domicilio_fiscal2').val(data.domicilio_fiscal);
-                          $('#correocli').val(data.email);
-                          document.getElementById("btnAgregarArt").style.backgroundColor = '#367fa9';
-                          document.getElementById("btnAgregarArt").focus();
-                          $("#ModalNcliente").modal('hide');
-                        } else {
-
-                          //var numero = $('#nruc').val(), url_s = "consulta.php",parametros = {'dni':numero};
-                          var numero = $('#nruc').val(),
-                            //url_s = "https://incared.com/api/apirest";
-                            url_s = "../ajax/factura.php?op=consultaRucSunat&nroucc=" + numero;
-                          parametros = {
-                            'action': 'getnumero',
-                            'numero': numero
-                          }
-
-                          if (numero == '') {
-                            Swal.fire({
-                              icon: 'warning',
-                              title: 'Atención',
-                              text: 'El campo documento está vacío',
-                              showConfirmButton: false,
-                              timer: 1500
-                            });
-                            //$.ajaxunblock();
-                          } else {
-                            $.ajax({
-                              type: 'POST',
-                              url: url_s,
-                              dataType: 'json',
-                              //data:parametros,
-
-                              beforeSend: function() {},
-                              complete: function(data) {
-
-                              },
-                              success: function(data) {
-                                $('.before-send').fadeOut(500);
-                                if (!jQuery.isEmptyObject(data.error)) {
-                                  alert(data.error);
-                                } else {
-
-                                  $("#numero_documento3").val(data.numeroDocumento);
-                                  $('#razon_social3').val(data.nombre);
-                                  $('#domicilio_fiscal3').val(data.direccion);
-                                  $('#iddistrito').val(data.distrito);
-                                  $('#idciudad').val(data.provincia);
-                                  $('#iddepartamento').val(data.departamento);
-                                }
-                                //$.unblockUI();
-                                //$.ajaxunblock();
-                              },
-                              error: function(data) {
-                                alert("Problemas al tratar de enviar el formulario");
-                                //$.unblockUI();
-                                //$.ajaxunblock();
-                              }
-                            });
-                          }
-
-                          document.getElementById("btnguardarncliente").focus();
-                          //============== original ===========================================================
-
-                        }
-                        //============== original ===========================================================
-                      });
-
-                    });
-
-                    $('#ModalNcliente').on('shown.bs.modal', function(e) {
-                      $("#btn-submit").trigger("click"); // Simula un clic en el botón para ejecutar la lógica que ya tienes definida
-                    });
-
-                    $('#ModalNcliente').on('hidden.bs.modal', function(e) {
-                      // Encuentra todos los campos de entrada dentro del modal y los limpia
-                      $(this).find('input').val('');
-                    });
-                  });
-                </script>
+                
 
               </div>
             </div>
@@ -1121,6 +1023,10 @@
         </div>
         <!-- Scroll To Top -->
         <!-- <div class="scrollToTop"> <span class="arrow"><i class="ri-arrow-up-s-fill fs-20"></i></span></div> -->
+
+        <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script> -->
+        
 
         <div id="responsive-overlay"></div>
         <script src="../custom/modules/jquery/jquery.min.js"></script>
@@ -1154,10 +1060,112 @@
 
         <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
         <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
-        <!-- ---------------------------- -->
+
+        <!-- Moment -->
+        <script src="../assets/libs/moment/moment.min.js"></script>
+        <script src="../assets/libs/moment/locale/es-mx.js"></script>
+
+        <!-- DATATABLES -->
+        <script src="../public/datatables/jquery.dataTables.min.js"></script>
+        <script src="../public/datatables/dataTables.buttons.min.js"></script>
+        <script src="../public/datatables/buttons.html5.min.js"></script>
+        <script src="../public/datatables/buttons.colVis.min.js"></script>
+        <script src="../public/datatables/jszip.min.js"></script>
+        <script src="../public/datatables/pdfmake.min.js"></script>
+        <script src="../public/datatables/vfs_fonts.js"></script>
+        <script src="../public/datatables/datetime.js"></script>
+        <!-- -------------- AGERGAR NEW RUC  -------------- -->
+
+        <script src="scripts/ajaxview.js"></script>
+
+        <script>
+          //============== original ===========================================================
+          $(document).ready(function() {
+            $("#btn-submit").click(function(e) {
+              var $this = $(this);
+              e.preventDefault();
+              //============== original ===========================================================
+
+              var documento = $("#nruc").val();
+              $.post("../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + documento, function(data, status) {
+                data = JSON.parse(data);
+                if (data != null) {
+                  swal.fire({
+                    title: "Ya esta registrado cliente, se agregarán sus datos!",
+                    type: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                  });
+                  $('#idpersona').val(data.idpersona);
+                  $('#numero_documento2').val(data.numero_documento);
+                  $("#razon_social2").val(data.razon_social);
+                  $('#domicilio_fiscal2').val(data.domicilio_fiscal);
+                  $('#correocli').val(data.email);
+                  // document.getElementById("btnAgregarArt").style.backgroundColor = '#367fa9';
+                  // document.getElementById("btnAgregarArt").focus();
+                  $("#ModalNcliente").modal('hide');
+                } else {
+
+                  //var numero = $('#nruc').val(), url_s = "consulta.php",parametros = {'dni':numero};
+                  var numero = $('#nruc').val(),
+                    //url_s = "https://incared.com/api/apirest";
+                    url_s = "../ajax/factura.php?op=consultaRucSunat&nroucc=" + numero;
+                  parametros = {
+                    'action': 'getnumero',
+                    'numero': numero
+                  }
+
+                  if (numero == '') {
+                    Swal.fire({ icon: 'warning', title: 'Atención', text: 'El campo documento está vacío', showConfirmButton: false, timer: 1500 });
+                    //$.ajaxunblock();
+                  } else {
+                    $.ajax({
+                      type: 'POST',
+                      url: url_s,
+                      dataType: 'json',
+                      beforeSend: function() {},
+                      complete: function(data) {  },
+                      success: function(data) {
+                        $('.before-send').fadeOut(500);
+                        if (!jQuery.isEmptyObject(data.error)) {
+                          alert(data.error);
+                        } else {
+                          $("#numero_documento3").val(data.numeroDocumento);
+                          $('#razon_social3').val(data.nombre);
+                          $('#domicilio_fiscal3').val(data.direccion);
+                          $('#iddistrito').val(data.distrito);
+                          $('#idciudad').val(data.provincia);
+                          $('#iddepartamento').val(data.departamento);
+                        }
+                        //$.unblockUI(); $.ajaxunblock();
+                      },
+                      error: function(data) {
+                        alert("Problemas al tratar de enviar el formulario");
+                        //$.unblockUI(); $.ajaxunblock();
+                      }
+                    });
+                  }
+                  document.getElementById("btnguardarncliente").focus();
+                  //============== original ===========================================================
+                }
+                //============== original ===========================================================
+              });
+            });
+
+            $('#ModalNcliente').on('shown.bs.modal', function(e) {
+              $("#btn-submit").trigger("click"); // Simula un clic en el botón para ejecutar la lógica que ya tienes definida
+            });
+
+            $('#ModalNcliente').on('hidden.bs.modal', function(e) {
+              // Encuentra todos los campos de entrada dentro del modal y los limpia
+              $(this).find('input').val('');
+            });
+          });
+        </script>
 
         <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+        <script type="text/javascript" src="../assets/js/funcion_general.js"></script>
         <script type="text/javascript" src="scripts/pos.js"></script>
         <script src="../public/js/html5tooltips.js"></script>
         <img src="" alt="">

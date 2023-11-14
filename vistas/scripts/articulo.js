@@ -22,21 +22,29 @@ toastr.options = {
 function init() {
 
   mostrarform(false);
-  listar();
+  listar_filtros();  
   listarservicios();
-  $idempresa = $("#idempresa").val();
+  $idempresa = $("#idempresa").val();  
 
+  // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
+  $.post("../ajax/articulo.php?op=selectMarca", function (r) { $("#idmarca").html(r); });
+  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilia").html(r); });
+  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
+  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
+
+  // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
   $("#formulario").on("submit", function (e) { guardaryeditar(e); });
   $("#formnewfamilia").on("submit", function (e) { guardaryeditarFamilia(e); });
   $("#formnewalmacen").on("submit", function (e) { guardaryeditarAlmacen(e); });
   $("#formnewumedida").on("submit", function (e) { guardaryeditarUmedida(e); });
   $("#formprintbar").on("submit", function (e) { });
 
-  //Cargamos los items al select familia
-  $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilia").html(r); });
-  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
-  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
+  // ══════════════════════════════════════ I N I T I A L I Z E   N U M B E R   F O R M A T ══════════════════════════════════════
+  $("#filtro_idalmacen").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
+  $("#filtro_idfamilia").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });  
+  $("#filtro_idmarca").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });  
 
+  $("#idmarca").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#idfamilia").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#umedidacompra").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#unidad_medida").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
@@ -44,9 +52,21 @@ function init() {
   $("#imagenmuestra").hide();
 }
 
+function listar_filtros() {  
+
+  $.post(`../ajax/articulo.php?op=filtros_table`, function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); //console.log(e);
+    $("#filtro_idfamilia").html(e.filtro_categoria);
+    $("#filtro_idalmacen").html(e.filtro_almacen);
+    $("#filtro_idmarca").html(e.filtro_marca);
+    listar_tabla_principal('todos', 'todos', 'todos');
+  }).fail( function(e) { console.log(e); } );
+}
+
 //Función limpiar
 function limpiar() {
 
+  $("#idmarca").val("").trigger("change");
   $("#idfamilia").val("").trigger("change");
   $("#umedidacompra").val("").trigger("change");
   $("#unidad_medida").val("").trigger("change");
@@ -185,8 +205,8 @@ function cancelarform() { limpiar(); mostrarform(false);
 }
 
 //Función Listar PRODUCTOS
-function listar() {
-  var $idempresa = $("#idempresa").val();
+function listar_tabla_principal(idalmacen, idfamilia, idmarca) {
+  
   tabla_articulo = $('#tbllistado').dataTable({
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
     "aProcessing": true,//Activamos el procesamiento del datatables
@@ -197,15 +217,17 @@ function listar() {
       { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
       { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
       { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5,6,8], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
-      { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+      { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     "ajax": {
-      url: '../ajax/articulo.php?op=listar&idempresa=' + $idempresa,
+      url: `../ajax/articulo.php?op=tbla_principal&idalmacen=${idalmacen}&idfamilia=${idfamilia}&idmarca=${idmarca}`,
       type: "get",
       dataType: "json",
       error: function (e) {
         console.log(e.responseText);
-      }
+      },
+      beforeSend: function () {  },
+      complete: function () { $('.cargando').hide(); }
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -273,10 +295,10 @@ function mostrar(idarticulo) {
     data = JSON.parse(data);   
     console.log(data);
     $("#idarticulo").val(data.idarticulo);
-    $("#idfamilia").val(data.idfamilia);
     $("#idalmacen").val(data.idalmacen);
     $("#codigo_proveedor").val(data.codigo_proveedor);
 
+    $("#idmarca").val(data.idmarca).trigger("change");
     $("#idfamilia").val(data.idfamilia).trigger("change");
     $("#umedidacompra").val(data.umedidacompra).trigger("change");
     $("#unidad_medida").val(data.unidad_medida).trigger("change");
@@ -410,8 +432,7 @@ function activar(idarticulo) {
       $.post("../ajax/articulo.php?op=activar", { idarticulo: idarticulo }, function (e) {
         Swal.fire({ title: 'Artículo activado', text: e, icon: 'success', showConfirmButton: false, timer: 5000 });
         if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
-        if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
-        listar();
+        if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }        
       });
     }
   });
@@ -1008,56 +1029,23 @@ function preciov(e, field) {
 
   key = e.keyCode ? e.keyCode : e.which
 
-
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-
-    document.getElementById('valor_venta').focus();
-
-  }
-
+  if (e.keyCode === 13 && !e.shiftKey) {  document.getElementById('valor_venta').focus(); }
   // backspace
-
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
-
     if (field.value === "") return true;
-
     var existePto = (/[.]/).test(field.value);
-
-    if (existePto === false) {
-
-      regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
-      regexp = /.[0-9]{2}$/;
-
-    }
-
+    if (existePto === false) { regexp = /.[0-9]{10}$/; } else {  regexp = /.[0-9]{2}$/;  }
     return !(regexp.test(field.value));
-
   }
-
-
 
   if (key == 46) {
-
     if (field.value === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.value);
-
   }
-
   return false;
-
 }
 
 function limitest(e, field) {
@@ -1122,11 +1110,8 @@ $(".modal-wide").on("show.bs.modal", function () {
 function unidadvalor() { valor = $("#nombreu").val(); $("#abre").val(valor);}
 
 function refrescartabla() { 
-
-  if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } 
-    
+  if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }     
   if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
-
 }
 
 document.getElementById("imagen").onchange = function (e) {
@@ -1180,10 +1165,7 @@ function generarcodigonarti() {
     codale2 += caracteres2.charAt(Math.floor(Math.random() * caracteres2.length));
   }
   $("#codigo").val(codale + codale2);
-
 }
-
-
 
 function generarCodigoAutomatico(i_cod) {
   if ($('#generar-cod-correlativo').prop('checked')) {
@@ -1225,14 +1207,50 @@ $('#generar-cod-correlativo').change(function () {
 });
 
 
-
 // Función para establecer el campo de código como solo lectura
 function setCodigoFieldReadonly() {
   $('#codigo').attr('readonly', 'readonly');
 }
 
 
-
 init();
 
 
+// .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
+
+// .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
+function cargando_search() {
+  var nombre_almacen  = $('#filtro_idalmacen').find(':selected').text();
+  var nombre_familia  = ' ─ ' + $('#filtro_idfamilia').find(':selected').text();
+  var nombre_marca    = ' ─ ' + $('#filtro_idmarca').find(':selected').text();
+  if ($('#filtro_idalmacen').val() == '' || $('#filtro_idalmacen').val() == null ) {  nombre_almacen = ""; }
+  if ($('#filtro_idfamilia').val() == '' || $('#filtro_idfamilia').val() == null ) { nombre_familia = "" }
+  if ($('#filtro_idmarca').val() == '' || $('#filtro_idmarca').val() == null ) { nombre_marca = "" }
+  $('.cargando').show().html(`<i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando ${nombre_almacen} ${nombre_familia} ${nombre_marca} ...`);
+}
+function filtros() {  
+
+  var idalmacen = $("#filtro_idalmacen").select2('val');
+  var idfamilia = $("#filtro_idfamilia").select2('val');  
+  var idmarca   = $("#filtro_idmarca").select2('val');  
+  
+  var nombre_almacen  = $('#filtro_idalmacen').find(':selected').text();
+  var nombre_familia  = ' ─ ' + $('#filtro_idfamilia').find(':selected').text();
+  var nombre_marca    = ' ─ ' + $('#filtro_idmarca').find(':selected').text();
+
+  if (idalmacen == '' || idalmacen == 0 || idalmacen == null) { idalmacen = ""; nombre_almacen = ""; }
+  if (idfamilia == '' || idfamilia == null || idfamilia == 0 ) { idfamilia = ""; nombre_familia = "" }
+  if (idmarca == '' || idmarca == null || idmarca == 0 ) { idmarca = ""; nombre_marca = "" }
+
+  $('.cargando').show().html(`<i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando ${nombre_almacen} ${nombre_familia} ${nombre_marca}...`);
+  
+  listar_tabla_principal(idalmacen, idfamilia, idmarca);
+}
+
+function ver_img_zoom(file, nombre) {
+  $('.title-name-foto-zoom').html(nombre);
+  // $(".tooltip").remove();
+  $("#modal-ver-perfil-producto").modal("show");
+  $('#div-foto-zoom').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../assets/svg/404-v2.svg';" alt="Foto zoom" width="100%"></span>`);
+  $('.jq_image_zoom').zoom({ on:'grab' });
+}

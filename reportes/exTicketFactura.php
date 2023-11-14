@@ -1,4 +1,6 @@
 <?php
+require '../vendor/autoload.php';
+use Luecano\NumeroALetras\NumeroALetras;
 //Activamos el almacenamiento en el buffer
 ob_start();
 if (strlen(session_id()) < 1)
@@ -24,11 +26,12 @@ if (!isset($_SESSION["nombre"])) {
 
       //Incluímos la clase Venta
       require_once "../modelos/Factura.php";
-      $factura = new Factura();
-
-
       require_once "../modelos/Rutas.php";
+
+      $factura = new Factura();      
       $rutas = new Rutas();
+      $numero_a_letra = new NumeroALetras();
+
       $Rrutas = $rutas->mostrar2("1");
       $Prutas = $Rrutas->fetch_object();
       $rutalogo = $Prutas->rutalogo;
@@ -412,13 +415,14 @@ if (!isset($_SESSION["nombre"])) {
       </table>
 
       <?php
-      require_once "Letras.php";
-      $V = new EnLetras();
-      $con_letra = strtoupper($V->ValorEnLetras($reg->importe_total_venta_27, "NUEVOS SOLES"));
+      // require_once "Letras.php";
+      // $V = new EnLetras();
+      // $con_letra = strtoupper($V->ValorEnLetras($reg->importe_total_venta_27, ""));
+      $num_total = $numero_a_letra->toInvoice( $reg->importe_total_venta_27, 2, " SOLES" );      
 
       echo "<table border='0'  width='220px' style='font-size: 12px' align='center' >
         <tr><td>-----------------------------------------------------</td></tr>";
-      echo "<tr><td></br><strong>SON: </strong>" . $con_letra . "</td></tr></table>";
+      echo "<tr><td></br><strong>SON: </strong>" . $num_total . "</td></tr></table>";
       ?>
 
       <!-- Mostramos los totales de la venta en el documento HTML -->

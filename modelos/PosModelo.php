@@ -18,12 +18,13 @@ class PosModelo
     format(a.stock,2) as stock, a.precio_venta as precio, a.costo_compra, (a.precio_venta * 0.18) as precio_unitario, a.cicbper, 
     format(a.mticbperu,2) as mticbperu, a.factorc, a.descrip, a.tipoitem, a.imagen, a.estado, a.precio_final_kardex, a.precio2, a.precio3, 
     a.unidad_medida, a.ccontable, a.stock as st2, um.nombreum, um.abre, date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento, 
-    al.nombre as nombreal, a.marca
+    al.nombre as nombreal, m.descripcion as marca
     from articulo a 
     inner join familia f on a.idfamilia=f.idfamilia 
     inner join almacen al on a.idalmacen=al.idalmacen 
     inner join empresa e on al.idempresa=e.idempresa 
     inner join umedida um on a.umedidacompra=um.idunidad 
+    inner join marca m on a.idmarca=m.idmarca 
     where a.tipoitem = 'productos' and not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1' $filtro";
 
     return ejecutarConsulta($sql);
@@ -75,13 +76,14 @@ class PosModelo
     $sql = "";
     // Agregar consulta para Boletas si se requiere
     if ($tipocomprobante == "Boleta" || $tipocomprobante == "Todos") {
-      $sql .= "SELECT b.idboleta as id, date_format(b.fecha_emision_01, '%d/%m/%y') as fecha, p.razon_social as cliente, b.estado,
-      'boleta' as tipo_comprobante, b.importe_total_23 as total, a.nombre as producto, dbp.cantidad_item_12 as unidades_vendidas
+      $sql .= "SELECT b.idboleta as id, date_format(b.fecha_emision_01, '%Y-%m-%d') as fecha, p.razon_social as cliente, b.estado,
+      'boleta' as tipo_comprobante, b.importe_total_23 as total, a.nombre as producto, dbp.cantidad_item_12 as unidades_vendidas,
+      dbp.valor_venta_item_32 as total_producto
       from boleta b 
       inner join persona p on b.idcliente = p.idpersona
       inner join detalle_boleta_producto dbp on b.idboleta = dbp.idboleta
       inner join articulo a on dbp.idarticulo = a.idarticulo
-      where date(b.fecha_emision_01) between '$fechainicio' and '$fechafinal' and b.idempresa = '$idempresa'";
+      where date(b.fecha_emision_01) between '$fechainicio' and '$fechafinal' and b.idempresa = '$idempresa' ORDER BY b.fecha_emision_01 desc";
     }
 
     // Agregar consulta para Facturas si se requiere
@@ -89,13 +91,14 @@ class PosModelo
       if ($sql != "") { // Verificar si ya hay una consulta
         $sql .= " union ";
       }
-      $sql .= "SELECT f.idfactura as id, date_format(f.fecha_emision_01, '%d/%m/%y') as fecha, p.razon_social as cliente, f.estado, 
-      'factura' as tipo_comprobante, f.importe_total_venta_27 as total, a.nombre as producto, dfa.cantidad_item_12 as unidades_vendidas
+      $sql .= "SELECT f.idfactura as id, date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha, p.razon_social as cliente, f.estado, 
+      'factura' as tipo_comprobante, f.importe_total_venta_27 as total, a.nombre as producto, dfa.cantidad_item_12 as unidades_vendidas,
+      dfa.valor_venta_item_21 as total_producto
       from factura f 
       inner join persona p on f.idcliente = p.idpersona
       inner join detalle_fac_art dfa on f.idfactura = dfa.idfactura
       inner join articulo a on dfa.idarticulo = a.idarticulo
-      where date(f.fecha_emision_01) between '$fechainicio' and '$fechafinal' and f.idempresa = '$idempresa'";
+      where date(f.fecha_emision_01) between '$fechainicio' and '$fechafinal' and f.idempresa = '$idempresa' ORDER BY f.fecha_emision_01 desc";
     }
 
     // Agregar consulta para NotaPedido si se requiere
@@ -103,13 +106,14 @@ class PosModelo
       if ($sql != "") { // Verificar si ya hay una consulta
         $sql .= " union ";
       }
-      $sql .= "SELECT b.idboleta as id, date_format(b.fecha_emision_01, '%d/%m/%y') as fecha, p.razon_social as cliente, b.estado,
-      'notapedido' as tipo_comprobante, b.importe_total_23 as total, a.nombre as producto, dnp.cantidad_item_12 as unidades_vendidas
+      $sql .= "SELECT b.idboleta as id, date_format(b.fecha_emision_01, '%Y-%m-%d') as fecha, p.razon_social as cliente, b.estado,
+      'notapedido' as tipo_comprobante, b.importe_total_23 as total, a.nombre as producto, dnp.cantidad_item_12 as unidades_vendidas,
+      dnp.valor_venta_item_32 as total_producto
       from notapedido b 
       inner join persona p on b.idcliente = p.idpersona
       inner join detalle_notapedido_producto dnp on b.idboleta = dnp.idboleta
       inner join articulo a on dnp.idarticulo = a.idarticulo
-      where date(b.fecha_emision_01) between '$fechainicio' and '$fechafinal' and b.idempresa = '$idempresa'";
+      where date(b.fecha_emision_01) between '$fechainicio' and '$fechafinal' and b.idempresa = '$idempresa' ORDER BY b.fecha_emision_01 desc";
     }
     return ejecutarConsulta($sql);
   }

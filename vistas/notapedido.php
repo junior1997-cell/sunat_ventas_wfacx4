@@ -28,7 +28,7 @@ if (!isset($_SESSION["nombre"])) {
             <div class="">
 
               <div class="table-responsive" id="listadoregistros">
-                <table id="tbllistado" class="table table-striped" style="font-size: 14px; max-width: 100%; !important;">
+                <table id="tbllistado" class="table table-striped" style="font-size: 14px; max-width: 100% !important;">
                   <thead style="text-align:center;">
                     <th>Opciones</th>
                     <!--  <th><i class="fa fa-send"></i></th> -->
@@ -48,7 +48,7 @@ if (!isset($_SESSION["nombre"])) {
                 </table>
               </div>
 
-              <div class="panel-body" id="formularioregistros">
+              <div class="panel-body" id="formularioregistros" style="display: none;">
                 <form name="formulario" id="formulario" method="POST">
                   <div class="row">
 
@@ -324,7 +324,7 @@ if (!isset($_SESSION["nombre"])) {
 
                             <div class="table-responsive">
                               <table id="detalles" class="table table-striped"
-                                style="font-size: 14px; max-width: 100%; !important;">
+                                style="font-size: 14px; max-width: 100% !important;">
                                 <thead style="text-align:center;">
                                   <th>Sup.</th>
                                   <th>Item</th>

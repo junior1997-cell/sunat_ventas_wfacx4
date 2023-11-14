@@ -1,4 +1,6 @@
 <?php
+require '../vendor/autoload.php';
+use Luecano\NumeroALetras\NumeroALetras;
 //Activamos el almacenamiento en el buffer
 ob_start();
 if (strlen(session_id()) < 1)
@@ -27,6 +29,8 @@ if (!isset($_SESSION["nombre"])) {
       //Instanciamos a la clase con el objeto venta
       $boleta = new Boleta();
       $factura = new Factura();
+      $numero_a_letra = new NumeroALetras();
+      
       $datos = $factura->datosempImpresiones($_SESSION['idempresa']);
       //$datose = $datos->fetch_object();
 
@@ -89,8 +93,8 @@ if (!isset($_SESSION["nombre"])) {
           </tr>
 
           <tr align="center">
-            <td>
-              <?php echo utf8_decode($datose->domicilio_fiscal) . ' - ' . $datose->telefono1 . "-" . $datose->telefono2; ?>
+            <td> 
+              <?php echo utf8_decode($datose->domicilio_fiscal) . ' <br> ' . $datose->telefono1 . "-" . $datose->telefono2; ?>
             </td>
           </tr>
 
@@ -453,13 +457,14 @@ if (!isset($_SESSION["nombre"])) {
 
         <?php
 
-        require_once "Letras.php";
-        $V = new EnLetras();
-        $con_letra = strtoupper($V->ValorEnLetras($reg->Itotal, "NUEVOS SOLES"));
+        // require_once "Letras.php";
+        // $V = new EnLetras();
+        // $con_letra = strtoupper($V->ValorEnLetras($reg->Itotal, "NUEVOS SOLES"));
+        $num_total = $numero_a_letra->toInvoice( $reg->Itotal, 2, " SOLES" );
 
         echo "<table border='0'  align='center' width='220px' style='font-size: 12px' >
-    <tr><td>-----------------------------------------------------</td></tr>";
-        echo "<tr><td></br><strong>Son: </strong>" . $con_letra . "</td></tr></table>";
+          <tr><td>-----------------------------------------------------</td></tr>";
+        echo "<tr><td></br><strong>Son: </strong>" . $num_total . "</td></tr></table>";
         ?>
 
       </table>
