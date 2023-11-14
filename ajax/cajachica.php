@@ -159,6 +159,27 @@ if (isset($_GET['action'])) {
 	echo json_encode($results);
   }
 
+  if ($action == 'tblIngresos') {
+	$rspta = $cajachica->tblIngresos();
+	$data = array();
+  
+	while ($reg=$rspta->fetch_object()){
+        $data[]=array(
+			'fecha_cierre' => $reg->fecharegistro,
+            'total_ingreso' => $reg->ingreso,
+            'total_gasto' => $reg->ingreso,
+			'saldo_inicial' => $reg->descripcionc,
+            'total_caja' => $reg->ingreso
+        );
+    }
+	$results = array(
+		"aaData"=>$data
+	);
+	
+	header('Content-type: application/json');
+	echo json_encode($results);
+  }
+
   switch ($_GET["op"]){
     case 'guardaryeditar':
         if ($cajachica->existeSaldoInicialDiaActual()) {

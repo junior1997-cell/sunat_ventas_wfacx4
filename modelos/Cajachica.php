@@ -83,12 +83,13 @@ class Cajachica
   // INSERTAR saldo inicial por día actual
   public function insertarSaldoInicial($saldo_inicial)
   {
+    $f_h_apertura = date("Y-m-d H:i:s"); 
     if ($this->existeSaldoInicialDiaActual()) {
       // Ya existe un saldo inicial para el día actual, no se puede insertar otro
       return false;
     }
     $sql = "INSERT INTO saldocaja (idsaldoini, saldo_inicial, fecha_creacion) 
-                VALUES (null, '$saldo_inicial', CURRENT_DATE())";
+                VALUES (null, '$saldo_inicial', '$f_h_apertura')";
     return ejecutarConsulta($sql);
   }
 
@@ -160,5 +161,22 @@ class Cajachica
     saldocaja.fecha_creacion >'$penultima_fecha' and saldocaja.fecha_creacion <='$ultima_fecha'
     GROUP BY cierrecaja.total_caja, saldocaja.saldo_inicial;";
     return ejecutarConsulta($sql);
+  }
+
+  // LISTADO DE LAS TABLAS RESUMEN 
+  public function tblIngresos(){
+
+    $sql_ini="SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
+
+    $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
+
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00'):$sql_cierrcaja['ultima_fecha'];
+
+    $sql= "SELECT  i.idinsumo, i.fecharegistro, i.descripcion, i.valor, i.igv, i.gasto, i.ingreso, i.documnIDE, i.numDOCIDE, i.acredor, ci.descripcionc 
+    FROM insumos as i
+    inner join categoriainsumos as ci on i.idcategoriai = ci.idcategoriai 
+    WHERE tipodato='ingreso' and fecharegistro>='$ultima_fecha';";
+    return ejecutarConsulta($sql);
+    
   }
 }

@@ -186,11 +186,11 @@ function listar() {
     "dom": 'Bfrtip',
     "buttons": [],
     "ajax": {
-      "url": '../ajax/cajachica.php?action=listarcierre&op=',
+      "url": '../ajax/cajachica.php?action=tblIngresos&op=',
       "type": "get",
       "dataType": "json",
       "error": function (e) {
-        console.log(e.responseText);
+        console.log(e);
       }
     },
     "bDestroy": true,

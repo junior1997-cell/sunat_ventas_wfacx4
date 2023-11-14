@@ -18,7 +18,7 @@ if (!isset($_SESSION["nombre"])) {
 
     <div class="content-header">
       <h1>Caja chica del sistema <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#agregarsaldoInicial" onclick="verificarSaldoInicial()">Aperturar caja</button>
-      <button type="button" class="btn btn-primary" id="cerrarCajaBtn" onclick="cerrarCaja();">Cerrar caja </button>
+        <button type="button" class="btn btn-primary" id="cerrarCajaBtn" onclick="cerrarCaja();">Cerrar caja </button>
 
       </h1>
     </div>
@@ -99,47 +99,107 @@ if (!isset($_SESSION["nombre"])) {
     </div>
 
 
-
-
-
-
-
-
-
-    <div class="col-md-12">
-      <div class="card">
+    <div class="col-xxl-12 col-xl-12">
+      <div class="card custom-card">
         <div class="card-body">
+          <ul class="nav nav-tabs tab-style-2 nav-justified mb-3 d-sm-flex d-block" id="myTab1" role="tablist">
+            <li class="nav-item" role="presentation"> <button class="nav-link active" id="order-tab" data-bs-toggle="tab" data-bs-target="#order-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" tabindex="-1"><i class="ri-gift-line me-1 align-middle"></i>Ventas</button> </li>
+            <li class="nav-item" role="presentation"> <button class="nav-link" id="confirmed-tab" data-bs-toggle="tab" data-bs-target="#confirm-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"><i class="ri-check-double-line me-1 align-middle"></i>Ingresos</button> </li>
+            <li class="nav-item" role="presentation"> <button class="nav-link" id="shipped-tab" data-bs-toggle="tab" data-bs-target="#shipped-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" tabindex="-1"><i class="ri-shopping-bag-3-line me-1 align-middle"></i>Egresos</button> </li>
+            <li class="nav-item" role="presentation"> <button class="nav-link" id="delivered-tab" data-bs-toggle="tab" data-bs-target="#delivered-tab-pane" type="button" role="tab" aria-selected="false" tabindex="-1"><i class="ri-truck-line me-1 align-middle"></i>Resumen</button> </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active text-muted" id="order-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+              <ul class="ps-3 mb-0">
 
-          <div class="table-responsive">
-            <table id="tblistadototalcaja" class="table table-striped" style="width: 100% !important;">
-              <thead>
-                <tr>
-                  <th scope="col">Fecha Cierre</th>
-                  <th scope="col">Ingreso</th>
-                  <th scope="col">Egreso</th>
-                  <th scope="col">Saldo Inicial</th>
-                  <th scope="col">Total en caja cerrada</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
+                <div class="table-responsive">
 
-                </tr>
-              </tbody>
-            </table>
+                  <table id="tblistadototalcaja" class="table table-striped" style="width: 100% !important;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Fecha Cierre</th>
+                        <th scope="col">Ingreso</th>
+                        <th scope="col">Egreso</th>
+                        <th scope="col">Saldo Inicial</th>
+                        <th scope="col">Total en caja cerrada</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
 
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </ul>
+            </div>
+            <div class="tab-pane fade text-muted" id="confirm-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+              <ul class="ps-3 mb-0">
+
+                <div class="table-responsive">
+
+                  <table id="tblistadototalcaja" class="table table-striped" style="width: 100% !important;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Fecha Cierre</th>
+                        <th scope="col">Ingreso</th>
+                        <th scope="col">Egreso</th>
+                        <th scope="col">Saldo Inicial</th>
+                        <th scope="col">Total en caja cerrada</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+
+
+              </ul>
+            </div>
+            <div class="tab-pane fade text-muted" id="shipped-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+              <ul class="ps-3 mb-0">
+
+
+                <div class="table-responsive">
+
+                  <table id="tblistadototalcaja" class="table table-striped" style="width: 100% !important;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Fecha Cierre</th>
+                        <th scope="col">Ingreso</th>
+                        <th scope="col">Egreso</th>
+                        <th scope="col">Saldo Inicial</th>
+                        <th scope="col">Total en caja cerrada</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </ul>
+            </div>
+            <div class="tab-pane fade text-muted" id="delivered-tab-pane" role="tabpanel" tabindex="0" aria-labelledby="delivered-tab">
+              <ul class="list-unstyled mb-0">
+                <li>EN DESARROLLO  <i class="fas fa-spinner fa-pulse fa-1x"></i> </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-
-
     </div><!-- /.row -->
-
-
-
-
 
     <div class="modal fade text-left" id="agregarsaldoInicial" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable" role="document">

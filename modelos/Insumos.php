@@ -39,8 +39,10 @@ class Insumos
   }
 
   //Implementar un método para listar los registros
-  public function listar($fecha)
+  public function listar()
   {
+    $fecha=date('Y-m-d 00:00:00');
+    
     $sql = "SELECT * from insumos ins inner join categoriainsumos ci on ins.idcategoriai=ci.idcategoriai where
         date(fecharegistro)='$fecha' order by idinsumo desc";
     return ejecutarConsulta($sql);
