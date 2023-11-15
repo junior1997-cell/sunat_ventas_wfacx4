@@ -104,8 +104,8 @@ if (!isset($_SESSION["nombre"])) {
         <div class="card-body">
           <ul class="nav nav-tabs tab-style-2 nav-justified mb-3 d-sm-flex d-block" id="myTab1" role="tablist">
             <li class="nav-item" role="presentation"> <button class="nav-link active" id="order-tab" data-bs-toggle="tab" data-bs-target="#order-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" tabindex="-1"><i class="ri-gift-line me-1 align-middle"></i>Ventas</button> </li>
-            <li class="nav-item" role="presentation"> <button class="nav-link" id="confirmed-tab" data-bs-toggle="tab" data-bs-target="#confirm-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"><i class="ri-check-double-line me-1 align-middle"></i>Ingresos</button> </li>
-            <li class="nav-item" role="presentation"> <button class="nav-link" id="shipped-tab" data-bs-toggle="tab" data-bs-target="#shipped-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" tabindex="-1"><i class="ri-shopping-bag-3-line me-1 align-middle"></i>Egresos</button> </li>
+            <li class="nav-item" role="presentation" onclick="listar('ingreso');"> <button class="nav-link" id="confirmed-tab" data-bs-toggle="tab" data-bs-target="#confirm-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"><i class="ri-check-double-line me-1 align-middle"></i>Ingresos</button> </li>
+            <li class="nav-item" role="presentation" onclick="listar('gasto');"> <button class="nav-link" id="shipped-tab" data-bs-toggle="tab" data-bs-target="#shipped-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" tabindex="-1"><i class="ri-shopping-bag-3-line me-1 align-middle"></i>Egresos</button> </li>
             <li class="nav-item" role="presentation"> <button class="nav-link" id="delivered-tab" data-bs-toggle="tab" data-bs-target="#delivered-tab-pane" type="button" role="tab" aria-selected="false" tabindex="-1"><i class="ri-truck-line me-1 align-middle"></i>Resumen</button> </li>
           </ul>
           <div class="tab-content" id="myTabContent">
@@ -114,14 +114,14 @@ if (!isset($_SESSION["nombre"])) {
 
                 <div class="table-responsive">
 
-                  <table id="tblistadototalcaja" class="table table-striped" style="width: 100% !important;">
+                  <table id="tblistadoVentas" class="table table-striped" style="width: 100% !important;">
                     <thead>
                       <tr>
-                        <th scope="col">Fecha Cierre</th>
-                        <th scope="col">Ingreso</th>
-                        <th scope="col">Egreso</th>
-                        <th scope="col">Saldo Inicial</th>
-                        <th scope="col">Total en caja cerrada</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Glosa</th>
+                        <th scope="col">Naturaleza</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Acreedor</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -140,14 +140,14 @@ if (!isset($_SESSION["nombre"])) {
 
                 <div class="table-responsive">
 
-                  <table id="tblistadototalcaja" class="table table-striped" style="width: 100% !important;">
+                <table id="tblistadoingreso" class="table table-striped" style="width: 100% !important;">
                     <thead>
                       <tr>
-                        <th scope="col">Fecha Cierre</th>
-                        <th scope="col">Ingreso</th>
-                        <th scope="col">Egreso</th>
-                        <th scope="col">Saldo Inicial</th>
-                        <th scope="col">Total en caja cerrada</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Glosa</th>
+                        <th scope="col">Naturaleza</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Acreedor</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -168,14 +168,14 @@ if (!isset($_SESSION["nombre"])) {
 
                 <div class="table-responsive">
 
-                  <table id="tblistadototalcaja" class="table table-striped" style="width: 100% !important;">
+                  <table id="tblistadogasto" class="table table-striped" style="width: 100% !important;">
                     <thead>
                       <tr>
-                        <th scope="col">Fecha Cierre</th>
-                        <th scope="col">Ingreso</th>
-                        <th scope="col">Egreso</th>
-                        <th scope="col">Saldo Inicial</th>
-                        <th scope="col">Total en caja cerrada</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Glosa</th>
+                        <th scope="col">Naturaleza</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Acreedor</th>
                       </tr>
                     </thead>
                     <tbody>

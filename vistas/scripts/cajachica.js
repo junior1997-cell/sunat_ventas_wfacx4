@@ -19,7 +19,7 @@ var urlconsumo = new URL(path, baseURL);
 // var modoDemo = false;
 //Función que se ejecuta al inicio
 function init() {
-  listar();
+  // listar('ingreso');
   mostrarTotaldecompras();
   mostrarTotaldeVentas();
   mostrarTotalencaja();
@@ -179,14 +179,15 @@ function mostrarSaldoINI() {
 
 
 
-function listar() {
-  tabla = $('#tblistadototalcaja').dataTable({
+function listar(tipo) {
+  console.log(tipo);
+  tabla = $(`#tblistado${tipo}`).dataTable({
     "aProcessing": true,
     "aServerSide": true,
     "dom": 'Bfrtip',
     "buttons": [],
     "ajax": {
-      "url": '../ajax/cajachica.php?action=tblIngresos&op=',
+      "url": `../ajax/cajachica.php?action=tblInsumos&tipo=${tipo}&op=`,
       "type": "get",
       "dataType": "json",
       "error": function (e) {

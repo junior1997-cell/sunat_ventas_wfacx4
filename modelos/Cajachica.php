@@ -164,7 +164,7 @@ class Cajachica
   }
 
   // LISTADO DE LAS TABLAS RESUMEN 
-  public function tblIngresos(){
+  public function tblInsumos($tipodato){
 
     $sql_ini="SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
 
@@ -175,7 +175,7 @@ class Cajachica
     $sql= "SELECT  i.idinsumo, i.fecharegistro, i.descripcion, i.valor, i.igv, i.gasto, i.ingreso, i.documnIDE, i.numDOCIDE, i.acredor, ci.descripcionc 
     FROM insumos as i
     inner join categoriainsumos as ci on i.idcategoriai = ci.idcategoriai 
-    WHERE tipodato='ingreso' and fecharegistro>='$ultima_fecha';";
+    WHERE tipodato='$tipodato' and fecharegistro>='$ultima_fecha';";
     return ejecutarConsulta($sql);
     
   }
