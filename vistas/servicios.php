@@ -22,7 +22,7 @@ if (!isset($_SESSION["nombre"])) {
           <h1>Servicio <button class="btn btn-primary btn-sm" onclick="mostrarform(true); generarCodigoAutomatico('SR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar tabla</button>
 
             <label style="position:relative;top: 3px; float: right;" class="toggle-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Activar generador código de barra correlativamente automático">
-              <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox">
+              <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox" checked>
               <span class="slider"></span>
             </label>
           </h1>
@@ -70,6 +70,8 @@ if (!isset($_SESSION["nombre"])) {
         }
       }
     </style>
+
+    <!-- MODAL - AGREGAR SERVICIO-->
     <div class="modal fade text-left" id="modalAgregarProducto" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
@@ -161,7 +163,13 @@ if (!isset($_SESSION["nombre"])) {
 
                 </div>
 
-                <div class="mb-3 col-lg-8">
+                <div class="mb-3 col-lg-4">
+                  <label for="idmarca" class="col-form-label">Marca:</label>
+                  <select class="form-control" name="idmarca" id="idmarca" >
+                  </select>
+                </div>
+
+                <div class="mb-3 col-lg-4">
                   <label for="recipient-name" class="col-form-label">Imagen del servicio:</label>
                   <input type="file" class="form-control" name="imagen" id="imagen" value="">
                   <input type="hidden" name="imagenactual" id="imagenactual">
@@ -402,13 +410,7 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="mb-3 col-lg-4">
                       <label for="recipient-name" class="col-form-label">Lote:</label>
                       <input type="text" name="lote" id="lote" class="form-control">
-                    </div>
-
-
-                    <div class="mb-3 col-lg-4">
-                      <label for="recipient-name" class="col-form-label">Marca:</label>
-                      <input type="text" name="marca" id="marca" class="form-control">
-                    </div>
+                    </div>                   
 
 
                     <div class="mb-3 col-lg-4">
@@ -491,6 +493,25 @@ if (!isset($_SESSION["nombre"])) {
             </button>
           </div>
           </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL - VER PERFIL INSUMO-->
+    <div class="modal fade" id="modal-ver-perfil-producto">
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content bg-color-0202022e shadow-none border-0">
+          <div class="modal-header">
+            <h4 class="modal-title text-white title-name-foto-zoom">Foto Zoom</h4>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+              <!-- <span class="text-white cursor-pointer" aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+          <div class="modal-body"> 
+            <div id="div-foto-zoom" class="text-center">
+              <!-- vemos la imagen en zoom -->
+            </div>
+          </div> 
         </div>
       </div>
     </div>

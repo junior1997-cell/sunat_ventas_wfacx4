@@ -5,9 +5,12 @@ require "../config/Conexion.php";
 Class Familia
 {
 	//Implementamos nuestro constructor
-	public function __construct()
+	public $id_usr_sesion; public $id_empresa_sesion;
+	//Implementamos nuestro constructor
+	public function __construct( $id_usr_sesion = 0, $id_empresa_sesion = 0 )
 	{
-
+		$this->id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
 	}
 
 	//Implementamos un método para insertar registros
@@ -17,8 +20,6 @@ Class Familia
 		values ('$nombre')";
 		return ejecutarConsulta($sql);
 	}
-
-
 
 	public function insertaralmacen($nombre, $direc, $idempresa)
 	{
@@ -64,15 +65,14 @@ Class Familia
 	}
 
 	//validar duplicado
-	public function validarCategoria($nombre)
-	{
+	public function validarCategoria($nombre)	{
 		$sql="SELECT * from familia where descripcion='$nombre'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 
 	//Implementar un método para listar los registros
-	public function listar()
+	public function listar_tabla_familia()
 	{
 		$sql="SELECT * from familia";
 		return ejecutarConsulta($sql);

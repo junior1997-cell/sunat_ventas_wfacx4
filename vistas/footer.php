@@ -49,6 +49,10 @@ $datose = $datos->fetch_object();
 <script src="../public/js/toastr.js"></script>
 <script src="../public/js/simpleXML.js"></script>
 
+<!-- jquery-validation -->
+<script src="../assets/libs/jquery-validation/jquery.validate.min.js"></script>
+<script src="../assets/libs/jquery-validation/additional-methods.min.js"></script>
+
 
 <!-- DATATABLES -->
 <script src="../public/datatables/jquery.dataTables.min.js"></script>

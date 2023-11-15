@@ -1,4 +1,6 @@
 <?php
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
+
 require_once "../modelos/Familia.php";
 
 $familia = new Familia();
@@ -20,21 +22,20 @@ $equivalencia = isset($_POST["equivalencia2"]) ? limpiarCadena($_POST["equivalen
 
 switch ($_GET["op"]) {
 
-	case 'guardaryeditar':
-		$validarCategoria = $familia->validarCategoria($nombrec);
+	case 'guardar_y_editar_familia':
+		$validarCategoria = $familia->validarCategoria($nombrec); #echo json_encode($validarCategoria); die;
 		if ($validarCategoria) {
-			echo "Categoría ya registrada";
+			echo "Categoría; <b>$nombrec</b> ya registrada";
 		} else {
 			if (empty($idfamilia)) {
 				$rspta = $familia->insertarCategoria($nombrec);
-				echo $rspta ? "Categoría registrada" : "Categoría no se pudo registrar";
+				echo $rspta ;
 			} else {
 				$rspta = $familia->editar($idfamilia, $nombrec);
-				echo $rspta ? "Categoría actualizada" : "Categoría no se pudo actualizar";
+				echo $rspta ;
 			}
 		}
-		break;
-
+	break;
 
 	case 'guardaryeditaralmacen':
 		if (empty($idalmacen)) {
@@ -44,7 +45,7 @@ switch ($_GET["op"]) {
 			$rspta = $familia->editar($idalmacen, $nombrea);
 			echo $rspta ? "Familia actualizada" : "Familia no se pudo actualizar";
 		}
-		break;
+	break;
 
 	case 'guardaryeditarUmedida':
 		if (empty($idfamilia)) {
@@ -54,54 +55,53 @@ switch ($_GET["op"]) {
 			$rspta = $familia->editar($idfamilia, $nombre);
 			echo $rspta ? "Unidad actualizada" : "Unidad no se pudo actualizar";
 		}
-		break;
+	break;
 
 	case 'desactivar':
 		$rspta = $familia->desactivar($idfamilia);
 		echo $rspta ? "Categoria Desactivada" : "Categoria no se puede desactivar";
-		break;
-		break;
+	break;
 
 	case 'activar':
 		$rspta = $familia->activar($idfamilia);
 		echo $rspta ? "Categoria activada" : "Categoria no se puede activar";
-		break;
-		break;
+	break;
 
 	case 'mostrar':
 		$rspta = $familia->mostrar($idfamilia);
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
-		break;
-		break;
+	break;
 
-	case 'listar':
-		$rspta = $familia->listar();
+	case 'listar_tabla_familia':
+		$rspta = $familia->listar_tabla_familia();
 		//Vamos a declarar un array
-		$data = array();
+		$data = array(); $cont = 1;
 
 		while ($reg = $rspta->fetch_object()) {
 			$data[] = array(
-				"0" => ($reg->estado) ? '<button class="btn btn-icon btn-sm btn-info" onclick="mostrar(' . $reg->idfamilia . ')"><i class="ri-edit-line"></i></button>' .
-					' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar(' . $reg->idfamilia . ')"><i class="ri-delete-bin-line"></i></button>' :
-					'<button class="btn btn-icon btn-sm btn-info" onclick="mostrar(' . $reg->idfamilia . ')"><i class="ri-edit-line"></i></button>' .
-					' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . $reg->idfamilia . ')"><i class="ri-check-double-line"></i></button>',
-				"1" => $reg->descripcion,
-				"2" => ($reg->estado) ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' :
+				"0" => $cont++,
+				"1" => ($reg->estado) ? '<button class="btn btn-icon btn-sm btn-info" onclick="mostrar_editar_familia(' . $reg->idfamilia . ')"><i class="ri-edit-line"></i></button>' .
+					' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar_familia(' . $reg->idfamilia . ')"><i class="ri-delete-bin-line"></i></button>' :
+					'<button class="btn btn-icon btn-sm btn-info" onclick="mostrar_familia(' . $reg->idfamilia . ')"><i class="ri-edit-line"></i></button>' .
+					' <button class="btn btn-icon btn-sm btn-success" onclick="activar_familia(' . $reg->idfamilia . ')"><i class="ri-check-double-line"></i></button>',
+				"2" => $reg->descripcion,
+				"3" => ($reg->estado) ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' :
 					'<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado</span>'
 			);
 		}
 		$results = array(
-			"sEcho" => 1,
-			//Información para el datatables
-			"iTotalRecords" => count($data),
-			//enviamos el total registros al datatable
-			"iTotalDisplayRecords" => count($data),
-			//enviamos el total registros a visualizar
+			"sEcho" => 1,	//Información para el datatables
+			"iTotalRecords" => count($data),	//enviamos el total registros al datatable
+			"iTotalDisplayRecords" => count($data),	//enviamos el total registros a visualizar
 			"aaData" => $data
 		);
 		echo json_encode($results);
 
-		break;
+	break;
+
+	default: 
+		$rspta = 'Te has confundido en escribir en el <b>swich.</b>'; echo $rspta; 
+	break;
 }
 ?>

@@ -233,13 +233,14 @@ class Articulo
 
     $sql = "SELECT a.idarticulo, f.idfamilia, a.codigo_proveedor, a.codigo, f.descripcion as familia, a.nombre, format(a.stock,2) as stock, 
     a.precio_venta as precio, a.imagen, a.estado, a.precio_final_kardex, a.unidad_medida, a.ccontable, a.stock as st2, um.nombreum,
-    date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento, al.nombre as nombreal
+    date_format(a.fechavencimiento, '%d/%m/%Y') as fechavencimiento, al.nombre as nombreal, m.descripcion as marca
     from articulo a 
     inner join familia f on a.idfamilia=f.idfamilia 
     inner join almacen al on a.idalmacen=al.idalmacen 
     inner join empresa e on al.idempresa=e.idempresa 
     inner join umedida um on a.umedidacompra=um.idunidad and a.tipoitem='servicios'
-    where not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1'";
+    inner join marca m on a.idmarca=m.idmarca 
+    where not a.nombre='1000ncdg' and e.idempresa='$this->id_empresa_sesion' and al.estado='1'";
 
     return ejecutarConsulta($sql);
   }
