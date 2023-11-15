@@ -15,21 +15,46 @@ class Marca
 		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
   }
 
-  //Implementamos un método para insertar registros
-	public function insertarMarca($nombre)	{
-		$sql="insert into familia (descripcion)	values ('$nombre')";
-		return ejecutarConsulta($sql);
-	}
-  
-  //Implementamos un método para insertar registros
-	public function editarMarca($nombre)	{
-		$sql="insert into familia (descripcion)	values ('$nombre')";
+	//Implementamos un método para editar registros
+	public function crear_marca($nombre)	{
+		$sql="INSERT INTO marca( descripcion) VALUES ('$nombre')";
 		return ejecutarConsulta($sql);
 	}
 
-  //Implementamos un método para insertar registros
-	public function listarAll()	{
-		$sql="SELECT * FROM marca where estado ='1';";
+	//Implementamos un método para editar registros
+	public function editar_marca($idmarca,$nombre)	{
+		$sql="update marca set descripcion='$nombre' where idmarca='$idmarca'";
+		return ejecutarConsulta($sql);
+	}	
+
+	//Implementamos un método para desactivar marcas
+	public function desactivar_marca($idmarca)	{
+		$sql="update marca SET estado='0' where idmarca='$idmarca'";
+		return ejecutarConsulta($sql);
+	}
+
+	//Implementamos un método para activar categorías
+	public function activar_marca($idmarca)	{
+		$sql="UPDATE marca SET estado='1' where idmarca='$idmarca'";
+		return ejecutarConsulta($sql);
+	}
+
+	//Implementar un método para mostrar los datos de un registro a modificar
+	public function mostrar_editar($idmarca)	{
+		$sql="SELECT * from marca where idmarca='$idmarca'";
+		return ejecutarConsultaSimpleFila($sql);
+	}
+
+	//validar duplicado
+	public function validar_marca($nombre)	{
+		$sql="SELECT * from marca where descripcion='$nombre'";
+		return ejecutarConsultaSimpleFila($sql);
+	}
+
+
+	//Implementar un método para listar los registros
+	public function listar_tabla_principal()	{
+		$sql="SELECT * from marca";
 		return ejecutarConsulta($sql);
 	}
 

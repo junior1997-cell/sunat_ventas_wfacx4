@@ -5,7 +5,11 @@
                         <ext:ExtensionContent><ds:Signature Id="SignIMM">
   <ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
     <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<<<<<<< HEAD
   <ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>czl1Kt5y+AkjUXuXi09aYM0bTc8=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>MqAlhLNi/M2rMJeXJcRbrj6/tAyCZ7NHmmHGeReLlBtR0vLbwzEYgnkD11EOSFzz1gAclCInpnhDn4sbv08jEy8qNSoOrhaOQhn+SDejCbthtDHrf/xVRs/0auQR07cAFtAC5cLvzyzQtOMJJy6+Y+mDcM0IuKJXR0qBLhSXv12KD11pGGJRUXrihekMV7EIuJwy2yoUwPfI8uBPtof6z/keNdat8eefSZezjW/8a/Ug53DZpjj1rXg+8j2pkqYYEtjG+9zOfqASkBBQiG86+j0ht61HRBf0lgaPndvfuCSE9RpgQYxYo7ws6P2l2fGvU1uu8gjbNzWzR2yb0TkgXw==</ds:SignatureValue>
+=======
+  <ds:Reference URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>N0BHBAfE2xh4gkv3iQpS0G9+cfc=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue>kh9TU1NB/36BYENlEXrcWfgy6t1eJd1oxMujyKSoEU1oxGqpquLvF3vXbIXky7Cuula3hvUIrftZjnt8t4kDn+fgV6D/9sRl1geW8RtdcoC430Cov0mj/9wVpdod58Tfcb3yUu/HUIk4fk+VKn9y5odccGTijdVoz6ONBXMDTsJRiTztYSNw97TMrj78SqaZLJphoo4Wy+5K/0ro3IGyck9AlwCSylanptgZK0rk2Dm676E6KUfgQV31CVX0XGlopXwotFPwY3IAvh2XDC8VQzvXoFycFclw7G4rvCAIhWbSTLI20miC1VGtbMKQ4A3RQRXLvcWeFM/8lamWaAWshw==</ds:SignatureValue>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
 <ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIFBzCCA++gAwIBAgIISsm0IXk7l9IwDQYJKoZIhvcNAQELBQAwggENMRswGQYKCZImiZPyLGQBGRYLTExBTUEuUEUgU0ExCzAJBgNVBAYTAlBFMQ0wCwYDVQQIDARMSU1BMQ0wCwYDVQQHDARMSU1BMRgwFgYDVQQKDA9UVSBFTVBSRVNBIFMuQS4xRTBDBgNVBAsMPEROSSA5OTk5OTk5IFJVQyAxMDQ1OTU4NTk2MSAtIENFUlRJRklDQURPIFBBUkEgREVNT1NUUkFDScOTTjFEMEIGA1UEAww7Tk9NQlJFIFJFUFJFU0VOVEFOVEUgTEVHQUwgLSBDRVJUSUZJQ0FETyBQQVJBIERFTU9TVFJBQ0nDk04xHDAaBgkqhkiG9w0BCQEWDWRlbW9AbGxhbWEucGUwHhcNMjIwNzIyMTQzOTExWhcNMjQwNzIxMTQzOTExWjCCAQ0xGzAZBgoJkiaJk/IsZAEZFgtMTEFNQS5QRSBTQTELMAkGA1UEBhMCUEUxDTALBgNVBAgMBExJTUExDTALBgNVBAcMBExJTUExGDAWBgNVBAoMD1RVIEVNUFJFU0EgUy5BLjFFMEMGA1UECww8RE5JIDk5OTk5OTkgUlVDIDEwNDU5NTg1OTYxIC0gQ0VSVElGSUNBRE8gUEFSQSBERU1PU1RSQUNJw5NOMUQwQgYDVQQDDDtOT01CUkUgUkVQUkVTRU5UQU5URSBMRUdBTCAtIENFUlRJRklDQURPIFBBUkEgREVNT1NUUkFDScOTTjEcMBoGCSqGSIb3DQEJARYNZGVtb0BsbGFtYS5wZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALAHEccfmuGbgbI0YtPJWFD+nwRdWTCXJCQckWh2ejzlXgPXpaDiTkH6d+4V0MuPe5XkaGnkDUaWdrX2boueLYUoUNqu7YCrrOQVbixbPSt2pXGqOfD3rXnNjBzVDSeTwo7kOFFqRMQwVZLSd3x1+VGOB53IOa633XCg8GAZiCt1Nevh/5kqz6HtlemCR/1HZa0g65uxsrfii5Msx1fGH1ZfwdvYDeZStOgoxgVXiMUTWsMboHB3CQYcGWlVXkBifzqigD6JLWMTjD7ZUhOGwFM4eQs051WZzndu8EwBC5/gtAowxJPFcElznu812NX2OdNHznk5DepB7lzYs1j34ikCAwEAAaNnMGUwHQYDVR0OBBYEFIoCn715Xe1qlLMiYW/s4874ymSBMB8GA1UdIwQYMBaAFIoCn715Xe1qlLMiYW/s4874ymSBMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA4GA1UdDwEB/wQEAwIHgDANBgkqhkiG9w0BAQsFAAOCAQEAY9ErOIM68Ts+fZCVQm1kfpmwIA60Orw0Twx6vUBYVQFJU01o7WY4e+hlUlAErnrAR4WpUq1C8dsXWH5E3QosBs9l3JyzNZD83bgVI1xByTik9wmq+uQgp+9DNLU59DktOkkav2UxZZxvVsOTFwU5XF5uU0RQA5KLl5tIKLj1vbK4IoN34bHbqgxCdGYf5X3/e+Xf+GjQKL1+o76uZmnydnm0YN7OVUdgL0kfiVzTPEOuaXoC3RSxlxw0blpMsaa52LsQ1q3zS+y1SVjjZqV+aq/9sAff9ynPYw0pxgft7aAsY3wrQYkNKZROaicluFb1ujpDdUk8Ykdwaa8uupSsQA==</ds:X509Certificate></ds:X509Data></ds:KeyInfo></ds:Signature></ext:ExtensionContent>
                     </ext:UBLExtension>
                 </ext:UBLExtensions>
@@ -13,11 +17,19 @@
                 <cbc:CustomizationID>2.0</cbc:CustomizationID>
                 <cbc:ID>F001-1</cbc:ID>
                 <cbc:IssueDate>2023-11-13</cbc:IssueDate>
+<<<<<<< HEAD
                 <cbc:IssueTime>21:58:40</cbc:IssueTime>
                 <cbc:DueDate>2023-11-13</cbc:DueDate>
                 <cbc:InvoiceTypeCode listID="0101">01</cbc:InvoiceTypeCode>
 
                 <cbc:Note languageLocaleID="1000">NOVENTANOVENTA Y CEROCERO NUEVOS SOLES 00/100 M.N.</cbc:Note>
+=======
+                <cbc:IssueTime>22:05:03</cbc:IssueTime>
+                <cbc:DueDate>2023-11-13</cbc:DueDate>
+                <cbc:InvoiceTypeCode listID="0101">01</cbc:InvoiceTypeCode>
+
+                <cbc:Note languageLocaleID="1000">TRESTRES NUEVOS SOLES 00/100 M.N.</cbc:Note>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
 
               <cbc:Note languageLocaleID="2006">Leyenda: Operación sujeta a detracción</cbc:Note>
               <cbc:DocumentCurrencyCode>PEN</cbc:DocumentCurrencyCode>
@@ -30,7 +42,11 @@
                             <cbc:ID>10459585961</cbc:ID>
                         </cac:PartyIdentification>
                         <cac:PartyName>
+<<<<<<< HEAD
                             <cbc:Name><![CDATA[FACX]]></cbc:Name>
+=======
+                            <cbc:Name><![CDATA[JDL TECHNOLOGY]]></cbc:Name>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                         </cac:PartyName>
                     </cac:SignatoryParty>
                     <cac:DigitalSignatureAttachment>
@@ -46,10 +62,17 @@
                             <cbc:ID schemeID="6">10459585961</cbc:ID>
                         </cac:PartyIdentification>
                         <cac:PartyName>
+<<<<<<< HEAD
                             <cbc:Name><![CDATA[FACX]]></cbc:Name>
                         </cac:PartyName>
                         <cac:PartyLegalEntity>
                             <cbc:RegistrationName><![CDATA[FACX]]></cbc:RegistrationName>
+=======
+                            <cbc:Name><![CDATA[JDL TECHNOLOGY]]></cbc:Name>
+                        </cac:PartyName>
+                        <cac:PartyLegalEntity>
+                            <cbc:RegistrationName><![CDATA[JDL TECHNOLOGY]]></cbc:RegistrationName>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                         <cac:RegistrationAddress>
                              <cbc:AddressTypeCode>0000</cbc:AddressTypeCode>
                                <cbc:CitySubdivisionName>LIMA</cbc:CitySubdivisionName>
@@ -58,7 +81,11 @@
                                     <cbc:CountrySubentityCode>140101</cbc:CountrySubentityCode>
                                       <cbc:District>LIMA</cbc:District>
                                       <cac:AddressLine>
+<<<<<<< HEAD
                                         <cbc:Line><![CDATA[LIMA - LIMA]]></cbc:Line>
+=======
+                                        <cbc:Line><![CDATA[CAL.LOS MARTIREZ NRO. CD2]]></cbc:Line>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                                           </cac:AddressLine>
                                             <cac:Country>
                                               <cbc:IdentificationCode>PE</cbc:IdentificationCode>
@@ -71,10 +98,17 @@
                 <cac:AccountingCustomerParty>
                     <cac:Party>
                         <cac:PartyIdentification>
+<<<<<<< HEAD
                             <cbc:ID schemeID="6">10277012150</cbc:ID>
                         </cac:PartyIdentification>
                         <cac:PartyLegalEntity>
                             <cbc:RegistrationName><![CDATA[REQUEJO GUEVARA RAMON]]></cbc:RegistrationName>
+=======
+                            <cbc:ID schemeID="6">20100165849</cbc:ID>
+                        </cac:PartyIdentification>
+                        <cac:PartyLegalEntity>
+                            <cbc:RegistrationName><![CDATA[PANASONIC PERUANA S.A. EN LIQUIDACION]]></cbc:RegistrationName>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                         </cac:PartyLegalEntity>
                     </cac:Party>
                 </cac:AccountingCustomerParty><cac:PaymentTerms>
@@ -85,7 +119,11 @@
                 <cac:TaxTotal>
                     <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
                         <cac:TaxSubtotal>
+<<<<<<< HEAD
                         <cbc:TaxableAmount currencyID="PEN">90.00</cbc:TaxableAmount>
+=======
+                        <cbc:TaxableAmount currencyID="PEN">3.00</cbc:TaxableAmount>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                         <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
                         <cac:TaxCategory>
                             <cac:TaxScheme>
@@ -99,23 +137,40 @@
               <!-- Fin Tributos  Cabecera-->
 
                 <cac:LegalMonetaryTotal>
+<<<<<<< HEAD
                     <cbc:LineExtensionAmount currencyID="PEN">90.00</cbc:LineExtensionAmount>
                     <cbc:TaxInclusiveAmount currencyID="PEN">90.00</cbc:TaxInclusiveAmount>
                     <cbc:AllowanceTotalAmount currencyID="PEN">0.00</cbc:AllowanceTotalAmount>
                     <cbc:ChargeTotalAmount currencyID="PEN">0.00</cbc:ChargeTotalAmount>
                     <cbc:PrepaidAmount currencyID="PEN">0.00</cbc:PrepaidAmount>
                     <cbc:PayableAmount currencyID="PEN">90.00</cbc:PayableAmount>
+=======
+                    <cbc:LineExtensionAmount currencyID="PEN">3.00</cbc:LineExtensionAmount>
+                    <cbc:TaxInclusiveAmount currencyID="PEN">3.00</cbc:TaxInclusiveAmount>
+                    <cbc:AllowanceTotalAmount currencyID="PEN">0.00</cbc:AllowanceTotalAmount>
+                    <cbc:ChargeTotalAmount currencyID="PEN">0.00</cbc:ChargeTotalAmount>
+                    <cbc:PrepaidAmount currencyID="PEN">0.00</cbc:PrepaidAmount>
+                    <cbc:PayableAmount currencyID="PEN">3.00</cbc:PayableAmount>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                 </cac:LegalMonetaryTotal>
                 <cac:InvoiceLine>
                     <cbc:ID>1</cbc:ID>
                     <cbc:InvoicedQuantity unitCode="NIU">1.00</cbc:InvoicedQuantity>
+<<<<<<< HEAD
                     <cbc:LineExtensionAmount currencyID="PEN">90.00</cbc:LineExtensionAmount>
+=======
+                    <cbc:LineExtensionAmount currencyID="PEN">1.00</cbc:LineExtensionAmount>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
 
 
 
                     <cac:PricingReference>
                         <cac:AlternativeConditionPrice>
+<<<<<<< HEAD
                             <cbc:PriceAmount currencyID="PEN">90.00</cbc:PriceAmount>
+=======
+                            <cbc:PriceAmount currencyID="PEN">1.00</cbc:PriceAmount>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                             <cbc:PriceTypeCode>01</cbc:PriceTypeCode>
                         </cac:AlternativeConditionPrice>
                     </cac:PricingReference>
@@ -148,7 +203,11 @@
 
 
                         <cac:TaxSubtotal>
+<<<<<<< HEAD
                             <cbc:TaxableAmount currencyID="PEN">90.00</cbc:TaxableAmount>
+=======
+                            <cbc:TaxableAmount currencyID="PEN">1.00</cbc:TaxableAmount>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                             <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
                             <cac:TaxCategory>
                                 <cbc:Percent>0</cbc:Percent>
@@ -163,13 +222,90 @@
                      </cac:TaxTotal>
 
                     <cac:Item>
+<<<<<<< HEAD
                         <cbc:Description><![CDATA[AGUA]]></cbc:Description>
                          <cac:SellersItemIdentification>
                             <cbc:ID>00010</cbc:ID>
+=======
+                        <cbc:Description><![CDATA[FUSIBLE DE CRISTAL]]></cbc:Description>
+                         <cac:SellersItemIdentification>
+                            <cbc:ID>PR00093</cbc:ID>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                         </cac:SellersItemIdentification>
                     </cac:Item>
 
                     <cac:Price>
+<<<<<<< HEAD
                         <cbc:PriceAmount currencyID="PEN">90.00000</cbc:PriceAmount>
+=======
+                        <cbc:PriceAmount currencyID="PEN">1.00000</cbc:PriceAmount>
+                    </cac:Price>
+                </cac:InvoiceLine>
+                <cac:InvoiceLine>
+                    <cbc:ID>2</cbc:ID>
+                    <cbc:InvoicedQuantity unitCode="NIU">1.00</cbc:InvoicedQuantity>
+                    <cbc:LineExtensionAmount currencyID="PEN">2.00</cbc:LineExtensionAmount>
+
+
+
+                    <cac:PricingReference>
+                        <cac:AlternativeConditionPrice>
+                            <cbc:PriceAmount currencyID="PEN">2.00</cbc:PriceAmount>
+                            <cbc:PriceTypeCode>01</cbc:PriceTypeCode>
+                        </cac:AlternativeConditionPrice>
+                    </cac:PricingReference>
+
+              <!--<cac:AllowanceCharge>
+              <cbc:ChargeIndicator>true</cbc:ChargeIndicator>
+              <cbc:Amount currencyID="PEN">0.00</cbc:Amount>
+              </cac:AllowanceCharge>-->
+
+
+
+                    <!-- Inicio Tributos -->
+                    <cac:TaxTotal>
+                        <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+
+                <!--<cac:TaxSubtotal>
+                        <cbc:TaxableAmount currencyID="PEN">21.19</cbc:TaxableAmount>
+                        <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+                        <cac:TaxCategory>
+                          <cbc:ID schemeAgencyName="United Nations Economic Commission for Europe" schemeID="UN/ECE 5305" schemeName="Tax Category Identifier">S</cbc:ID>
+                          <cbc:Percent>0.00</cbc:Percent>
+                          <cbc:TierRange>0</cbc:TierRange>
+                          <cac:TaxScheme>
+                          <cbc:ID schemeAgencyName="PE:SUNAT" schemeID="UN/ECE 5153" schemeName="Codigo de tributos">2000</cbc:ID>
+                          <cbc:Name>ISC</cbc:Name>
+                          <cbc:TaxTypeCode>EXC</cbc:TaxTypeCode>
+                          </cac:TaxScheme>
+                        </cac:TaxCategory>
+                </cac:TaxSubtotal>-->
+
+
+                        <cac:TaxSubtotal>
+                            <cbc:TaxableAmount currencyID="PEN">2.00</cbc:TaxableAmount>
+                            <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+                            <cac:TaxCategory>
+                                <cbc:Percent>0</cbc:Percent>
+                                <cbc:TaxExemptionReasonCode>20</cbc:TaxExemptionReasonCode>
+                                <cac:TaxScheme>
+                                    <cbc:ID>9997</cbc:ID>
+                                    <cbc:Name>EXO</cbc:Name>
+                                    <cbc:TaxTypeCode>VAT</cbc:TaxTypeCode>
+                                </cac:TaxScheme>
+                            </cac:TaxCategory>
+                        </cac:TaxSubtotal>
+                     </cac:TaxTotal>
+
+                    <cac:Item>
+                        <cbc:Description><![CDATA[EMPAQUE TUBO]]></cbc:Description>
+                         <cac:SellersItemIdentification>
+                            <cbc:ID>PR0099</cbc:ID>
+                        </cac:SellersItemIdentification>
+                    </cac:Item>
+
+                    <cac:Price>
+                        <cbc:PriceAmount currencyID="PEN">2.00000</cbc:PriceAmount>
+>>>>>>> f864c7e2250cc5f389746b72dcbc21963e70d33d
                     </cac:Price>
                 </cac:InvoiceLine></Invoice>
