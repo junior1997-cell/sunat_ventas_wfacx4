@@ -263,7 +263,7 @@ function listarCardProductos(data) {
       }
 
       var productCard = document.createElement('div');
-      productCard.classList.add('col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'mb-3');
+      productCard.classList.add('col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'col-xl-3', 'col-xxl-3', 'mb-3');
 
       var productCardAlert = document.createElement('div');
 
@@ -605,7 +605,7 @@ function agregarProductPedido( productImage, productName, productPrice, productS
             <img src="${productImage}" alt="${productName}" height="40px" width="40px" class="d-none d-sm-inline d-md-inline d-lg-none d-xl-inline me-2">
             <div class="w-100">
               <div class="d-flex justify-content-between align-items-center">
-                <label class="fw-700 fs-7" id="ped_name_${productId}">${productName}</label>
+                <label class="fw-700 font-size-12px" id="ped_name_${productId}">${productName}</label>
                 <div class="quantity rounded-pill d-flex justify-content-center align-items-center">
                   <button class="btn btn-sm btn-warning rounded-circle minus" id="ped_disminuir" aria-label="Decrease">&minus;</button>
                   <input type="number" class="input-box" name="cantidad_item_12[]" id="ped_cantidad" value="1" min="1" max="${productStock}">
@@ -613,7 +613,7 @@ function agregarProductPedido( productImage, productName, productPrice, productS
                 </div>
               </div>
               <div class="d-flex justify-content-between align-items-baseline">
-                <span>S/  <input type="number" class="border-0" name="precio_unitario[]" id="precio_unitario[]" value="${productPrice}" onBlur="modificarSubtotales(1)" onkeyup="modificarSubtotales(1);" style="background: transparent;"></span>
+                <span class="font-size-12px">S/  <input type="number" class="border-0 " name="precio_unitario[]" id="precio_unitario[]" value="${productPrice}" onBlur="modificarSubtotales(1)" onkeyup="modificarSubtotales(1);" style="background: transparent;"></span>
                 <a href="#" class="text-danger text-decoration-none remove-item" style="font-size: 12px;">Eliminar</a>
               </div>
             </div>

@@ -48,7 +48,7 @@ class Umedida
 	}
 
 	//validar duplicado
-	public function validarUnidadMedida($nombre, $abre)
+	public function validarUnidadMedida($nombre)
 	{
 		$sql = "SELECT * from umedida where nombreum='$nombre'";
 		return ejecutarConsultaSimpleFila($sql);

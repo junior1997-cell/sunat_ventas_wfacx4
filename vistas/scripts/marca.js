@@ -167,7 +167,7 @@ $(function () {
       nombre_marca: { required: true, minlength:2, maxlength:50 } 
     },
     messages: {
-      nombre_marca: { required: "Campo requerido", minlength:"Minimo 2 caracteres", maxlength:"Maximo 50 caracteres" },
+      nombre_marca: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
     },
         
     errorElement: "span",

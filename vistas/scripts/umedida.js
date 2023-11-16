@@ -100,14 +100,13 @@ function guardaryeditar(e) {
 		data: formData,
 		contentType: false,
 		processData: false,
-
 		success: function (datos) {
 			Swal.fire({
 				title: 'Guardado',
 				text: datos,
 				icon: 'success',
-				showConfirmButton: false,
-				timer: 1500
+				showConfirmButton: true,
+				
 			});
 			mostrarform(false);
 			tabla.ajax.reload();

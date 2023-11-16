@@ -33,7 +33,8 @@ function init() {
   $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
-  $("#formulario").on("submit", function (e) { guardaryeditar(e); });
+  $("#guardar_registro_articulo").on("click", function (e) { $("#submit-form-articulo").submit(); });	
+  // $("#formulario").on("submit", function (e) { guardaryeditar(e); });
   $("#formnewfamilia").on("submit", function (e) { guardaryeditarFamilia(e); });
   $("#formnewalmacen").on("submit", function (e) { guardaryeditarAlmacen(e); });
   $("#formnewumedida").on("submit", function (e) { guardaryeditarUmedida(e); });
@@ -130,28 +131,28 @@ function limpiar() {
   $("#fconversion").val("");
   $(".convumventa").val("9999999");
   $("#descripcion").val("");
-  document.getElementById("btnGuardar").innerHTML = "Agregar";
+  document.getElementById("guardar_registro_articulo").innerHTML = "Agregar";
   //document.getElementsByClassName("stokservicio")[0].value = "9999999";
 }
 
 //mostrar comrpas en registro
-document.getElementById("agregarCompra").addEventListener("change", function () {
-  var mostrarCompra = document.getElementById("mostrarCompra");
-  if (this.checked) {
-    mostrarCompra.style.display = "block";
-  } else {
-    mostrarCompra.style.display = "none";
-  }
-});
+// document.getElementById("agregarCompra").addEventListener("change", function () {
+//   var mostrarCompra = document.getElementById("mostrarCompra");
+//   if (this.checked) {
+//     mostrarCompra.style.display = "block";
+//   } else {
+//     mostrarCompra.style.display = "none";
+//   }
+// });
 
-document.getElementById("agregarOtrosCampos").addEventListener("change", function () {
-  var mostrarCompra = document.getElementById("mostraOtroscampos");
-  if (this.checked) {
-    mostrarCompra.style.display = "block";
-  } else {
-    mostrarCompra.style.display = "none";
-  }
-});
+// document.getElementById("agregarOtrosCampos").addEventListener("change", function () {
+//   var mostrarCompra = document.getElementById("mostraOtroscampos");
+//   if (this.checked) {
+//     mostrarCompra.style.display = "block";
+//   } else {
+//     mostrarCompra.style.display = "none";
+//   }
+// });
 
 function limpiaralmacen() { $("#nombrea").val(""); }
 
@@ -181,7 +182,7 @@ function mostrarform(flag) {
     $("#listadoregistros").hide();
     $("#listadoregistrosservicios").hide();
     $("#formularioregistros").show();
-    $("#btnGuardar").prop("disabled", false);
+    $("#guardar_registro_articulo").prop("disabled", false);
     $("#btnagregar").hide();
     $("#costo_compra").attr('readonly', false);
     $("#saldo_iniu").attr('readonly', false);
@@ -275,8 +276,8 @@ function listarservicios() {
 
 //Función para guardar o editar
 function guardaryeditar(e) {
-  e.preventDefault(); //No se activará la acción predeterminada del evento
-  $("#btnGuardar").prop("disabled", true);
+  // e.preventDefault(); //No se activará la acción predeterminada del evento
+  $("#guardar_registro_articulo").prop("disabled", true);
   var formData = new FormData($("#formulario")[0]);
 
   $.ajax({
@@ -286,11 +287,10 @@ function guardaryeditar(e) {
     contentType: false,
     processData: false,
     success: function (datos) {
-      Swal.fire({  icon: 'success',  title: 'Guardado exitoso',  showConfirmButton: false, timer: 5000, text: datos, });
+      Swal.fire({  icon: 'success',  title: 'Guardado exitoso',  showConfirmButton: true,  text: datos, });
       mostrarform(false);
       if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
-      if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
-              
+      if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }             
       
       limpiar();
       $("#modalAgregarProducto").modal("hide");
@@ -402,7 +402,7 @@ function mostrar(idarticulo) {
     //Nuevos campos
     $('#modalAgregarProducto').modal('show');
     //$('#modalAgregarServicio').modal('show');
-    document.getElementById("btnGuardar").innerHTML = "Actualizar";
+    document.getElementById("guardar_registro_articulo").innerHTML = "Actualizar";
 
     // generarbarcode();
   });
@@ -1089,29 +1089,29 @@ function limitest(e, field) {
 
 function codigoi(e, field) {
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-  key = e.keyCode ? e.keyCode : e.which
+  key = e.keyCode ? e.keyCode : e.which; console.log(e.keyCode ); console.log(e.which );
   if (e.keyCode === 13 && !e.shiftKey) {  document.getElementById('codigo').focus(); }
 
   // backspace
-  if (key == 8) return true;
-  if (key == 9) return true;
-  if (key > 47 && key < 58) {
-    if (field.value === "") return true;
-    var existePto = (/[.]/).test(field.value);
-    if (existePto === false) {
-      regexp = /.[0-9]{10}$/;
-    } else {
-      regexp = /.[0-9]{2}$/;
-    }
-    return !(regexp.test(field.value));
-  }
+  // if (key == 8) return true;
+  // if (key == 9) return true;
+  // if (key > 47 && key < 58) {
+  //   if (field.value === "") return true;
+  //   var existePto = (/[.]/).test(field.value);
+  //   if (existePto === false) {
+  //     regexp = /.[0-9]{10}$/;
+  //   } else {
+  //     regexp = /.[0-9]{2}$/;
+  //   }
+  //   return !(regexp.test(field.value));
+  // }
 
-  if (key == 46) {
-    if (field.value === "") return false;
-    regexp = /^[0-9]+$/;
-    return regexp.test(field.value);
-  }
-  return false;
+  // if (key == 46) {
+  //   if (field.value === "") return false;
+  //   regexp = /^[0-9]+$/;
+  //   return regexp.test(field.value);
+  // }
+  // return false;
 }
 
 $(".modal-wide").on("show.bs.modal", function () {
@@ -1266,3 +1266,38 @@ function ver_img_zoom(file, nombre) {
   $('#div-foto-zoom').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../assets/svg/404-v2.svg';" alt="Foto zoom" width="100%"></span>`);
   $('.jq_image_zoom').zoom({ on:'grab' });
 }
+
+// .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
+
+$(function () {
+
+  $("#formulario").validate({
+    ignore: "",
+    rules: { 
+      nombre: { required: true, minlength:2, maxlength:50 },
+      valor_venta: { required: true, number: true, min: 0,  } 
+    },
+    messages: {
+      nombre: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      valor_venta: { step: "Decimales mayor a {0}", },
+    },
+        
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");   
+    },
+    submitHandler: function (e) {
+      guardaryeditar(e);      
+    },
+  });
+});
