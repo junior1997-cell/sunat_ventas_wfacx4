@@ -29,6 +29,13 @@
 
         <link rel="stylesheet" href="../public/css/autobusqueda.css">
         <link href="../assets/css/style_new.css" rel="stylesheet">
+
+        <!-- Select2 -->
+        <link rel="stylesheet" href="../assets/libs/select2/css/select2.min.css">
+        <link rel="stylesheet" href="../assets/libs/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+        <!-- paginate -->
+        <link rel="stylesheet" href="../assets/libs/simple_paginate/simplePagination.min.css">
       </head>
 
       <body>
@@ -46,7 +53,7 @@
 
 
                 <div class="d-flex gap-2">
-
+                  <!-- IGV - EXO -->
                   <div class="searchBox" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Impuesto">
                     <div class="searchToggle">
                       <i class="fa-solid fa-xmark cancel"></i>
@@ -57,7 +64,7 @@
                       <select class="form-select" name="codigo_tributo_18_3" id="codigo_tributo_18_3" onchange="tributocodnon()"></select>
                     </div>
                   </div>
-
+                  <!-- Precios -->
                   <div class="searchBox" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Precios">
                     <div class="searchToggle">
                       <i class="fa-solid fa-xmark cancel"></i>
@@ -72,20 +79,20 @@
                       </select>
                     </div>
                   </div>
-
+                  <!-- Regresar -->
                   <a class="btn btn-warning d-flex align-items-center" href="boleta.php" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Regresar Boleta"><i class="fa fa-backward"></i></a>
-                  
+                  <!-- Venta diaria -->
                   <button type="button" id="btn_modalventas" class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Lista de ventas"><i class="fa-solid fa-boxes-stacked"></i></button>
-
+                  <!-- Agregar new porducto -->
                   <button type="button" class="btn btn-blue" id="btn_modalproducto" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Agregar nuevo producto"><i class="fa-solid fa-plus"></i> <span class="d-none d-md-inline ms-2">Agregar Item</span></button>
 
-                  <input hidden name="nombre_trixbuto_4_p" id="nombre_trixbuto_4_p">
-                  <!-- <select class="form-control w-auto" name="codigo_tributo_18_3" id="codigo_tributo_18_3" onchange="tributocodnon()">TRIBUTO</select> -->
+                  <input type="hidden" name="nombre_trixbuto_4_p" id="nombre_trixbuto_4_p">
 
+                  <!-- Vendedor -->
                   <select  class="form-select w-auto" autofocus name="vendedorsitio" id="vendedorsitio" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Vendedor"></select>
 
-                  <!-- <select class="form-control" name="tipo_moneda_24" id="tipo_moneda_24" onchange="tipodecambiosunat();"> -->
-                  <select hidden class="form-select w-auto" name="tipo_moneda_24" id="tipo_moneda_24" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Moneda" onchange="tipodecambiosunat();">
+                  <!-- Moneda -->
+                  <select readonly class="form-select w-auto" name="tipo_moneda_24" id="tipo_moneda_24" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Moneda" onchange="tipodecambiosunat();">
                     <option value="PEN" selected="true">PEN</option>
                     <option value="USD" disabled>USD</option>
                   </select>
@@ -183,23 +190,24 @@
                       </div>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body card-body-filtros" >
 
-                      <div class="w-100" style="position: relative;">
-
-                        <div class="swiper ms-3-5 me-3-5">
-                          <!-- Additional required wrapper -->
-                          <div class="swiper-wrapper" id="category-content">
-                            <!-- Slides -->
-
-                          </div>
-
-
+                      <div class="row" id="category-content">
+                        <div div class="col-lg-4">   
+                          <label for="filtro_idalmacen">Almacen</label>                 
+                          <select class="form-control" name="filtro_idalmacen" id="filtro_idalmacen" style="width: 100%;" onchange="delay(function(){filtros()}, 100 );">
+                          </select>
                         </div>
-                        <!-- If we need navigation buttons -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-
+                        <div class="col-lg-4">        
+                          <label for="filtro_idfamilia">Categoria</label>            
+                          <select class="form-control" name="filtro_idfamilia" id="filtro_idfamilia" style="width: 100%;" onchange="delay(function(){filtros()}, 100 );">
+                          </select>
+                        </div>
+                        <div class="col-lg-4">   
+                          <label for="filtro_idmarca">Marca</label>                 
+                          <select class="form-control" name="filtro_idmarca" id="filtro_idmarca" style="width: 100%;" onchange="delay(function(){filtros()}, 100 );">
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -209,8 +217,9 @@
                     <div class="row pe-1" id="product-container">
                       <!--  Product cards will be dynamically added here -->
                     </div>
+                    
                   </div>
-
+                  <div class="mt-3" id="pagination"></div>
 
                 </div>
 
@@ -1205,6 +1214,9 @@
             });
           });
         </script>
+
+        <!-- paginate -->
+        <script src="../assets/libs/simple_paginate/simplePagination.min.js"></script>
       </body>
 
     </html>

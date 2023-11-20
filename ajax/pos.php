@@ -1,6 +1,9 @@
 <?php
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
+
 require_once "../modelos/PosModelo.php";
 $posmodelo = new PosModelo();
+
 //Primeros productos
 $idarticulo = isset($_POST["idarticulo"]) ? limpiarCadena($_POST["idarticulo"]) : "";
 $idfamilia = isset($_POST["idfamilia"]) ? limpiarCadena($_POST["idfamilia"]) : "";
@@ -27,15 +30,16 @@ $fechaHasta = isset($_POST["fechaHasta"]) ? limpiarCadena($_POST["fechaHasta"]) 
 $tipoComprobante = isset($_POST["tipoComprobante"]) ? limpiarCadena($_POST["tipoComprobante"]) : "";
 
 //personas
-$tipo_documento = isset($_POST["tipo_documento"]) ? limpiarCadena($_POST["tipo_documento"]) : "";
-$numero_documento = isset($_POST["numero_documento"]) ? limpiarCadena($_POST["numero_documento"]) : "";
-$razon_social = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
-$domicilio_fiscal = isset($_POST["domicilio_fiscal"]) ? limpiarCadena($_POST["domicilio_fiscal"]) : "";
+$tipo_documento     = isset($_POST["tipo_documento"]) ? limpiarCadena($_POST["tipo_documento"]) : "";
+$numero_documento   = isset($_POST["numero_documento"]) ? limpiarCadena($_POST["numero_documento"]) : "";
+$razon_social       = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
+$domicilio_fiscal   = isset($_POST["domicilio_fiscal"]) ? limpiarCadena($_POST["domicilio_fiscal"]) : "";
 
-//Limpiar Familia 
-$idfamilia = isset($_POST["idfamilia"]) ? limpiarcadena($_POST["idfamilia"]) : null;
-$idfamilia = isset($_GET["idfamilia"]) ? limpiarcadena($_GET["idfamilia"]) : null;
-$busqueda = isset($_GET["busqueda"]) ? limpiarcadena($_GET["busqueda"]) : null;
+// ══════════════════════════════════════ FILTROS ══════════════════════════════════════
+$idalmacen        = isset($_GET["idalmacen"]) ? limpiarcadena($_GET["idalmacen"]) : null;
+$idfamilia        = isset($_GET["idfamilia"]) ? limpiarcadena($_GET["idfamilia"]) : null;
+$idmarca          = isset($_GET["idmarca"]) ? limpiarcadena($_GET["idmarca"]) : null;
+$nombre_producto  = isset($_GET["nombre_producto"]) ? limpiarcadena($_GET["nombre_producto"]) : null;
 
 require_once "../modelos/Rutas.php";
 $rutas = new Rutas();
@@ -51,7 +55,7 @@ if (isset($_GET['action'])) {
 }
 
 if ($action == 'listarProducto') {
-  $rspta = $posmodelo->listarProducto(1, $idfamilia, $busqueda);
+  $rspta = $posmodelo->listarProducto($idalmacen, $idfamilia, $idmarca, $nombre_producto);
   $data = array();
 
   // Obtiene la URL base

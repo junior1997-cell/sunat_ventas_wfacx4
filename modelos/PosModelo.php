@@ -4,15 +4,24 @@ require "../config/Conexion.php";
 class PosModelo
 {
   //Implementamos nuestro constructor
-  public function __construct()
+  public $id_usr_sesion; public $id_empresa_sesion;
+  //Implementamos nuestro constructor
+  public function __construct( $id_usr_sesion = 0, $id_empresa_sesion = 0 )
   {
+    $this->id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
   }
-  //Listar los articulos
-  public function listarProducto($idempresa, $idfamilia = null, $busqueda = null) {
 
-    $filtro = "";
-    if (!is_null($idfamilia)) { $filtro = " AND a.idfamilia = '$idfamilia'"; }
-    if (!is_null($busqueda) && $busqueda != "") {  $filtro .= " AND (a.codigo LIKE '%$busqueda%' OR a.nombre LIKE '%$busqueda%')";  }
+  //Listar los articulos
+  public function listarProducto($idalmacen, $idfamilia, $idmarca, $nombre_producto) {
+
+    $filtro = ""; 
+    
+    if ( empty($nombre_producto) ) { $filtro .= ""; } else{ $filtro .= " AND (a.codigo LIKE '%$nombre_producto%' OR a.codigo_proveedor LIKE '%$nombre_producto%' OR a.nombre LIKE '%$nombre_producto%')";  }
+
+    if ($idalmacen == 'todos' || empty($idalmacen)  ) { $filtro .= ""; } else{  $filtro .= "AND a.idalmacen = '$idalmacen'"; }
+    if ($idfamilia == 'todos' || empty($idfamilia) ) { $filtro .= ""; } else{  $filtro .= "AND a.idfamilia = '$idfamilia'"; }
+    if ($idmarca == 'todos' || empty($idmarca) ) { $filtro .= ""; } else{  $filtro .= "AND a.idmarca = '$idmarca'"; }
 
     $sql = "SELECT a.idarticulo, f.idfamilia, a.codigo_proveedor, a.codigo, f.descripcion as familia, left(a.nombre, 50) as nombre, 
     format(a.stock,2) as stock, a.precio_venta as precio, a.costo_compra, (a.precio_venta * 0.18) as precio_unitario, a.cicbper, 
@@ -25,7 +34,7 @@ class PosModelo
     inner join empresa e on al.idempresa=e.idempresa 
     inner join umedida um on a.umedidacompra=um.idunidad 
     inner join marca m on a.idmarca=m.idmarca 
-    where a.tipoitem = 'productos' and not a.nombre='1000ncdg' and e.idempresa='$idempresa' and al.estado='1' $filtro";
+    where a.tipoitem = 'productos' and not a.nombre='1000ncdg' and e.idempresa='$this->id_empresa_sesion' and al.estado='1' $filtro";
 
     return ejecutarConsulta($sql);
   }

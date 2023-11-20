@@ -45,8 +45,25 @@ function almacenarItems() {
   sessionStorage.setItem('miContenidoHTML', htmlContent);
 }
 
+// ══════════════════════════════════════ I N I T I A L I Z E   S E L E C T 2 ══════════════════════════════════════
+$("#filtro_idalmacen").select2({ dropdownParent: $('.card-body-filtros'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
+$("#filtro_idfamilia").select2({ dropdownParent: $('.card-body-filtros'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });  
+$("#filtro_idmarca").select2({ dropdownParent: $('.card-body-filtros'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  }); 
+
 /* ---------------------------------------------------------------- */
 //                      LISTAR CATEGORIAS
+
+function listar_filtros() {  
+
+  $.post(`../ajax/articulo.php?op=filtros_table`, function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); //console.log(e);
+    $("#filtro_idfamilia").html(e.filtro_categoria);
+    $("#filtro_idalmacen").html(e.filtro_almacen);
+    $("#filtro_idmarca").html(e.filtro_marca);
+    listar_producto_principal('todos', 'todos', 'todos', '');
+  }).fail( function(e) { console.log(e); } );
+}
+listar_filtros();
 
 function listarCategorias() {
 
@@ -57,15 +74,15 @@ function listarCategorias() {
     success: function (data) {
       const categoriaContainer = document.getElementById('category-content');
       data.ListaCategorias.forEach(categoria => {
-        var card = document.createElement('div');
-        card.classList.add('swiper-slide');
-        card.innerHTML = `
-        <div class="rounded-pill slider-item categoryclic" data-idfamilia="${categoria.idfamilia}" onclick="listarPorCategoria(this)">
-            <span class="rounded-circle mx-2 text-center px-2 py-1" style="background-color: skyblue;" alt="dd">${categoria.cant_producto}</span>
-            <span class="fw-600 f-12 category">${categoria.familia}</span>
-        </div>`;
+        // var card = document.createElement('div');
+        // card.classList.add('swiper-slide');
+        // card.innerHTML = `
+        // <div class="rounded-pill slider-item categoryclic" data-idfamilia="${categoria.idfamilia}" onclick="listarPorCategoria(this)">
+        //     <span class="rounded-circle mx-2 text-center px-2 py-1" style="background-color: skyblue;" alt="dd">${categoria.cant_producto}</span>
+        //     <span class="fw-600 f-12 category">${categoria.familia}</span>
+        // </div>`;
 
-        categoriaContainer.appendChild(card);
+        // categoriaContainer.appendChild(card);
         // Add a click event listener to the category
         // card.querySelector('.categoryclic').addEventListener('click', listarPorCategoria);
       });
@@ -85,13 +102,34 @@ function listarCategorias() {
   });     
 }
 
-listarCategorias();
+function filtros() {  
+
+  var idalmacen       = $("#filtro_idalmacen").select2('val');
+  var idfamilia       = $("#filtro_idfamilia").select2('val');  
+  var idmarca         = $("#filtro_idmarca").select2('val');  
+  var nombre_product  = $("#search_product").val();  
+  // var tipo_precio     = $("#s_tipo_precio").select2('val');  
+  
+  var nombre_almacen  = $('#filtro_idalmacen').find(':selected').text();
+  var nombre_familia  = ' ─ ' + $('#filtro_idfamilia').find(':selected').text();
+  var nombre_marca    = ' ─ ' + $('#filtro_idmarca').find(':selected').text();
+
+  if (idalmacen       == '' || idalmacen      == null || idalmacen      == 0 ) { idalmacen = ""; nombre_almacen = ""; }
+  if (idfamilia       == '' || idfamilia      == null || idfamilia      == 0 ) { idfamilia = ""; nombre_familia = "" }
+  if (idmarca         == '' || idmarca        == null || idmarca        == 0 ) { idmarca = ""; nombre_marca = "" }
+  if (nombre_product  == '' || nombre_product == null || nombre_product == 0 ) { nombre_product = ""; nombre_marca = "" }
+  // if (tipo_precio     == '' || tipo_precio    == null || tipo_precio    == 0 ) { tipo_precio = ""; nombre_marca = "" }
+
+  // $('.cargando').show().html(`<i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando ${nombre_almacen} ${nombre_familia} ${nombre_marca}...`);
+  
+  listar_producto_principal(idalmacen, idfamilia, idmarca, nombre_product);
+}
 
 /* ---------------------------------------------------------------- */
 //                   LISTAR PRODUCTOS (BUSQUEDA)
 
 var url_send;
-function listarProductos(busqueda) {
+function listar_producto_principal(idalmacen, idfamilia, idmarca, nombre_producto) {
 
   $('#loader_product').show();
 
@@ -102,72 +140,12 @@ function listarProductos(busqueda) {
   }
 
   $.ajax({
-    url: url_send,
+    url: `../ajax/pos.php?action=listarProducto&idalmacen=${idalmacen}&idfamilia=${idfamilia}&idmarca=${idmarca}&nombre_producto=${nombre_producto}`,
     type: 'get',
     dataType: 'json',
     success: function (data) {
       listarCardProductos(data);
       $('#loader_product').hide();
-
-      // var productContainer = $('#product-container');
-      // productContainer.empty(); // Limpiar productos existentes
-
-      // if (data.ListaProductos && data.ListaProductos.length > 0) {
-      //   data.ListaProductos.forEach(product => {
-
-      //     let productImage = product.imagen;
-
-      //     if (!productImage || productImage === '../files/articulos/' || productImage === 'https://wfacx.com/sistema/files/articulos/') {
-
-      //       productImage = '../files/articulos/no_img_avaliable.jpg';
-
-      //     }
-
-      //     var productCard = document.createElement('div');
-      //     productCard.classList.add('col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'mb-3');
-
-      //     var productCardAlert = document.createElement('div');
-
-      //     var productStock = parseFloat((product.stock).replace(',', ''));
-
-      //     if (productStock < 5 && productStock > 0) {
-      //       productCardAlert.classList.add('card', 'card-warning', 'product-card', 'cursor-pointer');
-      //     } else if (productStock == 0) {
-      //       productCardAlert.classList.add('card', 'card-danger', 'product-card', 'cursor-pointer');
-      //     } else {
-      //       productCardAlert.classList.add('card', 'product-card', 'cursor-pointer');
-      //     }
-
-      //     productCardAlert.innerHTML = `
-      //       <input id="p_stock" class="text-muted mt-auto ms-2" readonly value="Stock - ${productStock}" style="border-radius: 10px;width: 85%;height: 15px;border: none;font-size: 14px;pointer-events: none;user-select: none;">
-      //       <input id="p_costo_compra" class="text-muted mt-auto ms-2" readonly value="Compra - S/ ${product.costo_compra}" style="border-radius: 10px;width: 85%;height: 15px;border: none;font-size: 14px;pointer-events: none;user-select: none;">
-
-      //       <div class="text-center mt-1" style="height: 120px;">
-      //         <img src="${productImage}" alt="${product.nombre}" height="100%" class=" mb-2">
-      //       </div>
-      //       <div class="card-body text-center p-0">
-      //         <label class="fw-bolder fs-12" id="p_nombre">${product.nombre}</label>
-      //         <p class="fs-6 fw-600" >S/ <span id="p_precio">${product.precio}</span></p>
-      //       </div>
-      //       <input type="hidden" id="p_idarticulo" value="${product.idarticulo}">
-      //       <input type="hidden" id="p_codigoprod" value="${product.codigo}">
-      //       <input type="hidden" id="p_codigoprov" value="${product.codigo_proveedor}">
-      //       <input type="hidden" id="p_unimed" value="${product.abre}">
-      //       <input type="hidden" id="p_precio_unitario" value="${product.precio_unitario}">
-      //       <input type="hidden" id="p_cicbper" value="${product.cicbper}">
-      //       <input type="hidden" id="p_mticbperu" value="${product.mticbperu}">
-      //       <input type="hidden" id="p_factorc" value="${product.factorc}">
-      //       <input type="hidden" id="p_descrip" value="${product.descrip}">
-      //       <input type="hidden" id="p_tipoitem" value="${product.tipoitem}">
-      //     `;
-
-      //     productCard.append(productCardAlert);
-
-      //     productContainer.append(productCard);
-      //   });
-      // } else {
-      //   productContainer.html('<p>No hay productos disponibles para esta búsqueda.</p>');
-      // }
     },
     error: function (error) {
       console.error(error);
@@ -176,13 +154,11 @@ function listarProductos(busqueda) {
   });
 }
 
-var busqueda = '';
-listarProductos(busqueda);
 
 /* ---------------------------------------------------------------- */
 //           ACTUALIZAR PRECIOS DE PRODUCTOS CARD (BUSQUEDA)
 
-$('#s_tipo_precio').change(function () { busqueda = $(this).val(); listarProductos(busqueda); });
+$('#s_tipo_precio').change(function () { filtros(); });
 
 /* ---------------------------------------------------------------- */
 //                  LISTAR PRODUCTOS CAMPO BUSQUEDA
@@ -193,7 +169,7 @@ $('#search_product').on('input', function () {
   // Cancelar la búsqueda anterior
   clearTimeout(searchTimeout);
   // Retraso 1s
-  searchTimeout = setTimeout(function () { listarProductos(searchTerm); }, 1000);
+  searchTimeout = setTimeout(function () { filtros(); }, 1000);
 });
 
 /* ---------------------------------------------------------------- */
@@ -253,6 +229,9 @@ function listarCardProductos(data) {
   $('.cargando_cant_all').html(data.cant_productos);
 
   if (data.ListaProductos && data.ListaProductos.length > 0) {
+
+    var s_tipo_precio = $('#s_tipo_precio').val();
+
     data.ListaProductos.forEach((val, key) => {
 
       let productImage = val.imagen;
@@ -263,7 +242,7 @@ function listarCardProductos(data) {
       }
 
       var productCard = document.createElement('div');
-      productCard.classList.add('col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'col-xl-3', 'col-xxl-3', 'mb-3');
+      productCard.classList.add('item','col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'col-xl-3', 'col-xxl-3', 'mb-3');
 
       var productCardAlert = document.createElement('div');
 
@@ -287,10 +266,10 @@ function listarCardProductos(data) {
           <img id="img-${val.idarticulo}" src="${productImage}" alt="${val.nombre}" height="100%" class=" mb-2">
         </div>
         <div class="card-body text-center p-0">
-          <span class="fw-bolder fs-12 text-primary" id="p_nombre_${val.idarticulo}">${val.nombre}</span> <br>
+          <span class="fw-bolder fs-12 text-primary" id="p_nombre_${val.idarticulo}">${key+1}. ${val.nombre}</span> <br>
           <span class="fw-bolder fs-12 text-muted" id="p_marca_${val.idarticulo}">${val.marca}</span> `;
 
-      var s_tipo_precio = $('#s_tipo_precio').val();
+      
 
       if (s_tipo_precio == 0) {
         card += `<p class="fs-6 fw-600 text-success" >S/ <span id="p_precio_${val.idarticulo}">${val.precio}</span></p>`;
@@ -315,11 +294,21 @@ function listarCardProductos(data) {
       `;
 
       productCardAlert.innerHTML = card;
-
       productCard.append(productCardAlert);
-
-      productContainer.append(productCard);
+      productContainer.append(productCard);      
     });
+
+    // paginacion
+    $("#product-container .item").slice(8).hide(); 
+    $('#pagination').pagination({   
+      // Total de productos
+      items: data.cant_productos, 
+      // Productos por pagina 
+      itemsOnPage: 8,  
+      onPageClick: function (noofele) { console.log(noofele, 8*(noofele-1), 8+ 8* (noofele - 1) );
+        $("#product-container .item").hide().slice(8*(noofele-1), 8+ 8* (noofele - 1)).show(); 
+      } 
+    }); 
   } else {
     productContainer.html('<p>No hay productos disponibles para esta búsqueda.</p>');
   }
@@ -334,7 +323,7 @@ $('#ver-todos-link').on('click', function (e) { e.preventDefault(); listarTodosP
 
 function listarTodosProductos() {  
   $('.categoryclic').removeClass('select');
-  listarProductos('');
+  filtros();
 }
 
 /* ---------------------------------------------------------------- */
@@ -2752,12 +2741,8 @@ $('#btn_realizarpago').click(function () {
           $('#modal_metodopago').modal('hide');
 
           limpiarFormulario();
-
-          tipoimpresion();
-
-          busqueda = '';
-
-          listarProductos(busqueda);
+          tipoimpresion(); 
+          filtros();
 
         },
       });

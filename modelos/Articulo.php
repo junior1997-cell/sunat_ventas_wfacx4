@@ -17,12 +17,7 @@ class Articulo
 
   //Implementamos un método para insertar registros
   public function insertar($idalmacen, $codigo_proveedor, $codigo, $nombre, $idfamilia, $unidad_medida, $costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma, $precio_venta, $imagen, $codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi, $ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $idmarca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor, $seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion)
-  {
-    $und_pr_sr="";
-
-    $Str_code = substr($codigo,0, 2);
-
-    if ($Str_code=="PR") { $und_pr_sr=$umedidacompra; }else{ $und_pr_sr=$unidad_medida; }
+  {   
 
     $sql = "INSERT INTO articulo (
     idalmacen, codigo_proveedor, codigo, nombre, idfamilia, unidad_medida, costo_compra, saldo_iniu, valor_iniu, saldo_finu, 
@@ -30,11 +25,11 @@ class Articulo
     codigosunat,  ccontable, precio2, precio3, cicbper, nticbperi, ctticbperi, mticbperu, codigott, desctt, 
     codigointtt, nombrett, lote, idmarca, fechafabricacion, fechavencimiento, procedencia, fabricante, registrosanitario, fechaingalm, 
     fechafinalma, proveedor, seriefaccompra, numerofaccompra, fechafacturacompra, limitestock, tipoitem, umedidacompra, factorc, descrip)
-    values ('$idalmacen','$codigo_proveedor','$codigo','$nombre','$idfamilia','$und_pr_sr','$costo_compra','$saldo_iniu','$valor_iniu', '$saldo_finu',
+    values ('$idalmacen','$codigo_proveedor','$codigo','$nombre','$idfamilia','$unidad_medida','$costo_compra','$saldo_iniu','$valor_iniu', '$saldo_finu',
     '$valor_finu','$stock','$comprast','$ventast','$portador','$merma','$precio_venta','$imagen','$valor_finu','$costo_compra', now(),
     '$codigosunat', '$ccontable','$precio2', '$precio3' ,'$cicbper','$nticbperi','$ctticbperi','$mticbperu', '$codigott', '$desctt', 
     '$codigointtt', '$nombrett', '$lote', '$idmarca', '$fechafabricacion', '$fechavencimiento', '$procedencia', '$fabricante', '$registrosanitario', '$fechaingalm', 
-    '$fechafinalma', '$proveedor', '$seriefaccompra', '$numerofaccompra', '$fechafacturacompra', '$limitestock', '$tipoitem', '$und_pr_sr', '$factorc', '$descripcion')";
+    '$fechafinalma', '$proveedor', '$seriefaccompra', '$numerofaccompra', '$fechafacturacompra', '$limitestock', '$tipoitem', '$unidad_medida', '$factorc', '$descripcion')";
     $idartinew = ejecutarConsulta_retornarID($sql);
 
     $sqlreginv = "INSERT INTO reginventariosanos ( codigo,  denominacion, costoinicial, saldoinicial, valorinicial, compras, ventas, saldofinal, costo, valorfinal, ano ) 
@@ -51,79 +46,32 @@ class Articulo
   public function editar($idarticulo, $idalmacen, $codigo_proveedor, $codigo, $nombre, $idfamilia, $unidad_medida, $costo_compra, $saldo_iniu, $valor_iniu, $saldo_finu, $valor_finu, $stock, $comprast, $ventast, $portador, $merma, $precio_venta, $imagen, $codigosunat, $ccontable, $precio2, $precio3, $cicbper, $nticbperi, $ctticbperi, $mticbperu, $codigott, $desctt, $codigointtt, $nombrett, $lote, $idmarca, $fechafabricacion, $fechavencimiento, $procedencia, $fabricante, $registrosanitario, $fechaingalm, $fechafinalma, $proveedor, $seriefaccompra, $numerofaccompra, $fechafacturacompra, $limitestock, $tipoitem, $umedidacompra, $factorc, $descripcion)
   {
 
-    $sql = "UPDATE articulo 
-        set 
-        idalmacen='$idalmacen', 
-        codigo_proveedor='$codigo_proveedor', 
-        codigo='$codigo', 
-        nombre='$nombre', 
-        idfamilia='$idfamilia', 
-        unidad_medida='$unidad_medida', 
-        costo_compra='$costo_compra', 
-        saldo_iniu='$saldo_iniu', 
-        valor_iniu='$valor_iniu', 
-        saldo_finu='$saldo_finu', 
-        valor_finu='$valor_finu', 
-        stock='$stock', 
-        comprast='$comprast', 
-        ventast='$ventast', 
-        portador='$portador', 
-        merma='$merma', 
-        precio_venta='$precio_venta', 
-        imagen='$imagen',
-        codigosunat='$codigosunat',
-        ccontable='$ccontable',
-        precio2='$precio2',
-        precio3='$precio3',
-        cicbper='$cicbper',
-        nticbperi='$nticbperi',
-         ctticbperi='$ctticbperi',
-         mticbperu='$mticbperu',
-         codigott='$codigott', 
-         desctt='$desctt',
-         codigointtt='$codigointtt', 
-         nombrett='$nombrett',
-         lote='$lote',
-         idmarca='$idmarca',
-         fechafabricacion='$fechafabricacion',
-         fechavencimiento='$fechavencimiento',
-         procedencia='$procedencia',
-         fabricante='$fabricante',
-         registrosanitario='$registrosanitario',
-         fechaingalm='$fechaingalm',
-         fechafinalma='$fechafinalma',
-         proveedor='$proveedor',
-         seriefaccompra='$seriefaccompra',
-         numerofaccompra='$numerofaccompra',
-         fechafacturacompra='$fechafacturacompra',
-         limitestock='$limitestock',
-         tipoitem='$tipoitem',
-         umedidacompra='$umedidacompra',
-         factorc='$factorc', 
-         descrip='$descripcion'
-        where 
-        idarticulo='$idarticulo'";
+    $sql = "UPDATE articulo set
+    idalmacen='$idalmacen', codigo_proveedor='$codigo_proveedor', codigo='$codigo', nombre='$nombre', idfamilia='$idfamilia', unidad_medida='$unidad_medida', 
+    costo_compra='$costo_compra', saldo_iniu='$saldo_iniu', valor_iniu='$valor_iniu', saldo_finu='$saldo_finu', valor_finu='$valor_finu', stock='$stock', 
+    comprast='$comprast', ventast='$ventast', portador='$portador', merma='$merma', precio_venta='$precio_venta', imagen='$imagen', codigosunat='$codigosunat',
+    ccontable='$ccontable', precio2='$precio2', precio3='$precio3', cicbper='$cicbper', nticbperi='$nticbperi',  ctticbperi='$ctticbperi',
+    mticbperu='$mticbperu', codigott='$codigott', desctt='$desctt', codigointtt='$codigointtt', nombrett='$nombrett', lote='$lote',
+    idmarca='$idmarca', fechafabricacion='$fechafabricacion', fechavencimiento='$fechavencimiento', procedencia='$procedencia', fabricante='$fabricante',
+    registrosanitario='$registrosanitario', fechaingalm='$fechaingalm', fechafinalma='$fechafinalma', proveedor='$proveedor', seriefaccompra='$seriefaccompra',
+    numerofaccompra='$numerofaccompra', fechafacturacompra='$fechafacturacompra', limitestock='$limitestock', tipoitem='$tipoitem', umedidacompra='$umedidacompra',
+    factorc='$factorc', descrip='$descripcion'
+    where idarticulo='$idarticulo'";
 
     // $sqlsubartidel = "delete from subarticulo where idarticulo='$idarticulo'";
     // ejecutarConsulta($sqlsubartidel);
 
-    $sqlsubarticrear = "INSERT INTO subarticulo (idarticulo, codigobarra, valorunitario, preciounitario, stock, umventa, estado) values  ('$idarticulo', '$codigo', '$costo_compra','$costo_compra', '$stock', '$unidad_medida', '1')";
+    $sqlsubarticrear = "INSERT INTO subarticulo (idarticulo, codigobarra, valorunitario, preciounitario, stock, umventa, estado) values  
+    ('$idarticulo', '$codigo', '$costo_compra','$costo_compra', '$stock', '$unidad_medida', '1')";
     ejecutarConsulta($sqlsubarticrear);
 
     return ejecutarConsulta($sql);
   }
 
 
-  public function editarStockArticulo($idarticuloproduct, $stockproduct)
-  {
+  public function editarStockArticulo($idarticuloproduct, $stockproduct) {
 
-    $sql = "UPDATE articulo 
-        set 
-            stock='$stockproduct',
-            saldo_iniu='$stockproduct',
-            saldo_finu='$stockproduct'
-        where 
-        idarticulo='$idarticuloproduct'";
+    $sql = "UPDATE articulo set stock='$stockproduct', saldo_iniu='$stockproduct', saldo_finu='$stockproduct' where idarticulo='$idarticuloproduct'";
 
     $sqlsubartiupdate = "UPDATE subarticulo set stock='$stockproduct' where idarticulo='$idarticuloproduct'";
     ejecutarConsulta($sqlsubartiupdate);
@@ -180,7 +128,7 @@ class Articulo
     from almacen a 
     INNER JOIN empresa e on a.idempresa=e.idempresa  
     INNER JOIN articulo as ar ON a.idalmacen = ar.idalmacen
-    where  e.idempresa='$this->id_empresa_sesion'
+    where  e.idempresa='$this->id_empresa_sesion' AND ar.tipoitem = 'productos'
     GROUP BY a.nombre  order by a.idalmacen desc";
 		$almacen = ejecutarConsultaArray($sql);
 
@@ -194,7 +142,7 @@ class Articulo
     $sql3 = "SELECT m.idmarca, m.descripcion, m.estado, COUNT(a.idarticulo) as cant
     FROM marca as m
     INNER JOIN articulo as a ON m.idmarca = a.idmarca
-    WHERE m.estado = '1'
+    WHERE m.estado = '1' AND a.tipoitem = 'productos'
     GROUP BY m.descripcion;";
     $marca = ejecutarConsultaArray($sql3);
 
@@ -1072,76 +1020,33 @@ class Articulo
     return ejecutarConsulta($sql);
   }
 
-
-  public function saldoanteriorTodos($ano, $idempresa)
-  {
+  public function saldoanteriorTodos($ano, $idempresa)  {
     $sql = "SELECT costof, saldof, valorf from valfinarticulo where ano='$ano' - 1 and idempresa='$idempresa' order by id desc";
-
     return ejecutarConsulta($sql);
   }
 
+  public function saldoinicialV($ano, $codigo, $idempresa) {
 
-
-
-
-  public function saldoinicialV($ano, $codigo, $idempresa)
-  {
-
-    $sql = "SELECT costoi, saldoi, valori, nombre, factorc, um.nombreum from valfinarticulo vfa inner join articulo a on vfa.idarticulo=a.idarticulo  inner join umedida um on a.umedidacompra=um.idunidad
-        where codigoart='$codigo' and ano='$ano' and idempresa='$idempresa' order by id desc limit 1";
-
+    $sql = "SELECT costoi, saldoi, valori, nombre, factorc, um.nombreum 
+    from valfinarticulo vfa 
+    inner join articulo a on vfa.idarticulo=a.idarticulo 
+    inner join umedida um on a.umedidacompra=um.idunidad
+    where codigoart='$codigo' and ano='$ano' and idempresa='$idempresa' order by id desc limit 1";
     return ejecutarConsulta($sql);
   }
 
+  public function kardexArticulototales($ano, $fecha, $codigo) {
 
-
-  public function kardexArticulototales($ano, $fecha, $codigo)
-  {
-
-
-
-    $sql = "SELECT 
-
-        a.saldo_iniu, 
-
-        a.costo_compra, 
-
-        a.valor_iniu, 
-
-        a.valor_finu, 
-
-        date_format(k.fecha, '%d/%m/%y') as fecha, 
-
-        ct1.descripcion, 
-
-        k.numero_doc, 
-
-        k.transaccion, 
-
-        k.cantidad as cantidad, 
-
-        format(k.costo_1,2) as costo_1, 
-
-        a.unidad_medida, 
-
-        k.saldo_final, 
-
-        k.costo_2, 
-
-        format(k.valor_final,2) as valor_final,
-
-        a.ventast,
-
-        a.comprast
-
-        from 
-
-        kardex k inner join articulo a on k.idarticulo=a.idarticulo inner join catalogo1 ct1 on k.tipo_documento=ct1.codigo  where year(k.fecha)='$ano'  and  a.codigo='$codigo' and month(k.fecha) in ($fecha) order by k.fecha, k.idkardex";
-
+    $sql = "SELECT a.saldo_iniu, a.costo_compra, a.valor_iniu, a.valor_finu, date_format(k.fecha, '%d/%m/%y') as fecha, 
+    ct1.descripcion, k.numero_doc, k.transaccion, k.cantidad as cantidad, format(k.costo_1,2) as costo_1, 
+    a.unidad_medida, k.saldo_final, k.costo_2, format(k.valor_final,2) as valor_final, a.ventast, a.comprast
+    from kardex k 
+    inner join articulo a on k.idarticulo=a.idarticulo 
+    inner join catalogo1 ct1 on k.tipo_documento=ct1.codigo  
+    where year(k.fecha)='$ano'  and  a.codigo='$codigo' and month(k.fecha) in ($fecha) 
+    order by k.fecha, k.idkardex";
     return ejecutarConsulta($sql);
   }
-
-
 
   //===========================INVENTARIO==============================
   public function inventariovalorizado($ano) {
@@ -1165,10 +1070,7 @@ class Articulo
     return ejecutarConsulta($sql);
   }
 
-
-
-  public function inventariovalorizadoxcodigo($codigo)
-  {
+  public function inventariovalorizadoxcodigo($codigo) {
 
     $sql = "SELECT 
 

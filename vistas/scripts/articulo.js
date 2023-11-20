@@ -21,18 +21,19 @@ toastr.options = {
 
 function init() {
 
-  mostrarform(false);
+  
   listar_filtros();  
   listarservicios();
   $idempresa = $("#idempresa").val();  
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
+  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
   $.post("../ajax/articulo.php?op=selectMarca", function (r) { $("#idmarca").html(r); });
   $.post("../ajax/articulo.php?op=selectFamilia", function (r) { $("#idfamilia").html(r); });
-  $.post("../ajax/articulo.php?op=selectAlmacen&idempresa=" + $idempresa, function (r) { $("#idalmacen").html(r); });
-  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
+  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); });
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
+  $("#guardar_registro").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-materiales").submit(); }  });
   $("#guardar_registro_articulo").on("click", function (e) { $("#submit-form-articulo").submit(); });	
   // $("#formulario").on("submit", function (e) { guardaryeditar(e); });
   $("#formnewfamilia").on("submit", function (e) { guardaryeditarFamilia(e); });
@@ -40,14 +41,13 @@ function init() {
   $("#formnewumedida").on("submit", function (e) { guardaryeditarUmedida(e); });
   $("#formprintbar").on("submit", function (e) { });
 
-  // ══════════════════════════════════════ I N I T I A L I Z E   N U M B E R   F O R M A T ══════════════════════════════════════
+  // ══════════════════════════════════════ I N I T I A L I Z E   S E L E C T 2 ══════════════════════════════════════
   $("#filtro_idalmacen").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#filtro_idfamilia").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });  
   $("#filtro_idmarca").select2({ dropdownParent: $('.card-header'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });  
 
   $("#idmarca").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#idfamilia").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
-  $("#umedidacompra").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
   $("#unidad_medida").select2({ dropdownParent: $('#modalAgregarProducto'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
 
   $("#imagenmuestra").hide();
@@ -65,17 +65,17 @@ function listar_filtros() {
 }
 
 //Función limpiar
-function limpiar() {
-
+function limpiar_form_articulo() {
+  $("#guardar_registro_articulo").html('Guardar Cambios').removeClass('disabled send-data');
   $("#idmarca").val("").trigger("change");
   $("#idfamilia").val("").trigger("change");
-  $("#umedidacompra").val("").trigger("change");
+  $("#umedidacompra").val("");
   $("#unidad_medida").val("").trigger("change");
 
   $("#codigo").val("");
   $("#codigo_proveedor").val("-");
   $("#nombre").val("");
-  $("#costo_compra").val("");
+  $("#costo_compra").val("0.00");
   $("#saldo_iniu").val("");
   $(".salini").val("9999999");
   $("#valor_iniu").val("0.00");
@@ -89,7 +89,7 @@ function limpiar() {
   $("#ventast").val("0.00");
   $("#portador").val("0.00");
   $("#merma").val("0.00");
-  $("#valor_venta").val("");
+  $("#valor_venta").val("0.00");
   $("#imagenmuestra").attr("src", "../files/articulos/simagen.png");
   $("#imagenactual").val("");
   $("#print").hide();
@@ -121,9 +121,8 @@ function limpiar() {
   $("#seriefaccompra").val("");
   $("#numerofaccompra").val("");
   $("#fechafacturacompra").val("");
-
-  $("#preview").empty();
-  $("#limitestock").val("0.00");
+  
+  $("#limitestock").val("0");
 
   //$("#tipoitem").val("productos");
   $("#equivalencia").val("");
@@ -133,6 +132,11 @@ function limpiar() {
   $("#descripcion").val("");
   document.getElementById("guardar_registro_articulo").innerHTML = "Agregar";
   //document.getElementsByClassName("stokservicio")[0].value = "9999999";
+
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
 }
 
 //mostrar comrpas en registro
@@ -174,36 +178,8 @@ function limpiarumedida() {
   $("#equivalencia2").val("");
 }
 
-//Función mostrar formulario
-function mostrarform(flag) {
-  limpiar();
-  if (flag) {
 
-    $("#listadoregistros").hide();
-    $("#listadoregistrosservicios").hide();
-    $("#formularioregistros").show();
-    $("#guardar_registro_articulo").prop("disabled", false);
-    $("#btnagregar").hide();
-    $("#costo_compra").attr('readonly', false);
-    $("#saldo_iniu").attr('readonly', false);
-    $("#valor_iniu").attr('readonly', false);
-    $("#saldo_finu").attr('readonly', false);
-    $("#valor_finu").attr('readonly', false);
-    $("#stock").attr('readonly', false);
-    $("#comprast").attr('readonly', false);
-    $("#ventast").attr('readonly', false);
-    $("#preview").empty();
-  } else {
-    $("#listadoregistros").show();
-    $("#listadoregistrosservicios").show();
-    $("#formularioregistros").hide();
-    $("#btnagregar").show();    
-  }
-}
 
-//Función cancelarform
-function cancelarform() { limpiar(); mostrarform(false);
-}
 
 //Función Listar PRODUCTOS
 function listar_tabla_principal(idalmacen, idfamilia, idmarca) {
@@ -275,34 +251,61 @@ function listarservicios() {
 }
 
 //Función para guardar o editar
-function guardaryeditar(e) {
-  // e.preventDefault(); //No se activará la acción predeterminada del evento
-  $("#guardar_registro_articulo").prop("disabled", true);
+function guardar_y_editar_articulo(e) {
+  // e.preventDefault(); //No se activará la acción predeterminada del evento  
   var formData = new FormData($("#formulario")[0]);
 
   $.ajax({
-    url: "../ajax/articulo.php?op=guardaryeditar",
+    url: "../ajax/articulo.php?op=guardar_y_editar_articulo",
     type: "POST",
     data: formData,
     contentType: false,
     processData: false,
     success: function (datos) {
-      Swal.fire({  icon: 'success',  title: 'Guardado exitoso',  showConfirmButton: true,  text: datos, });
-      mostrarform(false);
-      if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
-      if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }             
-      
-      limpiar();
-      $("#modalAgregarProducto").modal("hide");
+      if (datos == 1) {
+        Swal.fire({  icon: 'success',  title: 'Guardado exitoso',   html: 'El registro se guardo correctamente.', });
+        
+        if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
+        if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }             
+        
+        limpiar_form_articulo();
+        $("#modalAgregarProducto").modal("hide");
+      } else {
+        Swal.fire({  icon: 'error',  title: 'Error al guardar',  html: datos, });
+      }
+      $("#guardar_registro_articulo").html('Guardar Cambios').removeClass('disabled send-data');
+    },
+    xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_articulo").css({"width": percentComplete+'%'});
+          $("#barra_progress_articulo div").text(`${percentComplete.toFixed(1)} %`);
+        }
+      }, false);
+      return xhr;
+    },
+    beforeSend: function () {
+      $("#guardar_registro_articulo").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled send-data');
+			$("#barra_progress_articulo_div").show();
+      $("#barra_progress_articulo").css({ width: "0%",  }).addClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_articulo div").text("0%");
+    },
+    complete: function () {
+			$("#barra_progress_articulo_div").hide();
+      $("#barra_progress_articulo").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_articulo div").text("0%");
     },
     error: function () {
-      Swal.fire({ icon: 'error', title: 'Error al guardar', text: 'Ha ocurrido un error al guardar los datos', });
+      Swal.fire({ icon: 'error', title: 'Error al guardar', html: 'Ha ocurrido un error al guardar los datos', });
     }
   });
 }
 
 function mostrar(idarticulo) {
-  mostrarform(true);
+  limpiar_form_articulo();
   $.post("../ajax/articulo.php?op=mostrar", { idarticulo: idarticulo }, function (data, status) {
     data = JSON.parse(data);   
     console.log(data);
@@ -312,7 +315,7 @@ function mostrar(idarticulo) {
 
     $("#idmarca").val(data.idmarca).trigger("change");
     $("#idfamilia").val(data.idfamilia).trigger("change");
-    $("#umedidacompra").val(data.umedidacompra).trigger("change");
+    $("#umedidacompra").val(data.umedidacompra);
     $("#unidad_medida").val(data.unidad_medida).trigger("change");
     
     $("#nombre").val(data.nombre);
@@ -421,7 +424,7 @@ function desactivar(idarticulo) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/articulo.php?op=desactivar", { idarticulo: idarticulo }, function (e) {
-        Swal.fire({ title: 'Artículo activado', text: e, icon: 'success', showConfirmButton: false, timer: 5000 });
+        Swal.fire({ title: 'Artículo Desactivado', text: e, icon: 'success', showConfirmButton: true, timer: 5000 });
         if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
         if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }
       });
@@ -442,7 +445,7 @@ function activar(idarticulo) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/articulo.php?op=activar", { idarticulo: idarticulo }, function (e) {
-        Swal.fire({ title: 'Artículo activado', text: e, icon: 'success', showConfirmButton: false, timer: 5000 });
+        Swal.fire({ title: 'Artículo activado', text: e, icon: 'success', showConfirmButton: true, timer: 5000 });
         if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); }
         if (tabla_servicio) {  tabla_servicio.ajax.reload(null, false); }        
       });
@@ -571,7 +574,7 @@ function actalmacen() {
 }
 //Cargamos los items al select almacen
 function actalunidad() {
-  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); $("#umedidacompra").html(r); });
+  $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); });
 
 }
 
@@ -623,25 +626,25 @@ function focussaldoi(e, field) {
   key = e.keyCode ? e.keyCode : e.which
   if (e.keyCode === 13 && !e.shiftKey) { document.getElementById('saldo_iniu').focus(); }
   // backspace
-  if (key == 8) return true;
-  if (key == 9) return true;
-  if (key > 47 && key < 58) {
-    if (field.value === "") return true;
-    var existePto = (/[.]/).test(field.value);
-    if (existePto === false) {
-      regexp = /.[0-9]{10}$/;
-    } else {
-      regexp = /.[0-9]{2}$/;
-    }
-    return !(regexp.test(field.value));
-  }
+  // if (key == 8) return true;
+  // if (key == 9) return true;
+  // if (key > 47 && key < 58) {
+  //   if (field.value === "") return true;
+  //   var existePto = (/[.]/).test(field.value);
+  //   if (existePto === false) {
+  //     regexp = /.[0-9]{10}$/;
+  //   } else {
+  //     regexp = /.[0-9]{2}$/;
+  //   }
+  //   return !(regexp.test(field.value));
+  // }
 
-  if (key == 46) {
-    if (field.value === "") return false;
-    regexp = /^[0-9]+$/;
-    return regexp.test(field.value);
-  }
-  return false;
+  // if (key == 46) {
+  //   if (field.value === "") return false;
+  //   regexp = /^[0-9]+$/;
+  //   return regexp.test(field.value);
+  // }
+  // return false;
 }
 
 function valori(e, field) {
@@ -808,48 +811,25 @@ function totalc(e, field) {
   }
 
   // backspace
+  // if (key == 8) return true;
+  // if (key == 9) return true;
+  // if (key > 47 && key < 58) {
+  //   if (field.value === "") return true;
+  //   var existePto = (/[.]/).test(field.value);
+  //   if (existePto === false) {
+  //     regexp = /.[0-9]{10}$/;
+  //   } else {
+  //     regexp = /.[0-9]{2}$/;
+  //   }
+  //   return !(regexp.test(field.value));
+  // }
 
-  if (key == 8) return true;
-
-  if (key == 9) return true;
-
-  if (key > 47 && key < 58) {
-
-    if (field.value === "") return true;
-
-    var existePto = (/[.]/).test(field.value);
-
-    if (existePto === false) {
-
-      regexp = /.[0-9]{10}$/;
-
-    }
-
-    else {
-
-      regexp = /.[0-9]{2}$/;
-
-    }
-
-    return !(regexp.test(field.value));
-
-  }
-
-
-
-  if (key == 46) {
-
-    if (field.value === "") return false;
-
-    regexp = /^[0-9]+$/;
-
-    return regexp.test(field.value);
-
-  }
-
-  return false;
-
-
+  // if (key == 46) {
+  //   if (field.value === "") return false;
+  //   regexp = /^[0-9]+$/;
+  //   return regexp.test(field.value);
+  // }
+  // return false;
 }
 
 
@@ -1274,12 +1254,38 @@ $(function () {
   $("#formulario").validate({
     ignore: "",
     rules: { 
-      nombre: { required: true, minlength:2, maxlength:50 },
-      valor_venta: { required: true, number: true, min: 0,  } 
+      idalmacen:      { required: true, },
+      idfamilia:      { required: true, },
+      unidad_medida:  { required: true, },
+      idmarca:        { required: true, },
+      nombre:         { required: true, minlength:2, maxlength:100 },
+      descripcion:    {  minlength:2, maxlength:200 },
+      codigo:         { required: true, minlength:5, maxlength:12 },
+      stock:          { required: true, number: true, min: 0,  }, 
+      limitestock:    { required: true, number: true, min: 0,  }, 
+      valor_venta:    { required: true, number: true, min: 0,  }, 
+      costo_compra:   { required: true, number: true, min: 0,  }, 
+      precio2:   { required: true, number: true, min: 0,  }, 
+      precio3:   { required: true, number: true, min: 0,  }, 
+
+      imagen:   { extension: "png|jpg|jpeg|webp|svg",  }, 
     },
     messages: {
-      nombre: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
-      valor_venta: { step: "Decimales mayor a {0}", },
+      idalmacen:      { required: "Campo requerido", },
+      idfamilia:      { required: "Campo requerido", },
+      unidad_medida:  { required: "Campo requerido", },
+      idmarca:        { required: "Campo requerido", },
+      nombre:         { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      descripcion:    { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      codigo:         { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      stock:          { step: "Decimales mayor a {0}", },
+      limitestock:    { step: "Decimales mayor a {0}", },
+      valor_venta:   { step: "Decimales mayor a {0}", },
+      costo_compra:    { step: "Decimales mayor a {0}", },
+      precio2:    { step: "Decimales mayor a {0}", },
+      precio3:    { step: "Decimales mayor a {0}", },
+
+      imagen:    { extension: "Ingrese imagenes validas ( {0} )", },
     },
         
     errorElement: "span",
@@ -1297,7 +1303,8 @@ $(function () {
       $(element).removeClass("is-invalid").addClass("is-valid");   
     },
     submitHandler: function (e) {
-      guardaryeditar(e);      
+      $(".modal-body").animate({ scrollTop: $(document).height() }, 600); // Scrollea hasta abajo de la página
+      guardar_y_editar_articulo(e);      
     },
   });
 });

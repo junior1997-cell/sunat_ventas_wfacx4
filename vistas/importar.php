@@ -43,33 +43,27 @@ if (!isset($_SESSION["nombre"])) {
     for ($i = 2; $i <= $numerofila; $i++) {
       $codigo = $excel->getActiveSheet()->getCell('A' . $i)->getCalculatedValue();
       if ($codigo != "") {
-        $familia_descripcion = $excel->getActiveSheet()->getCell('B' . $i)->getCalculatedValue();
-        $nombre = $excel->getActiveSheet()->getCell('C' . $i)->getCalculatedValue();
-        $marca = $excel->getActiveSheet()->getCell('D' . $i)->getCalculatedValue();
-        $descrip = $excel->getActiveSheet()->getCell('E' . $i)->getCalculatedValue();
-        $costo_compra = $excel->getActiveSheet()->getCell('F' . $i)->getCalculatedValue();
-        $precio_venta = $excel->getActiveSheet()->getCell('G' . $i)->getCalculatedValue();
-        $stock = $excel->getActiveSheet()->getCell('H' . $i)->getCalculatedValue();
-        // $saldo_iniu = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
-        // $valor_iniu = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
-        $tipoitem = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
-        // $codigott = $excel->getActiveSheet()->getCell('L' . $i)->getCalculatedValue();
-        // $desctt = $excel->getActiveSheet()->getCell('M' . $i)->getCalculatedValue();
+        $nombre         = $excel->getActiveSheet()->getCell('B' . $i)->getCalculatedValue();
+        $descrip        = $excel->getActiveSheet()->getCell('C' . $i)->getCalculatedValue();
+        $familia        = $excel->getActiveSheet()->getCell('D' . $i)->getCalculatedValue();
+        $marca          = $excel->getActiveSheet()->getCell('E' . $i)->getCalculatedValue();
+        $costo_compra   = $excel->getActiveSheet()->getCell('F' . $i)->getCalculatedValue();
+        $precio_venta   = $excel->getActiveSheet()->getCell('G' . $i)->getCalculatedValue();
+        $precio_mayor   = $excel->getActiveSheet()->getCell('H' . $i)->getCalculatedValue();
+        $stock          = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
+        $tipoitem       = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
+        $nombre_almacen = $excel->getActiveSheet()->getCell('K' . $i)->getCalculatedValue();
+        // $saldo_iniu  = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
+        // $valor_iniu  = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
+        
+        // $codigott    = $excel->getActiveSheet()->getCell('L' . $i)->getCalculatedValue();
+        // $desctt      = $excel->getActiveSheet()->getCell('M' . $i)->getCalculatedValue();
         // $codigointtt = $excel->getActiveSheet()->getCell('N' . $i)->getCalculatedValue();
-        // $nombrett = $excel->getActiveSheet()->getCell('O' . $i)->getCalculatedValue();
-        $nombre_almacen = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
+        // $nombrett    = $excel->getActiveSheet()->getCell('O' . $i)->getCalculatedValue();
+        
 
         $consultaObj->insertarArticulosMasivo(
-          $codigo,
-          $familia_descripcion,
-          $nombre,
-          $marca,
-          $descrip,
-          $costo_compra,
-          $precio_venta,
-          $stock,
-          $tipoitem,
-          $nombre_almacen
+          $codigo, $nombre, $descrip, $familia,  $marca,  $costo_compra, $precio_venta, $precio_mayor, $stock, $tipoitem, $nombre_almacen
         );
       }
     }

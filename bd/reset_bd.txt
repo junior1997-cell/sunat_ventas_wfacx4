@@ -1,0 +1,48 @@
+-- Eliminamos
+DELETE FROM cuotas;
+DELETE FROM detalle_usuario_sesion;
+DELETE FROM kardex;
+
+DELETE FROM detalle_usuario_numeracion;
+
+DELETE FROM detalle_fac_art;
+DELETE FROM factura;
+
+DELETE FROM detalle_boleta_producto;
+DELETE FROM boleta;
+
+DELETE FROM reginventariosanos;
+DELETE FROM articulo;
+DELETE FROM subarticulo;
+DELETE FROM marca;
+DELETE FROM familia;
+DELETE FROM almacen;
+
+DELETE FROM ventadiaria;
+
+-- Reiniciamos
+ALTER TABLE cuotas AUTO_INCREMENT = 1;
+ALTER TABLE detalle_usuario_sesion AUTO_INCREMENT = 1;
+ALTER TABLE kardex AUTO_INCREMENT = 1;
+
+ALTER TABLE detalle_usuario_numeracion AUTO_INCREMENT = 1;
+
+ALTER TABLE detalle_fac_art AUTO_INCREMENT = 1;
+ALTER TABLE factura AUTO_INCREMENT = 1;
+
+ALTER TABLE detalle_boleta_producto AUTO_INCREMENT = 1;
+ALTER TABLE boleta AUTO_INCREMENT = 1;
+
+ALTER TABLE reginventariosanos AUTO_INCREMENT = 1;
+ALTER TABLE articulo AUTO_INCREMENT = 1;
+ALTER TABLE subarticulo AUTO_INCREMENT = 1;
+ALTER TABLE marca AUTO_INCREMENT = 1;
+ALTER TABLE familia AUTO_INCREMENT = 1;
+ALTER TABLE almacen AUTO_INCREMENT = 1;
+
+ALTER TABLE ventadiaria AUTO_INCREMENT = 1;
+
+-- insertamos por defecto
+INSERT INTO marca ( descripcion ) VALUES ('NINGUNO');
+INSERT INTO familia ( descripcion ) VALUES ('NINGUNO');
+INSERT INTO almacen ( nombre, direccion ) VALUES ('PRINCIPAL', 'PRINCIPAL');

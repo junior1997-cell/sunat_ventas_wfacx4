@@ -16,7 +16,7 @@ if (!isset($_SESSION["nombre"])) {
     <div class="">
       <div class="">
         <div class="content-header">
-          <h1>Productos <button class="btn btn-primary btn-sm" onclick="mostrarform(true);  generarCodigoAutomatico('PR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
+          <h1>Productos <button class="btn btn-primary btn-sm" onclick="limpiar_form_articulo();  generarCodigoAutomatico('PR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
             <label style="position:relative;top: 3px; float: right;" class="toggle-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Activar generador código de barra correlativamente automático">
               <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox" checked>
               <span class="slider"></span>
@@ -48,15 +48,18 @@ if (!isset($_SESSION["nombre"])) {
             <div class="card">
               <div class="card-header" > 
                 <div class="row">
-                  <div class="col-lg-4">                    
+                  <div class="col-lg-4">
+                    <label for="filtro_idalmacen">Almacen</label>         
                     <select class="form-control" name="filtro_idalmacen" id="filtro_idalmacen" style="width: 100%;" onchange="cargando_search(); delay(function(){filtros()}, 100 );">
                     </select>
                   </div>
-                  <div class="col-lg-4">                    
+                  <div class="col-lg-4">     
+                    <label for="filtro_idfamilia">Categoria</label>                 
                     <select class="form-control" name="filtro_idfamilia" id="filtro_idfamilia" style="width: 100%;" onchange="cargando_search(); delay(function(){filtros()}, 100 );">
                     </select>
                   </div>
-                  <div class="col-lg-4">                    
+                  <div class="col-lg-4">   
+                    <label for="filtro_idmarca">Marca</label>                   
                     <select class="form-control" name="filtro_idmarca" id="filtro_idmarca" style="width: 100%;" onchange="cargando_search(); delay(function(){filtros()}, 100 );">
                     </select>
                   </div>
@@ -127,16 +130,23 @@ if (!isset($_SESSION["nombre"])) {
                   <button class="nav-link" id="otros-tab" data-bs-toggle="tab" data-bs-target="#otros-tab-pane" type="button" role="tab" aria-selected="false" tabindex="-1"><i class="ri-truck-line me-1 align-middle"></i> Otros</button> 
                 </li>
               </ul>
+
               <div class="tab-content" id="myTabContent">
+
                 <div class="tab-pane fade show active text-muted" id="producto-tab-pane" role="tabpanel" aria-labelledby="producto-tab" tabindex="0">
                   <div class="row">
+
+                    <!-- input ocultos -->
+                    <input type="hidden" name="idarticulo" id="idarticulo">                    
+                    <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
+                    <input type="hidden" name="tipoitem" id="tipoitem" value="productos">
+                    <input type="hidden" name="umedidacompra" id="umedidacompra" >
+
                     <!-- almacen -->
                     <div class="mb-3 col-lg-3">
                       <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Almacen:</label>
-                        <input type="hidden" name="idarticulo" id="idarticulo">
-                        <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
-                        <select class="form-control" name="idalmacen" id="idalmacen" required onchange="focusfamil()">
+                        <label for="recipient-name" class="col-form-label">Almacen:</label>                        
+                        <select class="form-control" name="idalmacen" id="idalmacen"  onchange="focusfamil()">
                         </select>
                       </div>                     
                     </div>
@@ -144,96 +154,17 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="mb-3 col-lg-3">
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Categoria:</label>
-                        <select class="form-control" name="idfamilia" id="idfamilia" required>
+                        <select class="form-control" name="idfamilia" id="idfamilia" >
                         </select>
                       </div>                      
                     </div>
-                    <!-- Tipo -->
-                    <div class="mb-3 col-lg-3">
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Tipo:</label>
-                        <select class="form-control" name="tipoitem" id="tipoitem" onchange="focuscodprov()">
-                          <option value="productos" selected > PRODUCTO </option> <!-- <option value="servicios">SERVICIO</option> -->
-                        </select>
-                      </div>                      
-                    </div>
-                    <!-- unidad medida -->
-                    <div class="mb-3 col-lg-3">
+                    <!-- unidad medida -->                    
+                    <div class="mb-3 col-lg-3" >
                       <div class="form-group">
                         <label for="recipient-name" class="col-form-label">U. medida:</label>
-                        <select class="form-control" name="umedidacompra" id="umedidacompra" required onchange="cinicial()">
+                        <select class="form-control" name="unidad_medida" id="unidad_medida" >
                         </select>
                       </div>                      
-                    </div>
-                    <div class="mb-3 col-lg-3" hidden>
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">U. medida venta:</label>
-                        <select class="form-control" name="unidad_medida" id="unidad_medida" onchange="costoco()">
-                        </select>
-                      </div>                      
-                    </div>
-                    <!-- nombre -->
-                    <div class="mb-3 col-lg-4">
-                      <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Nombre / Descripción:</label>
-                        <input type="text" class="form-control" name="nombre" id="nombre" maxlength="500" placeholder="Nombre" required="true" onkeyup="mayus(this);" onkeypress=" return limitestockf(event, this)">
-                      </div>
-                    </div>
-                    <!-- detalle -->
-                    <div class="mb-3 col-lg-4">
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Detalles del producto:</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion" rows="1" cols="70" onkeyup="mayus(this)"></textarea>
-                      </div>                      
-                    </div>
-                    <!-- stock -->
-                    <div class="mb-3 col-lg-2">
-                      <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Cantidad de Stock:</label>
-                        <input type="text" class="form-control" name="stock" id="stock" maxlength="500" placeholder="Stock" required="true" onkeypress="return totalc(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El stock sera igual al saldo final y saldo inicial (stock = saldo final = saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                      </div>
-                    </div>
-                    <!-- limite de stok -->
-                    <div class="mb-3 col-lg-2">
-                      <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Limite stock:</label>
-                        <input type="number" class="form-control" name="limitestock" id="limitestock" max="999.99" min="0" step="0.01" placeholder="Limite de stock" /*onkeypress="return limitest(event, this)"*/ >
-                      </div>
-                    </div>
-                    <!-- codigo -->
-                    <div class="mb-3 col-lg-2">
-                      <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Código Interno:</label>
-                        <input type="text" class="form-control codigo" name="codigo" id="codigo" placeholder="Código Barras" required="true" onkeyup="mayus(this);" onchange="validarcodigo()">
-                      </div>
-                    </div>
-                    <!-- precio venta -->
-                    <div class="mb-3 col-lg-2">
-                      <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Precio venta (S/.):</label>
-                        <input type="text" class="form-control" name="valor_venta" id="valor_venta" onkeypress="return codigoi(event, this)" step="0.01" data-tooltip="Información de este campo" data-tooltip-more="El precio que se muestra en los ocmprobantes, incluye IGV." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                  
-                      </div>
-                    </div>
-                    <!-- precio mayor -->
-                    <div class="mb-3 col-lg-2">
-                      <div class="form-group">
-                        <label for="precio2" class="col-form-label">Precio por mayor:</label>
-                        <input type="text" class="form-control" name="precio2" id="precio2" placeholder="Précio por mayor">
-                      </div>                      
-                    </div>
-                    <!-- precio distribuidor -->
-                    <div class="mb-3 col-lg-2">
-                      <div class="form-group">
-                        <label for="precio3" class="col-form-label">Precio distribuidor:</label>
-                        <input type="text" class="form-control" name="precio3" id="precio3" placeholder="Précio distribuidor">
-                      </div>                      
-                    </div>
-                    <!-- precio compra -->
-                    <div class="mb-3 col-lg-2">
-                      <div class="form-group">                      
-                        <label for="costo_compra" class="col-form-label">Precio compra:</label>
-                        <input type="text" class="form-control" name="costo_compra" id="costo_compra" maxlength="500" onkeypress="return focussaldoi(event, this)" required>
-                      </div>
                     </div>
                     <!-- marca -->
                     <div class="mb-3 col-lg-3">
@@ -243,14 +174,84 @@ if (!isset($_SESSION["nombre"])) {
                         </select>
                       </div>                      
                     </div>
-                    <!-- imagen -->
+                    <!-- nombre -->
+                    <div class="mb-3 col-lg-6">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Nombre / Descripción:</label>
+                        <textarea class="form-control" id="nombre" name="nombre" placeholder="Nombre" rows="2"  onkeyup="mayus(this)"></textarea>
+                      </div>
+                    </div>
+                    <!-- detalle -->
+                    <div class="mb-3 col-lg-6">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Detalles del producto:</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="2"  onkeyup="mayus(this)"></textarea>
+                      </div>                      
+                    </div>
+                    
+                    <!-- codigo -->
                     <div class="mb-3 col-lg-2">
-                      <label for="imagenactual" class="col-form-label">Imagen del producto:</label>
-                      <input type="file" class="form-control" name="imagen" id="imagen" value="" accept="image/*">
-                      <input type="hidden" name="imagenactual" id="imagenactual">
-                      <img src="../files/articulos/simagen.png" width="150px" height="120px" id="imagenmuestra">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Código Interno:</label>
+                        <input type="text" class="form-control codigo" name="codigo" id="codigo" placeholder="Código Barras" onkeyup="mayus(this);" onchange="validarcodigo()">
+                      </div>
+                    </div>
+                    <!-- stock -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Cantidad de Stock:</label>
+                        <input type="number" class="form-control" name="stock" id="stock" min="0" step="0.01" placeholder="Stock" onkeypress="return totalc(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El stock sera igual al saldo final y saldo inicial (stock = saldo final = saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                      </div>
+                    </div>
+                    <!-- limite de stok -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Limite stock:</label>
+                        <input type="number" class="form-control" name="limitestock" id="limitestock" max="999.99" min="0" step="0.01" placeholder="Limite de stock" >
+                      </div>
+                    </div>
+                    
+                    <!-- precio venta -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Precio venta (S/.):</label>
+                        <input type="number" class="form-control" name="valor_venta" id="valor_venta" min="0" step="0.01" onkeypress="return codigoi(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El precio que se muestra en los ocmprobantes, incluye IGV." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                  
+                      </div>
+                    </div>
+                    <!-- precio compra -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">                      
+                        <label for="costo_compra" class="col-form-label">Precio compra (S/.):</label>
+                        <input type="number" class="form-control" name="costo_compra" id="costo_compra" min="0" step="0.01" onkeypress="return focussaldoi(event, this)" >
+                      </div>
+                    </div>
+                    <!-- precio mayor -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">
+                        <label for="precio2" class="col-form-label">Precio por mayor (S/.):</label>
+                        <input type="text" class="form-control" name="precio2" id="precio2" min="0" step="0.01"  placeholder="Précio por mayor">
+                      </div>                      
+                    </div>
+                    <!-- precio distribuidor -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">
+                        <label for="precio3" class="col-form-label">Precio distribuidor (S/.):</label>
+                        <input type="text" class="form-control" name="precio3" id="precio3" min="0" step="0.01"  placeholder="Précio distribuidor">
+                      </div>                      
+                    </div>                   
+                    
+                    <!-- imagen -->
+                    <div class="mb-3 col-lg-4">
+                      <div class="form-group">                      
+                        <label for="imagenactual" class="col-form-label">Imagen del producto:</label>
+                        <input type="file" class="form-control" name="imagen" id="imagen" value="" accept="image/*">
+                        <input type="hidden" name="imagenactual" id="imagenactual">
+                        
+                      </div>
                       <hr>
-                      <div class="" id="preview"> </div>
+                      <div class="" id="preview">
+                        <img src="../files/articulos/simagen.png" width="150px" height="auto" id="imagenmuestra">
+                      </div>
                     </div>
                   </div>
                   <!-- /.row -->
@@ -327,7 +328,7 @@ if (!isset($_SESSION["nombre"])) {
                     </div>
                     <div class="mb-3 col-lg-4">
                       <label for="recipient-name" class="col-form-label">Código proveedor:</label>
-                      <input type="text" class="form-control" name="codigo_proveedor" id="codigo_proveedor" placeholder="Código de proveedor" required="" value="-" onkeyup="mayus(this)">
+                      <input type="text" class="form-control" name="codigo_proveedor" id="codigo_proveedor" placeholder="Código de proveedor" value="-" onkeyup="mayus(this)">
                     </div>
                     <div class="mb-3 col-lg-2">
                       <label for="recipient-name" class="col-form-label">Serie fac. compra:</label>
@@ -417,59 +418,31 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
                 <!-- /.tab-pane -->
               </div>
+
               <div class="row"> 
-                
-                
-                <!-- <div class="mb-3 col-lg-4">
-                  <input type="checkbox" id="agregarCompra" name="" value="">
-                  <label for="" style="position: relative; bottom: 5px;">Adjuntar detalles compra</label>
-                </div>
-                <div class="mb-3 col-lg-4">
-                  <input type="checkbox" id="agregarOtrosCampos" name="" value="">
-                  <label for="" style="position: relative; bottom: 5px;">Más opciones de item</label>
-                </div>
 
-                <div class="row" id="mostrarCompra" style="margin: 0 auto; display: none;">
-                  <div style="margin: 0 auto;" class="row">                    
+                <div class="p-l-25px col-lg-12" id="barra_progress_articulo_div" style="display: none;">
+                  <div  class="progress progress-lg custom-progress-3" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> 
+                    <div id="barra_progress_articulo" class="progress-bar" style="width: 0%"> <div class="progress-bar-value">0%</div> </div> 
                   </div>
                 </div>
-                <div class="row" id="mostraOtroscampos" style="margin: 0 auto; display: none;">
-                  <div style="margin: 0 auto;" class="row">                    
-                  </div>
-                </div> -->
 
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Factor conversión:</label>
-                  <input type="text" class="form-control" name="factorc" id="factorc" onkeypress=" return umventa(event, this)">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Saldo inicial (S/.):</label>
-                  <input type="text" class="form-control" name="saldo_iniu" id="saldo_iniu" maxlength="500" placeholder="Saldo inicial" onBlur="calcula_valor_ini()" required="false" onkeypress="return valori(event, this)" data-tooltip="Información de este campo" data-tooltip-more="Si es la primera vez que llena este campo poner el saldo final de su inventario físico. " data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Valor inicial (S/.):</label>
-                  <input value="0" type="text" class="form-control" name="valor_iniu" id="valor_iniu" maxlength="500" placeholder="Valor inicial" required="false" onkeypress="return saldof(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor inicial es el costo compra x saldo inicial." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Saldo final (mts):</label>
-                  <input type="text" class="form-control" name="saldo_finu" id="saldo_finu" maxlength="500" placeholder="Saldo final" required="false" onkeypress="return valorf(event, this)" onBlur="sfinalstock()" data-tooltip="Información de este campo" data-tooltip-more="La primera vez en el registro será igual a saldo inicial (saldofinal=saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Valor final (S/.):</label>
-                  <input type="text" class="form-control" name="valor_finu" id="valor_finu" maxlength="500" placeholder="Valor Final" required="false" onkeypress="return st(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor final es igual al valor incial (valor final=valor inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Conversión um venta:</label>
-                  <input type="text" class="form-control" name="fconversion" id="fconversion" data-tooltip="Cantidad según factor de conversión por stock actual." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green" readonly>
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Total compras (mts):</label>
-                  <input type="text" class="form-control" name="comprast" id="comprast" onkeypress="return totalv(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Total ventas (mts):</label>
-                  <input type="text" class="form-control" name="ventast" id="ventast" onkeypress="return porta(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
+                <!-- Factor conversión: -->
+                <input type="hidden" class="form-control" name="factorc" id="factorc" onkeypress=" return umventa(event, this)">               
+                <!-- Saldo inicial (S/.): -->
+                <input type="hidden" class="form-control" name="saldo_iniu" id="saldo_iniu" maxlength="500" placeholder="Saldo inicial" onBlur="calcula_valor_ini()"  onkeypress="return valori(event, this)" data-tooltip="Información de este campo" data-tooltip-more="Si es la primera vez que llena este campo poner el saldo final de su inventario físico. " data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                
+                <!-- Valor inicial (S/.): -->
+                <input type="hidden" class="form-control" name="valor_iniu" id="valor_iniu" maxlength="500" placeholder="Valor inicial" value="0" onkeypress="return saldof(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor inicial es el costo compra x saldo inicial." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                
+                <!-- Saldo final (mts): -->
+                <input type="hidden" class="form-control" name="saldo_finu" id="saldo_finu" maxlength="500" placeholder="Saldo final"  onkeypress="return valorf(event, this)" onBlur="sfinalstock()" data-tooltip="Información de este campo" data-tooltip-more="La primera vez en el registro será igual a saldo inicial (saldofinal=saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                
+                <!-- Valor final (S/.): -->
+                <input type="hidden" class="form-control" name="valor_finu" id="valor_finu" maxlength="500" placeholder="Valor Final"  onkeypress="return st(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor final es igual al valor incial (valor final=valor inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                
+                <!-- Conversión um venta: -->
+                <input type="hidden" class="form-control" name="fconversion" id="fconversion" data-tooltip="Cantidad según factor de conversión por stock actual." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green" readonly>                
+                <!-- Total compras (mts): -->
+                <input type="hidden" class="form-control" name="comprast" id="comprast" onkeypress="return totalv(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                
+                <!-- Total ventas (mts): -->
+                <input type="hidden" class="form-control" name="ventast" id="ventast" onkeypress="return porta(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                
                 
               </div>
               <button type="submit" style="display: none;" id="submit-form-articulo">Submit</button>
@@ -485,13 +458,11 @@ if (!isset($_SESSION["nombre"])) {
             <div id="print"> <svg id="barcode"></svg> </div>
           </div>
           <div class="modal-footer">
-            <button onclick="cancelarform()" type="button" class="btn btn-danger" data-bs-dismiss="modal">
-              <i class="bx bx-x d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Cancelar</span>
+            <button onclick="limpiar_form_articulo()" type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i> <span class="d-none d-sm-block">Cancelar</span>
             </button>
             <button id="guardar_registro_articulo" type="submit" class="btn btn-primary ml-1">
-              <i class="bx bx-check d-block d-sm-none"></i>
-              <span class="d-none d-sm-block">Agregar</span>
+              <i class="bx bx-check d-block d-sm-none"></i>  <span class="d-none d-sm-block">Agregar</span>
             </button>
           </div>
           
@@ -520,13 +491,13 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="fs-12 op-8 mb-1">Tiene que tener encuenta los siguientes columnas y el orden:</div>    
                   <div class="row fs-12">
                     <div class="col-lg-4 px-0">                      
-                      <span>1. Codigo</span><br> <span>2. Categoria</span><br> <span>3. Nombre producto</span><br> <span>4. Descripcion</span>                           
+                      <span>1. Codigo</span><br> <span>2. Nombre producto</span><br> <span>3. Descripcion</span><br> <span>4. Categoria</span>                            
                     </div>
                     <div class="col-lg-4 px-0"> 
-                      <span>5. Precio compra</span><br> <span>6. Marca</span><br> <span>7. Precio venta</span><br> <span>8. Stock</span><br>
+                      <span>5. Marca</span><br> <span>6. Precio compra</span><br>  <span>7. Precio venta</span><br> <span>8. Precio por mayor</span><br> 
                     </div>
                     <div class="col-lg-4 px-0"> 
-                      <span>9. Tipo (productos)</span><br> <span>10. Almacen</span> 
+                      <span>9. Stock</span><br> <span>10. Tipo (productos)</span><br> <span>11. Almacen</span> 
                     </div>
                   </div>  
                   <div class="d-inline-flex mt-2"> 
@@ -544,7 +515,7 @@ if (!isset($_SESSION["nombre"])) {
                 <div id="files-list-container"></div>
               </div>
               <div class="modal-footer">
-                <button onclick="cancelarform()" type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                <button  type="button" class="btn btn-danger" data-bs-dismiss="modal">
                   <i class="bx bx-x d-block d-sm-none"></i>
                   <span class="d-none d-sm-block">Cancelar</span>
                 </button>
