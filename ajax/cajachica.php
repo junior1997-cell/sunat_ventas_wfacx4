@@ -122,7 +122,7 @@ if (isset($_GET['action'])) {
   if ($action == 'SaldoInicial') {
 	$rspta = $cajachica->verSaldoini();
 	$data = array();
-  
+
 	while ($reg=$rspta->fetch_object()){
         $data[]=array(
 			"idsaldoini"=>$reg->idsaldoini,
@@ -149,6 +149,33 @@ if (isset($_GET['action'])) {
             'total_gasto' => $reg->total_gasto,
 			'saldo_inicial' => $reg->saldo_inicial,
             'total_caja' => $reg->total_caja
+        );
+    }
+	$results = array(
+		"aaData"=>$data
+	);
+	
+	header('Content-type: application/json');
+	echo json_encode($results);
+  }
+
+  if ($action == 'comprobantes') {
+
+	$rspta = $cajachica->comprobantes();
+	$data = array();
+  
+	while ($reg=$rspta->fetch_object()){
+        $data[]=array(
+
+			'id_doc'           => $reg->id_doc,
+            'fecha_emision_01' => $reg->fecha_emision_01,
+            'nun_doc'          => $reg->nun_doc,
+			'idcliente'        => $reg->idcliente,
+            'rucCliente'       => $reg->rucCliente,
+            'RazonSocial'      => $reg->RazonSocial,
+            'importe_total'    => $reg->importe_total,
+            'descripcion_ley'  => $reg->descripcion_ley,
+            'tipoDoc'          => $reg->tipoDoc
         );
     }
 	$results = array(

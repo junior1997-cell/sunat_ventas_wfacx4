@@ -17,7 +17,8 @@ if (!isset($_SESSION["nombre"])) {
 
 
     <div class="content-header">
-      <h1>Caja chica del sistema <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#agregarsaldoInicial" onclick="verificarSaldoInicial()">Aperturar caja</button>
+      <h1>Caja chica del sistema 
+        <button class="btn btn-success btn-sm" id="abrCajaBtn" data-bs-toggle="modal" data-bs-target="#agregarsaldoInicial" onclick="verificarSaldoInicial()">Aperturar caja</button>
         <button type="button" class="btn btn-primary" id="cerrarCajaBtn" onclick="cerrarCaja();">Cerrar caja </button>
 
       </h1>
@@ -118,10 +119,12 @@ if (!isset($_SESSION["nombre"])) {
                     <thead>
                       <tr>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Glosa</th>
-                        <th scope="col">Naturaleza</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Acreedor</th>
+                        <th scope="col">N° Comprobante</th>
+                        <th scope="col">R.U.C</th>
+                        <th scope="col">Razon Social</th>
+                        <th scope="col">Importe</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Tipo Comprobante</th>
                       </tr>
                     </thead>
                     <tbody>

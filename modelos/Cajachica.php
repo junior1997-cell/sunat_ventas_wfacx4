@@ -20,19 +20,25 @@ class Cajachica
   public function TotalVentas()
   {
 
+    $sql_ini = "SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
+
+    $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
+
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['ultima_fecha'];
+
     $sql = "SELECT SUM(total_venta) as total_venta 
         FROM (
           SELECT SUM(importe_total_venta_27) as total_venta
           FROM factura 
-          WHERE DATE(fecha_emision_01) = CURRENT_DATE AND estado IN ('5','1','6')
+          WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6')
           UNION ALL
           SELECT SUM(importe_total_23) as total_venta
           FROM boleta 
-          WHERE DATE(fecha_emision_01) = CURRENT_DATE AND estado IN ('5','1','6')
+          WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6')
           UNION ALL
           SELECT SUM(monto_15_2) as total_venta
           FROM notapedido 
-          WHERE DATE(fecha_emision_01) = CURRENT_DATE AND estado IN ('5','1','6')
+          WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6')
         ) as tbl1";
     return ejecutarConsulta($sql);
   }
@@ -41,33 +47,45 @@ class Cajachica
   public function TotalCaja()
   {
 
+    $sql_ini = "SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
+
+    $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
+
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['ultima_fecha'];
+
+
     $sql = "SELECT SUM(total_caja) as total_caja 
         FROM (
           SELECT SUM(importe_total_venta_27) as total_caja
           FROM factura 
-          WHERE DATE(fecha_emision_01) = CURRENT_DATE AND estado IN ('5','1','6')
+          WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6')
           UNION ALL
           SELECT SUM(importe_total_23) as total_caja
           FROM boleta 
-          WHERE DATE(fecha_emision_01) = CURRENT_DATE AND estado IN ('5','1','6')
+          WHERE fecha_emision_01>= '$ultima_fecha' AND estado IN ('5','1','6')
           UNION ALL
           SELECT SUM(monto_15_2) as total_caja
           FROM notapedido 
-          WHERE DATE(fecha_emision_01) = CURRENT_DATE AND estado IN ('5','1','6')
+          WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6')
           UNION ALL
           SELECT SUM(ingreso - gasto) as total_caja
           FROM insumos
-          WHERE DATE(fecharegistro) = CURRENT_DATE
+          WHERE fecharegistro >= '$ultima_fecha'
         ) as tbl1";
     return ejecutarConsulta($sql);
   }
-
 
   //hacer consulta a columa ingreso
 
   public function verIngresos()
   {
-    $sql = "SELECT SUM(ingreso) as total_ingreso FROM insumos WHERE DATE(fecharegistro) = CURRENT_DATE";
+    $sql_ini = "SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
+
+    $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
+
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['ultima_fecha'];
+
+    $sql = "SELECT SUM(ingreso) as total_ingreso FROM insumos WHERE fecharegistro >= '$ultima_fecha'";
     return ejecutarConsulta($sql);
   }
 
@@ -75,7 +93,13 @@ class Cajachica
 
   public function verEgresos()
   {
-    $sql = "SELECT SUM(gasto) as total_gasto FROM insumos WHERE DATE(fecharegistro) = CURRENT_DATE";
+    $sql_ini = "SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
+
+    $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
+
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['ultima_fecha'];
+
+    $sql = "SELECT SUM(gasto) as total_gasto FROM insumos WHERE fecharegistro >= '$ultima_fecha'";
     return ejecutarConsulta($sql);
   }
 
@@ -83,11 +107,8 @@ class Cajachica
   // INSERTAR saldo inicial por día actual
   public function insertarSaldoInicial($saldo_inicial)
   {
-    $f_h_apertura = date("Y-m-d H:i:s"); 
-    if ($this->existeSaldoInicialDiaActual()) {
-      // Ya existe un saldo inicial para el día actual, no se puede insertar otro
-      return false;
-    }
+    $f_h_apertura = date("Y-m-d H:i:s");
+
     $sql = "INSERT INTO saldocaja (idsaldoini, saldo_inicial, fecha_creacion) 
                 VALUES (null, '$saldo_inicial', '$f_h_apertura')";
     return ejecutarConsulta($sql);
@@ -103,29 +124,26 @@ class Cajachica
     return $resultado['total'] > 0;
   }
 
-
-
   //ver slaod inciial
-
   public function verSaldoini()
   {
-    $sql = "SELECT idsaldoini, saldo_inicial FROM saldocaja WHERE fecha_creacion = CURRENT_DATE()";
+
+    $sql = "SELECT idsaldoini, saldo_inicial FROM saldocaja ORDER BY fecha_creacion DESC LIMIT 1;";
     return ejecutarConsulta($sql);
   }
 
-
-  public function cerrarCaja($tipo_doc,$num_doc)
+  public function cerrarCaja($tipo_doc, $num_doc)
   {
-    $sql_ini="SELECT fecha_cierre FROM cierrecaja ORDER BY `fecha_cierre` DESC LIMIT 1;";
+    $sql_ini = "SELECT fecha_cierre FROM cierrecaja ORDER BY `fecha_cierre` DESC LIMIT 1;";
     $ultmacierrcaja = ejecutarConsultaSimpleFila($sql_ini);
-    $f_c = empty($ultmacierrcaja['fecha_cierre']) ? date('Y-m-d 00:00:00'):$ultmacierrcaja['fecha_cierre'];
+    $f_c = empty($ultmacierrcaja['fecha_cierre']) ? date('Y-m-d 00:00:00') : $ultmacierrcaja['fecha_cierre'];
 
     $sql_0 = "INSERT INTO insumos (tipodato, idcategoriai, fecharegistro, descripcion, ingreso, documnIDE, numDOCIDE, acredor)
     SELECT
      'ingreso', '1' ,CURDATE(), 'INGRESO POR FACTURAS BOLETAS Y NOTAS DE PEDIDO',
-     (SELECT IFNULL(SUM(importe_total_venta_27), 0) FROM factura WHERE DATE(fecha_emision_01) >= '$f_c' AND estado IN ('5','1','6'))
-    + (SELECT IFNULL(SUM(importe_total_23), 0) FROM boleta WHERE DATE(fecha_emision_01) >= '$f_c' AND estado IN ('5','1','6'))
-    + (SELECT IFNULL(SUM(monto_15_2), 0) FROM notapedido WHERE DATE(fecha_emision_01) >= '$f_c' AND estado IN ('5','1','6') 
+     (SELECT IFNULL(SUM(importe_total_venta_27), 0) FROM factura WHERE fecha_emision_01 >= '$f_c' AND estado IN ('5','1','6'))
+    + (SELECT IFNULL(SUM(importe_total_23), 0) FROM boleta WHERE fecha_emision_01 >= '$f_c' AND estado IN ('5','1','6'))
+    + (SELECT IFNULL(SUM(monto_15_2), 0) FROM notapedido WHERE fecha_emision_01 >= '$f_c' AND estado IN ('5','1','6') 
     ) AS monto,'$tipo_doc','$num_doc',''";
 
     ejecutarConsulta($sql_0);
@@ -144,15 +162,15 @@ class Cajachica
 
   public function listarCierre()
   {
-    $sql_ini="SELECT 
+    $sql_ini = "SELECT 
     MAX(fecha_cierre) AS ultima_fecha, 
     (SELECT MAX(fecha_cierre) FROM cierrecaja WHERE fecha_cierre < (SELECT MAX(fecha_cierre) FROM cierrecaja)) AS penultima_fecha 
     FROM cierrecaja";
 
     $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
 
-    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00'):$sql_cierrcaja['ultima_fecha'];
-    $penultima_fecha = empty($sql_cierrcaja['penultima_fecha']) ? date('Y-m-d 00:00:00'):$sql_cierrcaja['penultima_fecha'];
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['ultima_fecha'];
+    $penultima_fecha = empty($sql_cierrcaja['penultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['penultima_fecha'];
 
     $sql = "SELECT cierrecaja.total_caja, SUM(insumos.ingreso) AS total_ingreso, SUM(insumos.gasto) AS total_gasto, saldocaja.saldo_inicial 
     FROM cierrecaja ,insumos, saldocaja 
@@ -164,19 +182,46 @@ class Cajachica
   }
 
   // LISTADO DE LAS TABLAS RESUMEN 
-  public function tblInsumos($tipodato){
+  public function tblInsumos($tipodato)
+  {
 
-    $sql_ini="SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
+    $sql_ini = "SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
 
     $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
 
-    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00'):$sql_cierrcaja['ultima_fecha'];
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['ultima_fecha'];
 
-    $sql= "SELECT  i.idinsumo, i.fecharegistro, i.descripcion, i.valor, i.igv, i.gasto, i.ingreso, i.documnIDE, i.numDOCIDE, i.acredor, ci.descripcionc 
+    $sql = "SELECT  i.idinsumo, i.fecharegistro, i.descripcion, i.valor, i.igv, i.gasto, i.ingreso, i.documnIDE, i.numDOCIDE, i.acredor, ci.descripcionc 
     FROM insumos as i
     inner join categoriainsumos as ci on i.idcategoriai = ci.idcategoriai 
     WHERE tipodato='$tipodato' and fecharegistro>='$ultima_fecha';";
     return ejecutarConsulta($sql);
-    
+  }
+  
+  public function comprobantes()
+  {
+    $sql_ini = "SELECT MAX(fecha_creacion) AS ultima_fecha FROM saldocaja";
+
+    $sql_cierrcaja = ejecutarConsultaSimpleFila($sql_ini);
+
+    $ultima_fecha = empty($sql_cierrcaja['ultima_fecha']) ? date('Y-m-d 00:00:00') : $sql_cierrcaja['ultima_fecha'];
+
+
+    $sql = " SELECT id_doc,fecha_emision_01,nun_doc,idcliente,rucCliente,RazonSocial,importe_total,descripcion_ley, tipoDoc
+
+    FROM (    
+      SELECT idfactura as id_doc,fecha_emision_01,numeracion_08 as nun_doc,idcliente,rucCliente,RazonSocial,importe_total_venta_27 as importe_total,descripcion_leyenda_31_2 as descripcion_ley, 'FACTURA' as tipoDoc
+      FROM factura 
+      WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6')
+      UNION ALL
+      SELECT idboleta as id_doc, fecha_emision_01, numeracion_07 as nun_doc, idcliente, rucCliente, RazonSocial, importe_total_23 as importe_total, descripcion_leyenda_26_2 as descripcion_ley, 'BOLETA' as tipoDoc
+      FROM BOLETA
+      WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6')
+      UNION ALL
+      SELECT idboleta as id_doc, fecha_emision_01, numeracion_07 as nun_doc, idcliente, rucCliente, RazonSocial, importe_total_23 as importe_total, descripcion_leyenda_26_2 as descripcion_ley, 'NOTA PEDIDO' as tipoDoc
+      FROM notapedido
+      WHERE fecha_emision_01 >= '$ultima_fecha' AND estado IN ('5','1','6') 
+    ) as tbl1;";
+    return ejecutarConsulta($sql);
   }
 }

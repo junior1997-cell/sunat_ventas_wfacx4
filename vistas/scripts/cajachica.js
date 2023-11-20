@@ -26,7 +26,7 @@ function init() {
   mostrarTotaldeIngresos();
   mostrarTotaldeEgresos();
   mostrarSaldoINI();
-
+  listartblVantas();
 
   $("#formulario").on("submit", function (e) {
     guardaryeditar(e);
@@ -178,7 +178,7 @@ function mostrarSaldoINI() {
 }
 
 
-
+//TBL INGRESOS Y EGRESOS
 function listar(tipo) {
   console.log(tipo);
   tabla = $(`#tblistado${tipo}`).dataTable({
@@ -206,6 +206,37 @@ function listar(tipo) {
     ]
   }).DataTable();
 }
+
+function listartblVantas() {
+  tblistadoVentas = $(`#tblistadoVentas`).dataTable({
+    "aProcessing": true,
+    "aServerSide": true,
+    "dom": 'Bfrtip',
+    "buttons": [],
+    "ajax": {
+      "url": `../ajax/cajachica.php?action=comprobantes&op=`,
+      "type": "get",
+      "dataType": "json",
+      "error": function (e) {
+        console.log(e);
+      }
+    },
+    "bDestroy": true,
+    "iDisplayLength": 15,
+    "order": [[0, ""]],
+    "columns": [
+      { "data": "fecha_emision_01" },
+      { "data": "nun_doc" },
+      { "data": "rucCliente" },
+      { "data": "RazonSocial" },
+      { "data": "importe_total" },
+      { "data": "descripcion_ley" },
+      { "data": "tipoDoc" },
+
+    ]
+  }).DataTable();
+}
+
 
 
 
@@ -242,6 +273,8 @@ function guardaryeditar(e) {
 
         $('#agregarsaldoInicial').modal('hide'); // Ocultar el modal
 
+        $('#cerrarCajaBtn').show();
+        $('#abrCajaBtn').hide();
         // Obtener valor del saldo inicial guardado
         var saldoInicial = $('#saldo_inicial').val();
 
@@ -260,7 +293,41 @@ function guardaryeditar(e) {
 
 
 function cerrarCaja() {
-  $.ajax({
+
+  Swal.fire({
+    title: "¿Está Seguro de  Cerrar Caja?",
+    text: "",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#28a745",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, Cerrar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("../ajax/cajachica.php?op=cerrarcaja", {}, function (e) {
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Caja cerrada',
+          text: 'Se ha cerrado la caja con éxito',
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+        resetearTotales(); // Restablecer los valores de los totales
+
+        // Volver a iniciar el proceso de apertura de caja
+        $('#agregarsaldoInicial').modal('show');
+        $('#cerrarCajaBtn').hide();
+
+      });      
+    }
+  }); 
+
+
+
+
+  /*$.ajax({
     url: "../ajax/cajachica.php?op=cerrarcaja",
     type: "POST",
     success: function (response) {
@@ -297,7 +364,7 @@ function cerrarCaja() {
         timer: 1500
       });
     }
-  });
+  });*/
 }
 
 
