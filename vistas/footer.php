@@ -52,6 +52,7 @@ $datose = $datos->fetch_object();
 <!-- jquery-validation -->
 <script src="../assets/libs/jquery-validation/jquery.validate.min.js"></script>
 <script src="../assets/libs/jquery-validation/additional-methods.min.js"></script>
+<script src="../assets/libs/jquery-validation/localization/messages_es_PE.js"></script>
 
 
 <!-- DATATABLES -->

@@ -113,156 +113,214 @@ if (!isset($_SESSION["nombre"])) {
           </div>
           <div class="modal-body">
             <form name="formulario" id="formulario" method="POST">
-              <div class="row">
-                <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">Almacen:</label>
-                  <input type="hidden" name="idarticulo" id="idarticulo">
-                  <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
-                  <select class="form-control" name="idalmacen" id="idalmacen" required onchange="focusfamil()">
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">Categoria:</label>
-                  <select class="form-control" name="idfamilia" id="idfamilia" required>
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">Tipo:</label>
-                  <select class="form-control" name="tipoitem" id="tipoitem" onchange="focuscodprov()">
-                    <option value="productos" <%=selectedValue==="productos" ? "selected" : "" %> PRODUCTO </option>
-                      <!-- <option value="servicios">SERVICIO</option> -->
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">U. medida:</label>
-                  <select class="form-control" name="umedidacompra" id="umedidacompra" required onchange="cinicial()">
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-3" hidden>
-                  <label for="recipient-name" class="col-form-label">U. medida venta:</label>
-                  <select class="form-control" name="unidad_medida" id="unidad_medida" onchange="costoco()">
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-4">
-                  <label for="recipient-name" class="col-form-label">Nombre / Descripción:</label>
-                  <input type="text" class="form-control" name="nombre" id="nombre" maxlength="500" placeholder="Nombre" required="true" onkeyup="mayus(this);" onkeypress=" return limitestockf(event, this)">
-                </div>
-                <div class="mb-3 col-lg-4">
-                  <label for="recipient-name" class="col-form-label">Detalles del producto:</label>
-                  <textarea class="form-control" id="descripcion" name="descripcion" rows="1" cols="70" onkeyup="mayus(this)"></textarea>
-                </div>
-                <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Cantidad de Stock:</label>
-                  <input type="text" class="form-control" name="stock" id="stock" maxlength="500" placeholder="Stock" required="true" onkeypress="return totalc(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El stock sera igual al saldo final y saldo inicial (stock = saldo final = saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Limite stock:</label>
-                  <input type="number" class="form-control" name="limitestock" id="limitestock" max="999.99" min="0" step="0.01" placeholder="Limite de stock" /*onkeypress="return limitest(event, this)"*/ >
-                </div>
-                <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Código Interno:</label>
-                  <input type="text" class="form-control codigo" name="codigo" id="codigo" placeholder="Código Barras" required="true" onkeyup="mayus(this);" onchange="validarcodigo()">
-                </div>
-                <!--                   
-                  onblur="generarbarcode()" -->
-                <div class="mb-3 col-lg-2">
-                  <label for="recipient-name" class="col-form-label">Precio venta (S/.):</label>
-                  <input type="text" class="form-control" name="valor_venta" id="valor_venta" onkeypress="return codigoi(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El precio que se muestra en los ocmprobantes, incluye IGV." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                  <!-- <div class="form-check">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="form-check-input form-check-primary" name="igv" id="igv">
-                            <label style="top: 3px; position: relative;" class="form-check-label" for="igv">IGV</label>
-                        </div>
-                        </div> -->
-                </div>
-                <div class="mb-3 col-lg-2">
-                  <label for="precio2" class="col-form-label">Precio por mayor:</label>
-                  <input type="text" class="form-control" name="precio2" id="precio2" placeholder="Précio por mayor">
-                </div>
-                <div class="mb-3 col-lg-2">
-                  <label for="precio3" class="col-form-label">Precio distribuidor:</label>
-                  <input type="text" class="form-control" name="precio3" id="precio3" placeholder="Précio distribuidor">
-                </div>
-                <div class="mb-3 col-lg-2">
-                  <label for="costo_compra" class="col-form-label">Precio compra:</label>
-                  <input type="text" class="form-control" name="costo_compra" id="costo_compra" maxlength="500" onkeypress="return focussaldoi(event, this)" required>
-                </div>
-                <div class="mb-3 col-lg-2">
-                  <label for="imagenactual" class="col-form-label">Imagen del producto:</label>
-                  <input type="file" class="form-control" name="imagen" id="imagen" value="" accept="image/*">
-                  <input type="hidden" name="imagenactual" id="imagenactual">
-                  <img src="../files/articulos/simagen.png" width="150px" height="120px" id="imagenmuestra">
-                  <hr>
-                  <div class="" id="preview">
+              <ul class="nav nav-tabs tab-style-2 nav-justified mb-3 d-sm-flex d-block" id="myTab1" role="tablist">
+                <li class="nav-item" role="presentation"> 
+                  <button class="nav-link active" id="producto-tab" data-bs-toggle="tab" data-bs-target="#producto-tab-pane" type="button" role="tab" aria-controls="producto-tab-pane" aria-selected="true" tabindex="-1"><i class="ri-gift-line me-1 align-middle"></i> Producto</button> 
+                </li>
+                <li class="nav-item" role="presentation" > 
+                  <button class="nav-link" id="sunat-tab" data-bs-toggle="tab" data-bs-target="#sunat-tab-pane" type="button" role="tab" aria-controls="sunat-tab-pane" aria-selected="false"><i class="ri-check-double-line me-1 align-middle"></i> Sunat</button> 
+                </li>
+                <li class="nav-item" role="presentation" > 
+                  <button class="nav-link" id="proveedor-tab" data-bs-toggle="tab" data-bs-target="#proveedor-tab-pane" type="button" role="tab" aria-controls="proveedor-tab-pane" aria-selected="false" tabindex="-1"><i class="ri-shopping-bag-3-line me-1 align-middle"></i> Proveedor</button> 
+                </li>
+                <li class="nav-item" role="presentation"> 
+                  <button class="nav-link" id="otros-tab" data-bs-toggle="tab" data-bs-target="#otros-tab-pane" type="button" role="tab" aria-selected="false" tabindex="-1"><i class="ri-truck-line me-1 align-middle"></i> Otros</button> 
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active text-muted" id="producto-tab-pane" role="tabpanel" aria-labelledby="producto-tab" tabindex="0">
+                  <div class="row">
+                    <!-- almacen -->
+                    <div class="mb-3 col-lg-3">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Almacen:</label>
+                        <input type="hidden" name="idarticulo" id="idarticulo">
+                        <input type="hidden" name="idempresa" id="idempresa" value="<?php echo $_SESSION['idempresa']; ?>">
+                        <select class="form-control" name="idalmacen" id="idalmacen" required onchange="focusfamil()">
+                        </select>
+                      </div>                     
+                    </div>
+                    <!-- categoria -->
+                    <div class="mb-3 col-lg-3">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Categoria:</label>
+                        <select class="form-control" name="idfamilia" id="idfamilia" required>
+                        </select>
+                      </div>                      
+                    </div>
+                    <!-- Tipo -->
+                    <div class="mb-3 col-lg-3">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Tipo:</label>
+                        <select class="form-control" name="tipoitem" id="tipoitem" onchange="focuscodprov()">
+                          <option value="productos" selected > PRODUCTO </option> <!-- <option value="servicios">SERVICIO</option> -->
+                        </select>
+                      </div>                      
+                    </div>
+                    <!-- unidad medida -->
+                    <div class="mb-3 col-lg-3">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">U. medida:</label>
+                        <select class="form-control" name="umedidacompra" id="umedidacompra" required onchange="cinicial()">
+                        </select>
+                      </div>                      
+                    </div>
+                    <div class="mb-3 col-lg-3" hidden>
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">U. medida venta:</label>
+                        <select class="form-control" name="unidad_medida" id="unidad_medida" onchange="costoco()">
+                        </select>
+                      </div>                      
+                    </div>
+                    <!-- nombre -->
+                    <div class="mb-3 col-lg-4">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Nombre / Descripción:</label>
+                        <input type="text" class="form-control" name="nombre" id="nombre" maxlength="500" placeholder="Nombre" required="true" onkeyup="mayus(this);" onkeypress=" return limitestockf(event, this)">
+                      </div>
+                    </div>
+                    <!-- detalle -->
+                    <div class="mb-3 col-lg-4">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Detalles del producto:</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="1" cols="70" onkeyup="mayus(this)"></textarea>
+                      </div>                      
+                    </div>
+                    <!-- stock -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Cantidad de Stock:</label>
+                        <input type="text" class="form-control" name="stock" id="stock" maxlength="500" placeholder="Stock" required="true" onkeypress="return totalc(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El stock sera igual al saldo final y saldo inicial (stock = saldo final = saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                      </div>
+                    </div>
+                    <!-- limite de stok -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Limite stock:</label>
+                        <input type="number" class="form-control" name="limitestock" id="limitestock" max="999.99" min="0" step="0.01" placeholder="Limite de stock" /*onkeypress="return limitest(event, this)"*/ >
+                      </div>
+                    </div>
+                    <!-- codigo -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Código Interno:</label>
+                        <input type="text" class="form-control codigo" name="codigo" id="codigo" placeholder="Código Barras" required="true" onkeyup="mayus(this);" onchange="validarcodigo()">
+                      </div>
+                    </div>
+                    <!-- precio venta -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">                      
+                        <label for="recipient-name" class="col-form-label">Precio venta (S/.):</label>
+                        <input type="text" class="form-control" name="valor_venta" id="valor_venta" onkeypress="return codigoi(event, this)" step="0.01" data-tooltip="Información de este campo" data-tooltip-more="El precio que se muestra en los ocmprobantes, incluye IGV." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                  
+                      </div>
+                    </div>
+                    <!-- precio mayor -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">
+                        <label for="precio2" class="col-form-label">Precio por mayor:</label>
+                        <input type="text" class="form-control" name="precio2" id="precio2" placeholder="Précio por mayor">
+                      </div>                      
+                    </div>
+                    <!-- precio distribuidor -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">
+                        <label for="precio3" class="col-form-label">Precio distribuidor:</label>
+                        <input type="text" class="form-control" name="precio3" id="precio3" placeholder="Précio distribuidor">
+                      </div>                      
+                    </div>
+                    <!-- precio compra -->
+                    <div class="mb-3 col-lg-2">
+                      <div class="form-group">                      
+                        <label for="costo_compra" class="col-form-label">Precio compra:</label>
+                        <input type="text" class="form-control" name="costo_compra" id="costo_compra" maxlength="500" onkeypress="return focussaldoi(event, this)" required>
+                      </div>
+                    </div>
+                    <!-- marca -->
+                    <div class="mb-3 col-lg-3">
+                      <div class="form-group">
+                        <label for="idmarca" class="col-form-label">Marca:</label>
+                        <select class="form-control" name="idmarca" id="idmarca" >
+                        </select>
+                      </div>                      
+                    </div>
+                    <!-- imagen -->
+                    <div class="mb-3 col-lg-2">
+                      <label for="imagenactual" class="col-form-label">Imagen del producto:</label>
+                      <input type="file" class="form-control" name="imagen" id="imagen" value="" accept="image/*">
+                      <input type="hidden" name="imagenactual" id="imagenactual">
+                      <img src="../files/articulos/simagen.png" width="150px" height="120px" id="imagenmuestra">
+                      <hr>
+                      <div class="" id="preview"> </div>
+                    </div>
                   </div>
+                  <!-- /.row -->
                 </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="idmarca" class="col-form-label">Marca:</label>
-                  <select class="form-control" name="idmarca" id="idmarca" >
-                  </select>
+                <!-- /.tab-pane -->
+                
+                <div class="tab-pane fade text-muted" id="sunat-tab-pane" role="tabpanel" aria-labelledby="sunat-tab" tabindex="0">
+                  <div class="row">
+                    <!-- cod-tributo -->
+                    <div class="mb-3 col-lg-3">
+                      <label for="codigott" class="col-form-label">Cód. tipo de tributo:</label>
+                      <select name="codigott" id="codigott" class="form-control">
+                        <option value="1000">1000</option>
+                        <option value="1016">1016</option>
+                        <option value="2000">2000</option>
+                        <option value="7152">7152</option>
+                        <option value="9995">9995</option>
+                        <option value="9996">9996</option>
+                        <option value="9997" selected>9997</option>
+                        <option value="9998">9998</option>
+                        <option value="9999">9999</option>
+                      </select>
+                    </div>
+                    <!-- tributo -->
+                    <div class="mb-3 col-lg-3">
+                      <label for="recipient-name" class="col-form-label">Tributo:</label>
+                      <select name="desctt" id="desctt" class="form-control">
+                        <option value="IGV Impuesto General a las Ventas">IGV Impuesto General a las Ventas</option>
+                        <option value="Impuesto a la Venta Arroz Pilado">Impuesto a la Venta Arroz Pilado</option>
+                        <option value="ISC Impuesto Selectivo al Consumo">ISC Impuesto Selectivo al Consumo</option>
+                        <option value="Impuesto al Consumo de las bolsas de plástico">Impuesto al Consumo de las bolsas de plástico</option>
+                        <option value="Exportación">Exportación</option>
+                        <option value="Gratuito">Gratuito</option>
+                        <option value="Exonerado" selected>Exonerado</option>
+                        <option value="Inafecto">Inafecto</option>
+                        <option value="Otros tributos">Otros tributos</option>
+                      </select>
+                    </div>
+                    <!-- codigo-internacional -->
+                    <div class="mb-3 col-lg-3">
+                      <label for="recipient-name" class="col-form-label">Código internacional:</label>
+                      <select name="codigointtt" id="codigointtt" class="form-control">
+                        <option value="VAT" selected>VAT</option>
+                        <option value="EXC">EXC</option>
+                        <option value="FRE">FRE</option>
+                        <option value="OTH">OTH</option>
+                      </select>
+                    </div>
+                    <!-- nombre -->
+                    <div class="mb-3 col-lg-3">
+                      <label for="recipient-name" class="col-form-label">Nombre:</label>
+                      <select name="nombrett" id="nombrett" class="form-control">
+                        <option value="IGV">IGV</option>
+                        <option value="IVAP">IVAP</option>
+                        <option value="ISC">ISC</option>
+                        <option value="ICBPER">ICBPER</option>
+                        <option value="EXP">EXP</option>
+                        <option value="GRA">GRA</option>
+                        <option value="EXO" selected>EXO</option>
+                        <option value="INA">INA</option>
+                        <option value="OTROS">OTROS</option>
+                      </select>
+                    </div>                    
+                  </div>
+                  <!-- /.row -->
                 </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="codigott" class="col-form-label">Cód. tipo de tributo:</label>
-                  <select name="codigott" id="codigott" class="form-control">
-                    <option value="1000">1000</option>
-                    <option value="1016">1016</option>
-                    <option value="2000">2000</option>
-                    <option value="7152">7152</option>
-                    <option value="9995">9995</option>
-                    <option value="9996">9996</option>
-                    <option value="9997" selected>9997</option>
-                    <option value="9998">9998</option>
-                    <option value="9999">9999</option>
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">Tributo:</label>
-                  <select name="desctt" id="desctt" class="form-control">
-                    <option value="IGV Impuesto General a las Ventas">IGV Impuesto General a las Ventas</option>
-                    <option value="Impuesto a la Venta Arroz Pilado">Impuesto a la Venta Arroz Pilado</option>
-                    <option value="ISC Impuesto Selectivo al Consumo">ISC Impuesto Selectivo al Consumo</option>
-                    <option value="Impuesto al Consumo de las bolsas de plástico">Impuesto al Consumo de las bolsas de plástico</option>
-                    <option value="Exportación">Exportación</option>
-                    <option value="Gratuito">Gratuito</option>
-                    <option value="Exonerado" selected>Exonerado</option>
-                    <option value="Inafecto">Inafecto</option>
-                    <option value="Otros tributos">Otros tributos</option>
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">Código internacional:</label>
-                  <select name="codigointtt" id="codigointtt" class="form-control">
-                    <option value="VAT" selected>VAT</option>
-                    <option value="EXC">EXC</option>
-                    <option value="FRE">FRE</option>
-                    <option value="OTH">OTH</option>
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-3">
-                  <label for="recipient-name" class="col-form-label">Nombre:</label>
-                  <select name="nombrett" id="nombrett" class="form-control">
-                    <option value="IGV">IGV</option>
-                    <option value="IVAP">IVAP</option>
-                    <option value="ISC">ISC</option>
-                    <option value="ICBPER">ICBPER</option>
-                    <option value="EXP">EXP</option>
-                    <option value="GRA">GRA</option>
-                    <option value="EXO" selected>EXO</option>
-                    <option value="INA">INA</option>
-                    <option value="OTROS">OTROS</option>
-                  </select>
-                </div>
-                <div class="mb-3 col-lg-4">
-                  <input type="checkbox" id="agregarCompra" name="" value="">
-                  <label for="" style="position: relative; bottom: 5px;">Adjuntar detalles compra</label>
-                </div>
-                <div class="mb-3 col-lg-4">
-                  <input type="checkbox" id="agregarOtrosCampos" name="" value="">
-                  <label for="" style="position: relative; bottom: 5px;">Más opciones de item</label>
-                </div>
+                <!-- /.tab-pane -->
 
-                <div class="row" id="mostrarCompra" style="margin: 0 auto; display: none;">
-                  <div style="margin: 0 auto;" class="row">
+                <div class="tab-pane fade text-muted" id="proveedor-tab-pane" role="tabpanel" aria-labelledby="proveedor-tab" tabindex="0">
+                  <div class="row">
                     <div class="mb-3 col-lg-4">
                       <label for="recipient-name" class="col-form-label">Proveedor:</label>
                       <input type="text" name="proveedor" id="proveedor" class="form-control">
@@ -283,49 +341,11 @@ if (!isset($_SESSION["nombre"])) {
                       <label for="recipient-name" class="col-form-label">Fecha fac. compra:</label>
                       <input type="date" name="fechafacturacompra" id="fechafacturacompra" class="form-control" style="color:blue;">
                     </div>
-                    <!-- <div class="mb-3 col-lg-4">
-                           <label for="recipient-name" class="col-form-label">U. medida compra:</label>
-                           <select class="form-control" name="umedidacompra" id="umedidacompra" required
-                               onchange="cinicial()">
-                           </select>
-                           </div> -->
                   </div>
                 </div>
 
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Factor conversión:</label>
-                  <input type="text" class="form-control" name="factorc" id="factorc" onkeypress=" return umventa(event, this)">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Saldo inicial (S/.):</label>
-                  <input type="text" class="form-control" name="saldo_iniu" id="saldo_iniu" maxlength="500" placeholder="Saldo inicial" onBlur="calcula_valor_ini()" required="false" onkeypress="return valori(event, this)" data-tooltip="Información de este campo" data-tooltip-more="Si es la primera vez que llena este campo poner el saldo final de su inventario físico. " data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Valor inicial (S/.):</label>
-                  <input value="0" type="text" class="form-control" name="valor_iniu" id="valor_iniu" maxlength="500" placeholder="Valor inicial" required="false" onkeypress="return saldof(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor inicial es el costo compra x saldo inicial." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Saldo final (mts):</label>
-                  <input type="text" class="form-control" name="saldo_finu" id="saldo_finu" maxlength="500" placeholder="Saldo final" required="false" onkeypress="return valorf(event, this)" onBlur="sfinalstock()" data-tooltip="Información de este campo" data-tooltip-more="La primera vez en el registro será igual a saldo inicial (saldofinal=saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Valor final (S/.):</label>
-                  <input type="text" class="form-control" name="valor_finu" id="valor_finu" maxlength="500" placeholder="Valor Final" required="false" onkeypress="return st(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor final es igual al valor incial (valor final=valor inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Conversión um venta:</label>
-                  <input type="text" class="form-control" name="fconversion" id="fconversion" data-tooltip="Cantidad según factor de conversión por stock actual." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green" readonly>
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Total compras (mts):</label>
-                  <input type="text" class="form-control" name="comprast" id="comprast" onkeypress="return totalv(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="mb-3 col-lg-4" hidden>
-                  <label for="recipient-name" class="col-form-label">Total ventas (mts):</label>
-                  <input type="text" class="form-control" name="ventast" id="ventast" onkeypress="return porta(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
-                </div>
-                <div class="row" id="mostraOtroscampos" style="margin: 0 auto; display: none;">
-                  <div style="margin: 0 auto;" class="row">
+                <div class="tab-pane fade text-muted" id="otros-tab-pane" role="tabpanel" tabindex="0" aria-labelledby="otros-tab">
+                  <div class="row">
                     <div class="mb-3 col-lg-4">
                       <label for="recipient-name" class="col-form-label">Portador:</label>
                       <input type="text" class="form-control" name="portador" id="portador" maxlength="5" onkeypress="return mer(event, this)">
@@ -393,34 +413,88 @@ if (!isset($_SESSION["nombre"])) {
                       <input type="date" name="fechafinalma" id="fechafinalma" class="form-control" style="color:blue;">
                     </div>
                   </div>
+                  <!-- /.row -->
                 </div>
+                <!-- /.tab-pane -->
               </div>
+              <div class="row"> 
+                
+                
+                <!-- <div class="mb-3 col-lg-4">
+                  <input type="checkbox" id="agregarCompra" name="" value="">
+                  <label for="" style="position: relative; bottom: 5px;">Adjuntar detalles compra</label>
+                </div>
+                <div class="mb-3 col-lg-4">
+                  <input type="checkbox" id="agregarOtrosCampos" name="" value="">
+                  <label for="" style="position: relative; bottom: 5px;">Más opciones de item</label>
+                </div>
+
+                <div class="row" id="mostrarCompra" style="margin: 0 auto; display: none;">
+                  <div style="margin: 0 auto;" class="row">                    
+                  </div>
+                </div>
+                <div class="row" id="mostraOtroscampos" style="margin: 0 auto; display: none;">
+                  <div style="margin: 0 auto;" class="row">                    
+                  </div>
+                </div> -->
+
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Factor conversión:</label>
+                  <input type="text" class="form-control" name="factorc" id="factorc" onkeypress=" return umventa(event, this)">
+                </div>
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Saldo inicial (S/.):</label>
+                  <input type="text" class="form-control" name="saldo_iniu" id="saldo_iniu" maxlength="500" placeholder="Saldo inicial" onBlur="calcula_valor_ini()" required="false" onkeypress="return valori(event, this)" data-tooltip="Información de este campo" data-tooltip-more="Si es la primera vez que llena este campo poner el saldo final de su inventario físico. " data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                </div>
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Valor inicial (S/.):</label>
+                  <input value="0" type="text" class="form-control" name="valor_iniu" id="valor_iniu" maxlength="500" placeholder="Valor inicial" required="false" onkeypress="return saldof(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor inicial es el costo compra x saldo inicial." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                </div>
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Saldo final (mts):</label>
+                  <input type="text" class="form-control" name="saldo_finu" id="saldo_finu" maxlength="500" placeholder="Saldo final" required="false" onkeypress="return valorf(event, this)" onBlur="sfinalstock()" data-tooltip="Información de este campo" data-tooltip-more="La primera vez en el registro será igual a saldo inicial (saldofinal=saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                </div>
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Valor final (S/.):</label>
+                  <input type="text" class="form-control" name="valor_finu" id="valor_finu" maxlength="500" placeholder="Valor Final" required="false" onkeypress="return st(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El valor final es igual al valor incial (valor final=valor inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                </div>
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Conversión um venta:</label>
+                  <input type="text" class="form-control" name="fconversion" id="fconversion" data-tooltip="Cantidad según factor de conversión por stock actual." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green" readonly>
+                </div>
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Total compras (mts):</label>
+                  <input type="text" class="form-control" name="comprast" id="comprast" onkeypress="return totalv(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                </div>
+                <div class="mb-3 col-lg-4" hidden>
+                  <label for="recipient-name" class="col-form-label">Total ventas (mts):</label>
+                  <input type="text" class="form-control" name="ventast" id="ventast" onkeypress="return porta(event, this)" placeholder="No se llena" readonly data-tooltip="Información de este campo" data-tooltip-more="Este campo no se llena." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
+                </div>
+                
+              </div>
+              <button type="submit" style="display: none;" id="submit-form-articulo">Submit</button>
+            </form>
           </div>
           <div class="eventoCodigoBarra" hidden>
-            <button class="btn btn-success btn-sm" type="button" onclick="generarbarcode()">Mostrar codigo de
-              barra</button>
-            <button class="btn btn-success btn-sm" type="button" onclick="generarcodigonarti()">Asignar codigo
-              automático</button>
-            <button class="btn btn-info btn-sm" type="button" onclick="imprimir()"> <i class="fa fa-print"></i>
-              Imprimir codigos</button>
+            <button class="btn btn-success btn-sm" type="button" onclick="generarbarcode()">Mostrar codigo de barra</button>
+            <button class="btn btn-success btn-sm" type="button" onclick="generarcodigonarti()">Asignar codigo automático</button>
+            <button class="btn btn-info btn-sm" type="button" onclick="imprimir()"> <i class="fa fa-print"></i> Imprimir codigos</button>
             <input type="hidden" name="stockprint" id="stockprint">
             <input type="hidden" name="codigoprint" id="codigoprint">
             <input type="hidden" name="precioprint" id="precioprint">
-            <div id="print">
-              <svg id="barcode"></svg>
-            </div>
+            <div id="print"> <svg id="barcode"></svg> </div>
           </div>
           <div class="modal-footer">
             <button onclick="cancelarform()" type="button" class="btn btn-danger" data-bs-dismiss="modal">
               <i class="bx bx-x d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Cancelar</span>
             </button>
-            <button id="btnGuardar" type="submit" class="btn btn-primary ml-1">
+            <button id="guardar_registro_articulo" type="submit" class="btn btn-primary ml-1">
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Agregar</span>
             </button>
           </div>
-          </form>
+          
         </div>
       </div>
     </div>    
