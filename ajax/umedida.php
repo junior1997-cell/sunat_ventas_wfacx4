@@ -1,4 +1,7 @@
 <?php
+
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
+
 require_once "../modelos/Umedida.php";
 
 $umedida=new Umedida();
@@ -8,51 +11,44 @@ $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
 $abre=isset($_POST["abre"])? limpiarCadena($_POST["abre"]):"";
 $equivalencia=isset($_POST["equivalencia"])? limpiarCadena($_POST["equivalencia"]):"";
 
-
-
 switch ($_GET["op"]){
 	case 'guardaryeditar':
-	$validarUnidadMedida = $umedida->validarUnidadMedida($nombre);
-	if($validarUnidadMedida){
-		echo "Unidad de medida ya registrado";
-	}else{
-		if (empty($idunidadme)){
-			$rspta=$umedida->insertar($nombre, $abre, $equivalencia);
-			echo $rspta ? "Unidad de medida registrada" : "Unidad de medida no se pudo registrar";
+		$validarUnidadMedida = $umedida->validarUnidadMedida($nombre);
+		if($validarUnidadMedida){
+			echo "Unidad de medida ya registrado";
+		}else{
+			if (empty($idunidadme)){
+				$rspta=$umedida->insertar($nombre, $abre, $equivalencia);
+				echo $rspta ? "Unidad de medida registrada" : "Unidad de medida no se pudo registrar";
+			}	else {
+				$rspta=$umedida->editar($idunidadme, $nombre, $abre, $equivalencia);
+				echo $rspta ? "Unidad de medida actualizada" : "Unidad de medida no se pudo actualizar";
+			}
 		}
-		else {
-			$rspta=$umedida->editar($idunidadme, $nombre, $abre, $equivalencia);
-			echo $rspta ? "Unidad de medida actualizada" : "Unidad de medida no se pudo actualizar";
-		}
-	}
-
 	break;
 
 	case 'desactivar':
 		$rspta=$umedida->desactivar($idunidadme);
  		echo $rspta ? "Unidad de medida Desactivada" : "Unidad de medida no se puede desactivar";
- 		break;
+ 		
 	break;
 
 	case 'activar':
 		$rspta=$umedida->activar($idunidadme);
  		echo $rspta ? "Unidad de medida activada" : "Unidad de medida no se puede activar";
- 		break;
+ 		
 	break;
-
 
 	case 'eliminar':
 		$rspta=$umedida->eliminar($idunidadme);
- 		echo $rspta ? "Unidad de medida eliminada" : "Unidad de medida no se puede eliminar";
- 		break;
+ 		echo $rspta ? "Unidad de medida eliminada" : "Unidad de medida no se puede eliminar"; 		
 	break;
 
 	case 'mostrar':
 		//$idum=$_GET['idumedida'];
 		$rspta=$umedida->mostrar($idunidadme);
  		//Codificar el resultado utilizando json
- 		echo json_encode($rspta);
- 		break;
+ 		echo json_encode($rspta); 		
 	break;
 
 	case 'listar':

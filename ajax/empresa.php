@@ -232,7 +232,7 @@ switch ($_GET["op"]) {
 
   case 'listar':
 
-    $rspta = $empresa->listar();
+    $rspta = $empresa->listar_tabla_principal();
 
     //Vamos a declarar un array
 

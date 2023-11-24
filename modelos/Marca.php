@@ -17,7 +17,7 @@ class Marca
 
 	//Implementamos un método para editar registros
 	public function crear_marca($nombre)	{
-		$sql="INSERT INTO marca( descripcion) VALUES ('$nombre')";
+		$sql="INSERT INTO marca( descripcion, user_created) VALUES ('$nombre', '$this->id_usr_sesion')";
 		return ejecutarConsulta($sql);
 	}
 
@@ -60,7 +60,12 @@ class Marca
 
   //Implementamos un método para insertar registros
 	public function select2_marca()	{
-		$sql="SELECT * FROM marca where estado ='1';";
+		$sql="SELECT * FROM marca where estado ='1' and idmarca > 1 order by descripcion asc;";
 		return ejecutarConsulta($sql);
 	}
+
+	public function insertarMarcaMasivo( $nombre, $estado )  {
+    $sql = "CALL insertar_marca_en_masa( '$nombre', '$estado', $this->id_usr_sesion )";
+    return ejecutarConsulta($sql);
+  }
 }

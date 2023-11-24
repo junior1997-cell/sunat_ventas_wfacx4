@@ -7,9 +7,9 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 
-session_start();
-//Activamos el almacenamiento del Buffer
-ob_start();
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
+
+ob_start(); //Activamos el almacenamiento del Buffer
 
 
 if (!isset($_SESSION["nombre"])) {
@@ -44,15 +44,16 @@ if (!isset($_SESSION["nombre"])) {
       $codigo = $excel->getActiveSheet()->getCell('A' . $i)->getCalculatedValue();
       if ($codigo != "") {
         $nombre         = $excel->getActiveSheet()->getCell('B' . $i)->getCalculatedValue();
-        $descrip        = $excel->getActiveSheet()->getCell('C' . $i)->getCalculatedValue();
-        $familia        = $excel->getActiveSheet()->getCell('D' . $i)->getCalculatedValue();
-        $marca          = $excel->getActiveSheet()->getCell('E' . $i)->getCalculatedValue();
-        $costo_compra   = $excel->getActiveSheet()->getCell('F' . $i)->getCalculatedValue();
-        $precio_venta   = $excel->getActiveSheet()->getCell('G' . $i)->getCalculatedValue();
-        $precio_mayor   = $excel->getActiveSheet()->getCell('H' . $i)->getCalculatedValue();
-        $stock          = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
-        $tipoitem       = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
-        $nombre_almacen = $excel->getActiveSheet()->getCell('K' . $i)->getCalculatedValue();
+        $alias          = $excel->getActiveSheet()->getCell('C' . $i)->getCalculatedValue();
+        $descrip        = $excel->getActiveSheet()->getCell('D' . $i)->getCalculatedValue();
+        $familia        = $excel->getActiveSheet()->getCell('E' . $i)->getCalculatedValue();
+        $marca          = $excel->getActiveSheet()->getCell('F' . $i)->getCalculatedValue();
+        $costo_compra   = $excel->getActiveSheet()->getCell('G' . $i)->getCalculatedValue();
+        $precio_venta   = $excel->getActiveSheet()->getCell('H' . $i)->getCalculatedValue();
+        $precio_mayor   = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
+        $stock          = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
+        $tipoitem       = $excel->getActiveSheet()->getCell('K' . $i)->getCalculatedValue();
+        $nombre_almacen = $excel->getActiveSheet()->getCell('L' . $i)->getCalculatedValue();
         // $saldo_iniu  = $excel->getActiveSheet()->getCell('I' . $i)->getCalculatedValue();
         // $valor_iniu  = $excel->getActiveSheet()->getCell('J' . $i)->getCalculatedValue();
         
@@ -63,7 +64,7 @@ if (!isset($_SESSION["nombre"])) {
         
 
         $consultaObj->insertarArticulosMasivo(
-          $codigo, $nombre, $descrip, $familia,  $marca,  $costo_compra, $precio_venta, $precio_mayor, $stock, $tipoitem, $nombre_almacen
+          $codigo, $nombre, $alias, $descrip, $familia,  $marca,  $costo_compra, $precio_venta, $precio_mayor, $stock, $tipoitem, $nombre_almacen
         );
       }
     }
@@ -76,4 +77,5 @@ if (!isset($_SESSION["nombre"])) {
     echo json_encode(['success' => false, 'message' => 'No se ha enviado un archivo válido.']);
   }
 }
+
 ob_end_flush();

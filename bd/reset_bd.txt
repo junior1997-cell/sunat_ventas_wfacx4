@@ -43,6 +43,6 @@ ALTER TABLE almacen AUTO_INCREMENT = 1;
 ALTER TABLE ventadiaria AUTO_INCREMENT = 1;
 
 -- insertamos por defecto
-INSERT INTO marca ( descripcion ) VALUES ('NINGUNO');
-INSERT INTO familia ( descripcion ) VALUES ('NINGUNO');
-INSERT INTO almacen ( nombre, direccion ) VALUES ('PRINCIPAL', 'PRINCIPAL');
+INSERT INTO marca ( descripcion, user_created ) VALUES ('NINGUNO', 1);
+INSERT INTO familia ( descripcion, user_created ) VALUES ('NINGUNO', 1);
+INSERT INTO almacen (idempresa, nombre, direccion, user_created  ) VALUES (1,'PRINCIPAL', 'PRINCIPAL', 1);

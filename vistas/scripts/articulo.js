@@ -33,9 +33,9 @@ function init() {
   $.post("../ajax/articulo.php?op=selectUnidad", function (r) { $("#unidad_medida").html(r); });
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
-  $("#guardar_registro").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-materiales").submit(); }  });
-  $("#guardar_registro_articulo").on("click", function (e) { $("#submit-form-articulo").submit(); });	
-  // $("#formulario").on("submit", function (e) { guardaryeditar(e); });
+  $("#guardar_registro_articulo").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-articulo").submit(); }  });
+  $("#guardar_registro_import_articulo").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-import-articulo").submit(); }  });
+  
   $("#formnewfamilia").on("submit", function (e) { guardaryeditarFamilia(e); });
   $("#formnewalmacen").on("submit", function (e) { guardaryeditarAlmacen(e); });
   $("#formnewumedida").on("submit", function (e) { guardaryeditarUmedida(e); });
@@ -178,8 +178,17 @@ function limpiarumedida() {
   $("#equivalencia2").val("");
 }
 
+//Función limpiar
+function limpiar_form_import_articulo() {
 
+	$("#upload_file_articulo").val("");	
+	$("#guardar_registro_articulo").html('Guardar Cambios').removeClass('disabled send-data');
 
+	// Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+}
 
 //Función Listar PRODUCTOS
 function listar_tabla_principal(idalmacen, idfamilia, idmarca) {
@@ -303,6 +312,60 @@ function guardar_y_editar_articulo(e) {
     }
   });
 }
+
+function importar_articulo(e) {
+	// e.preventDefault(); //No se activará la acción predeterminada del evento	
+	var formData = new FormData($("#form-importar-articulo")[0]);
+
+	$.ajax({
+		url: "../ajax/articulo.php?op=importar_articulo",
+		type: "POST",
+		data: formData,
+		contentType: false,
+		processData: false,
+		success: function(e) {
+			try {
+				e = JSON.parse(e); console.log(e);
+				if (e.status == true) { 					             
+					Swal.fire({	title: "Excelente",	html: 'Registrado correctamente', icon: "success", showConfirmButton: true	});				
+					tabla_articulo.ajax.reload(null, false);
+					$('#modal-importar-articulo').modal('hide');
+				}else{				
+					swal.fire({	title: "Error",	html: e, icon: "error", showConfirmButton: true	});
+				}
+			} catch (error) {
+				swal.fire({	title: "Error",	html: error, icon: "error", showConfirmButton: true	});
+				console.log(error);
+			}
+			$("#guardar_registro_import_articulo").html('Guardar Cambios').removeClass('disabled send-data');
+		},
+		xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_imp_articulo").css({"width": percentComplete+'%'});
+          $("#barra_progress_imp_articulo div").text(`${percentComplete.toFixed(1)} %`);
+        }
+      }, false);
+      return xhr;
+    },
+    beforeSend: function () {
+      $("#guardar_registro_import_articulo").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled send-data');
+			$("#barra_progress_imp_articulo_div").show();
+      $("#barra_progress_imp_articulo").css({ width: "0%",  }).addClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_imp_articulo div").text("0%");
+    },
+    complete: function () {
+			$("#barra_progress_imp_articulo_div").hide();
+      $("#barra_progress_imp_articulo").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_imp_articulo div").text("0%");
+    },
+    error: function (jqXhr) { console.log(jqXhr); },
+	});	
+}
+
 
 function mostrar(idarticulo) {
   limpiar_form_articulo();
@@ -1265,10 +1328,9 @@ $(function () {
       limitestock:    { required: true, number: true, min: 0,  }, 
       valor_venta:    { required: true, number: true, min: 0,  }, 
       costo_compra:   { required: true, number: true, min: 0,  }, 
-      precio2:   { required: true, number: true, min: 0,  }, 
-      precio3:   { required: true, number: true, min: 0,  }, 
-
-      imagen:   { extension: "png|jpg|jpeg|webp|svg",  }, 
+      precio2:        { required: true, number: true, min: 0,  }, 
+      precio3:        { required: true, number: true, min: 0,  }, 
+      imagen:         { extension: "png|jpg|jpeg|webp|svg",  }, 
     },
     messages: {
       idalmacen:      { required: "Campo requerido", },
@@ -1280,12 +1342,11 @@ $(function () {
       codigo:         { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
       stock:          { step: "Decimales mayor a {0}", },
       limitestock:    { step: "Decimales mayor a {0}", },
-      valor_venta:   { step: "Decimales mayor a {0}", },
-      costo_compra:    { step: "Decimales mayor a {0}", },
-      precio2:    { step: "Decimales mayor a {0}", },
-      precio3:    { step: "Decimales mayor a {0}", },
-
-      imagen:    { extension: "Ingrese imagenes validas ( {0} )", },
+      valor_venta:    { step: "Decimales mayor a {0}", },
+      costo_compra:   { step: "Decimales mayor a {0}", },
+      precio2:        { step: "Decimales mayor a {0}", },
+      precio3:        { step: "Decimales mayor a {0}", },
+      imagen:         { extension: "Ingrese imagenes validas ( {0} )", },
     },
         
     errorElement: "span",
@@ -1307,4 +1368,32 @@ $(function () {
       guardar_y_editar_articulo(e);      
     },
   });
+
+  $("#form-importar-articulo").validate({
+    rules: { 
+      upload_file_articulo: { required: true,  extension: "xls|xlsx", } 
+    },
+    messages: {
+      upload_file_articulo: { required: "Campo requerido", extension: "Ingrese imagenes validas ( {0} )", },
+    },
+        
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");   
+    },
+    submitHandler: function (e) {
+      importar_articulo(e);      
+    },
+  });
+
 });

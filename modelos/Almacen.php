@@ -13,7 +13,7 @@ Class Almacen
 	}
 
 	public function insertaralmacen($nombre, $direc, $idempresa) {
-		$sql="INSERT into almacen (nombre, direccion, idempresa)	values ('$nombre', '$direc', '$idempresa')";
+		$sql="INSERT into almacen (nombre, direccion, idempresa, user_created)	values ('$nombre', '$direc', '$this->id_empresa_sesion', '$this->id_usr_sesion')";
 		return ejecutarConsulta($sql);
 	}
 

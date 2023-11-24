@@ -24,20 +24,20 @@ class Articulo
     valor_finu, stock, comprast, ventast, portador, merma, precio_venta, imagen, valor_fin_kardex, precio_final_kardex, fecharegistro,
     codigosunat,  ccontable, precio2, precio3, cicbper, nticbperi, ctticbperi, mticbperu, codigott, desctt, 
     codigointtt, nombrett, lote, idmarca, fechafabricacion, fechavencimiento, procedencia, fabricante, registrosanitario, fechaingalm, 
-    fechafinalma, proveedor, seriefaccompra, numerofaccompra, fechafacturacompra, limitestock, tipoitem, umedidacompra, factorc, descrip)
+    fechafinalma, proveedor, seriefaccompra, numerofaccompra, fechafacturacompra, limitestock, tipoitem, umedidacompra, factorc, descrip, user_created)
     values ('$idalmacen','$codigo_proveedor','$codigo','$nombre','$idfamilia','$unidad_medida','$costo_compra','$saldo_iniu','$valor_iniu', '$saldo_finu',
     '$valor_finu','$stock','$comprast','$ventast','$portador','$merma','$precio_venta','$imagen','$valor_finu','$costo_compra', now(),
     '$codigosunat', '$ccontable','$precio2', '$precio3' ,'$cicbper','$nticbperi','$ctticbperi','$mticbperu', '$codigott', '$desctt', 
     '$codigointtt', '$nombrett', '$lote', '$idmarca', '$fechafabricacion', '$fechavencimiento', '$procedencia', '$fabricante', '$registrosanitario', '$fechaingalm', 
-    '$fechafinalma', '$proveedor', '$seriefaccompra', '$numerofaccompra', '$fechafacturacompra', '$limitestock', '$tipoitem', '$unidad_medida', '$factorc', '$descripcion')";
+    '$fechafinalma', '$proveedor', '$seriefaccompra', '$numerofaccompra', '$fechafacturacompra', '$limitestock', '$tipoitem', '$unidad_medida', '$factorc', '$descripcion', '$this->id_usr_sesion')";
     $idartinew = ejecutarConsulta_retornarID($sql);
 
     $sqlreginv = "INSERT INTO reginventariosanos ( codigo,  denominacion, costoinicial, saldoinicial, valorinicial, compras, ventas, saldofinal, costo, valorfinal, ano ) 
     values ( '$codigo', '$nombre', '$costo_compra', '$saldo_iniu', '$valor_iniu', '$comprast','$ventast','$saldo_finu', '$costo_compra', '$valor_finu', year(CURDATE()) )";
     ejecutarConsulta($sqlreginv);
 
-    $sqlsubarti = "INSERT INTO  subarticulo ( idarticulo, codigobarra, valorunitario, preciounitario, stock, umventa, estado ) 
-    values ( '$idartinew', '$codigo', '$costo_compra', '$costo_compra', '$stock', '$unidad_medida', '1')";
+    $sqlsubarti = "INSERT INTO  subarticulo ( idarticulo, codigobarra, valorunitario, preciounitario, stock, umventa, user_created ) 
+    values ( '$idartinew', '$codigo', '$costo_compra', '$costo_compra', '$stock', '$unidad_medida', '$this->id_usr_sesion')";
 
     return ejecutarConsulta($sqlsubarti);
   }
@@ -1561,9 +1561,8 @@ format(((sum(mg.totalventas) - sum(mg.totalcompras))/ sum(mg.totalventas)) * 100
 
 
 
-  public function insertarArticulosMasivo($codigo, $familia_descripcion, $nombre, $marca, $descrip, $costo_compra, $precio_venta, $stock, $saldo_iniu, $valor_iniu, $tipoitem, $codigott, $desctt, $codigointtt, $nombrett, $nombre_almacen)
-  {
-    $sql = "CALL InsertarDatos('$codigo', '$familia_descripcion', '$nombre', '$marca', '$descrip', $costo_compra, $precio_venta, $stock, $saldo_iniu, $valor_iniu, '$tipoitem', '$codigott', '$desctt', '$codigointtt', '$nombrett', '$nombre_almacen')";
+  public function insertarArticulosMasivo($codigo, $nombre, $alias, $descrip, $familia,  $marca,  $costo_compra, $precio_venta, $precio_mayor, $stock, $tipoitem, $nombre_almacen)  {
+    $sql = "CALL 	insertar_productos_en_masa('$codigo', '$nombre', '$alias', '$descrip', '$familia', '$marca', $costo_compra, $precio_venta, $precio_mayor, $stock, '$tipoitem', '$nombre_almacen', $this->id_usr_sesion, $this->id_empresa_sesion)";
     return ejecutarConsulta($sql);
   }
 

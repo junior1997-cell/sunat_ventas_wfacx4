@@ -5,15 +5,18 @@ require "../config/Conexion.php";
 class Umedida
 {
 	//Implementamos nuestro constructor
-	public function __construct()
-	{
+	public $id_usr_sesion; public $id_empresa_sesion;
+	//Implementamos nuestro constructor
+	public function __construct( )	{
+		$this->id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
 	}
 
 	//Implementamos un método para insertar registros
 	public function insertar($nombre, $abre, $equivalencia)
 	{
-		$sql = "insert into umedida (nombreum, abre, estado, equivalencia)
-		values ('$nombre', '$abre', '1', '$equivalencia')";
+		$sql = "insert into umedida (nombreum, abre, estado, equivalencia, user_created)
+		values ('$nombre', '$abre', '1', '$equivalencia', '$this->id_usr_sesion')";
 		return ejecutarConsulta($sql);
 	}
 

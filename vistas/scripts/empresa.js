@@ -64,8 +64,7 @@ function guardaryeditar(e) {
 				icon: 'success',
 				title: 'Éxito',
 				text: datos,
-				showConfirmButton: false,
-				timer: 1500
+				showConfirmButton: true,				
 			});
 			mostrarform(false);
 			//var int = self.setInterval("refresh()",1000);

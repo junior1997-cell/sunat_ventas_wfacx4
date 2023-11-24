@@ -16,8 +16,8 @@ Class Familia
 	//Implementamos un método para insertar registros
 	public function insertarCategoria($nombre)
 	{
-		$sql="insert into familia (descripcion)
-		values ('$nombre')";
+		$sql="insert into familia (descripcion, user_created)
+		values ('$nombre', '$this->id_usr_sesion')";
 		return ejecutarConsulta($sql);
 	}
 
@@ -58,8 +58,7 @@ Class Familia
 	}
 
 	//Implementar un método para mostrar los datos de un registro a modificar
-	public function mostrar($idfamilia)
-	{
+	public function mostrar($idfamilia)	{
 		$sql="SELECT * from familia where idfamilia='$idfamilia'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
@@ -70,21 +69,21 @@ Class Familia
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
-
 	//Implementar un método para listar los registros
-	public function listar_tabla_familia()
-	{
+	public function listar_tabla_familia()	{
 		$sql="SELECT * from familia";
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
-	public function select()
-	{
-		$sql="SELECT * from familia where estado=1 and not idfamilia='0' order by idfamilia desc";
+	public function select2_familia()	{
+		$sql="SELECT * from familia where estado=1 and idfamilia > '1' order by descripcion asc";
 		return ejecutarConsulta($sql);
 	}
 	
-
+	public function insertarCategoriaMasivo( $nombre, $estado )  {
+    $sql = "CALL insertar_categoria_en_masa( '$nombre', '$estado', $this->id_usr_sesion )";
+    return ejecutarConsulta($sql);
+  }
 	
 	
 }

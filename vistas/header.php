@@ -37,7 +37,9 @@ $rsptav = $consulta->insertarVentaDiaria($totalventas);
   <link rel="stylesheet" href="../custom/modules/fontawesome6.1.1/css/all.css">
   <link rel="stylesheet" href="../public/css/factura.css">
   <!-- Favicon -->
-  <link rel="apple-touch-icon" href="https://wfacx.com/tienda/assets/images/logoIcon/logo.png">
+  <link rel="apple-touch-icon" href="../assets/images/brand-logos/toggle-logo.png">
+  <link rel="shortcut icon" href="../assets/images/brand-logos/toggle-logo.png">
+
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="wfacx - Home">

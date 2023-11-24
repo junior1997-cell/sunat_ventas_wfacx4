@@ -5,8 +5,12 @@ require "../config/Conexion.php";
 class Consultas
 {
   //Implementamos nuestro constructor
-  public function __construct()
+  public $id_usr_sesion; public $id_empresa_sesion;
+  //Implementamos nuestro constructor
+  public function __construct( $id_usr_sesion = 0, $id_empresa_sesion = 0 )
   {
+    $this->id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
   }
 
   public function comprasfecha($fecha_inicio, $fecha_fin)
@@ -215,10 +219,10 @@ class Consultas
   }
 
 
-  public function mostrarcaja($fechahoy, $idempresa)
-  {
-
-    $sql = "SELECT idcaja, date_format(fecha, '%Y-%m-%d') as fecha, montoi, montof, estado from caja c inner join empresa e on c.idempresa=e.idempresa where fecha='$fechahoy' and c.idempresa='$idempresa'";
+  public function mostrarcaja($fechahoy, $idempresa)  {
+    $sql = "SELECT c.idcaja, date_format(c.fecha, '%Y-%m-%d') as fecha, c.montoi, c.montof, c.estado 
+    from caja c 
+    inner join empresa e on c.idempresa=e.idempresa where fecha='$fechahoy' and c.idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 
@@ -414,13 +418,10 @@ as tabla group by dia";
   }
 
 
-  public function registrarxcodigo($idregistro)
-  {
+  public function registrarxcodigo($idregistro)  {
     $sql = "";
     $sqlValor = "SELECT * from  valfinarticulo where id='$idregistro'";
     $regVal = ejecutarConsulta($sqlValor);
-
-
 
     $codVal = '';
     $anoVal = '';
@@ -433,13 +434,10 @@ as tabla group by dia";
     $tcomprasVal = '';
     $tventasVal = '';
 
-
     $codReg = '';
     $anoReg = '';
 
-
     while ($reg = $regVal->fetch_object()) {
-
       $codVal = $reg->codigoart;
       $anoVal = $reg->ano;
 
@@ -458,33 +456,21 @@ as tabla group by dia";
 
 
     while ($reg2 = $regReg->fetch_object()) {
-
       $codReg = $reg2->codigo;
       $anoReg = $reg2->ano;
     }
 
     if ($codVal == $codReg && $anoReg == $anoVal) {
 
-      $sql = "update reginventariosanos set 
-                costoinicial='$costoiVal', 
-                saldoinicial='$saldoiVal', 
-                valorinicial='$valoriVal', 
-                compras='$tcomprasVal', 
-                ventas='$tventasVal', 
-                saldofinal = '$saldofVal', 
-                costo= '$costofVal',
-                valorfinal= '$valorfVal'
-                where 
-                codigo='$codVal' and ano='$anoVal'";
+      $sql = "UPDATE reginventariosanos set costoinicial='$costoiVal', saldoinicial='$saldoiVal', valorinicial='$valoriVal', compras='$tcomprasVal', ventas='$tventasVal', 
+      saldofinal = '$saldofVal', costo= '$costofVal', valorfinal= '$valorfVal'
+      where  codigo='$codVal' and ano='$anoVal'";
       $msg = "Registro actualizado";
       ejecutarConsulta($sql);
     } else {
-      $sql = "insert into reginventariosanos
-                 (codigo, denominacion, ano, costoinicial, saldoinicial, valorinicial, costo, 
-                 saldofinal, valorfinal, compras, ventas) 
-                values 
-                ('$codVal',(select nombre from articulo where codigo='$codVal') ,'$anoVal','$costoiVal','$saldoiVal','$valoriVal',
-                '$costofVal','$saldofVal','$valorfVal', '$tcomprasVal', '$tventasVal')";
+      $sql = "INSERT into reginventariosanos  (codigo, denominacion, ano, costoinicial, saldoinicial, valorinicial, costo, saldofinal, valorfinal, compras, ventas) 
+      values ('$codVal',(select nombre from articulo where codigo='$codVal') ,'$anoVal','$costoiVal','$saldoiVal','$valoriVal', '$costofVal','$saldofVal','$valorfVal', 
+      '$tcomprasVal', '$tventasVal')";
       ejecutarConsulta($sql);
       $msg = "Registro nuevo";
     }
@@ -494,41 +480,35 @@ as tabla group by dia";
 
 
   //Categorias Activas
-  public function totalcategoriaActiva()
-  {
+  public function totalcategoriaActiva()  {
     $sql = "SELECT count(*) as total from familia where estado = 1";
     return ejecutarConsulta($sql);
   }
 
   //Categorias Inactivas
-  public function totalcategoriaInactiva()
-  {
+  public function totalcategoriaInactiva()  {
     $sql = "SELECT count(*) as total from familia where estado = 0";
     return ejecutarConsulta($sql);
   }
 
   //total usuarios registrados
-  public function totaUsuarioRegistrados()
-  {
+  public function totaUsuarioRegistrados()  {
     $sql = "SELECT count(*) as total from usuario";
     return ejecutarConsulta($sql);
   }
 
-  public function totaArticulosRegistrados()
-  {
+  public function totaArticulosRegistrados() {
     $sql = "SELECT count(*) as total from articulo";
     return ejecutarConsulta($sql);
   }
 
-  public function totaClientesRegistrados()
-  {
+  public function totaClientesRegistrados()  {
     $sql = "SELECT count(*) as total 
-        from persona 
-        where (tipo_persona = 'cliente' or tipo_persona = 'CLIENTE') 
-        and numero_documento is not null 
-        and trim(numero_documento) <> '' 
-        and numero_documento <> 'VARIOS';
-        ";
+    from persona 
+    where (tipo_persona = 'cliente' or tipo_persona = 'CLIENTE') 
+    and numero_documento is not null 
+    and trim(numero_documento) <> '' 
+    and numero_documento <> 'VARIOS'; ";
     return ejecutarConsulta($sql);
   }
 
@@ -537,73 +517,56 @@ as tabla group by dia";
   //ProductosMas ventidos
   public function productosmasvendidos()
   {
-    $sql = "SELECT
-            a.codigo,
-            a.nombre,
-            a.imagen,
-            a.estado,
-            sum(union_tablas.cantidad) as total_unidades_vendidas,
-            count(union_tablas.idarticulo) as total_ventas
-        from (
-            select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_notapedido_producto
-            union all
-            select idfactura as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_fac_art
-            union all
-            select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_boleta_producto
-        ) as union_tablas
-        join articulo a on union_tablas.idarticulo = a.idarticulo
-        group by union_tablas.idarticulo, a.codigo, a.nombre, a.imagen, a.estado
-        order by total_ventas desc, total_unidades_vendidas DESC
-        limit 7; ";
+    $sql = "SELECT a.codigo, a.nombre, a.imagen, a.estado, sum(union_tablas.cantidad) as total_unidades_vendidas, count(union_tablas.idarticulo) as total_ventas
+    from (
+        select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_notapedido_producto
+        union all
+        select idfactura as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_fac_art
+        union all
+        select idboleta as idventa, idarticulo, cantidad_item_12 as cantidad from detalle_boleta_producto
+    ) as union_tablas
+    join articulo a on union_tablas.idarticulo = a.idarticulo
+    group by union_tablas.idarticulo, a.codigo, a.nombre, a.imagen, a.estado
+    order by total_ventas desc, total_unidades_vendidas DESC
+    limit 7; ";
     return ejecutarconsulta($sql);
   }
 
 
-  public function insertarArticulosMasivo($codigo, $nombre, $descrip, $familia,  $marca,  $costo_compra, $precio_venta, $precio_mayor, $stock, $tipoitem, $nombre_almacen)  {
-    $sql = "CALL InsertarDatos('$codigo', '$nombre', '$descrip', '$familia', '$marca', $costo_compra, $precio_venta, $precio_mayor, $stock, '$tipoitem', '$nombre_almacen')";
+  public function insertarArticulosMasivo($codigo, $nombre, $alias, $descrip, $familia,  $marca,  $costo_compra, $precio_venta, $precio_mayor, $stock, $tipoitem, $nombre_almacen)  {
+    $sql = "CALL 	insertar_productos_en_masa('$codigo', '$nombre', '$alias', '$descrip', '$familia', '$marca', $costo_compra, $precio_venta, $precio_mayor, $stock, '$tipoitem', '$nombre_almacen')";
     return ejecutarConsulta($sql);
   }
 
 
   public function ClientesTop()
   {
-    $sql = "SELECT 
-        p.idpersona,
-        case 
-            when p.tipo_documento = '6' then p.razon_social
-            when p.tipo_documento = '1' then p.nombres
-            else 'Desconocido'
-        end as nombrecliente,
-        case 
-            when p.tipo_documento = '6' then p.domicilio_fiscal
-            when p.tipo_documento = '1' then p.numero_documento
-            else 'Desconocido'
-        end as detallecliente,
-        coalesce(f.total_factura, 0) + coalesce(b.total_boleta, 0) + coalesce(n.total_notapedido, 0) as totalgastado
-    from 
-        persona p
-    left join 
-        (select idcliente, sum(importe_total_venta_27) as total_factura from factura group by idcliente) f on p.idpersona = f.idcliente
-    left join 
-        (select idcliente, sum(importe_total_23) as total_boleta from boleta group by idcliente) b on p.idpersona = b.idcliente
-    left join 
-        (select idcliente, sum(importe_total_23) as total_notapedido from notapedido group by idcliente) n on p.idpersona = n.idcliente
-    where 
-        p.tipo_documento in ('1', '6')
-    group by 
-        p.idpersona, p.razon_social, p.nombres, p.apellidos, p.domicilio_fiscal, p.numero_documento
-    order by 
-        totalgastado desc
-    limit 10;    
-        ";
+    $sql = "SELECT p.idpersona,
+    case 
+      when p.tipo_documento = '6' then p.razon_social
+      when p.tipo_documento = '1' then p.nombres
+      else 'Desconocido'
+    end as nombrecliente,
+    case 
+      when p.tipo_documento = '6' then p.domicilio_fiscal
+      when p.tipo_documento = '1' then p.numero_documento
+      else 'Desconocido'
+    end as detallecliente,
+    coalesce(f.total_factura, 0) + coalesce(b.total_boleta, 0) + coalesce(n.total_notapedido, 0) as totalgastado
+    from persona p
+    left join (select idcliente, sum(importe_total_venta_27) as total_factura from factura group by idcliente) f on p.idpersona = f.idcliente
+    left join (select idcliente, sum(importe_total_23) as total_boleta from boleta group by idcliente) b on p.idpersona = b.idcliente
+    left join (select idcliente, sum(importe_total_23) as total_notapedido from notapedido group by idcliente) n on p.idpersona = n.idcliente
+    where p.tipo_documento in ('1', '6')
+    group by p.idpersona, p.razon_social, p.nombres, p.apellidos, p.domicilio_fiscal, p.numero_documento
+    order by totalgastado desc limit 10; ";
     return ejecutarconsulta($sql);
   }
 
   public function insertarventadiaria($total)
   {
-    $sql = "insert into ventadiaria (idcategoriav, fecharegistroingreso, tipo, base, igv, total) 
-                values (0, curdate(), 'efectivot', null, null, '$total')
-                on duplicate key update total = '$total'";
+    $sql = "INSERT into ventadiaria (idcategoriav, fecharegistroingreso, tipo, base, igv, total) 
+    values (0, curdate(), 'efectivot', null, null, '$total') on duplicate key update total = '$total'";
     return ejecutarconsulta($sql);
   }
 }

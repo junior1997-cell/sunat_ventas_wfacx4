@@ -16,7 +16,9 @@ if (!isset($_SESSION["nombre"])) {
     <div class="">
       <div class="">
         <div class="content-header">
-          <h1>Productos <button class="btn btn-primary btn-sm" onclick="limpiar_form_articulo();  generarCodigoAutomatico('PR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> <button class="btn btn-success btn-sm" id="importarDatos" data-bs-toggle="modal" data-bs-target="#importararticulos">Importar Artículos</button>
+          <h1>Productos 
+            <button class="btn btn-primary btn-sm" onclick="limpiar_form_articulo();  generarCodigoAutomatico('PR');" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">Agregar</button> 
+            <button class="btn btn-success btn-sm" onclick="limpiar_form_import_articulo();" data-bs-toggle="modal" data-bs-target="#modal-importar-articulo">Importar Artículos</button>
             <label style="position:relative;top: 3px; float: right;" class="toggle-switch" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Activar generador código de barra correlativamente automático">
               <input id="generar-cod-correlativo" class="cod-correlativo" type="checkbox" checked>
               <span class="slider"></span>
@@ -471,7 +473,7 @@ if (!isset($_SESSION["nombre"])) {
     </div>    
 
     <!--  MODAL - IMPORTAR PRODUCTO -->
-    <div class="modal fade text-left" id="importararticulos" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal fade text-left" id="modal-importar-articulo" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -491,40 +493,50 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="fs-12 op-8 mb-1">Tiene que tener encuenta los siguientes columnas y el orden:</div>    
                   <div class="row fs-12">
                     <div class="col-lg-4 px-0">                      
-                      <span>1. Codigo</span><br> <span>2. Nombre producto</span><br> <span>3. Descripcion</span><br> <span>4. Categoria</span>                            
+                      <span>1. Codigo</span><br> <span>2. Nombre producto</span><br> <span>2. Alias producto</span><br> <span>3. Descripcion</span>                       
                     </div>
                     <div class="col-lg-4 px-0"> 
-                      <span>5. Marca</span><br> <span>6. Precio compra</span><br>  <span>7. Precio venta</span><br> <span>8. Precio por mayor</span><br> 
+                    <span>4. Categoria</span><br> <span>5. Marca</span><br> <span>6. Precio compra</span><br>  <span>7. Precio venta</span>
                     </div>
                     <div class="col-lg-4 px-0"> 
-                      <span>9. Stock</span><br> <span>10. Tipo (productos)</span><br> <span>11. Almacen</span> 
+                    <span>8. Precio por mayor</span><br>  <span>9. Stock</span><br> <span>10. Tipo (productos)</span><br> <span>11. Almacen</span> 
                     </div>
                   </div>  
                   <div class="d-inline-flex mt-2"> 
                     <button type="button" class="btn btn-outline-danger font-size-10px py-1 d-inline-block m-r-5px" data-bs-dismiss="alert" aria-label="Close">Cerrar</button> 
-                    <a href="../assets/excel/plantilla-productos.xls" class="btn btn-success font-size-10px py-1 d-inline-block" download="Plantilla">Descargar plantilla</a> 
+                    <a href="../assets/excel/plantilla-productos.xls" class="btn btn-success font-size-10px py-1 d-inline-block" download="Plantilla-producto">Descargar plantilla</a> 
                   </div>           
                 </div> 
               </div> 
             </div>
-            <form class="form" name="formularioImportar" id="formularioImportar" method="POST" action="importar.php" enctype="multipart/form-data">
+            <form class="form" name="form-importar-articulo" id="form-importar-articulo" method="POST" enctype="multipart/form-data">
               <div class="row">
-                <label class="form__container" id="upload-container">
-                  <input class="form-control" id="upload-files" name="dataArticulo" type="file" style="position: relative;max-width: 420px;width: 100%; ">
-                </label>
-                <div id="files-list-container"></div>
-              </div>
-              <div class="modal-footer">
-                <button  type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                  <i class="bx bx-x d-block d-sm-none"></i>
-                  <span class="d-none d-sm-block">Cancelar</span>
-                </button>
-                <button id="btnGuardarImportacion" type="submit" class="btn btn-primary ml-1">
-                  <i class="bx bx-check d-block d-sm-none"></i>
-                  <span class="d-none d-sm-block">Agregar</span>
-                </button>
-              </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-label" id="upload-container">Cargar excel:</label>
+                    <input class="form-control" id="upload_file_articulo" name="upload_file_articulo" type="file" accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" required>
+                  
+                    <div id="files-list-container"></div>
+                  </div>
+                </div>
+                <div class="p-l-25px col-lg-12" id="barra_progress_imp_articulo_div" style="display: none;">
+                  <div  class="progress progress-lg custom-progress-3" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> 
+                    <div id="barra_progress_imp_articulo" class="progress-bar" style="width: 0%"> <div class="progress-bar-value">0%</div> </div> 
+                  </div>
+                </div> 
+              </div>              
+              <button type="submit" style="display: none;" id="submit-form-import-articulo">Submit</button>             
             </form>
+          </div>
+          <div class="modal-footer">
+            <button  type="button" class="btn btn-danger" data-bs-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Cancelar</span>
+            </button>
+            <button id="guardar_registro_import_articulo" type="submit" class="btn btn-primary ml-1">
+              <i class="bx bx-check d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Agregar</span>
+            </button>
           </div>
         </div>
       </div>
@@ -548,66 +560,7 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
-
-    <script>
-      // const multipleEvents = (element, eventNames, listener) => {
-      //     const events = eventNames.split(' ');
-
-      //     events.forEach(event => {
-      //         element.addEventListener(event, listener, false);
-      //     });
-      // };
-
-      // const fileUpload = () => {
-      //     const INPUT_FILE = document.querySelector('#upload-files');
-      //     const INPUT_CONTAINER = document.querySelector('#upload-container');
-
-      //     multipleEvents(INPUT_FILE, 'click dragstart dragover', () => {
-      //         INPUT_CONTAINER.classList.add('active');
-      //     });
-
-      //     multipleEvents(INPUT_FILE, 'dragleave dragend drop change', () => {
-      //         INPUT_CONTAINER.classList.remove('active');
-      //     });
-
-      //     INPUT_FILE.addEventListener('change', () => {
-      //         const files = [...INPUT_FILE.files];
-
-      //         if (files.length > 0) {
-      //             const file = files[0];
-      //             const fileName = file.name;
-      //             const fileExtension = fileName.split(".").pop().toLowerCase();
-
-      //             // Verifica las extensiones
-      //             if (['xls', 'xlsx', 'xlsm', 'csv'].includes(fileExtension)) {
-      //                 INPUT_CONTAINER.textContent = "";
-      //                 const iconHTML = `<img src="../files/iconos/excel.png" alt="Icono Excel" class="icon-excel">`;
-      //                 const content = `
-      //                     <div class="form__files-container">
-      //                         ${iconHTML}
-      //                         <span class="form__text">${fileName}</span>
-      //                         <div class="barra-cargado"></div>
-      //                     </div>
-      //                 `;
-
-      //                 INPUT_CONTAINER.insertAdjacentHTML('beforeEnd', content);
-      //             } else {
-      //                 // Usamos Swal.fire en lugar de alert
-      //                 Swal.fire({
-      //                     icon: 'error',
-      //                     title: 'Error',
-      //                     text: 'Por favor, selecciona un archivo válido de tipo Excel.'
-      //                 });
-      //                 INPUT_FILE.value = '';
-      //             }
-      //         } else {
-      //             INPUT_CONTAINER.textContent = "Elija o Arrastre su Archivo";
-      //         }
-      //     });
-      // };
-
-      // fileUpload();
-    </script>
+    
   <?php
   } else {
     require 'noacceso.php';
@@ -615,58 +568,7 @@ if (!isset($_SESSION["nombre"])) {
   require 'footer.php';
   ?>
   <!-- <script type="text/javascript" src="../public/js/JsBarcode.all.min.js"></script> -->
-  <script>
-    document.getElementById('formularioImportar').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const data = new FormData(this);
-      fetch(this.action, { method: 'POST', body: data  })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data); console.log(data.success);
-        if (data.success == true) {
-          Swal.fire({  icon: 'success',  title: '¡Éxito!',  text: 'Los datos se han importado correctamente.',  showConfirmButton: true, timer: 3500  });
-          tabla.ajax.reload();
-          listar();
-          $('#importararticulos').modal('hide');
-        } else {
-          Swal.fire({ icon: 'error', title: 'Error', text: data.message || 'Ocurrió un error al importar los datos.' });
-        }
-      }).catch(err => {
-        Swal.fire({ icon: 'error', title: 'Error', text: 'Ocurrió un error al enviar el archivo.' });
-      });
-    });
 
-    $('#importararticulos').on('hidden.bs.modal', function() {
-      $('#upload-files').val(''); // Limpiar el input del archivo
-    });
-
-    $('button[data-bs-dismiss="modal"]').click(function() {
-      $('#upload-files').val(''); // Limpiar el input del archivo
-    });
-
-
-    // Obtenemos el input
-    var inputFile = document.getElementById("upload-files");
-    // Definimos las extensiones permitidas
-    var allowedExtensions = ["xls", "xlsx", "xlsm", "csv"];
-
-    // Agregamos un evento de cambio al input
-    inputFile.addEventListener("change", function() {
-      // Obtenemos el archivo seleccionado
-      var file = this.files[0];
-      // Validamos la extensión del archivo
-      if (!allowedExtensions.includes(file.name.split(".").pop())) {
-        // Mostramos un swal de error
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Por favor, selecciona un archivo válido de tipo Excel.",
-        });
-        // Eliminamos el archivo del input
-        inputFile.value = null;
-      }
-    });
-  </script>
   <script type="text/javascript" src="../public/js/jquery.PrintArea.js"></script>
   <script type="text/javascript" src="scripts/articulo.js"></script>
   <script src="../public/js/html5tooltips.js"></script>

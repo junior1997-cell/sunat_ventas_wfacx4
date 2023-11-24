@@ -6,13 +6,26 @@ function init_familia(){
 	listar_tabla_familia();
 
 	$("#guardar_registro_familia").on("click", function (e) { $("#submit-form-familia").submit(); });	
+	$("#guardar_registro_import_familia").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-import-familia").submit(); }  });
 }
 
 //Función limpiar
 function limpiar_form_familia() {
 	$("#idfamilia").val("");
 	$("#nombrec").val("");	
-	$("#guardar_registro_familia").html("Agregar");
+	$("#guardar_registro_familia").html('Guardar Cambios').removeClass('disabled send-data');
+
+	// Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+}
+
+//Función limpiar
+function limpiar_form_import_familia() {
+
+	$("#upload_file_familia").val("");	
+	$("#guardar_registro_familia").html('Guardar Cambios').removeClass('disabled send-data');
 
 	// Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -100,6 +113,59 @@ function guardar_y_editar_familia(e) {
 	});	
 }
 
+function importar_familia(e) {
+	// e.preventDefault(); //No se activará la acción predeterminada del evento	
+	var formData = new FormData($("#form-importar-familia")[0]);
+
+	$.ajax({
+		url: "../ajax/familia.php?op=importar_familia",
+		type: "POST",
+		data: formData,
+		contentType: false,
+		processData: false,
+		success: function(e) {
+			try {
+				e = JSON.parse(e); console.log(e);
+				if (e.status == true) { 					             
+					Swal.fire({	title: "Excelente",	html: 'Registrado correctamente', icon: "success", showConfirmButton: true	});				
+					tabla_familia.ajax.reload(null, false);
+					$('#modal-importar-familia').modal('hide');
+				}else{				
+					swal.fire({	title: "Error",	html: e, icon: "error", showConfirmButton: true	});
+				}
+			} catch (error) {
+				swal.fire({	title: "Error",	html: error, icon: "error", showConfirmButton: true	});
+				console.log(error);
+			}
+			$("#guardar_registro_import_familia").html('Guardar Cambios').removeClass('disabled send-data');
+		},
+		xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_imp_familia").css({"width": percentComplete+'%'});
+          $("#barra_progress_imp_familia div").text(`${percentComplete.toFixed(1)} %`);
+        }
+      }, false);
+      return xhr;
+    },
+    beforeSend: function () {
+      $("#guardar_registro_import_familia").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled send-data');
+			$("#barra_progress_imp_familia_div").show();
+      $("#barra_progress_imp_familia").css({ width: "0%",  }).addClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_imp_familia div").text("0%");
+    },
+    complete: function () {
+			$("#barra_progress_imp_familia_div").hide();
+      $("#barra_progress_imp_familia").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_imp_familia div").text("0%");
+    },
+    error: function (jqXhr) { console.log(jqXhr); },
+	});	
+}
+
 
 function mostrar_editar_familia(idfamilia) {
 	limpiar_form_familia();
@@ -166,7 +232,7 @@ $(function () {
       nombrec: { required: true, minlength:2, maxlength:50 } 
     },
     messages: {
-      nombrec: { required: "Campo requerido", minlength:"Minimo 2 caracteres", maxlength:"Maximo 50 caracteres" },
+      nombrec: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
     },
         
     errorElement: "span",
@@ -185,6 +251,33 @@ $(function () {
     },
     submitHandler: function (e) {
       guardar_y_editar_familia(e);      
+    },
+  });
+
+  $("#form-importar-familia").validate({
+    rules: { 
+      upload_file_familia: { required: true,  extension: "xls|xlsx", } 
+    },
+    messages: {
+      upload_file_familia: { required: "Campo requerido", extension: "Ingrese imagenes validas ( {0} )", },
+    },
+        
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");   
+    },
+    submitHandler: function (e) {
+      importar_familia(e);      
     },
   });
 });

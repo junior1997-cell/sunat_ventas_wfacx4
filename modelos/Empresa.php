@@ -24,7 +24,7 @@ Class Empresa
       $sw=true;
 
       $sql="insert into  empresa (nombre_razon_social,nombre_comercial,domicilio_fiscal,numero_ruc,telefono1,telefono2,correo,web,
-          webconsul,logo,ubigueo,codubigueo,ciudad,distrito,interior,codigopais,banco1,cuanta1,banco2,
+          webconsul,logo,ubigueo,codubigueo,ciudad,distrito,interior,codigopais,banco1,cuenta1,banco2,
           cuenta2,banco3,cuenta3,banco4,cuenta4,cuentacci1,cuentacci2,cuentacci3,cuentacci4,tipoimpresion,textolibre )
           values ('$razonsocial','$ncomercial','$domicilio','$ruc','$tel1','$tel2','$correo','$web','$webconsul','$imagen', '$ubigueo', '$codubigueo', '$ciudad', '$distrito', '$interior', '$codigopais' , '$banco1' , '$cuenta1' , '$banco2' , '$cuenta2' , '$banco3' , '$cuenta3' , '$banco4' , '$cuenta4' , '$cuentacci1', '$cuentacci2', '$cuentacci3', '$cuentacci4', '$tipoimpresion', '$textolibre')";
 
@@ -94,14 +94,20 @@ Class Empresa
 
     public function mostrar($idempresa)
     {
-      $sql="select  *  from empresa e  inner join  configuraciones cf on e.idempresa=cf.idempresa inner join rutas r on e.idempresa=r.idempresa
+      $sql="SELECT  *  from empresa e  inner join  configuraciones cf on e.idempresa=cf.idempresa inner join rutas r on e.idempresa=r.idempresa
         where e.idempresa='$idempresa'";
       return ejecutarConsultaSimpleFila($sql);
     }
 
     public function listar()
     {
-      $sql="select * from empresa e inner join rutas r on e.idempresa=r.idempresa where e.idempresa='1'";
+      $sql="SELECT * from empresa e inner join rutas r on e.idempresa=r.idempresa where e.idempresa='1'";
+      return ejecutarConsulta($sql);      
+    }
+
+    public function listar_tabla_principal()
+    {
+      $sql="SELECT * from empresa where estado = '1' and estado_delete = '1';";
       return ejecutarConsulta($sql);      
     }
  

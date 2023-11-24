@@ -6,13 +6,26 @@ function init_marca(){
 	listar_tabla_marca();
 
 	$("#guardar_registro_marca").on("click", function (e) { $("#submit-form-marca").submit(); });	
+	$("#guardar_registro_import_marca").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-import-marca").submit(); }  });
 }
 
 //Función limpiar
 function limpiar_form_marca() {
 	$("#idmarca").val("");
 	$("#nombre_marca").val("");	
-	$("#guardar_registro_marca").html("Agregar");
+	$("#guardar_registro_marca").html('Guardar Cambios').removeClass('disabled send-data');
+
+	// Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+}
+
+//Función limpiar
+function limpiar_form_import_marca() {
+
+	$("#upload_file_marca").val("");	
+	$("#guardar_registro_marca").html('Guardar Cambios').removeClass('disabled send-data');
 
 	// Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -97,6 +110,59 @@ function guardar_y_editar_marca(e) {
 			$("#barra_progress_marca div").text("0%");
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
+	});	
+}
+
+function importar_marca(e) {
+	// e.preventDefault(); //No se activará la acción predeterminada del evento	
+	var formData = new FormData($("#form-importar-marca")[0]);
+
+	$.ajax({
+		url: "../ajax/marca.php?op=importar_marca",
+		type: "POST",
+		data: formData,
+		contentType: false,
+		processData: false,
+		success: function(e) {
+			try {
+				e = JSON.parse(e); console.log(e);
+				if (e.status == true) { 					             
+					Swal.fire({	title: "Excelente",	html: 'Registrado correctamente', icon: "success", showConfirmButton: true	});				
+					tabla_marca.ajax.reload(null, false);
+					$('#modal-importar-marca').modal('hide');
+				}else{				
+					swal.fire({	title: "Error",	html: e, icon: "error", showConfirmButton: true	});
+				}
+			} catch (error) {
+				swal.fire({	title: "Error",	html: error, icon: "error", showConfirmButton: true	});
+				console.log(error);
+			}
+			$("#guardar_registro_import_marca").html('Guardar Cambios').removeClass('disabled send-data');
+		},
+		xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_imp_marca").css({"width": percentComplete+'%'});
+          $("#barra_progress_imp_marca div").text(`${percentComplete.toFixed(1)} %`);
+        }
+      }, false);
+      return xhr;
+    },
+    beforeSend: function () {
+      $("#guardar_registro_import_marca").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled send-data');
+			$("#barra_progress_imp_marca_div").show();
+      $("#barra_progress_imp_marca").css({ width: "0%",  }).addClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_imp_marca div").text("0%");
+    },
+    complete: function () {
+			$("#barra_progress_imp_marca_div").hide();
+      $("#barra_progress_imp_marca").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
+			$("#barra_progress_imp_marca div").text("0%");
+    },
+    error: function (jqXhr) { console.log(jqXhr);},
 	});	
 }
 
@@ -186,6 +252,33 @@ $(function () {
     },
     submitHandler: function (e) {
       guardar_y_editar_marca(e);      
+    },
+  });
+
+	$("#form-importar-marca").validate({
+    rules: { 
+      upload_file_marca: { required: true,  extension: "xls|xlsx", } 
+    },
+    messages: {
+      upload_file_marca: { required: "Campo requerido", extension: "Ingrese imagenes validas ( {0} )", },
+    },
+        
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");   
+    },
+    submitHandler: function (e) {
+      importar_marca(e);      
     },
   });
 });

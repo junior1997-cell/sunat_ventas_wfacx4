@@ -24,29 +24,29 @@
 
 
 
-$('body').on("keydown", function(e) {
-            if (e.ctrlKey && e.shiftKey && e.which === 83) {
-                alert("You pressed Ctrl + Shift + s");
-                e.preventDefault();
-            }else if(e.which===112){
-                location.href ="factura";
-            // }else if(e.which===80){
-            //     $("#myModalArt").modal('show');
-            //     $("#itemno").val('1')
-            //     iit=$("#itemno").val()
-            //     listarArticulos();
-            //     e.preventDefault();
-            // }else if(e.which===78){
-            //     mostrarform(true);
-            //     e.preventDefault();
-            }else if(e.which===115){
-                location.href ="boleta";
-            }
-        });
+$('body').on("keydown", function (e) {
+  if (e.ctrlKey && e.shiftKey && e.which === 83) {
+    alert("You pressed Ctrl + Shift + s");
+    e.preventDefault();
+  } else if (e.which === 112) {
+    location.href = "factura";
+    // }else if(e.which===80){
+    //     $("#myModalArt").modal('show');
+    //     $("#itemno").val('1')
+    //     iit=$("#itemno").val()
+    //     listarArticulos();
+    //     e.preventDefault();
+    // }else if(e.which===78){
+    //     mostrarform(true);
+    //     e.preventDefault();
+  } else if (e.which === 115) {
+    location.href = "boleta";
+  }
+});
 
 
 
 
-        setTimeout(function(){
-        location.reload();
-        },60000);
+setTimeout(function () {
+  location.reload();
+}, 60000);

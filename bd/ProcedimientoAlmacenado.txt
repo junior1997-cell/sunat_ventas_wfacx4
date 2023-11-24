@@ -1,61 +1,105 @@
-DELIMITER //
-CREATE PROCEDURE InsertarDatos(
-    IN p_codigo VARCHAR(255), 
-    IN p_familia_descripcion VARCHAR(45), 
-    IN p_nombre VARCHAR(500),
-    IN p_marca VARCHAR(100),
-    IN p_descrip VARCHAR(500),
-    IN p_costo_compra FLOAT(12,2),
-    IN p_precio_venta DECIMAL(12,2),
-    IN p_stock FLOAT(12,2),
-    IN p_saldo_iniu FLOAT(12,2),
-    IN p_valor_iniu FLOAT(12,2),
-    IN p_tipoitem VARCHAR(50),
-    IN p_codigott VARCHAR(50),
-    IN p_desctt VARCHAR(50),
-    IN p_codigointtt VARCHAR(50),
-    IN p_nombrett VARCHAR(50),
-    IN p_nombre_almacen VARCHAR(45)
+CREATE PROCEDURE insertar_productos_en_masa(
+	IN p_codigo VARCHAR(255),  			-- codigo de producto
+    IN p_nombre VARCHAR(500), 			-- nombre del producto
+    IN p_alias VARCHAR(25), 			-- nombre del producto
+    IN p_descrip VARCHAR(500), 			-- descripcion del producto
+	IN p_familia VARCHAR(45), 			-- categoria de producto: frutas, muebles, laptops	
+	IN p_marca VARCHAR(100), 			-- nombre de la marca: xiaomy, samsumg	
+	IN p_costo_compra FLOAT(12,2), 		-- precio de compra 
+	IN p_precio_venta DECIMAL(12,2), 	-- precio de venta al publico
+    IN p_precio_mayor DECIMAL(12,2), 	-- precio de venta al por mayor
+	IN p_stock FLOAT(12,2),  			-- stock disponoble en el almacen
+	IN p_tipoitem VARCHAR(50), 			-- puder ser: productos o servicios	
+	IN p_nombre_almacen VARCHAR(45) 	-- default: PRINCIPAL
 )
 BEGIN
+	DECLARE art_id INT;
     DECLARE fam_id INT;
+    DECLARE mar_id INT;
     DECLARE alm_id INT;
+    
+    DECLARE new_familia VARCHAR(45);
+    DECLARE new_marca VARCHAR(45);
+    
+    -- Validamos los vacios
+    SELECT CASE p_familia WHEN '' THEN 'NINGUNO' WHEN '-' THEN 'NINGUNO' WHEN '--' THEN 'NINGUNO' WHEN 'NINGUNO' THEN 'NINGUNO' WHEN 'NULL' THEN 'NINGUNO' WHEN NULL THEN 'NINGUNO' ELSE p_familia END INTO new_familia;
+    
+    -- Validamos los vacios
+    SELECT CASE p_marca WHEN '' THEN 'NINGUNO' WHEN '-' THEN 'NINGUNO' WHEN '--' THEN 'NINGUNO' WHEN 'NINGUNO' THEN 'NINGUNO' WHEN 'NULL' THEN 'NINGUNO' WHEN NULL THEN 'NINGUNO' ELSE p_marca  END INTO new_marca;    
 
     -- Insertar en familia si no existe, o recuperar ID si existe
-    INSERT INTO familia (descripcion, estado) 
-    VALUES (p_familia_descripcion, 1)
-    ON DUPLICATE KEY UPDATE idfamilia=LAST_INSERT_ID(idfamilia), descripcion=p_familia_descripcion;
+    INSERT INTO familia (descripcion, estado) VALUES ( p_familia, 1)
+    ON DUPLICATE KEY UPDATE idfamilia=LAST_INSERT_ID(idfamilia), descripcion=p_familia; 
+	SET fam_id = LAST_INSERT_ID();
+    
+    -- Insertar en marca si no existe, o recuperar ID si existe
+    INSERT INTO marca (descripcion, estado) VALUES ( p_marca,  1)
+    ON DUPLICATE KEY UPDATE idmarca=LAST_INSERT_ID(idmarca), descripcion=p_marca; 
 
-    SET fam_id = LAST_INSERT_ID();
+    SET mar_id = LAST_INSERT_ID();
 
     -- Insertar en almacén si no existe, o recuperar ID si existe
-    INSERT INTO almacen (nombre, estado) 
-    VALUES (p_nombre_almacen, 1)
-    ON DUPLICATE KEY UPDATE idalmacen=LAST_INSERT_ID(idalmacen), nombre=p_nombre_almacen;
+    INSERT INTO almacen (nombre, direccion, estado) 
+    VALUES (p_nombre_almacen, p_nombre_almacen, 1)
+    ON DUPLICATE KEY UPDATE idalmacen=LAST_INSERT_ID(idalmacen), nombre=p_nombre_almacen; 
 
     SET alm_id = LAST_INSERT_ID();
 
     -- Insertar en articulo
     INSERT INTO articulo (
-        idalmacen, codigo, nombre, idfamilia, unidad_medida, costo_compra, saldo_iniu, 
-        valor_iniu, stock, precio_venta, estado, codigott, desctt, codigointtt, nombrett, 
-        marca, descrip, fecharegistro, tipoitem, umedidacompra, factorc,
+        idalmacen, idmarca, codigo, nombre, alias, idfamilia, unidad_medida, costo_compra, saldo_iniu, valor_iniu, 
+        stock, precio_venta, precio2, estado, codigott, desctt, codigointtt, nombrett, 
+		descrip, fecharegistro, tipoitem, umedidacompra, factorc,
         fechafabricacion, fechavencimiento, fechaingalm, fechafinalma, proveedor, limitestock, lote, procedencia,
         fabricante, registrosanitario, codigo_proveedor, seriefaccompra, numerofaccompra,
         fechafacturacompra, saldo_finu, valor_finu, comprast, ventast, portador, merma, 
-        imagen, valor_fin_kardex, precio_final_kardex, codigosunat, ccontable, precio2, 
-        precio3, costofinal, cicbper, nticbperi, ctticbperi, mticbperu
+        imagen, valor_fin_kardex, precio_final_kardex, codigosunat, ccontable,  
+        precio3, costofinal, cicbper, nticbperi, ctticbperi, mticbperu, user_created
     ) 
     VALUES (
-        alm_id, p_codigo, p_nombre, fam_id, 58, p_costo_compra, p_saldo_iniu, p_valor_iniu, 
-        p_stock, p_precio_venta, 1, p_codigott, p_desctt, p_codigointtt, p_nombrett,
-        p_marca, p_descrip, NOW(), p_tipoitem, 58, 1.00, 
-        '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '', '0.00', '', '',
+        alm_id, mar_id, p_codigo, p_nombre, p_alias, fam_id, 58, p_costo_compra, p_stock, 0, 
+        p_stock, p_precio_venta, p_precio_mayor, 1, '9997', 'Exonerado', 'VAT', 'EXO',
+        p_descrip, NOW(), p_tipoitem, 58, 1.00, 
+        null, null, null, null, '-', '1.00', '', '',
         '', '', '-', '', '', 
-        '0000-00-00', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 
-        '', 0.00, 0.00, '', '', 0.00, 
-        0.00, NULL, '', '', '', 0.00
-    );
+        null, 0.00,  0.00, 0.00, 0.00, 0.00, 0.00, 
+        '', 0.00, p_costo_compra, '', '', 
+        precio_venta, NULL, '', '', '', 0.00, '1'
+    )  ON DUPLICATE KEY UPDATE idarticulo=LAST_INSERT_ID(idarticulo);
+    
+    SET art_id = LAST_INSERT_ID();
+    
+    -- Insertamos para agregar productos al venta segun con su codigo
+    INSERT INTO subarticulo( idarticulo, codigobarra, valorunitario, preciounitario, stock, umventa) 
+    VALUES (art_id, p_codigo, p_costo_compra, p_costo_compra, p_stock, 58);
+    
+    ALTER TABLE familia AUTO_INCREMENT = 1;  ALTER TABLE marca AUTO_INCREMENT = 1;
+    ALTER TABLE almacen AUTO_INCREMENT = 1;  ALTER TABLE articulo AUTO_INCREMENT = 1;
 
-END //
-DELIMITER ;
+END
+
+
+-- --------------------------------------
+CREATE PROCEDURE insertar_categoria_en_masa(
+	IN c_nombre VARCHAR(45),  -- nombre de la categoria
+    IN c_estado CHAR(1) 	  -- estado de la categoria: 1 activo, 0 inactivo
+)
+BEGIN
+    -- Insertar en familia si no existe, o recuperar ID si existe
+    INSERT INTO familia (descripcion, estado) VALUES ( c_nombre, c_estado)
+    ON DUPLICATE KEY UPDATE idfamilia=LAST_INSERT_ID(idfamilia), descripcion=c_nombre; 
+	ALTER TABLE familia AUTO_INCREMENT = 1;
+END
+
+-- ----------------------------------------
+CREATE PROCEDURE insertar_marca_en_masa(
+	IN m_nombre VARCHAR(255), -- nombre de marca
+    IN m_estado VARCHAR(500)  -- estado de la marca: 1 activo, 0 inactivo
+)
+BEGIN
+    
+    -- Insertar en marca si no existe, o recuperar ID si existe
+    INSERT INTO marca (descripcion, estado) VALUES ( m_nombre,  m_estado)
+    ON DUPLICATE KEY UPDATE idmarca=LAST_INSERT_ID(idmarca), descripcion=m_nombre; 
+	ALTER TABLE marca AUTO_INCREMENT = 1;
+END
