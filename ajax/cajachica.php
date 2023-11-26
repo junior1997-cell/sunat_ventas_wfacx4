@@ -1,232 +1,119 @@
-<?php 
-if (strlen(session_id()) < 1){session_start();}
+<?php
+if (strlen(session_id()) < 1) {
+  session_start();
+}
 require_once "../modelos/Cajachica.php";
 
-$cajachica=new Cajachica();
+$cajachica = new Cajachica();
 
-// $saldo_inicial = $_POST['saldo_inicial'];
-
-$idsaldoini=isset($_POST["idsaldoini"])? limpiarCadena($_POST["idsaldoini"]):"";
-$total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
-$saldo_inicial=isset($_POST["saldo_inicial"])? limpiarCadena($_POST["saldo_inicial"]):"";
-// $codigo=isset($_POST["codigo"])? limpiarCadena($_POST["codigo"]):"";
-// $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
+$idsaldoini = isset($_POST["idsaldoini"]) ? limpiarCadena($_POST["idsaldoini"]) : "";
+$total_venta = isset($_POST["total_venta"]) ? limpiarCadena($_POST["total_venta"]) : "";
+$saldo_inicial = isset($_POST["saldo_inicial"]) ? limpiarCadena($_POST["saldo_inicial"]) : "";
 
 if (isset($_GET['action'])) {
-	$action = $_GET['action'];
-  } else {
-	$action = '';
-  }
-  //total de COMPRAS
-  if ($action == 'TotalCompras') {
-		$rspta = $cajachica->TotalCompras();
-		$data = array();
-		
-		while ($reg=$rspta->fetch_object()){
-			$data[]=array(
-				"total_compras"=>$reg->total_compras
-			);
-		}
-		$results = array(
-			"aaData"=>$data
-		);
-		
-		header('Content-type: application/json');
-		echo json_encode($results);
-	}
-
-
-  //total de ventas
-  if ($action == 'TotalVentas') {
-
-		$rspta = $cajachica->TotalVentas();
-		$data = array();
-	
-		while ($reg=$rspta->fetch_object()){
-			$data[]=array(
-				"total_venta"=>$reg->total_venta
-			);
-		}
-		$results = array(
-			"aaData"=>$data
-		);
-		
-		header('Content-type: application/json');
-		echo json_encode($results);
-
-  }
-
-    //total en caja.
-	if ($action == 'TotalCaja') {
-
-		$rspta = $cajachica->TotalCaja();
-		$data = array();
-	  
-		while ($reg=$rspta->fetch_object()){
-			$data[]=array(
-				"total_caja"=>$reg->total_caja
-			);
-		}
-		$results = array(
-			"aaData"=>$data
-		);
-		
-		header('Content-type: application/json');
-		echo json_encode($results);
-
-	}
-
-
-
-  //Total gastos
-
-  if ($action == 'TotalGastos') {
-	$rspta = $cajachica->verEgresos();
-	$data = array();
-  
-	while ($reg=$rspta->fetch_object()){
-        $data[]=array(
-			"total_gasto"=>$reg->total_gasto
-        );
-    }
-	$results = array(
-		"aaData"=>$data
-	);
-	
-	header('Content-type: application/json');
-	echo json_encode($results);
-  }
-
-
-  //total ingresos
-
-
-  if ($action == 'TotalIngresos') {
-	$rspta = $cajachica->verIngresos();
-	$data = array();
-  
-	while ($reg=$rspta->fetch_object()){
-        $data[]=array(
-			"total_ingreso"=>$reg->total_ingreso
-        );
-    }
-	$results = array(
-		"aaData"=>$data
-	);
-	
-	header('Content-type: application/json');
-	echo json_encode($results);
-  }
-  
-
-  if ($action == 'SaldoInicial') {
-	$rspta = $cajachica->verSaldoini();
-	$data = array();
-
-	while ($reg=$rspta->fetch_object()){
-        $data[]=array(
-			"idsaldoini"=>$reg->idsaldoini,
-			"total_ingreso"=>$reg->saldo_inicial
-        );
-    }
-	$results = array(
-		"aaData"=>$data
-	);
-	
-	header('Content-type: application/json');
-	echo json_encode($results);
-  }
-  
-
-  if ($action == 'listarcierre') {
-	$rspta = $cajachica->listarCierre();
-	$data = array();
-  
-	while ($reg=$rspta->fetch_object()){
-        $data[]=array(
-			'fecha_cierre' => '',
-            'total_ingreso' => $reg->total_ingreso,
-            'total_gasto' => $reg->total_gasto,
-			'saldo_inicial' => $reg->saldo_inicial,
-            'total_caja' => $reg->total_caja
-        );
-    }
-	$results = array(
-		"aaData"=>$data
-	);
-	
-	header('Content-type: application/json');
-	echo json_encode($results);
-  }
-
-  if ($action == 'comprobantes') {
-
-	$rspta = $cajachica->comprobantes();
-	$data = array();
-  
-	while ($reg=$rspta->fetch_object()){
-        $data[]=array(
-
-			'id_doc'           => $reg->id_doc,
-            'fecha_emision_01' => $reg->fecha_emision_01,
-            'nun_doc'          => $reg->nun_doc,
-			'idcliente'        => $reg->idcliente,
-            'rucCliente'       => $reg->rucCliente,
-            'RazonSocial'      => $reg->RazonSocial,
-            'importe_total'    => $reg->importe_total,
-            'descripcion_ley'  => $reg->descripcion_ley,
-            'tipoDoc'          => $reg->tipoDoc
-        );
-    }
-	$results = array(
-		"aaData"=>$data
-	);
-	
-	header('Content-type: application/json');
-	echo json_encode($results);
-  }
-
-  if ($action == 'tblInsumos') {
-	$tipo=$_GET['tipo'];
-	$rspta = $cajachica->tblInsumos($tipo);
-	$data = array();
-  
-	while ($reg=$rspta->fetch_object()){
-        $data[]=array(
-			'fecha_cierre' => $reg->fecharegistro,
-            'total_ingreso' => $reg->descripcion,
-            'total_gasto' => $reg->descripcionc,
-			'saldo_inicial' => $reg->ingreso,
-            'total_caja' => $reg->acredor
-        );
-    }
-	$results = array(
-		"aaData"=>$data
-	);
-	
-	header('Content-type: application/json');
-	echo json_encode($results);
-  }
-
-  switch ($_GET["op"]){
-    case 'guardaryeditar':
-        if ($cajachica->existeSaldoInicialDiaActual()) {
-            echo "Ya existe un saldo inicial registrado para hoy, no se puede registrar otro.";
-        } else {
-            $resultado = $cajachica->insertarSaldoInicial($saldo_inicial);
-            echo $resultado ? "Saldo registrado" : "Saldo no se pudo registrar";
-        }
-    break;
-
-	
-	case 'cerrarcaja':
-		// $cajachica->resetearValoresCierreCaja();
-		$resultado = $cajachica->cerrarCaja($_SESSION['tipo_doc_user'],$_SESSION['num_doc_user']);
-		echo $resultado ? "Caja cerrada" : "No se pudo cerrar la caja";
-		break;
-	
-	
-
+  $action = $_GET['action'];
+} else {
+  $action = '';
 }
 
-?>
+if ($action == 'TotalVentas') {
+
+  $rspta = $cajachica->TotalVentas();
+  
+  $data = empty($rspta['total_venta'])?'0': floatval($rspta['total_venta']);
+
+  echo json_encode($data, true);
+}
+
+if ($action == 'TotalCaja') {
+
+  $rspta = $cajachica->TotalCaja();
+  $data =  empty($rspta['total_caja'])?'0': floatval($rspta['total_caja']);
+  echo json_encode($data, true);
+}
+
+if ($action == 'TotalGastos') {
+  $rspta = $cajachica->verEgresos();
+  $data = empty($rspta['total_gasto'])?'0': floatval($rspta['total_gasto']);
+  echo json_encode($data, true);
+}
+
+if ($action == 'TotalIngresos') {
+  $rspta = $cajachica->verIngresos();
+
+  $data =  empty($rspta['total_ingreso'])?'0': floatval($rspta['total_ingreso']);
+
+  echo json_encode($data, true);
+}
+
+if ($action == 'SaldoInicial') {
+  $rspta = $cajachica->verSaldoini();
+  $data = $rspta['montoi'];
+
+  echo json_encode($data, true);
+}
+
+if ($action == 'comprobantes') {
+
+  $rspta = $cajachica->comprobantes();
+  $data = array();
+
+  foreach ($rspta as $key => $reg) {
+    $data[] = array(
+
+      'id_doc'           => $reg['id_doc'],
+      'fecha_emision_01' => $reg['fecha_emision_01'],
+      'nun_doc'          => $reg['nun_doc'],
+      'idcliente'        => $reg['idcliente'],
+      'rucCliente'       => $reg['rucCliente'],
+      'RazonSocial'      => $reg['RazonSocial'],
+      'importe_total'    => $reg['importe_total'],
+      'descripcion_ley'  => $reg['descripcion_ley'],
+      'tipoDoc'          => $reg['tipoDoc']
+    );
+  }
+  $results = array(
+    "aaData" => $data
+  );
+
+  header('Content-type: application/json');
+  echo json_encode($results);
+}
+
+if ($action == 'tblInsumos') {
+  $tipo = $_GET['tipo'];
+  $rspta = $cajachica->tblInsumos($tipo);
+  $data = array();
+
+  foreach ($rspta as $key => $reg) {
+    $data[] = array(
+      'fecharegistro' => $reg['fecharegistro'],
+      'descripcion'   => $reg['descripcion'],
+      'descripcionc'  => $reg['descripcionc'],
+      'total'         => $reg['total'],
+      'acredor'       => $reg['acredor']
+    );
+  }
+  $results = array(
+    "aaData" => $data
+  );
+
+  header('Content-type: application/json');
+  echo json_encode($results);
+}
+
+switch ($_GET["op"]) {
+
+  case 'guardaryeditar':
+
+      $resultado = $cajachica->insertarSaldoInicial($saldo_inicial);
+      echo $resultado ? "Saldo registrado" : "Saldo no se pudo registrar";
+    
+  break;
+
+
+  case 'cerrarcaja':  
+    $resultado = $cajachica->cerrarCaja($_SESSION['tipo_doc_user'], $_SESSION['num_doc_user']);
+    echo $resultado ? "Caja cerrada" : "No se pudo cerrar la caja";
+  break;
+}
