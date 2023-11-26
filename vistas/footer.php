@@ -67,7 +67,9 @@ $datose = $datos->fetch_object();
 <!-- sweet alert -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Funciones Personalizadas -->
 <script type="text/javascript" src="../assets/js/funcion_general.js"></script>
+<script type="text/javascript" src="../assets/js/funcion_crud.js"></script>
 
 <!-- JQuery ZOOM imagen -->
 <script type="text/javascript" src="../assets/libs/jquery-zoom/jquery.zoom.js"></script>

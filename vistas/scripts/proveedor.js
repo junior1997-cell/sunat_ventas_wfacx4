@@ -1,182 +1,159 @@
-var tabla;
+var tabla_proveedor;
 
 //Función que se ejecuta al inicio
-function init(){
-	//mostrarform(false);
-	listar();
+function init() {
 
-	$("#formulario").on("submit",function(e)
-	{
-		guardaryeditar(e);
-	})
+  listar();
 
-	// Carga de departamentos
-	    $.post("../ajax/persona.php?op=selectDepartamento", function(r){
-        $("#iddepartamento").html(r);
-        //  $('#iddepartamento').selectpicker('refresh');
-    });
+  // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════   
+  $.post("../ajax/ajax_general.php?op=select2_distrito", function (r) { $("#iddistrito").html(r); });
+
+  // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
+  $("#guardar_registro_proveedor").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-proveedor").submit(); }  });
+
+
+  // ══════════════════════════════════════ I N I T I A L I Z E   S E L E C T 2 ══════════════════════════════════════  
+  $("#iddistrito").select2({ dropdownParent: $('#modal-agregar-proveedor'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
 
 }
 
-function llenarCiudad(){
-    var iddepartamento=$("#iddepartamento option:selected").val();
-    $.post("../ajax/persona.php?op=selectCiudad&id="+iddepartamento, function(r){
+function llenar_dep_prov_ubig(input) {
 
-       $("#idciudad").html(r);
-       //$('#idciudad').selectpicker('refresh');
-       $("#idciudad").val("");
+  $(".chargue-pro").html(`<i class="fas fa-spinner fa-pulse text-danger"></i>`); 
+  $(".chargue-dep").html(`<i class="fas fa-spinner fa-pulse text-danger"></i>`); 
+  $(".chargue-ubi").html(`<i class="fas fa-spinner fa-pulse text-danger"></i>`); 
+
+  if ($(input).select2("val") == null || $(input).select2("val") == '') { 
+    $("#iddepartamento").val(""); 
+    $("#idprovincia").val(""); 
+    $("#ubigeo").val(""); 
+
+    $(".chargue-pro").html(''); $(".chargue-dep").html(''); $(".chargue-ubi").html('');
+  } else {
+    var iddistrito =  $(input).select2('data')[0].element.attributes.iddistrito.value;
+    $.post(`../ajax/ajax_general.php?op=select2_distrito_id&id=${iddistrito}`, function (e) {   
+      e = JSON.parse(e); console.log(e);
+      $("#iddepartamento").val(e.departamento); 
+      $("#idprovincia").val(e.provincia); 
+      $("#ubigeo").val(e.ubigeo_inei); 
+
+      $(".chargue-pro").html(''); $(".chargue-dep").html(''); $(".chargue-ubi").html('');
     });
-	}
-
-
-function llenarDistrito(){
-    var idciudad=$("#idciudad option:selected").val();
-    $.post("../ajax/persona.php?op=selectDistrito&id="+idciudad, function(r){
-
-       $("#iddistrito").html(r);
-       //$('#iddistrito').selectpicker('refresh');
-       $("#iddistrito").val("");
-    });
-	}
+  }  
+}
 
 //Función limpiar
-function limpiar()
-{
-	$("#nombres").val("");
-	$("#apellidos").val("");
-	$("#numero_documento").val("");
-	$("#razon_social").val("");
-	$("#domicilio_fiscal").val("");
-	$("#nombre_comercial").val("");
-	$("#ciudad").val("");
-	$("#distrito").val("");
-	$("#telefono1").val("");
-	$("#telefono2").val("");
-	$("#email").val("");
-	$("#idpersona").val("");
-	document.getElementById("btnGuardar").innerHTML = "Agregar";
+function limpiar_form_proveedor() {
+  $("#nombres").val("");
+  $("#apellidos").val("");
+  $("#numero_documento").val("");
+  $("#razon_social").val("");
+  $("#domicilio_fiscal").val("");
+  $("#nombre_comercial").val("");
 
-}
+  $("#iddepartamento").val("");
+  $("#idprovincia").val("");
+  $("#iddistrito").val("").trigger("change");
+  $("#ciudad").val("");
+  $("#ubigeo").val("");  
 
-//Función mostrar formulario
-function mostrarform(flag)
-{
-	limpiar();
-	if (flag)
-	{
-		$("#listadoregistros").hide();
-		$("#formularioregistros").show();
-		$("#btnGuardar").prop("disabled",false);
-		$("#btnagregar").hide();
-	}
-	else
-	{
-		$("#listadoregistros").show();
-		$("#formularioregistros").hide();
-		$("#btnagregar").show();
-	}
-}
+  $("#telefono1").val("");
+  $("#telefono2").val("");
+  $("#email").val("");
+  $("#idpersona").val("");
+  $("#guardar_registro_articulo").html('Actualizar');
 
-//Función cancelarform
-function cancelarform()
-{
-	limpiar();
-	mostrarform(false);
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
 }
 
 //Función Listar
-function listar()
-{
-	tabla=$('#tbllistado').dataTable(
-	{
-		"aProcessing": true,//Activamos el procesamiento del datatables
-	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
-	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [
-
-		        ],
-		"ajax":
-				{
-					url: '../ajax/persona.php?op=listarp',
-					type : "get",
-					dataType : "json",
-					error: function(e){
-						console.log(e.responseText);
-					}
-				},
-		"bDestroy": true,
-		"iDisplayLength": 5,//Paginación
-	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
-	}).DataTable();
+function listar() {
+  tabla_proveedor = $('#tbllistado').dataTable(   {
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
+    "aProcessing": true,//Activamos el procesamiento del datatables
+    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+    buttons: [
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla_proveedor) { tabla_proveedor.ajax.reload(null, false); } } },
+      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+    ],
+    "ajax":  {
+      url: '../ajax/persona.php?op=listarp',
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
+      }
+    },
+    "bDestroy": true,
+    "iDisplayLength": 10,//Paginación
+    "order": [[0, "desc"]]//Ordenar (columna,orden)
+  }).DataTable();
 }
 //Función para guardar o editar
 
-function guardaryeditar(e) {
-  e.preventDefault(); //No se activará la acción predeterminada del evento
-  $("#btnGuardar").prop("disabled", true);
-  var formData = new FormData($("#formulario")[0]);
+function guardar_y_editar_proveedor(e) {
+  // e.preventDefault(); //No se activará la acción predeterminada del evento
 
+  var formData = new FormData($("#form-proveedor")[0]);
+  var data_duplicada = $("#nombres").val() ? $("#nombres").val() + ' ' + $("#apellidos").val() : $("#razon_social").val();
   $.ajax({
     url: "../ajax/persona.php?op=guardaryeditar",
     type: "POST",
     data: formData,
     contentType: false,
     processData: false,
-
     success: function (datos) {
-      Swal.fire({
-        title: "Guardado",
-        text: datos,
-        icon: "success",
-        confirmButtonText: "Aceptar",
-        allowOutsideClick: false,
-      }).then(() => {
-        mostrarform(false);
-        tabla.ajax.reload();
-      });
+      if (datos == 'duplicado') {
+        sw_error('Error', `Estos datos ya existen: <b>${data_duplicada}</b> `);
+      } else {
+        sw_success('Guardado!!', datos);         
+        tabla_proveedor.ajax.reload();      
+        limpiar_form_proveedor();
+        $('#modal-agregar-proveedor').modal('hide');
+      }
+      
     },
-
     error: function () {
-      Swal.fire({
-        title: "Error",
-        text: "No se pudo guardar los datos",
-        icon: "error",
-        confirmButtonText: "Aceptar",
-        allowOutsideClick: false,
-      });
+      toastr_error('Error', 'No se pudo guardar los datos');      
     },
   });
-  limpiar();
+
 }
 
 
-function mostrar(idpersona)
-{
-	$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona}, function(data, status)
-	{
-		data = JSON.parse(data);
-		mostrarform(true);
+function mostrar(idpersona) {
+  $('#modal-agregar-proveedor').modal('show'); 
+  limpiar_form_proveedor();
+  $("#guardar_registro_articulo").html('Actualizar');
 
-		$("#nombres").val(data.nombres);
-		$("#apellidos").val(data.apellidos);
-		$("#tipo_documento").val(data.tipo_documento);
-		//$("#tipo_documento").selectpicker('refresh');
-		$("#numero_documento").val(data.numero_documento)
-		$("#razon_social").val(data.razon_social);
-		$("#nombre_comercial").val(data.nombre_comercial);
-		$("#domicilio_fiscal").val(data.domicilio_fiscal);
-		$("#iddepartamento").val(data.iddepartamento);
-		//$('#iddepartamento').selectpicker('refresh');
-		$("#idciudad").val(data.ciudad1);
-		$("#iddistrito").val(data.distrito1);
-		$("#telefono1").val(data.telefono1);
-		$("#telefono2").val(data.telefono2);
-		$("#email").val(data.email);
- 		$("#idpersona").val(data.idpersona);
-		$('#agregarProveedores').modal('show');
-		document.getElementById("btnGuardar").innerHTML = "Actualizar";
+  $.post("../ajax/persona.php?op=mostrar", { idpersona: idpersona }, function (data, status) {
+    data = JSON.parse(data);   
 
- 	})
+    $("#nombres").val(data.nombres);
+    $("#apellidos").val(data.apellidos);
+    $("#tipo_documento").val(data.tipo_documento).trigger("change");
+    //$("#tipo_documento").selectpicker('refresh');
+    $("#numero_documento").val(data.numero_documento)
+    $("#razon_social").val(data.razon_social);
+    $("#nombre_comercial").val(data.nombre_comercial);
+    $("#domicilio_fiscal").val(data.domicilio_fiscal);
+    $("#iddepartamento").val(data.iddepartamento);
+    //$('#iddepartamento').selectpicker('refresh');
+    $("#idciudad").val(data.ciudad);
+    $("#iddistrito").val(data.distrito).trigger("change");
+    $("#telefono1").val(data.telefono1);
+    $("#telefono2").val(data.telefono2);
+    $("#email").val(data.email);
+    $("#idpersona").val(data.idpersona);
+       
+  })
 }
 
 //Función para desactivar registros
@@ -195,15 +172,8 @@ function desactivar(idpersona) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/persona.php?op=desactivar", { idpersona: idpersona }, function (e) {
-        Swal.fire({
-          title: "Desactivado",
-          text: e,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          allowOutsideClick: false,
-        }).then(() => {
-          tabla.ajax.reload();
-        });
+        sw_success('Desactivado!!', 'Proveedor desactivado con exito');        
+        tabla_proveedor.ajax.reload();        
       });
     }
   });
@@ -224,230 +194,210 @@ function activar(idpersona) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/persona.php?op=activar", { idpersona: idpersona }, function (e) {
-        Swal.fire({
-          title: "Activado",
-          text: e,
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          allowOutsideClick: false,
-        }).then(() => {
-          tabla.ajax.reload();
-        });
+        sw_success('Activado!!', 'Proveedor activado con exito');        
+        tabla_proveedor.ajax.reload();        
       });
     }
   });
 }
 
 
-
-
-
-
-//Función para aceptar solo numeros con dos decimales
-  function NumCheck(e, field) {
-  // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-  key = e.keyCode ? e.keyCode : e.which
-  // backspace
-          if (key == 8) return true;
-          if (key == 9) return true;
-        if (key > 47 && key < 58) {
-          if (field.val() === "") return true;
-          var existePto = (/[.]/).test(field.val());
-          if (existePto === false){
-              regexp = /.[0-9]{10}$/;
-          }
-          else {
-            regexp = /.[0-9]{2}$/;
-          }
-          return !(regexp.test(field.val()));
-        }
-
-        if (key == 46) {
-          if (field.val() === "") return false;
-          regexp = /^[0-9]+$/;
-          return regexp.test(field.val());
-        }
-        return false;
-}
-
 //=========================
 //Funcion para mayusculas
-function mayus(e) {
-     e.value = e.value.toUpperCase();
-}
+function mayus(e) {  e.value = e.value.toUpperCase(); }
 //=========================
 
-function validarProveedor(){
+function validarProveedor() {
 
-    var ndocumento=$("#numero_documento").val();
-    $.post("../ajax/persona.php?op=ValidarProveedor&ndocumento="+ndocumento,  function(data,status){
-    	data = JSON.parse(data);
-    	if (data) {
-    		 	$("#numero_documento").attr("style", "background-color: #FF94A0");
-    		 	document.getElementById("numero_documento").focus();
-    		 	}else{
-    		 	$("#numero_documento").attr("style", "background-color: #A7FF64");
-    		 	}
-
-   });
-
-	}
+  var ndocumento = $("#numero_documento").val();
+  $.post("../ajax/persona.php?op=ValidarProveedor&ndocumento=" + ndocumento, function (data, status) {
+    data = JSON.parse(data);
+    if (data) {
+      $("#numero_documento").attr("style", "background-color: #FF94A0");
+      
+    } else {
+      $("#numero_documento").attr("style", "background-color: #A7FF64");
+    }
+  });
+}
 
 /*-----------------------------------------------------*/
 //          EVENTO CHANGE SELECT TIPO DOCUMENTO
 
-$('#tipo_documento').change( function () {
+$('#tipo_documento').change(function () {  
 
-  $('#numero_documento').val('');
-
-	$('#razon_social').val('');
-  $('#domicilio_fiscal').val('');
-  $('#iddepartamento').val('');
-  $('#idciudad').val('');
-  $('#iddistrito').val('');
-
-
-  $('#nombres').val('');
-  $('#apellidos').val('');
-
-
-  if ( $('#tipo_documento').val() == 6 || $('#tipo_documento').val() == 1 ) { 
+  if ($('#tipo_documento').val() == 6 || $('#tipo_documento').val() == 1) {
     $('#l_tipo_documento').text('Tipo Documento (Presione Enter):')
-  }  else {
+  } else {
     $('#l_tipo_documento').text('Tipo Documento:');
   }
-
-})
+});
 
 /*-----------------------------------------------------*/
 //            EVENTO KEYPRESS INPUT NUMERO DOC
 
 $('#numero_documento').keypress(function (e) {
 
-  if (e.which === 13 && !e.shiftKey) { 
-
-    var val_numdoc = $('#numero_documento').val();
-
-    if (val_numdoc == '') {
-
-      swal.fire({
-        title: 'Cuidado..!',
-        text: "El campo número documento está vacío",
-        icon: "warning",
-        timer: 2000,
-        showConfirmButton: false
-      });
-
-    } else {
-
-      if ($('#tipo_documento').val() == 6) { 
-
-        $.ajax({
-          type: 'POST',
-          url: "../ajax/factura.php?op=consultaRucSunat&nroucc=" + val_numdoc,
-          dataType: 'json',
-
-          success: function (data) {
-
-            if (!jQuery.isEmptyObject(data.error)) {
-
-              swal.fire({
-                title: 'Error!',
-                text: data.error,
-                icon: "error",
-                timer: 2000,
-                showConfirmButton: false
-              });
-
-            } else {
-              // console.log(data);
-              $('#razon_social').val(data.nombre);
-              $('#domicilio_fiscal').val(data.direccion);
-
-              $('#iddepartamento').val(data.departamento);
-              $('#idciudad').val(data.provincia);
-              $('#iddistrito').val(data.distrito);
-
-              // $("#iddepartamento option").filter(function() {
-              //   return $(this).text() === data.departamento;
-              // }).prop("selected", true);
-
-              // $('#iddepartamento').trigger('change');
-
-              // $("#idciudad option").filter(function() {
-
-              //   return $(this).text() === data.provincia;
-
-              // }).prop("selected", true);
-
-              // $('#idciudad').trigger('change');
-
-              // $("#iddistrito option").filter(function() {
-
-              //   return $(this).text() === data.distrito;
-
-              // }).prop("selected", true);
-
-            }
-
-          },
-          error: function (data) {
-            // alert("Problemas al tratar de enviar el formulario");
-            swal.fire({
-              title: 'Error!',
-              text: 'Problemas al obtener la razón social',
-              icon: "error",
-              timer: 2000,
-              showConfirmButton: false
-            });
-          }
-        });
-
-      } else if ($('#tipo_documento').val() == 1) { 
-
-        $.ajax({
-          type: 'POST',
-          url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + val_numdoc,
-          dataType: 'json',
-  
-          success: function (data) {
-  
-            if (!jQuery.isEmptyObject(data.error)) {
-  
-            swal.fire({
-              title: 'Error!',
-              text: data.error,
-              icon: "error",
-              timer: 2000,
-              showConfirmButton: false
-            });
-  
-            } else {
-              // console.log(data);
-  
-              $('#nombres').val(data.nombres);
-              $('#apellidos').val(data.apellidoPaterno + ' ' + data.apellidoMaterno);
-            
-            }
-          },
-          error: function (data) {
-            // alert("Problemas al tratar de enviar el formulario");
-            swal.fire({
-            title: 'Error!',
-            text: 'Problemas al obtener los datos del DNI',
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false
-            });
-          }
-        });
-      }
-
-    }
+  if (e.which === 13 && !e.shiftKey) {
+    buscar_s_r();    
   }
 });
 
+function buscar_s_r() {
+  var val_numdoc = $('#numero_documento').val();
+  $('.btn-search-sr').html(`<i class="fas fa-spinner fa-pulse fa-lg"></i>`);
 
+  if (val_numdoc == '') {
+    sw_warning('Cuidado..!', "El campo número documento está vacío" );      
+    $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+  } else {
 
+    if ($('#tipo_documento').val() == 6) {
+
+      $.ajax({
+        type: 'POST',
+        url: "../ajax/factura.php?op=consultaRucSunat&nroucc=" + val_numdoc,
+        dataType: 'json',
+        success: function (data) { console.log(!jQuery.isEmptyObject(data.error));
+          if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+            sw_error('Error!', data.error); 
+          } else {              
+            $('#razon_social').val(data.nombre);
+            $('#nombre_comercial').val('--');
+            $('#domicilio_fiscal').val(data.direccion);
+
+            $('#iddepartamento').val(data.departamento);
+            $('#idciudad').val(data.provincia);
+            $('#iddistrito').val(data.distrito).trigger("change");
+          }
+          $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+          $("#form-proveedor").valid();
+        },
+        error: function (data) { toastr_error('Error!','Problemas al obtener la razón social', 700 ); }
+      });
+
+    } else if ($('#tipo_documento').val() == 1) {
+
+      $.ajax({
+        type: 'POST',
+        url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + val_numdoc,
+        dataType: 'json',
+        success: function (data) {
+          if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+            sw_error('Error!', data.error);
+          } else { 
+            $('#nombres').val(data.nombres);
+            $('#apellidos').val(data.apellidoPaterno + ' ' + data.apellidoMaterno);
+          }
+          $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+          $("#form-proveedor").valid();
+        },
+        error: function (data) { toastr_error('Error!','Problemas al obtener los datos del DNI', 700 ); }
+      });
+    }
+  }
+}
 
 init();
+
+
+
+// .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
+$(function () {
+  // $('#fecha_proximo_pago').rules('remove', 'required');
+  // $('#fecha_proximo_pago').rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+  $("#form-proveedor").validate({
+    // ignore: "",
+    rules: { 
+      tipo_documento:   { required: true, },
+      numero_documento: { required: true, minlength:8, maxlength:8},
+      nombres:          { required: true, minlength:2, maxlength:50},
+      apellidos:        { required: true, minlength:2, maxlength:50 },
+      razon_social:     { required: true, minlength:2, maxlength:200},
+      nombre_comercial: { required: true, minlength:2, maxlength:200 },
+      domicilio_fiscal: { required: true, minlength:2, maxlength:100 },
+      iddepartamento:   { minlength:2, maxlength:45 },
+      idprovincia:      { minlength:2, maxlength:45 }, 
+      iddistrito:       { maxlength:45 }, 
+      ubigeo:           { minlength:2, maxlength:6 },       
+      telefono1:        { number: true, maxlength: 9,  }, 
+      telefono2:        { number: true, maxlength: 9,  }, 
+      email:            { email: true,   }, 
+    },
+    messages: {
+      tipo_documento:   { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      nombres:          { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      apellidos:        { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      razon_social:     { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      nombre_comercial: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      domicilio_fiscal: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      iddepartamento:   { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      idprovincia:      { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      iddistrito:       {  maxlength:"Maximo {0} caracteres" },      
+      ubigeo:           { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },      
+      telefono1:        { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      telefono2:        { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      email:            { email: "Ingrese correo valido" },
+    },
+        
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");   
+    },
+    submitHandler: function (e) {
+      $(".modal-body").animate({ scrollTop: $(document).height() }, 600); // Scrollea hasta abajo de la página
+      guardar_y_editar_proveedor(e);      
+    },
+  });
+
+  
+});
+
+function validate_reglas(input) {
+
+  var input_tipo_doc = $(input).val(); console.log(input_tipo_doc);
+
+  if ( input_tipo_doc == 1 ) { // DNI
+    $('#numero_documento').rules('remove', 'minlength maxlength');
+    $('#numero_documento').rules('add', { minlength: 8, maxlength: 8, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
+    $('#nombres').rules('remove', 'required');
+    $('#nombres').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#apellidos').rules('remove', 'required');
+    $('#apellidos').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#razon_social').rules('remove', 'required');
+    $('#nombre_comercial').rules('remove', 'required');
+    $('#domicilio_fiscal').rules('remove', 'required');
+  } else if ( input_tipo_doc == 6 ) { // RUC
+    $('#numero_documento').rules('remove', 'minlength maxlength');
+    $('#numero_documento').rules('add', { minlength: 11, maxlength: 11, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
+    $('#nombres').rules('remove', 'required');
+    $('#apellidos').rules('remove', 'required');
+    $('#razon_social').rules('remove', 'required');
+    $('#razon_social').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#nombre_comercial').rules('remove', 'required');
+    $('#nombre_comercial').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#domicilio_fiscal').rules('remove', 'required');
+    $('#domicilio_fiscal').rules('add', { required: true, messages: { required: "Campo requerido" } });
+  }else{
+    $('#numero_documento').rules('remove', 'minlength maxlength');
+    $('#numero_documento').rules('add', { minlength: 15, maxlength: 15, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
+    $('#nombres').rules('remove', 'required');
+    $('#nombres').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#apellidos').rules('remove', 'required');
+    $('#apellidos').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#razon_social').rules('remove', 'required');
+    $('#nombre_comercial').rules('remove', 'required');
+    $('#domicilio_fiscal').rules('remove', 'required');
+  }
+  $("#form-proveedor").valid();
+}

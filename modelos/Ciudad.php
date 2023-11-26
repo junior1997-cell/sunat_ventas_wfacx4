@@ -11,6 +11,13 @@ Class Ciudad
 	}
 
 	//Implementar un método para listar los registros y mostrar en el select
+	public function select2_ciudad($id)	{
+		$filtro = ( empty( $id ) ? "" : "WHERE c.iddepartamento='$id'" );
+		$sql="SELECT c.idciudad, c.nombre FROM departamento d INNER JOIN ciudad c ON d.iddepartamento = c.iddepartamento $filtro";
+		return ejecutarConsulta($sql);		
+	}
+
+	//Implementar un método para listar los registros y mostrar en el select
 	public function selectC($id)
 	{
 		$sql="SELECT c.idciudad, c.nombre FROM departamento d INNER JOIN ciudad c ON d.iddepartamento=c.iddepartamento 

@@ -3,7 +3,7 @@
 require "../config/Conexion.php";
 class PosModelo
 {
-  //Implementamos nuestro constructor
+  //Variables globales
   public $id_usr_sesion; public $id_empresa_sesion;
   //Implementamos nuestro constructor
   public function __construct( $id_usr_sesion = 0, $id_empresa_sesion = 0 )

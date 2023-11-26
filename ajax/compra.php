@@ -1,5 +1,7 @@
 <?php
-if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
+if (strlen(session_id()) < 1) {
+  session_start();
+} //Validamos si existe o no la sesión
 
 require_once "../modelos/Compra.php";
 
@@ -45,27 +47,9 @@ switch ($_GET["op"]) {
 
       if (empty($idcompra)) {
 
-        $rspta = $compra->insertar(
-          $idusuario,
-          $idproveedor,
-          $fecha_emision,
-          $tipo_comprobante,
-          $serie_comprobante,
-          $num_comprobante,
-          $guia,
-          $subtotal_compra,
-          $total_igv,
-          $total_compra,
-          $_POST["idarticulo"],
-          $_POST["valor_unitario"],
-          $_POST["cantidad"],
-          $_POST["subtotalBD"],
-          $_POST["codigo"],
-          $_POST["unidad_medida"],
-          $tcambio,
-          $hora,
-          $moneda,
-          $idempresa
+        $rspta = $compra->insertar( $idusuario, $idproveedor, $fecha_emision, $tipo_comprobante, $serie_comprobante, $num_comprobante, $guia, $subtotal_compra, $total_igv, 
+        $total_compra, $_POST["idarticulo"], $_POST["valor_unitario"],  $_POST["cantidad"],  $_POST["subtotalBD"],  $_POST["codigo"],
+          $_POST["unidad_medida"], $tcambio, $hora, $moneda, $idempresa
         );
         echo $rspta ? "Compra registrada" : "Problema al registrar la compra, revise con el la base de datos";
       }
@@ -73,51 +57,25 @@ switch ($_GET["op"]) {
 
       if (empty($idcompra)) {
 
-        $rspta = $compra->insertarsubarticulo(
-          $idusuario,
-          $idproveedor,
-          $fecha_emision,
-          $tipo_comprobante,
-          $serie_comprobante,
-          $num_comprobante,
-          $guia,
-          $subtotal_compra,
-          $total_igv,
-          $total_compra,
-          $_POST["idarticulo"],
-          $_POST["valor_unitario"],
-          $_POST["cantidad"],
-          $_POST["subtotalBD"],
-          $_POST["codigo"],
-          $_POST["unidad_medida"],
-          $tcambio,
-          $hora,
-          $moneda,
-          $idempresa,
-          $_POST["codigobarra"],
-          $idarticulonarti,
-          $totalcantidad,
-          $totalcostounitario,
-          $vunitario,
-          $factorc
+        $rspta = $compra->insertarsubarticulo( $idusuario, $idproveedor, $fecha_emision, $tipo_comprobante, $serie_comprobante, $num_comprobante, $guia,
+          $subtotal_compra, $total_igv, $total_compra, $_POST["idarticulo"], $_POST["valor_unitario"], $_POST["cantidad"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $tcambio,
+          $hora, $moneda, $idempresa, $_POST["codigobarra"], $idarticulonarti,  $totalcantidad,  $totalcostounitario,  $vunitario,  $factorc
         );
         echo $rspta ? "Compra registrada con subarticulos" : "Problema al registrar la compra, revise con el la base de datos";
       }
     }
+  break;
 
-
-    break;
-
-    // case 'anular':
-    //     $rspta=$compra->anular($idcompra);
-    //     echo $rspta ? "Ingreso anulado" : "Ingreso no se puede anular";
-    // break;
+  // case 'anular':
+  //     $rspta=$compra->anular($idcompra);
+  //     echo $rspta ? "Ingreso anulado" : "Ingreso no se puede anular";
+  // break;
 
   case 'mostrar':
     $rspta = $compra->mostrar($idcompra);
     //Codificar el resultado utilizando json
     echo json_encode($rspta);
-    break;
+  break;
 
   case 'eliminarcompra':
     date_default_timezone_set('America/Lima');
@@ -125,12 +83,7 @@ switch ($_GET["op"]) {
     $hoy = date("Y-m-d");
     $rspta = $compra->AnularCompra($idcompra, $hoy, $_SESSION['idempresa']);
     echo $rspta ? "Compra eliminada" : "Problema al eliminar la compra, revise con el la base de datos";
-    break;
-
-
-
-
-
+  break;
 
   case 'listarDetalle':
     //Recibimos el idingreso
@@ -141,11 +94,11 @@ switch ($_GET["op"]) {
     $igv = 0;
     $total = 0;
     echo '<thead style="background-color:#A9D0F5">
-                                    <th>ARTÍCULO</th>
-                                    <th>CANTIDAD</th>
-                                    <th>PRECIO COMPRA</th>
-                                    <th>Subtotal</th>
-                                </thead>';
+      <th>ARTÍCULO</th>
+      <th>CANTIDAD</th>
+      <th>PRECIO COMPRA</th>
+      <th>Subtotal</th>
+    </thead>';
 
     while ($reg = $rspta->fetch_object()) {
       echo '<tr class="filass"> <td>' . $reg->nombre . '</td><td>' . $reg->cantidad . '</td><td>' . $reg->costo_compra . '</td><td>' . $reg->subtotal . '</td></tr>';
@@ -155,52 +108,35 @@ switch ($_GET["op"]) {
       $total = $subt + $igv;
     }
     echo ' <tfoot style="vertical-align: center;">
+      <!--SUBTOTAL-->
+      <tr>
+        <td>
+          <td></td> <td></td> <td></td> <td></td> <td><td>
 
-                                <!--SUBTOTAL-->
-                                    <tr>
-                          <td><td></td><td></td><td></td><td></td><td><td>
+          <th style="font-weight: bold; vertical-align: center; background-color:#A5E393;">SUBTOTAL (S/.)</th>
+          <th style="font-weight: bold; background-color:#A5E393;">
+            <h4 id="subtotal" style="font-weight: bold; vertical-align: center; background-color:#A5E393;">' . $subt . '</h4>
+          </th>
+        </td>
+      </tr>
 
-                                    <th style="font-weight: bold; vertical-align: center; background-color:#A5E393;">SUBTOTAL (S/.)</th>
-
-                                    <th style="font-weight: bold; background-color:#A5E393;">
-
-                                      <h4 id="subtotal" style="font-weight: bold; vertical-align: center; background-color:#A5E393;">' . $subt . '</h4></th>
-                                    </td>
-                                    </tr>
-
-                                <!--IGV-->
-                          <tr><td><td></td><td></td><td></td><td></td><td><td>
-
-                                    <th  style="font-weight: bold; vertical-align: center; background-color:#A5E393;"> IGV  18% (S/.)</th>
-
-                                    <th style="font-weight: bold; background-color:#A5E393; vertical-align: center;">
-
-                                      <h4 id="igv_" style="vertical-align: right; font-weight: bold; background-color:#A5E393;">' . $igv . '</h4>
-
-                                    </th>
-                                    </td>
-                                    </tr>
-
-
-
-                                    <tr><td><td></td><td></td><td></td><td></td><td><td>
-                                    <th style="font-weight: bold; vertical-align: center; background-color:#FFB887;">TOTAL (S/.)</th> <!--Datos de impuestos-->  <!--IGV-->
-                                    <th style="font-weight: bold; background-color:#FFB887;">
-
-                                      <h4 id="total" style="font-weight: bold; vertical-align: center; background-color:#FFB887;">' . $total . '</h4>
-
-
-                                    </th><!--Datos de impuestos-->  <!--TOTAL-->
-                                    </td>
-                                    </tr>
-
-
-                                </tfoot>';
-    break;
-
-
-
-
+      <!--IGV-->
+      <tr><td><td></td><td></td><td></td><td></td><td><td>
+          <th  style="font-weight: bold; vertical-align: center; background-color:#A5E393;"> IGV  18% (S/.)</th>
+          <th style="font-weight: bold; background-color:#A5E393; vertical-align: center;">
+            <h4 id="igv_" style="vertical-align: right; font-weight: bold; background-color:#A5E393;">' . $igv . '</h4>
+          </th>
+          </td>
+      </tr>
+      <tr><td><td></td><td></td><td></td><td></td><td><td>
+          <th style="font-weight: bold; vertical-align: center; background-color:#FFB887;">TOTAL (S/.)</th> <!--Datos de impuestos-->  <!--IGV-->
+          <th style="font-weight: bold; background-color:#FFB887;">
+            <h4 id="total" style="font-weight: bold; vertical-align: center; background-color:#FFB887;">' . $total . '</h4>
+          </th><!--Datos de impuestos-->  <!--TOTAL-->
+          </td>
+      </tr>
+    </tfoot>';
+  break;
 
   case 'listar':
     $idempre = $_GET['idempresa'];
@@ -211,18 +147,16 @@ switch ($_GET["op"]) {
     $st = "";
 
     while ($reg = $rspta->fetch_object()) {
-      if ($reg->estado == '3') {
-        $st = 'none';
-      } else {
-        $st = '';
-      }
+      if ($reg->estado == '3') { $st = 'none';  } else {  $st = '';  }
+
       $data[] = array(
-        "0" =>
-
-        '
-                <div class="dropdown-center"> <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownCenterBtn" data-bs-toggle="dropdown" aria-expanded="false"> Acciones </button> <ul class="dropdown-menu" aria-labelledby="dropdownCenterBtn" style=""> <li><a class="dropdown-item" href="../reportes/compraReporte.php?idcompra=' . $reg->idcompra . '">Imprmir</a></li> <li><a class="dropdown-item" onclick="eliminarcompra(' . $reg->idcompra . ')">Anular compra</a></li>  </ul> </div>
-
-                ',
+        "0" => ' <div class="dropdown-center"> 
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownCenterBtn" data-bs-toggle="dropdown" aria-expanded="false"> Acciones </button> 
+          <ul class="dropdown-menu" aria-labelledby="dropdownCenterBtn" style=""> 
+            <li><a class="dropdown-item" href="../reportes/compraReporte.php?idcompra=' . $reg->idcompra . '">Imprmir</a></li> 
+            <li><a class="dropdown-item" onclick="eliminarcompra(' . $reg->idcompra . ')">Anular compra</a></li>  
+          </ul>
+        </div> ',
         "1" => $reg->fecha,
         "2" => $reg->proveedor,
         "3" => $reg->usuario,
@@ -230,33 +164,27 @@ switch ($_GET["op"]) {
         "5" => $reg->serie . '-' . $reg->numero,
         "6" => $reg->total,
         "7" => ($reg->estado == '1') ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Ingresado</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Anualdo</span>'
-
       );
     }
 
     $results = array(
-      "sEcho" => 1,
-      //Información para el datatables
-      "iTotalRecords" => count($data),
-      //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data),
-      //enviamos el total registros a visualizar
+      "sEcho" => 1,                           //Información para el datatables
+      "iTotalRecords" => count($data),        //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
       "aaData" => $data
     );
     echo json_encode($results);
 
-    break;
+  break;
 
   case 'selectProveedor':
     require_once "../modelos/Persona.php";
     $persona = new Persona();
-
     $rspta = $persona->listarp();
-
     while ($reg = $rspta->fetch_object()) {
       echo '<option value=' . $reg->idpersona . '>' . $reg->razon_social . '</option>';
     }
-    break;
+  break;
 
   case 'listarArticulos':
     $subarticu = $_GET['subarti'];
@@ -270,8 +198,8 @@ switch ($_GET["op"]) {
 
       $data[] = array(
         "0" => $reg->codigo,
-        "1" => $reg->nombre,
-        "2" => $reg->codigo_proveedor,
+        "1" => $reg->codigo_proveedor,
+        "2" => $reg->nombre,        
         "3" => $reg->nombreum,
         "4" => $reg->stock,
         "5" => $reg->precio_final_kardex,
@@ -280,21 +208,14 @@ switch ($_GET["op"]) {
     }
 
     $results = array(
-      "sEcho" => 1,
-      //Información para el datatables
-      "iTotalRecords" => count($data),
-      //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data),
-      //enviamos el total registros a visualizar
+      "sEcho" => 1,                           //Información para el datatables
+      "iTotalRecords" => count($data),        //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
       "aaData" => $data
     );
 
-
-
-
     echo json_encode($results);
-    break;
-
+  break;
 
   case 'mostrarumventa':
     $ida = $_GET['idarti'];
@@ -302,9 +223,7 @@ switch ($_GET["op"]) {
     $articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
     $rspta2 = $articulo->listarActivosumventa($ida);
     echo json_encode($rspta2);
-    break;
-
-
+  break;
 
   case 'listarArticuloscompraxcodigo':
     require_once "../modelos/Articulo.php";
@@ -312,5 +231,5 @@ switch ($_GET["op"]) {
     $codigob = $_GET['codigob'];
     $rspta = $articulo->listarActivosVentaxCodigo($codigob, $_SESSION['idempresa']);
     echo json_encode($rspta);
-    break;
+  break;
 }

@@ -4,10 +4,14 @@ require "../config/Conexion.php";
 
 class Persona
 {
-	//Implementamos nuestro constructor
-	public function __construct()
-	{
-	}
+	//Variables globales
+  public $id_usr_sesion; public $id_empresa_sesion;
+  //Implementamos nuestro constructor
+  public function __construct( $id_usr_sesion = 0, $id_empresa_sesion = 0 )
+  {
+    $this->id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
+  }
 
 	//Implementamos un método para insertar registros
 	public function insertar($tipo_persona, $nombres, $apellidos, $tipo_documento, $numero_documento, $razon_social, $nombre_comercial, $domicilio_fiscal, $departamento, $ciudad, $distrito, $telefono1, $telefono2, $email)
@@ -27,7 +31,7 @@ class Persona
 	public function insertardeFactura($nombres, $tipo_documento, $numero_documento, $domicilio_fiscal)	{
 		$sql = "INSERT into persona (tipo_persona, nombres, apellidos, tipo_documento, numero_documento,	razon_social,	nombre_comercial, 
 		domicilio_fiscal,	departamento,	ciudad,	distrito,	telefono1, telefono2, email)
-		values ('cliente','','','$tipo_documento', '$numero_documento','$nombres','$nombres','$domicilio_fiscal','','','', '-','-','')";
+		values ('CLIENTE','','','$tipo_documento', '$numero_documento','$nombres','$nombres','$domicilio_fiscal','','','', '-','-','')";
 		return ejecutarConsulta($sql);
 	}
 
@@ -55,8 +59,8 @@ class Persona
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idpersona) {
 		$sql = "SELECT idpersona, nombres, apellidos, tipo_documento, numero_documento, razon_social, nombre_comercial, domicilio_fiscal, 
-		departamento, ciudad, distrito , telefono1, telefono2, email 
-		from persona where idpersona='$idpersona' and estado='1'";
+		departamento, provincia,  distrito , ciudad, telefono1, telefono2, email 
+		from persona where idpersona='$idpersona' ";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
@@ -69,7 +73,7 @@ class Persona
 
 	public function mostrarIdFactura() {
 		$sql = "SELECT idpersona from persona 
-		where tipo_persona='cliente' and tipo_documento not in(0, 1, 6, 7) order by idpersona desc  limit 0,1";
+		where tipo_persona='CLIENTE' and tipo_documento not in(0, 1, 6, 7) order by idpersona desc  limit 0,1";
 		return ejecutarConsulta($sql);
 	}
 
@@ -80,9 +84,9 @@ class Persona
 
 	//Implementar un método para listar los registros
 	public function listarp()	{
-		$sql = "SELECT * from persona p 
+		$sql = "SELECT p.*, ct6.descripcion as tipo_doc from persona p 
 		inner join catalogo6 ct6 on p.tipo_documento=ct6.codigo 
-		where p.tipo_persona='PROVEEDOR' order by idpersona desc";
+		where p.tipo_persona='PROVEEDOR' order by nombres, razon_social asc";
 		return ejecutarConsulta($sql);
 	}
 
@@ -111,7 +115,7 @@ class Persona
 
 	//Busca por nombre de cliente el numero de documento
 	public function listarcnom($nombre)	{
-		$sql = "SELECT * from persona where tipo_persona='Cliente' and nombre='$nombre' and estado='1'";
+		$sql = "SELECT * from persona where tipo_persona='CLIENTE' and nombre='$nombre' and estado='1'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -129,7 +133,7 @@ class Persona
 
 	public function listarCliVenta()	{
 		$sql = "SELECT idpersona, razon_social, numero_documento, domicilio_fiscal, tipo_documento 
-    from persona where tipo_persona='cliente' and tipo_documento='6'";
+    from persona where tipo_persona='CLIENTE' and tipo_documento='6'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -166,18 +170,18 @@ class Persona
 
 	public function buscarclienteRuc($key)	{	
 		$sql_1 = "SELECT * from persona 
-		where tipo_persona='cliente' and tipo_documento='6' and numero_documento like '%$key%' and not idpersona='1' limit 8";
+		where tipo_persona='CLIENTE' and tipo_documento='6' and numero_documento like '%$key%' and not idpersona='1' limit 8";
 		return ejecutarConsultaArray($sql_1);
 	}
 
 	public function buscarclientenombre($key)	{		
 		$result = "SELECT * from persona 
-		where tipo_persona='cliente' and tipo_documento='6' and razon_social like '%$key%' and not idpersona='1' limit 8";
+		where tipo_persona='CLIENTE' and tipo_documento='6' and razon_social like '%$key%' and not idpersona='1' limit 8";
 		return ejecutarConsultaArray($result);			
 	}
 
 	public function combocliente() {
-		$sql = "SELECT * from persona where tipo_persona='cliente'";
+		$sql = "SELECT * from persona where tipo_persona='CLIENTE'";
 		return ejecutarConsulta($sql);
 	}
 }

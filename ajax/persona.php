@@ -1,48 +1,64 @@
 <?php
-require_once "../modelos/Persona.php";
-$persona = new Persona();
 
-$idpersona = isset($_POST["idpersona"]) ? limpiarCadena($_POST["idpersona"]) : "";
-$tipo_persona = isset($_POST["tipo_persona"]) ? limpiarCadena($_POST["tipo_persona"]) : "";
-$nombres = isset($_POST["nombres"]) ? limpiarCadena($_POST["nombres"]) : "";
-$apellidos = isset($_POST["apellidos"]) ? limpiarCadena($_POST["apellidos"]) : "";
-$tipo_documento = isset($_POST["tipo_documento"]) ? limpiarCadena($_POST["tipo_documento"]) : "";
-$numero_documento = isset($_POST["numero_documento"]) ? limpiarCadena($_POST["numero_documento"]) : "";
-$nruc = isset($_POST["numero_documento3"]) ? limpiarCadena($_POST["numero_documento3"]) : ""; //Viene de nuevo cliente
-$razon_social = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
-$nombre_comercial = isset($_POST["nombre_comercial"]) ? limpiarCadena($_POST["nombre_comercial"]) : "";
-$domicilio_fiscal = isset($_POST["domicilio_fiscal"]) ? limpiarCadena($_POST["domicilio_fiscal"]) : "";
-$departamento = isset($_POST["iddepartamento"]) ? limpiarCadena($_POST["iddepartamento"]) : "";
-$ciudad = isset($_POST["idciudad"]) ? limpiarCadena($_POST["idciudad"]) : "";
-$distrito = isset($_POST["iddistrito"]) ? limpiarCadena($_POST["iddistrito"]) : "";
-$telefono1 = isset($_POST["telefono1"]) ? limpiarCadena($_POST["telefono1"]) : "";
-$telefono2 = isset($_POST["telefono2"]) ? limpiarCadena($_POST["telefono2"]) : "";
-$email = isset($_POST["email"]) ? limpiarCadena($_POST["email"]) : "";
+	if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
 
+	require_once "../modelos/Persona.php";
+	require_once "../modelos/Ciudad.php";
+	require_once "../modelos/Departamento.php";
+	require_once "../modelos/Distrito.php";
 
-$razon_social3 = isset($_POST["razon_social3"]) ? limpiarCadena($_POST["razon_social3"]) : "";
-$nombre_comercial3 = isset($_POST["razon_social3"]) ? limpiarCadena($_POST["razon_social3"]) : "";
-$domicilio_fiscal3 = isset($_POST["domicilio_fiscal3"]) ? limpiarCadena($_POST["domicilio_fiscal3"]) : "";
+	
+	
+	$persona 				= new Persona();	
+	$_ciudad 				= new Ciudad();	
+	$_departamento 	= new Departamento();	
+	$_distrito 			= new Distrito();
+	
+
+	$idpersona 				= isset($_POST["idpersona"]) ? limpiarCadena($_POST["idpersona"]) : "";
+	$tipo_persona 		= isset($_POST["tipo_persona"]) ? limpiarCadena($_POST["tipo_persona"]) : "";
+	$nombres 					= isset($_POST["nombres"]) ? limpiarCadena($_POST["nombres"]) : "";
+	$apellidos 				= isset($_POST["apellidos"]) ? limpiarCadena($_POST["apellidos"]) : "";
+	$tipo_documento 	= isset($_POST["tipo_documento"]) ? limpiarCadena($_POST["tipo_documento"]) : "";
+	$numero_documento = isset($_POST["numero_documento"]) ? limpiarCadena($_POST["numero_documento"]) : "";
+	$nruc 						= isset($_POST["numero_documento3"]) ? limpiarCadena($_POST["numero_documento3"]) : ""; //Viene de nuevo cliente
+	$razon_social 		= isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
+	$nombre_comercial = isset($_POST["nombre_comercial"]) ? limpiarCadena($_POST["nombre_comercial"]) : "";
+	$domicilio_fiscal = isset($_POST["domicilio_fiscal"]) ? limpiarCadena($_POST["domicilio_fiscal"]) : "";
+	$departamento 		= isset($_POST["iddepartamento"]) ? limpiarCadena($_POST["iddepartamento"]) : "";
+	$ciudad 					= isset($_POST["idciudad"]) ? limpiarCadena($_POST["idciudad"]) : "";
+	$distrito 				= isset($_POST["iddistrito"]) ? limpiarCadena($_POST["iddistrito"]) : "";
+	$telefono1 				= isset($_POST["telefono1"]) ? limpiarCadena($_POST["telefono1"]) : "";
+	$telefono2 				= isset($_POST["telefono2"]) ? limpiarCadena($_POST["telefono2"]) : "";
+	$email 						= isset($_POST["email"]) ? limpiarCadena($_POST["email"]) : "";
+
+	$razon_social3 		= isset($_POST["razon_social3"]) ? limpiarCadena($_POST["razon_social3"]) : "";
+	$nombre_comercial3 = isset($_POST["razon_social3"]) ? limpiarCadena($_POST["razon_social3"]) : "";
+	$domicilio_fiscal3 = isset($_POST["domicilio_fiscal3"]) ? limpiarCadena($_POST["domicilio_fiscal3"]) : "";
 
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
-		if (empty($idpersona)) {
-			$rspta = $persona->insertar($tipo_persona, htmlspecialchars_decode($nombres), htmlspecialchars_decode($apellidos), $tipo_documento, $numero_documento, htmlspecialchars_decode($razon_social), htmlspecialchars_decode($nombre_comercial), htmlspecialchars_decode($domicilio_fiscal), $departamento, $ciudad, $distrito, $telefono1, $telefono2, htmlspecialchars_decode($email));
-			echo $rspta ? "Registro correcto" : "No se pudo registrar";
-		} else {
-			$rspta = $persona->editar($idpersona, $tipo_persona, $nombres, $apellidos, $tipo_documento, $numero_documento, $razon_social, $nombre_comercial, $domicilio_fiscal, $departamento, $ciudad, $distrito, $telefono1, $telefono2, $email);
-			echo $rspta ? "Registro actualizado" : "No se pudo actualizar";
-		}
-		break;
+		$validando = $persona->validarProveedor($numero_documento);
+		
+			if (empty($idpersona)) {
+				if (empty($validando)) {
+					$rspta = $persona->insertar($tipo_persona, htmlspecialchars_decode($nombres), htmlspecialchars_decode($apellidos), $tipo_documento, $numero_documento, htmlspecialchars_decode($razon_social), htmlspecialchars_decode($nombre_comercial), htmlspecialchars_decode($domicilio_fiscal), $departamento, $ciudad, $distrito, $telefono1, $telefono2, htmlspecialchars_decode($email));
+					echo $rspta ? "Registro correcto" : "No se pudo registrar";
+				} else {
+					echo "duplicado" ;
+				}		
+			} else {
+				$rspta = $persona->editar($idpersona, $tipo_persona, $nombres, $apellidos, $tipo_documento, $numero_documento, $razon_social, $nombre_comercial, $domicilio_fiscal, $departamento, $ciudad, $distrito, $telefono1, $telefono2, $email);
+				echo $rspta ? "Registro actualizado" : "No se pudo actualizar";
+			}
+		
+	break;
 
 	case 'guardaryeditarnproveedor':
 		$rspta = $persona->insertarnproveedor($tipo_persona, $numero_documento, htmlspecialchars_decode($razon_social));
 		echo $rspta ? "Registro correcto" : "No se pudo registrar";
-
-		break;
-
-
+	break;
 
 	case 'guardaryeditarNcliente':
 		if (empty($idpersona)) {
@@ -52,9 +68,7 @@ switch ($_GET["op"]) {
 			$rspta = $persona->editar($idpersona, $tipo_persona, htmlspecialchars_decode($nombres), htmlspecialchars_decode($apellidos), $tipo_documento, $nruc, htmlspecialchars_decode($razon_social), htmlspecialchars_decode($nombre_comercial), htmlspecialchars_decode($domicilio_fiscal), $departamento, $ciudad, $distrito, $telefono1, $telefono2, htmlspecialchars_decode($email));
 			echo $rspta ? "Registro actualizado" : "No se pudo actualizar";
 		}
-		break;
-
-
+	break;
 
 	case 'guardaryeditarNclienteBoleta':
 		if (empty($idpersona)) {
@@ -64,39 +78,35 @@ switch ($_GET["op"]) {
 			$rspta = $persona->editar($idpersona, $tipo_persona, htmlspecialchars_decode($nombre_comercial3), htmlspecialchars_decode($nombre_comercial3), $tipo_documento, $nruc, htmlspecialchars_decode($razon_social3), htmlspecialchars_decode($nombre_comercial3), htmlspecialchars_decode($domicilio_fiscal3), $departamento, $ciudad, $distrito, $telefono1, $telefono2, htmlspecialchars_decode($email));
 			echo $rspta ? "Registro actualizado" : "No se pudo actualizar";
 		}
-		break;
-
+	break;
 
 	case 'eliminar':
 		$rspta = $persona->eliminar($idpersona);
 		echo $rspta ? "Persona desactivada" : "Persona no se puede activar";
-		break;
+	break;
 
 	case 'mostrar':
 		$rspta = $persona->mostrar($idpersona);
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
-		break;
+	break;
 
-		//quitar id persona por validacion
+	//quitar id persona por validacion
 	case 'mostrarClienteVarios':
 		$rspta = $persona->mostrarIdVarios($idpersona);
 		//Codificar el resultado utilizando json
 		echo json_encode($rspta);
-		break;
-
+	break;
 
 	case 'desactivar':
 		$rspta = $persona->desactivar($idpersona);
 		echo $rspta ? "Persona Desactivado" : "Persona no se puede desactivar";
-		break;
-
+	break;
 
 	case 'activar':
 		$rspta = $persona->activar($idpersona);
 		echo $rspta ? "Persona activado" : "Persona no se puede activar";
-		break;
-
+	break;
 
 	case 'listarp':
 		$rspta = $persona->listarp();
@@ -111,7 +121,7 @@ switch ($_GET["op"]) {
 					' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . $reg->idpersona . ')"><i class="ri-check-double-line"></i></button>',
 
 				"1" => $reg->razon_social,
-				"2" => $reg->numero_documento,
+				"2" => '<b>' . $reg->tipo_doc .'</b>: '. $reg->numero_documento,
 				"3" => $reg->telefono1,
 				"4" => $reg->email,
 				"5" => ($reg->estado) ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado</span>'
@@ -124,7 +134,7 @@ switch ($_GET["op"]) {
 			"aaData" => $data
 		);
 		echo json_encode($results);
-		break;
+	break;
 
 	case 'listarc':
 		$rspta = $persona->listarc();
@@ -152,86 +162,48 @@ switch ($_GET["op"]) {
 			"iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
 			"aaData" => $data
 		);
-		echo json_encode($results);
-		break;
+		echo json_encode($results, true);
+	break;
 
+	
 
-		// Carga de tipos de documentos para venta
-	case 'selectDepartamento':
-		require_once "../modelos/Departamento.php";
-		$departamento = new Departamento();
+	// ══════════════════════════════════════ S E L E C T 2   ══════════════════════════════════════
 
-		$rspta = $departamento->selectD();
-		while ($reg = $rspta->fetch_object()) {
-			echo '<option value=' . $reg->iddepartamento . '>' . $reg->nombre . '</option>';
-		}
-		break;
-
-		// Carga de tipos de documentos para venta
-	case 'selectDepartamentoModificar':
-		require_once "../modelos/Departamento.php";
-		$departamento = new Departamento();
-
-		$id = $_GET['id'];
-		$rspta = $departamento->selectID($id);
-		while ($reg = $rspta->fetch_object()) {
-			echo '<option value=' . $reg->iddepartamento . '>' . $reg->nombre . '</option>';
-		}
-		break;
-
-
-
-	case 'selectCiudad':
-		require_once "../modelos/Ciudad.php";
-		$ciudad = new Ciudad();
-
-		$id = $_GET['id'];
-		$rspta = $ciudad->selectC($id);
-
+	case 'selectCiudad':		
+		$rspta = $_ciudad->selectC($_GET['id']);
 		while ($reg = $rspta->fetch_object()) {
 			echo '<option value=' . $reg->idciudad . '>' . $reg->nombre . '</option>';
 		}
-		break;
+	break;
 
-	case 'selectDistrito':
-		require_once "../modelos/Distrito.php";
-		$distrito = new Distrito();
+	case 'selectDistrito':		
 		$id = $_GET['id'];
-		$rspta = $distrito->selectDI($id);
-
+		$rspta = $_distrito->selectDI($id);
 		while ($reg = $rspta->fetch_object()) {
 			echo '<option value=' . $reg->iddistrito . '>' . $reg->nombre . '</option>';
 		}
-		break;
-
+	break;
 
 	case 'ValidarCliente':
-
 		$ndocumento = $_GET['ndocumento'];
 		$rspta = $persona->validarCliente($ndocumento);
 		echo json_encode($rspta); // ? "Cliente ya existe": "Documento valido";
-		break;
-
+	break;
 
 	case 'ValidarProveedor':
-
 		$ndocumento = $_GET['ndocumento'];
 		$rspta = $persona->validarProveedor($ndocumento);
 		echo json_encode($rspta); // ? "Cliente ya existe": "Documento valido";
-		break;
+	break;
 
 	case 'selectCliente':
-		require_once "../modelos/Persona.php";
-		$persona = new Persona();
-
 		$rspta = $persona->listarc();
-
 		while ($reg = $rspta->fetch_object()) {
 			echo '<option value=' . $reg->idpersona . '>' . $reg->numero_documento . '</option>';
 		}
-		break;
+	break;
 
-
+	// ══════════════════════════════════════ Reniec   ══════════════════════════════════════
 	case 'buscarclienteRuc':		
 		$rspta = $persona->buscarclienteRuc($_POST['key']);
 		foreach ($rspta as $key => $row) {
@@ -257,18 +229,17 @@ switch ($_GET["op"]) {
 		}
 	break;
 
-
 	case 'combocliente':
 		$rpta = $persona->combocliente();
 		while ($reg = $rpta->fetch_object()) {
 			echo '<option value=' . $reg->numero_documento . '>' . $reg->numero_documento . ' | ' . $reg->nombre_comercial . '</option>';
 		}
-		break;
+	break;
 
 	case 'comboclientenoti':
 		$rpta = $persona->combocliente();
 		while ($reg = $rpta->fetch_object()) {
 			echo '<option value=' . $reg->idpersona . '>' . $reg->numero_documento . ' | ' . $reg->nombre_comercial . '</option>';
 		}
-		break;
+	break;
 }
