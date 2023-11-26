@@ -99,7 +99,6 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
 
-
     <div class="col-xxl-12 col-xl-12">
       <div class="card custom-card">
         <div class="card-body">

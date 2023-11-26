@@ -1,4 +1,3 @@
-
 var baseURL = window.location.protocol + '//' + window.location.host;
 
 // Verificar si pathname contiene '/vistas/' y eliminarlo.
@@ -16,11 +15,10 @@ if (!path.endsWith("/ajax/")) {
 // Construir urlconsumo
 var urlconsumo = new URL(path, baseURL);
 
-// var modoDemo = false;
 //Función que se ejecuta al inicio
 function init() {
-  // listar('ingreso');
-  mostrarTotaldecompras();
+  estado_caja(localStorage.getItem('estadocaja'));
+
   mostrarTotaldeVentas();
   mostrarTotalencaja();
   mostrarTotaldeIngresos();
@@ -31,46 +29,17 @@ function init() {
   $("#formulario").on("submit", function (e) {
     guardaryeditar(e);
   })
+
 }
 
-function mostrarTotaldecompras() {
-  $(document).ready(function () {
-    $.ajax({
-      url: urlconsumo + "cajachica.php?action=TotalCompras&op=",
-      type: 'GET',
-      dataType: 'json',
-      success: function (data) {
-        const total_compras = data.aaData[0].total_compras;
-        const total_comprasElement = $('#total-compras');
-
-        if (total_compras !== null && total_compras !== "") {
-          total_comprasElement.html('S/ ' + total_compras);
-        } else {
-          total_comprasElement.html('S/ 0');
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log('Error:', textStatus, errorThrown);
-      }
-    });
-  });
-}
-
-function mostrarTotaldeVentas() {
+function mostrarTotaldeVentas() {  
   $(document).ready(function () {
     $.ajax({
       url: urlconsumo + "cajachica.php?action=TotalVentas&op=",
       type: 'GET',
       dataType: 'json',
       success: function (data) {
-        const totalVentas = data.aaData[0].total_venta;
-        const totalVentasElement = $('#total_ventas');
-
-        if (totalVentas !== null && totalVentas !== "") {
-          totalVentasElement.html('S/ ' + totalVentas);
-        } else {
-          totalVentasElement.html('S/ 0');
-        }
+        $('#total_ventas').html('S/ ' + data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log('Error:', textStatus, errorThrown);
@@ -86,15 +55,8 @@ function mostrarTotalencaja() {
       type: 'GET',
       dataType: 'json',
       success: function (data) {
-        const total_caja = data.aaData[0].total_caja;
-        console.log(total_caja);
-        const total_cajaElement = $('#total_caja');
-
-        if (total_caja !== null && total_caja !== "") {
-          total_cajaElement.html('S/ ' + total_caja);
-        } else {
-          total_cajaElement.html('S/ 0');
-        }
+        const total_caja = data;
+        $('#total_caja').html('S/ ' + total_caja);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log('Error:', textStatus, errorThrown);
@@ -102,7 +64,6 @@ function mostrarTotalencaja() {
     });
   });
 }
-
 
 function mostrarTotaldeIngresos() {
   $(document).ready(function () {
@@ -111,14 +72,9 @@ function mostrarTotaldeIngresos() {
       type: 'GET',
       dataType: 'json',
       success: function (data) {
-        const totalingreso = data.aaData[0].total_ingreso;
-        const totalIngresoElement = $('#total_ingreso');
+        const totalingreso = data;
+        $('#total_ingreso').html('S/ ' + totalingreso);
 
-        if (totalingreso !== null && totalingreso !== "") {
-          totalIngresoElement.html('S/ ' + totalingreso);
-        } else {
-          totalIngresoElement.html('S/ 0');
-        }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log('Error:', textStatus, errorThrown);
@@ -126,7 +82,6 @@ function mostrarTotaldeIngresos() {
     });
   });
 }
-
 
 function mostrarTotaldeEgresos() {
   $(document).ready(function () {
@@ -135,14 +90,8 @@ function mostrarTotaldeEgresos() {
       type: 'GET',
       dataType: 'json',
       success: function (data) {
-        const totalegreso = data.aaData[0].total_gasto;
-        const totalEgresoElement = $('#total_gasto');
-
-        if (totalegreso !== null && totalegreso !== "") {
-          totalEgresoElement.html('S/ ' + totalegreso);
-        } else {
-          totalEgresoElement.html('S/ 0');
-        }
+        const totalegreso = data;
+        $('#total_gasto').html('S/ ' + totalegreso);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log('Error:', textStatus, errorThrown);
@@ -150,7 +99,6 @@ function mostrarTotaldeEgresos() {
     });
   });
 }
-
 
 function mostrarSaldoINI() {
   $(document).ready(function () {
@@ -159,16 +107,7 @@ function mostrarSaldoINI() {
       type: 'GET',
       dataType: 'json',
       success: function (data) {
-        const saldoINElement = $('#total_saldoini');
-
-        if (Array.isArray(data.aaData) && data.aaData.length > 0) {
-          const saldoIN = data.aaData[0].total_ingreso;
-          saldoINElement.html('S/ ' + saldoIN);
-          //$('#cerrarCajaBtn').prop('disabled', true); // Habilitar el botón de cerrar caja
-        } else {
-          saldoINElement.html('S/ 0');
-          $('#cerrarCajaBtn').prop('disabled', true); // Deshabilitar el botón de cerrar caja
-        }
+        $('#total_saldoini').html('S/ ' + data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log('Error:', textStatus, errorThrown);
@@ -176,7 +115,6 @@ function mostrarSaldoINI() {
     });
   });
 }
-
 
 //TBL INGRESOS Y EGRESOS
 function listar(tipo) {
@@ -198,12 +136,13 @@ function listar(tipo) {
     "iDisplayLength": 15,
     "order": [[0, ""]],
     "columns": [
-      { "data": "fecha_cierre" },
-      { "data": "total_ingreso" },
-      { "data": "total_gasto" },
-      { "data": "saldo_inicial" },
-      { "data": "total_caja" }
+      { "data": "fecharegistro" },
+      { "data": "descripcion" },
+      { "data": "descripcionc" },
+      { "data": "total" },
+      { "data": "acredor" }
     ]
+
   }).DataTable();
 }
 
@@ -237,9 +176,6 @@ function listartblVantas() {
   }).DataTable();
 }
 
-
-
-
 function guardaryeditar(e) {
   e.preventDefault();
 
@@ -254,6 +190,13 @@ function guardaryeditar(e) {
     processData: false,
 
     success: function (datos) {
+
+      // Almacenar una variable en localStorage
+      localStorage.setItem('estadocaja', '1');
+
+      // Obtener el valor almacenado en localStorage
+      estado_caja(localStorage.getItem('estadocaja'));
+
       $("#btnGuardarSaldoInicial").prop("disabled", false);
 
       if (datos === "Ya existe un saldo inicial registrado para hoy, no se puede registrar otro.") {
@@ -273,8 +216,7 @@ function guardaryeditar(e) {
 
         $('#agregarsaldoInicial').modal('hide'); // Ocultar el modal
 
-        $('#cerrarCajaBtn').show();
-        $('#abrCajaBtn').hide();
+
         // Obtener valor del saldo inicial guardado
         var saldoInicial = $('#saldo_inicial').val();
 
@@ -291,7 +233,6 @@ function guardaryeditar(e) {
   });
 }
 
-
 function cerrarCaja() {
 
   Swal.fire({
@@ -305,7 +246,7 @@ function cerrarCaja() {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/cajachica.php?op=cerrarcaja", {}, function (e) {
-        
+
         Swal.fire({
           icon: 'success',
           title: 'Caja cerrada',
@@ -316,81 +257,44 @@ function cerrarCaja() {
 
         resetearTotales(); // Restablecer los valores de los totales
 
-        // Volver a iniciar el proceso de apertura de caja
-        $('#agregarsaldoInicial').modal('show');
-        $('#cerrarCajaBtn').hide();
+        // Almacenar una variable en localStorage
+        localStorage.setItem('estadocaja', '0');
 
-      });      
-    }
-  }); 
+        mostrarTotaldeVentas();
+        mostrarTotalencaja();
+        mostrarTotaldeIngresos();
+        mostrarTotaldeEgresos();
+        mostrarSaldoINI();
+        listartblVantas();
+
+        // Obtener el valor almacenado en localStorage
+        estado_caja(localStorage.getItem('estadocaja'));
 
 
-
-
-  /*$.ajax({
-    url: "../ajax/cajachica.php?op=cerrarcaja",
-    type: "POST",
-    success: function (response) {
-      if (response === "Caja cerrada") {
-        Swal.fire({
-          icon: 'success',
-          title: 'Caja cerrada',
-          text: 'Se ha cerrado la caja con éxito',
-          showConfirmButton: false,
-          timer: 1500
-        });
-
-        resetearTotales(); // Restablecer los valores de los totales
-
-        // Volver a iniciar el proceso de apertura de caja
-        $('#agregarsaldoInicial').modal('show');
-
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error al cerrar la caja',
-          text: 'No se pudo cerrar la caja',
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-    },
-    error: function () {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al cerrar la caja',
-        text: 'No se pudo cerrar la caja',
-        showConfirmButton: false,
-        timer: 1500
       });
     }
-  });*/
+  });
+
 }
 
-
 function resetearTotales() {
+
   $('#total_ingreso').text('0');
   $('#total_gasto').text('0');
   $('#total_saldoini').text('0');
   $('#total-ventas').text('0');
+
 }
 
+function estado_caja(estado) {
+  if (estado == '1') {
+    $('#cerrarCajaBtn').show();
+    $('#abrCajaBtn').hide();
 
-
-function verificarSaldoInicial() {
-  var saldoInicial = document.getElementById("total_saldoini").innerText;
-  if (saldoInicial === "S/") {
-    document.getElementById("cerrarCajaBtn").disabled = true;
   } else {
-    document.getElementById("cerrarCajaBtn").disabled = false;
+    $('#cerrarCajaBtn').hide();
+    $('#abrCajaBtn').show();
   }
 }
-
-
-
-
-
-
-
 
 init();
