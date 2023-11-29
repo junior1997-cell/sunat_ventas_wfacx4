@@ -108,7 +108,7 @@
               <li class="slide side-menu__label1"> <a href="javascript:void(0)">Caja</a> </li>
               <li class="slide"> <a href="cajachica.php" class="side-menu__item">Caja chica</a> </li>
               <li class="slide"> <a href="insumos.php" class="side-menu__item">Gastos/Ingresos</a> </li>
-              <li class="slide"> <a href="ventadiaria.php" class="side-menu__item">Ingreso diario</a> </li>                  
+              <!-- <li class="slide"> <a href="ventadiaria.php" class="side-menu__item">Ingreso diario</a> </li> -->                  
               <li class="slide"> <a href="utilidadsemana.php" class="side-menu__item">Utilidad semanal</a> </li>                  
             </ul>
           </li>
