@@ -1,4 +1,4 @@
-var tabla;
+var tabla_compra; var tabla_articulo;
 
 //Función que se ejecuta al inicio
 function init(){
@@ -9,6 +9,9 @@ function init(){
   $("#formulario").on("submit",function(e) { guardaryeditar(e); });
   $("#fnuevoprovee").on("submit",function(e) { guardaryeditarnproveedor(e); });    
   $.post("../ajax/compra.php?op=selectProveedor", function(r){ $("#idproveedor").html(r);  });
+
+  // ══════════════════════════════════════ I N I T I A L I Z E   S E L E C T 2 ══════════════════════════════════════
+  $("#idproveedor").select2({ dropdownParent: $('.card-compra'), theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
 
   conNO=1;
 }
@@ -25,9 +28,9 @@ function validarProveedor() {
   // ...
 }
 
-function redirectToPage(){ window.location.href = "compralistas"; }
+function redirectToPage(){ window.location.href = "compralistas.php"; }
 
-function redirectToPage2(){ window.location.href = "compra"; }
+function redirectToPage2(){ window.location.href = "compra.php"; }
 
 function guardaryeditarnproveedor(e) {
   e.preventDefault(); //No se activará la acción predeterminada del evento
@@ -133,11 +136,18 @@ function cancelarform() {
 $idempresa=$("#idempresa").val();
 //Función Listar
 function listar() {
-  tabla=$('#tbllistado').dataTable( {
+  tabla_compra = $('#tbllistado').dataTable( {
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
-    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-    buttons: [ ],
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+    buttons: [
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla_compra) { tabla_compra.ajax.reload(null, false); } } },
+      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+    ],
     "ajax": {
       url: '../ajax/compra.php?op=listar&idempresa='+$idempresa,
       type : "get",
@@ -145,16 +155,15 @@ function listar() {
       error: function(e){  console.log(e.responseText);  }
     },
     "bDestroy": true,
-    "iDisplayLength": 5,//Paginación
+    "iDisplayLength": 10,//Paginación
     "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
   }).DataTable();
 }
 
 //Función ListarArticulos
 function listarArticulos() {
-  subarticulo=$("#subarticulo")
-  console.log("Hola", subarticulo);
-  tabla=$('#tblarticulos').dataTable({
+  subarticulo=$("#subarticulo"); console.log("Hola", subarticulo);
+  tabla_articulo=$('#tblarticulos').dataTable({
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
     "aProcessing": true,//Activamos el procesamiento del datatables
     "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -263,7 +272,7 @@ function eliminarcompra(idcompra) {
     if (result.isConfirmed) {
       $.post("../ajax/compra.php?op=eliminarcompra", { idcompra: idcompra }, function (e) {        
         sw_success("Eliminado", e);
-        tabla.ajax.reload();
+        tabla_compra.ajax.reload();
       }).fail(function () {
         toastr_error("Error", "No se pudo eliminar la compra");        
       });
@@ -286,7 +295,7 @@ function anular(idingreso) {
     if (result.isConfirmed) {
       $.post("../ajax/ingreso.php?op=anular", { idingreso: idingreso }, function (e) {
         sw_success("Anulado", e);
-        tabla.ajax.reload();
+        tabla_compra.ajax.reload();
       }).fail(function () {
         toastr_error("Error", "No se pudo anular el ingreso");          
       });

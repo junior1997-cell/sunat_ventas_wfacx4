@@ -220,9 +220,9 @@ class Consultas
 
 
   public function mostrarcaja($fechahoy, $idempresa)  {
-    $sql = "SELECT c.idcaja, date_format(c.fecha, '%Y-%m-%d') as fecha, c.montoi, c.montof, c.estado 
+    $sql = "SELECT c.idcaja, date_format(c.fecha_apertura, '%Y-%m-%d') as fecha, c.montoi, c.montof, c.estado 
     from caja c 
-    inner join empresa e on c.idempresa=e.idempresa where fecha='$fechahoy' and c.idempresa='$idempresa'";
+    inner join empresa e on c.idempresa=e.idempresa where fecha_apertura='$fechahoy' and c.idempresa='$idempresa'";
     return ejecutarConsulta($sql);
   }
 

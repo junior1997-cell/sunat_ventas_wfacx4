@@ -1,7 +1,5 @@
 <?php
-if (strlen(session_id()) < 1) {
-  session_start();
-} //Validamos si existe o no la sesión
+if (strlen(session_id()) < 1) { session_start(); } //Validamos si existe o no la sesión
 
 require_once "../modelos/Compra.php";
 
@@ -153,7 +151,7 @@ switch ($_GET["op"]) {
         "0" => ' <div class="dropdown-center"> 
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownCenterBtn" data-bs-toggle="dropdown" aria-expanded="false"> Acciones </button> 
           <ul class="dropdown-menu" aria-labelledby="dropdownCenterBtn" style=""> 
-            <li><a class="dropdown-item" href="../reportes/compraReporte.php?idcompra=' . $reg->idcompra . '">Imprmir</a></li> 
+            <li><a class="dropdown-item" href="../reportes/compraReporte.php?idcompra=' . $reg->idcompra . '" target="_blanck">Imprimir</a></li> 
             <li><a class="dropdown-item" onclick="eliminarcompra(' . $reg->idcompra . ')">Anular compra</a></li>  
           </ul>
         </div> ',

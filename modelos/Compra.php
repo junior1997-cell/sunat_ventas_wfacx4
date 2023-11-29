@@ -4,10 +4,13 @@
 require "../config/Conexion.php";
 
 class Compra
-{
+{  
+  public $id_usr_sesion; public $id_empresa_sesion;
   //Implementamos nuestro constructor
-  public function __construct()
+  public function __construct( $id_usr_sesion = 0, $id_empresa_sesion = 0 )
   {
+    $this->id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
   }
 
   //Implementamos un método para insertar registros
@@ -19,54 +22,42 @@ class Compra
     '$guia', '$subtotal_compra', '$total_igv', '$total_compra', '0',  '0', '0',  '$tcambio', '$moneda',  '$idempresa' )";    
     $idcompranew = ejecutarConsulta_retornarID($sql);
 
-    $num_elementos = 0;
+    $ii = 0;
     $sw = true;
-    while ($num_elementos < count($idarticulo)) {
-      if ($moneda == "USD") {  $valor_unitario[$num_elementos] = $valor_unitario[$num_elementos] * $tcambio;  }
+    while ($ii < count($idarticulo)) {
+      if ($moneda == "USD") {  $valor_unitario[$ii] = $valor_unitario[$ii] * $tcambio;  }
 
       $sql_detalle = "INSERT into detalle_compra_producto ( idcompra, idarticulo, valor_unitario, cantidad, 
       subtotal, valor_unitario_$, subtotal_$) 
-      values ('$idcompranew', '$idarticulo[$num_elementos]', '$valor_unitario[$num_elementos]', '$cantidad[$num_elementos]', 
-      valor_unitario * '$cantidad[$num_elementos]', '0',  '0')";
-
-      // $sql_update_articulo_1="update 
-      // articulo 
-      // set 
-      // valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$num_elementos]' and transaccion='COMPRA' order by idkardex desc limit 1), 
-      // precio_final_kardex=(select costo_2 from kardex where idarticulo='$idarticulo[$num_elementos]' order by idkardex desc limit 1)
-      // where idarticulo='$idarticulo[$num_elementos]'";
-      // ejecutarConsulta($sql_update_articulo_1) or $sw = false;
+      values ('$idcompranew', '$idarticulo[$ii]', '$valor_unitario[$ii]', '$cantidad[$ii]', 
+      valor_unitario * '$cantidad[$ii]', '0',  '0')";     
 
       //Guardar en Kardex
       $sql_kardex = "INSERT into kardex ( idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, 
       cantidad, costo_1, unidad_medida, saldo_final, costo_2, valor_final, idempresa, tcambio, moneda )
-      values ('$idcompranew', '$idarticulo[$num_elementos]', 'COMPRA', '$codigo[$num_elementos]', '$fecha_emision', 
-      '$tipo_comprobante', '$serie_comprobante-$num_comprobante', '$cantidad[$num_elementos]', '$valor_unitario[$num_elementos]', 
-      '$unidad_medida[$num_elementos]',
-      (select saldo_finu +  '$cantidad[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]' ),
-      (select saldo_finu * precio_final_kardex + ( '$valor_unitario[$num_elementos]' * '$cantidad[$num_elementos]') from articulo where idarticulo='$idarticulo[$num_elementos]')/(select  saldo_finu + '$cantidad[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]'),
+      values ('$idcompranew', '$idarticulo[$ii]', 'COMPRA', '$codigo[$ii]', '$fecha_emision', 
+      '$tipo_comprobante', '$serie_comprobante-$num_comprobante', '$cantidad[$ii]', '$valor_unitario[$ii]', 
+      '$unidad_medida[$ii]',
+      (select saldo_finu +  '$cantidad[$ii]' from articulo where idarticulo='$idarticulo[$ii]' ),
+      (select saldo_finu * precio_final_kardex + ( '$valor_unitario[$ii]' * '$cantidad[$ii]') from articulo where idarticulo='$idarticulo[$ii]')/(select  saldo_finu + '$cantidad[$ii]' from articulo where idarticulo='$idarticulo[$ii]'),
       saldo_final * costo_2, '$idempresa', '$tcambio', '$moneda' )";
 
       //FORMULA PARA ACTUALIZAR COSTO DE COMPRA Y VALOR FINAL ========================
       // (COSTO DE COMPRA * CANTIDAD)+VALOR FINAL KARDEX / (SALDO FINAL + CANTIDAD)
 
       $sql_update_articulo = "UPDATE articulo set 
-      valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$num_elementos]' and transaccion='COMPRA' order by idkardex desc limit 1), 
-      precio_final_kardex=(select costo_2 from kardex where idarticulo='$idarticulo[$num_elementos]' order by idkardex desc limit 1),
-      saldo_finu=saldo_finu + '$cantidad[$num_elementos]', 
-      comprast=comprast + '$cantidad[$num_elementos]', 
+      valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$ii]' and transaccion='COMPRA' order by idkardex desc limit 1), 
+      precio_final_kardex=(select costo_2 from kardex where idarticulo='$idarticulo[$ii]' order by idkardex desc limit 1),
+      saldo_finu=saldo_finu + '$cantidad[$ii]', 
+      comprast=comprast + '$cantidad[$ii]', 
       valor_finu=((saldo_iniu + comprast) - ventast) * precio_final_kardex, 
-      stock=saldo_finu
-      where idarticulo='$idarticulo[$num_elementos]'";
-
-      // valor_fin_kardex=(select valor_final from kardex where idarticulo='$idarticulo[$num_elementos]' and transaccion='COMPRA' order by idkardex desc limit 1), 
-      // precio_final_kardex=(select costo_2 from kardex where idarticulo='$idarticulo[$num_elementos]' order by idkardex desc limit 1)
-      // where idarticulo='$idarticulo[$num_elementos]'";
+      stock=stock + $cantidad[$ii]
+      where idarticulo='$idarticulo[$ii]'";      
 
       ejecutarConsulta($sql_detalle) or $sw = false;
       ejecutarConsulta($sql_kardex) or $sw = false;
       ejecutarConsulta($sql_update_articulo) or $sw = false;
-      $num_elementos = $num_elementos + 1;
+      $ii = $ii + 1;
     }
 
     return $idcompranew;

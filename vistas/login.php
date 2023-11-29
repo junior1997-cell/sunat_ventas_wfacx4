@@ -95,7 +95,7 @@ require_once '../config/global.php';
 		</div>
 
 		<div class="info-text login">
-			<h2 class="animation" style="--i:0; --j:19;">Wfacx</h2>
+			<h2 class="animation" style="--i:0; --j:19;">JDL-facx</h2>
 			<p class="animation" style="--i:1; --j:20;">Facturación Electrónica y<br>Gestión Empresarial</p>
 		</div>
 

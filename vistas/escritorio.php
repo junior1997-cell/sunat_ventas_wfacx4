@@ -2,9 +2,9 @@
 
 //Activamos el almacenamiento en el buffer
 
-session_start();
+ob_start(); //Activamos el almacenamiento del Buffer
 
-ob_start();
+if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la sesión
 
 if (!isset($_SESSION["nombre"])) {
 
