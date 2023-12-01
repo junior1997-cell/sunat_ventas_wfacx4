@@ -9,7 +9,7 @@
       <!-- Start::header-element -->
       <div class="header-element">
         <div class="horizontal-logo">
-          <a href="#" class="header-logo">
+          <a href="escritorio.php" class="header-logo">
             <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
             <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
             <img src="../assets/images/brand-logos/desktop-dark.png" alt="logo" class="desktop-dark">

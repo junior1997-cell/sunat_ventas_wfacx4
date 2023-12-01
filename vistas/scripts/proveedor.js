@@ -38,6 +38,7 @@ function llenar_dep_prov_ubig(input) {
       $("#ubigeo").val(e.ubigeo_inei); 
 
       $(".chargue-pro").html(''); $(".chargue-dep").html(''); $(".chargue-ubi").html('');
+      $("#form-empresa").valid();
     });
   }  
 }

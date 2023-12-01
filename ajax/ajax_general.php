@@ -25,28 +25,28 @@
       /* ══════════════════════════════════════ U B I G E O  ══════════════════════════════════════ */
 
       // RENIEC JDL
-      case 'reniec':
+      case 'reniec_jdl':
         $dni = $_POST["dni"];
-        $rspta = $ajax_general->datos_reniec($dni);
+        $rspta = $ajax_general->datos_reniec_jdl($dni);
         echo json_encode($rspta);
       break;
       // RENIEC WFACX
-      case 'consultaDniReniec':
+      case 'reniec_otro':
         $dni = $_POST["dni"];
-        $rspta = $ajax_general->consultaDniReniec($dni);
-        echo json_encode($datosDniCli);
+        $rspta = $ajax_general->datos_reniec_otro($dni);
+        echo json_encode($rspta);
       break;      
       // SUNAT JDL
-      case 'sunat':
+      case 'sunat_jdl':
         $ruc = $_POST["ruc"];
-        $rspta = $ajax_general->datos_sunat($ruc);
+        $rspta = $ajax_general->datos_sunat_jdl($ruc);
         echo json_encode($rspta, true);
       break;
       // SUNAT WFACX
-      case 'consultaRucSunat':
+      case 'sunat_otro':
         $ruc = $_POST["ruc"];
-        $rspta = $ajax_general->consultaRucSunat($ruc);
-        echo json_encode($datosRucCli);
+        $rspta = $ajax_general->datos_sunat_otro($ruc);
+        echo json_encode($rspta);
       break;           
       
       /* ══════════════════════════════════════ U B I G E O  ══════════════════════════════════════ */

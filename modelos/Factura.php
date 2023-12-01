@@ -841,92 +841,42 @@ class Factura {
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-    $query = "SELECT
-     date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
-     right(substring_index(f.numeracion_08,'-',1),1) as serie,
-     date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
-     p.tipo_documento as  tipodocuCliente,
-     p.numero_documento,
-     p.razon_social,
-     f.tipo_moneda_28,
-     f.total_operaciones_gravadas_monto_18_2 as subtotal,
-     f.sumatoria_igv_22_1 as igv,
-     f.importe_total_venta_27 as total,
-     f.tipo_documento_07 as tipocomp,
-     f.numeracion_08 as numerodoc,
-     f.estado,
-     f.tdescuento,
-     f.codigo_tributo_22_3 as codigotrib,
-     f.nombre_tributo_22_4  as nombretrib,
-     f.codigo_internacional_22_5 as codigointtrib,
-     f.total_operaciones_gravadas_codigo_18_1 as opera,
-     e.ubigueo,
-     f.icbper,
-     f.formapago,
-     f.montofpago,
-     f.monedafpago,
-     f.ccuotas,
-     f.fechavecredito,
-     f.montocuota,
-     f.otroscargos,
-     f.fechavenc
-     from
-     factura f inner join persona p on f.idcliente=p.idpersona
-     inner join empresa e on f.idempresa=e.idempresa
+    $query = "SELECT  date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha, right(substring_index(f.numeracion_08,'-',1),1) as serie, date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
+    p.tipo_documento as  tipodocuCliente, p.numero_documento, p.razon_social, f.tipo_moneda_28, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.sumatoria_igv_22_1 as igv,
+    f.importe_total_venta_27 as total, f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, f.estado, f.tdescuento, f.codigo_tributo_22_3 as codigotrib,
+    f.nombre_tributo_22_4  as nombretrib, f.codigo_internacional_22_5 as codigointtrib, f.total_operaciones_gravadas_codigo_18_1 as opera, e.ubigueo, f.icbper,
+    f.formapago, f.montofpago, f.monedafpago, f.ccuotas, f.fechavecredito, f.montocuota, f.otroscargos, f.fechavenc
+    from factura f 
+    inner join persona p on f.idcliente=p.idpersona
+    inner join empresa e on f.idempresa=e.idempresa
+    where idfactura='$idfactura' and f.estado in('1','4') order by numerodoc";
 
-     where idfactura='$idfactura' and f.estado in('1','4') order by numerodoc";
+    $querycuotas = "SELECT lpad(cu.ncuota,3,'0') as ncuota,  cu.montocuota, date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota, format(fa.formapago,2) as formapago,
+    fa.tipo_moneda_28 as monedaf
+    from cuotas cu inner join factura fa on cu.idcomprobante=fa.idfactura where idcomprobante='$idfactura' and cu.tipocomprobante='01'";
 
-    $querycuotas = "SELECT
-     lpad(cu.ncuota,3,'0') as ncuota ,
-     cu.montocuota,
-     date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota,
-     format(fa.formapago,2) as formapago,
-     fa.tipo_moneda_28 as monedaf
-     from
-     cuotas cu inner join factura fa on cu.idcomprobante=fa.idfactura
-     where idcomprobante='$idfactura' and cu.tipocomprobante='01'";
-
-    $querydetfac = "SELECT
-       f.tipo_documento_07 as tipocomp,
-       f.numeracion_08 as numerodoc,
-       df.cantidad_item_12 as cantidad,
-       a.codigo,
-       a.nombre as descripcion,
-       um.abre as um,
-       replace(format(df.valor_uni_item_14,5),',','') as vui,
-       df.igv_item as igvi,
-       df.precio_venta_item_15_2 as pvi,
-       df.valor_venta_item_21 as vvi,
-       df.afectacion_igv_item_16_1 as sutribitem,
-       df.numero_orden_item_33 as numorden,
-
-       df.afectacion_igv_item_16_3 as aigv,
-       df.afectacion_igv_item_16_4 codtrib,
-       df.afectacion_igv_item_16_5 as nomtrib,
-       df.afectacion_igv_item_16_6 as coditrib,
-       a.codigosunat,
-       f.tipo_moneda_28 as moneda,
-       a.mticbperu,
-       f.icbper
-
-       from
-       factura f inner join detalle_fac_art df on f.idfactura=df.idfactura inner join articulo a on df.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
-          where
-          f.idfactura='$idfactura' and f.estado in ('1','4') order by f.fecha_emision_01";
-
+    $querydetfac = "SELECT f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, df.cantidad_item_12 as cantidad, a.codigo, a.nombre as descripcion,
+    um.abre as um, replace(format(df.valor_uni_item_14,5),',','') as vui, df.igv_item as igvi, df.precio_venta_item_15_2 as pvi, df.valor_venta_item_21 as vvi, 
+    df.afectacion_igv_item_16_1 as sutribitem, df.numero_orden_item_33 as numorden, df.afectacion_igv_item_16_3 as aigv, df.afectacion_igv_item_16_4 codtrib, 
+    df.afectacion_igv_item_16_5 as nomtrib, df.afectacion_igv_item_16_6 as coditrib, a.codigosunat, f.tipo_moneda_28 as moneda, a.mticbperu, f.icbper
+    from factura f 
+    inner join detalle_fac_art df on f.idfactura=df.idfactura 
+    inner join articulo a on df.idarticulo=a.idarticulo 
+    inner join umedida um on a.unidad_medida=um.idunidad
+    where f.idfactura='$idfactura' and f.estado in ('1','4') order by f.fecha_emision_01";
 
     $result = ejecutarConsultaArray( $query);
     $resultf = ejecutarConsultaArray( $querydetfac);
     $resultcuotas = ejecutarConsultaArray( $querycuotas);
 
-    $nombrecomercial = $datose->nombre_comercial;
-    $domiciliofiscal = $datose->domicilio_fiscal;
+    $nombrecomercial    = $datose->nombre_comercial;
+    $domiciliofiscal    = $datose->domicilio_fiscal;
     $codestablecimiento = $datose->ubigueo;
-    $codubigueo = $datose->codubigueo;
-    $ciudad = $datose->ciudad;
-    $distrito = $datose->distrito;
-    $interior = $datose->interior;
-    $codigopais = $datose->codigopais;
+    $codubigueo         = $datose->codubigueo;
+    $ciudad             = $datose->ciudad;
+    $distrito           = $datose->distrito;
+    $interior           = $datose->interior;
+    $codigopais         = $datose->codigopais;
 
     //Parametros de salida
     $fecha = "";
@@ -1425,59 +1375,21 @@ class Factura {
 
     if ($estado == '1' && $estado == '4' || $check == 'true') {
 
-      $query = "SELECT
-     date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
-     right(substring_index(f.numeracion_08,'-',1),1) as serie,
-     date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
-     p.tipo_documento as  tipodocuCliente,
-     p.numero_documento,
-     p.razon_social,
-     f.tipo_moneda_28,
-     f.total_operaciones_gravadas_monto_18_2 as subtotal,
-     f.sumatoria_igv_22_1 as igv,
-     f.importe_total_venta_27 as total,
-     f.tipo_documento_07 as tipocomp,
-     f.numeracion_08 as numerodoc,
-     f.estado,
-     f.tdescuento,
-     f.codigo_tributo_22_3 as codigotrib,
-     f.nombre_tributo_22_4  as nombretrib,
-     f.codigo_internacional_22_5 as codigointtrib,
-     f.total_operaciones_gravadas_codigo_18_1 as opera,
-     e.ubigueo,
-     f.icbper,
-     f.formapago,
-     f.montofpago,
-     f.monedafpago,
-     f.ccuotas,
-     f.fechavecredito,
-     f.montocuota
-     from
-     factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where
-      year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by numerodoc";
+      $query = "SELECT date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha, right(substring_index(f.numeracion_08,'-',1),1) as serie, date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
+     p.tipo_documento as  tipodocuCliente, p.numero_documento, p.razon_social, f.tipo_moneda_28, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.sumatoria_igv_22_1 as igv,
+     f.importe_total_venta_27 as total, f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, f.estado, f.tdescuento, f.codigo_tributo_22_3 as codigotrib,
+     f.nombre_tributo_22_4  as nombretrib, f.codigo_internacional_22_5 as codigointtrib, f.total_operaciones_gravadas_codigo_18_1 as opera, e.ubigueo,
+     f.icbper, f.formapago, f.montofpago, f.monedafpago, f.ccuotas, f.fechavecredito, f.montocuota
+     from factura f 
+     inner join persona p on f.idcliente=p.idpersona 
+     inner join empresa e on f.idempresa=e.idempresa 
+     where year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and 
+     f.idfactura='$idfactura' and not f.estado='3'  order by numerodoc";
 
-      $querydetfac = "SELECT
-       f.tipo_documento_07 as tipocomp,
-       f.numeracion_08 as numerodoc,
-       df.cantidad_item_12 as cantidad,
-       a.codigo,
-       a.nombre as descripcion,
-       um.abre as um,
-       replace(format(df.valor_uni_item_14,5),',','') as vui,
-       df.igv_item as igvi,
-       df.precio_venta_item_15_2 as pvi,
-       df.valor_venta_item_21 as vvi,
-       df.afectacion_igv_item_16_1 as sutribitem,
-       df.numero_orden_item_33 as numorden,
-
-       df.afectacion_igv_item_16_3 as aigv,
-       df.afectacion_igv_item_16_4 codtrib,
-       df.afectacion_igv_item_16_5 as nomtrib,
-       df.afectacion_igv_item_16_6 as coditrib,
-       a.codigosunat,
-       f.tipo_moneda_28 as moneda,
-       a.mticbperu,
-       f.icbper
+      $querydetfac = "SELECT f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, df.cantidad_item_12 as cantidad, a.codigo, a.nombre as descripcion,
+       um.abre as um, replace(format(df.valor_uni_item_14,5),',','') as vui, df.igv_item as igvi, df.precio_venta_item_15_2 as pvi, df.valor_venta_item_21 as vvi,
+       df.afectacion_igv_item_16_1 as sutribitem, df.numero_orden_item_33 as numorden, df.afectacion_igv_item_16_3 as aigv, df.afectacion_igv_item_16_4 codtrib,
+       df.afectacion_igv_item_16_5 as nomtrib, df.afectacion_igv_item_16_6 as coditrib, a.codigosunat, f.tipo_moneda_28 as moneda, a.mticbperu, f.icbper
        from factura f 
        inner join detalle_fac_art df on f.idfactura=df.idfactura 
        inner join articulo a on df.idarticulo=a.idarticulo 
@@ -1488,14 +1400,14 @@ class Factura {
       $result = ejecutarConsultaArray( $query);
       $resultf = ejecutarConsultaArray( $querydetfac);
 
-      $nombrecomercial = $datose->nombre_comercial;
-      $domiciliofiscal = $datose->domicilio_fiscal;
+      $nombrecomercial    = $datose->nombre_comercial;
+      $domiciliofiscal    = $datose->domicilio_fiscal;
       $codestablecimiento = $datose->ubigueo;
-      $codubigueo = $datose->codubigueo;
-      $ciudad = $datose->ciudad;
-      $distrito = $datose->distrito;
-      $interior = $datose->interior;
-      $codigopais = $datose->codigopais;
+      $codubigueo         = $datose->codubigueo;
+      $ciudad             = $datose->ciudad;
+      $distrito           = $datose->distrito;
+      $interior           = $datose->interior;
+      $codigopais         = $datose->codigopais;
 
       //Parametros de salida
       $fecha = '';
@@ -2078,8 +1990,6 @@ class Factura {
     $configuraciones = $factura->configuraciones($idempresa);
     $configE = $configuraciones->fetch_object();
 
-
-
     //Inclusion de la tabla RUTAS
     require_once "../modelos/Rutas.php";
     $rutas = new Rutas();
@@ -2090,96 +2000,44 @@ class Factura {
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATAALTERNA
     $rutaenvio = $Prutas->rutaenvio; // ruta de la carpeta DATAALTERNA
 
-    $query = "SELECT
-     date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
-     right(substring_index(f.numeracion_08,'-',1),1) as serie,
-     date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
-     p.tipo_documento as  tipodocuCliente,
-     p.numero_documento,
-     p.razon_social,
-     f.tipo_moneda_28,
-     f.total_operaciones_gravadas_monto_18_2 as subtotal,
-     f.sumatoria_igv_22_1 as igv,
-     f.importe_total_venta_27 as total,
-     f.tipo_documento_07 as tipocomp,
-     f.numeracion_08 as numerodoc,
-     f.estado,
-     f.tdescuento,
-     f.codigo_tributo_22_3 as codigotrib,
-     f.nombre_tributo_22_4  as nombretrib,
-     f.codigo_internacional_22_5 as codigointtrib,
-     f.total_operaciones_gravadas_codigo_18_1 as opera,
-     e.ubigueo,
-     f.icbper,
+    $query = "SELECT date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,  right(substring_index(f.numeracion_08,'-',1),1) as serie,  date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
+    p.tipo_documento as  tipodocuCliente, p.numero_documento, p.razon_social, f.tipo_moneda_28, f.total_operaciones_gravadas_monto_18_2 as subtotal, f.sumatoria_igv_22_1 as igv, 
+    f.importe_total_venta_27 as total, f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, f.estado, f.tdescuento, f.codigo_tributo_22_3 as codigotrib, 
+    f.nombre_tributo_22_4  as nombretrib, f.codigo_internacional_22_5 as codigointtrib, f.total_operaciones_gravadas_codigo_18_1 as opera, e.ubigueo, f.icbper, f.formapago,
+    f.montofpago, f.monedafpago, f.ccuotas, f.fechavecredito, f.montocuota, f.otroscargos, f.fechavenc
+    from factura f 
+    inner join persona p on f.idcliente=p.idpersona
+    inner join empresa e on f.idempresa=e.idempresa
+    where idfactura='$idfactura' and f.estado in('1','4','3','5') order by numerodoc";
 
-     f.formapago,
-     f.montofpago,
-     f.monedafpago,
-     f.ccuotas,
-     f.fechavecredito,
-     f.montocuota,
-     f.otroscargos,
-     f.fechavenc
+    $querycuotas = "SELECT lpad(cu.ncuota,3,'0') as ncuota, cu.montocuota, date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota, format(fa.formapago,2) as formapago,
+    fa.tipo_moneda_28 as monedaf
+    from cuotas cu 
+    inner join factura fa on cu.idcomprobante=fa.idfactura
+    where idcomprobante='$idfactura' and cu.tipocomprobante='01'";
 
-
-     from
-     factura f inner join persona p on f.idcliente=p.idpersona
-     inner join empresa e on f.idempresa=e.idempresa
-
-     where idfactura='$idfactura' and f.estado in('1','4','3','5') order by numerodoc";
-
-    $querycuotas = "SELECT
-     lpad(cu.ncuota,3,'0') as ncuota ,
-     cu.montocuota,
-     date_format(cu.fechacuota, '%Y-%m-%d') as fechacuota,
-     format(fa.formapago,2) as formapago,
-     fa.tipo_moneda_28 as monedaf
-     from
-     cuotas cu inner join factura fa on cu.idcomprobante=fa.idfactura
-     where idcomprobante='$idfactura' and cu.tipocomprobante='01'";
-
-
-    $querydetfac = "SELECT
-       f.tipo_documento_07 as tipocomp,
-       f.numeracion_08 as numerodoc,
-       df.cantidad_item_12 as cantidad,
-       a.codigo,
-       a.nombre as descripcion,
-       um.abre as um,
-       replace(format(df.valor_uni_item_14,5),',','') as vui,
-       df.igv_item as igvi,
-       df.precio_venta_item_15_2 as pvi,
-       df.valor_venta_item_21 as vvi,
-       df.afectacion_igv_item_16_1 as sutribitem,
-       df.numero_orden_item_33 as numorden,
-
-       df.afectacion_igv_item_16_3 as aigv,
-       df.afectacion_igv_item_16_4 codtrib,
-       df.afectacion_igv_item_16_5 as nomtrib,
-       df.afectacion_igv_item_16_6 as coditrib,
-       a.codigosunat,
-       f.tipo_moneda_28 as moneda,
-       a.mticbperu,
-       f.icbper
-
-       from
-       factura f inner join detalle_fac_art df on f.idfactura=df.idfactura inner join articulo a on df.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
-          where
-          f.idfactura='$idfactura' and f.estado in ('1','4','3','5') order by f.fecha_emision_01";
-
+    $querydetfac = "SELECT f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, df.cantidad_item_12 as cantidad, a.codigo, a.nombre as descripcion, um.abre as um,
+    replace(format(df.valor_uni_item_14,5),',','') as vui, df.igv_item as igvi, df.precio_venta_item_15_2 as pvi, df.valor_venta_item_21 as vvi, df.afectacion_igv_item_16_1 as sutribitem,
+    df.numero_orden_item_33 as numorden, df.afectacion_igv_item_16_3 as aigv, df.afectacion_igv_item_16_4 codtrib, df.afectacion_igv_item_16_5 as nomtrib,
+    df.afectacion_igv_item_16_6 as coditrib, a.codigosunat, f.tipo_moneda_28 as moneda, a.mticbperu, f.icbper
+    from factura f 
+    inner join detalle_fac_art df on f.idfactura=df.idfactura 
+    inner join articulo a on df.idarticulo=a.idarticulo 
+    inner join umedida um on a.unidad_medida=um.idunidad
+    where f.idfactura='$idfactura' and f.estado in ('1','4','3','5') order by f.fecha_emision_01";
 
     $result = ejecutarConsultaArray($query);
     $resultf = ejecutarConsultaArray($querydetfac);
     $resultcuotas = ejecutarConsultaArray($querycuotas);
 
-    $nombrecomercial = $datose->nombre_comercial;
-    $domiciliofiscal = $datose->domicilio_fiscal;
+    $nombrecomercial    = $datose->nombre_comercial;
+    $domiciliofiscal    = $datose->domicilio_fiscal;
     $codestablecimiento = $datose->ubigueo;
-    $codubigueo = $datose->codubigueo;
-    $ciudad = $datose->ciudad;
-    $distrito = $datose->distrito;
-    $interior = $datose->interior;
-    $codigopais = $datose->codigopais;
+    $codubigueo         = $datose->codubigueo;
+    $ciudad             = $datose->ciudad;
+    $distrito           = $datose->distrito;
+    $interior           = $datose->interior;
+    $codigopais         = $datose->codigopais;
 
     //Parametros de salida
     $fecha = "";
@@ -2200,7 +2058,6 @@ class Factura {
     $ubigueo = "";
     $fechavenc = "";
 
-
     $otroscargos = "";
     $formapago = "";
     $montofpago = "";
@@ -2215,9 +2072,7 @@ class Factura {
 
     $con = 0; //COntador de variable
     $icbper = "";
-    foreach ($result as $key => $row) {
-      
-    
+    foreach ($result as $key => $row) {     
       
       $fecha = $row["fecha"]; //Fecha emision
       $serie = $row["serie"];
@@ -2237,11 +2092,9 @@ class Factura {
       $opera = $row["opera"];
       $fechavenc = $row["fechavenc"];
 
-
       $codigotrib = $row["codigotrib"]; //codigo de tributo de la tabla catalo 5
       $nombretrib = $row["nombretrib"]; //NOmbre de tributo de la tabla catalo 5
       $codigointtrib = $row["codigointtrib"]; //Codigo internacional de la tabla catalo 5
-
 
       $formapago = $row["formapago"];
       $montofpago = $row["montofpago"];
@@ -3189,22 +3042,11 @@ class Factura {
     //   exit();
     // }
 
-    $sqlsendmail = "SELECT
-        f.idfactura,
-        p.email,
-        p.nombres,
-        p.apellidos,
-        p.nombre_comercial,
-        e.numero_ruc,
-        f.tipo_documento_07,
-        f.numeracion_08,
-        p.email
-        from
-        factura f inner join persona p on
-        f.idcliente=p.idpersona inner join empresa e on
-        f.idempresa=e.idempresa
-        where
-        f.idfactura='$idfactura'";
+    $sqlsendmail = "SELECT f.idfactura, p.email, p.nombres, p.apellidos, p.nombre_comercial, e.numero_ruc, f.tipo_documento_07, f.numeracion_08, p.email
+    from factura f 
+    inner join persona p on f.idcliente=p.idpersona 
+    inner join empresa e on f.idempresa=e.idempresa
+    where f.idfactura='$idfactura'";
 
     $result = ejecutarConsultaArray( $sqlsendmail);
 
@@ -3212,8 +3054,7 @@ class Factura {
 
     foreach ($result as $key => $row) {     
       
-        $correocliente = $row["email"];
-      
+      $correocliente = $row["email"];      
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3265,8 +3106,6 @@ class Factura {
         }
       }
 
-
-
       $facturarpta = 'R' . $row['numero_ruc'] . "-" . $row['tipo_documento_07'] . "-" . $row['numeracion_08'];
 
       //Validar si existe el archivo RPTA
@@ -3293,12 +3132,10 @@ class Factura {
         $fichero = file_get_contents($url);
       }
 
-
       if ($archivoFacturaRpta != "") {
         $urlrpta = $rutarpta . $archivoFacturaRpta . '.zip';
         $ficherorpta = file_get_contents($urlrpta);
       }
-
 
       $urlFac = $rutasalidafactura . $archivoFacturaPDF . '.pdf';
       $ficheroFact = file_get_contents($urlFac);
@@ -3355,9 +3192,6 @@ class Factura {
       }
       // FUNCION PARA ENVIO DE CORREO CON LA FACTURA AL CLIENTE .
 
-
-      $i = $i + 1;
-      $con = $con + 1;
     }
 
 
@@ -4861,80 +4695,40 @@ class Factura {
 
     if ($estado == '1' && $estado == '4' || $check == 'true') {
 
-      $query = "SELECT
-     date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha,
-     right(substring_index(f.numeracion_08,'-',1),1) as serie,
-     date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
-     p.tipo_documento as  tipodocuCliente,
-     p.numero_documento,
-     p.razon_social,
-     f.tipo_moneda_28,
-     f.total_operaciones_gravadas_monto_18_2 as subtotal,
-     f.sumatoria_igv_22_1 as igv,
-     f.importe_total_venta_27 as total,
-     f.tipo_documento_07 as tipocomp,
-     f.numeracion_08 as numerodoc,
-     f.estado,
-     f.tdescuento,
-     f.descripcion_leyenda_31_2, 
-     f.codigo_tributo_22_3 as codigotrib,
-     f.nombre_tributo_22_4  as nombretrib,
-     f.codigo_internacional_22_5 as codigointtrib,
-     f.total_operaciones_gravadas_codigo_18_1 as opera,
-     e.ubigueo,
-     f.icbper,
+      $query = "SELECT  date_format(f.fecha_emision_01, '%Y-%m-%d') as fecha, right(substring_index(f.numeracion_08,'-',1),1) as serie, date_format(f.fecha_emision_01, '%H:%i:%s') as hora,
+      p.tipo_documento as  tipodocuCliente, p.numero_documento, p.razon_social, f.tipo_moneda_28, f.total_operaciones_gravadas_monto_18_2 as subtotal, 
+      f.sumatoria_igv_22_1 as igv, f.importe_total_venta_27 as total, f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, f.estado, f.tdescuento, cripcion_leyenda_31_2, 
+      f.codigo_tributo_22_3 as codigotrib, f.nombre_tributo_22_4  as nombretrib, f.codigo_internacional_22_5 as codigointtrib, f.total_operaciones_gravadas_codigo_18_1 as opera, e.ubigueo,
+      f.icbper, f.formapago, f.montofpago, f.monedafpago, f.ccuotas, f.fechavecredito, f.montocuota
+      from factura f 
+      inner join persona p on f.idcliente=p.idpersona 
+      inner join empresa e on f.idempresa=e.idempresa 
+      where year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' 
+      and f.idfactura='$idfactura' and not f.estado='3'  order by numerodoc";
 
-     f.formapago,
-     f.montofpago,
-     f.monedafpago,
-     f.ccuotas,
-     f.fechavecredito,
-     f.montocuota
-
-     from
-     factura f inner join persona p on f.idcliente=p.idpersona inner join empresa e on f.idempresa=e.idempresa where
-      year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by numerodoc";
-
-      $querydetfac = "SELECT
-       f.tipo_documento_07 as tipocomp,
-       f.numeracion_08 as numerodoc,
-       df.cantidad_item_12 as cantidad,
-       a.codigo,
-       a.nombre as descripcion,
-       um.abre as um,
-       replace(format(df.valor_uni_item_14,5),',','') as vui,
-       df.igv_item as igvi,
-       df.precio_venta_item_15_2 as pvi,
-       df.valor_venta_item_21 as vvi,
-       df.afectacion_igv_item_16_1 as sutribitem,
-       df.numero_orden_item_33 as numorden,
-
-       df.afectacion_igv_item_16_3 as aigv,
-       df.afectacion_igv_item_16_4 codtrib,
-       df.afectacion_igv_item_16_5 as nomtrib,
-       df.afectacion_igv_item_16_6 as coditrib,
-       a.codigosunat,
-       f.tipo_moneda_28 as moneda,
-       a.mticbperu,
-       f.icbper
-
-       from
-       factura f inner join detalle_fac_art df on f.idfactura=df.idfactura inner join articulo a on df.idarticulo=a.idarticulo inner join umedida um on a.unidad_medida=um.idunidad
-          where
-          year(f.fecha_emision_01)='$ano' and  month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' and f.idfactura='$idfactura' and not f.estado='3'  order by f.fecha_emision_01";
+      $querydetfac = "SELECT f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, df.cantidad_item_12 as cantidad, a.codigo, a.nombre as descripcion,
+      um.abre as um, replace(format(df.valor_uni_item_14,5),',','') as vui, df.igv_item as igvi, df.precio_venta_item_15_2 as pvi, df.valor_venta_item_21 as vvi, 
+      df.afectacion_igv_item_16_1 as sutribitem, df.numero_orden_item_33 as numorden, df.afectacion_igv_item_16_3 as aigv,  df.afectacion_igv_item_16_4 codtrib,
+      df.afectacion_igv_item_16_5 as nomtrib, df.afectacion_igv_item_16_6 as coditrib, a.codigosunat, f.tipo_moneda_28 as moneda, a.mticbperu, f.icbper
+      from factura f 
+      inner join detalle_fac_art df on f.idfactura=df.idfactura 
+      inner join articulo a on df.idarticulo=a.idarticulo 
+      inner join umedida um on a.unidad_medida=um.idunidad
+      where year(f.fecha_emision_01)='$ano' and  month(f.fecha_emision_01)='$mes' and day(f.fecha_emision_01)='$dia' and f.estado ='$estado' 
+      and f.idfactura='$idfactura' and not f.estado='3'  order by f.fecha_emision_01";
 
 
       $result = ejecutarConsultaArray( $query);
       $resultf = ejecutarConsultaArray( $querydetfac);
 
-      $nombrecomercial = $datose->nombre_comercial;
-      $domiciliofiscal = $datose->domicilio_fiscal;
+      $nombrecomercial    = $datose->nombre_comercial;
+      $domiciliofiscal    = $datose->domicilio_fiscal;
       $codestablecimiento = $datose->ubigueo;
-      $codubigueo = $datose->codubigueo;
-      $ciudad = $datose->ciudad;
-      $distrito = $datose->distrito;
-      $interior = $datose->interior;
-      $codigopais = $datose->codigopais;
+      $codubigueo         = $datose->codubigueo;
+      $ciudad             = $datose->ciudad;
+      $distrito           = $datose->distrito;
+      $interior           = $datose->interior;
+      $codigopais         = $datose->codigopais;
 
       //Parametros de salida
       $fecha = '';

@@ -648,7 +648,7 @@ switch ($_GET["op"]) {
     $correo = $_GET['ema'];
     $rspta = $factura->enviarcorreo($idf, $correo);
     echo $rspta;
-    break;
+  break;
 
 
   case 'traercorreocliente':

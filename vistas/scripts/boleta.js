@@ -124,7 +124,7 @@ function limpiar() {
   $("#total").html("0");
   $("#tcambio").val("0");
   document.getElementById("mensaje700").style.display = "none";
-  $("#tipo_doc_ide").val("0");
+  $("#tipo_doc_ide").val("0").trigger("change");
   $.post("../ajax/factura.php?op=selectTributo", function (r) { $("#codigo_tributo_18_3").html(r); });
 
   $("#codigo_tributo_h").val($("#codigo_tributo_18_3 option:selected").val());
@@ -267,61 +267,62 @@ function cancelarform() {
 //Función Listar
 
 function listar() {
-  tabla = $("#tbllistado")
-    .dataTable({
-      scrollCollapse: true,
-      aProcessing: true, //Activamos el procesamiento del datatables
-      aServerSide: true, //Paginación y filtrado realizados por el servidor
-      dom: "Bfrtip", //Definimos los elementos del control de tabla
-      searching: true,
-      searchHighlight: true,
-      buttons: [],
-      ajax: {
-        url: "../ajax/boleta.php?op=listar&idempresa=" + $idempresa,
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-        },
+  tabla = $("#tbllistado").dataTable({
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
+    scrollCollapse: true,
+    aProcessing: true, //Activamos el procesamiento del datatables
+    aServerSide: true, //Paginación y filtrado realizados por el servidor
+    dom: "Bfrtip", //Definimos los elementos del control de tabla
+    searching: true,
+    searchHighlight: true,
+    buttons: [],
+    ajax: {
+      url: "../ajax/boleta.php?op=listar&idempresa=" + $idempresa,
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
       },
-
-      bDestroy: true,
-      iDisplayLength: 5, //Paginación
-      order: [[0, "desc"]], //Ordenar (columna,orden)
-    })
-    .DataTable();
+    },
+    bDestroy: true,
+    iDisplayLength: 10, //Paginación
+    order: [[0, "desc"]], //Ordenar (columna,orden)
+  }).DataTable();
 
 }
 
 //Función Listar
 
 function listarenvioautomatico() {
-  tabla = $("#tbllistado")
-    .dataTable({
-      aProcessing: true, //Activamos el procesamiento del datatables
-      aServerSide: true, //Paginación y filtrado realizados por el servidor
-      dom: "Bfrtip", //Definimos los elementos del control de tabla
-      buttons: [],
-      ajax: {
-        url: "../ajax/boleta.php?op=envioautomatico&idempresa=" + $idempresa,
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-        },
+  tabla = $("#tbllistado").dataTable({
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
+    aProcessing: true, //Activamos el procesamiento del datatables
+    aServerSide: true, //Paginación y filtrado realizados por el servidor
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+    buttons: [
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla) { tabla.ajax.reload(null, false); } } },
+      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5,6,7], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5,6,7], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5,6,7], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+    ],
+    ajax: {
+      url: "../ajax/boleta.php?op=envioautomatico&idempresa=" + $idempresa,
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
       },
-      rowCallback: function (row, data) {
-        //$(row).addClass('selected');
-        //$(row).id(0).addClass('selected');
-      },
-      bDestroy: true,
-      iDisplayLength: 15, //Paginación
-      order: [[0, "desc"]], //Ordenar (columna,orden)
-    })
-    .DataTable();
-  let refreshTable = setInterval(function () {
-    tabla.ajax.reload();
-  }, 10000); // Actualiza la tabla cada 30 segundos
+    },
+    rowCallback: function (row, data) {
+      //$(row).addClass('selected');
+      //$(row).id(0).addClass('selected');
+    },
+    bDestroy: true,
+    iDisplayLength: 10, //Paginación
+    order: [[0, "desc"]], //Ordenar (columna,orden)
+  }).DataTable();
+  let refreshTable = setInterval(function () { tabla.ajax.reload(); }, 10000); // Actualiza la tabla cada 30 segundos
 }
 
 function cerrarModal() {
@@ -363,146 +364,152 @@ function listarArticulos() {
   $iteno = $("#itemno").val();
   almacen = $("#almacenlista").val();
   tablaArti = $("#tblarticulos").dataTable({
-      aProcessing: true, //Activamos el procesamiento del datatables
-      aServerSide: true, //Paginación y filtrado realizados por el servidor
-      searching: true,
-      dom: "Bfrtip", //Definimos los elementos del control de tabla
-      buttons: [],
-      ajax: {
-        url: "../ajax/boleta.php?op=listarArticulosboleta&tprecio=" + $tipoprecio + "&tb=" + tpb + "&itm=" + $iteno + "&alm=" + almacen,
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-        },
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
+    aProcessing: true, //Activamos el procesamiento del datatables
+    aServerSide: true, //Paginación y filtrado realizados por el servidor
+    searching: true,
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+    buttons: [
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tablaArti) { tablaArti.ajax.reload(null, false); } } },
+      
+    ],
+    ajax: {
+      url: "../ajax/boleta.php?op=listarArticulosboleta&tprecio=" + $tipoprecio + "&tb=" + tpb + "&itm=" + $iteno + "&alm=" + almacen,
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
       },
-      //Para cambiar el color del stock cuando es 0
-      fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-        // Agregar el input y el botón en la columna correspondiente (índice 5)
-        $(nRow) .find("td:eq(5)")
-          .html(
-            '<div class="row">' +
-            '<div class="col-8">' +
-            '<input type="number" class="form-control hidebutton text-end" style="width: 100px;" id="product_stock" value="' +
-            aData[5] +
-            '" />' +
-            "</div>" +
-            '<div class="col-2 p-0">' +
-            '<button class="btn btn-secondary m-0" id="btn_editarstock"><i class="fas fa-save"></i></button>' +
-            "</div>" +
-            "</div>"
-          );
+    },
+    // createdRow: function (row, data, ixdex) {
+    //   // columna: #
+    //   if (data[0] != '') { $("td", row).eq(0).addClass("text-nowrap"); }
+    // },
+    //Para cambiar el color del stock cuando es 0
+    fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+      // Agregar el input y el botón en la columna correspondiente (índice 5)
+      $(nRow) .find("td:eq(5)")
+        .html(
+          '<div class="row">' +
+          '<div class="col-8">' +
+          '<input type="number" class="form-control hidebutton text-end" style="width: 100px;" id="product_stock" value="' +
+          aData[5] +
+          '" />' +
+          "</div>" +
+          '<div class="col-2 p-0">' +
+          '<button class="btn btn-secondary btn-sm m-0" id="btn_editarstock"><i class="fas fa-save"></i></button>' +
+          "</div>" +
+          "</div>"
+        );
 
-        if (aData[5] == "0.00") {
-          $("td", nRow).css("background-color", "#fd96a9");
+      if (aData[5] == "0.00") {
+        $("td", nRow).css("background-color", "#fd96a9");
 
-          // Agregar evento de clic al botón de guardar
-          $(nRow)
-            .find("#btn_editarstock")
-            .click(function () {
-              var newStock = $(nRow).find("#product_stock").val();
-
-              var idarticulo = aData[8];
-
-              var formData = new FormData();
-              formData.append("idarticuloproduct", idarticulo);
-              formData.append("stockproduct", newStock);
-
-              console.log("Nuevo data:", formData);
-              $.ajax({
-                url: "../ajax/articulo.php?op=editarstockarticulo",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                  Swal.fire({
-                    icon: "success",
-                    title: "¡Éxito!",
-                    showConfirmButton: false,
-                    timer: 1500,
-                    text: response,
-                  });
-                  $("#tblarticulos").DataTable().ajax.reload();
-                },
-                error: function () {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Error al guardar",
-                    text: "Ha ocurrido un error al actualizar los datos",
-                  });
-                },
-              });
-            });
-        } else {
-          $("td", nRow).css("background-color", "");
-
-          // Agregar evento de clic al botón de guardar
-          $(nRow)
-            .find("#btn_editarstock")
-            .click(function () {
-              var newStock = $(nRow).find("#product_stock").val();
-
-              var idarticulo = aData[8];
-
-              var formData = new FormData();
-              formData.append("idarticuloproduct", idarticulo);
-              formData.append("stockproduct", newStock);
-
-              Swal.fire({
-                title: "Aún tienes suficiente stock",
-                text: "¿Deseas agregar más?",
-                showDenyButton: true,
-                confirmButtonText: "Sí",
-                denyButtonText: "No",
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  $.ajax({
-                    url: "../ajax/articulo.php?op=editarstockarticulo",
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                      Swal.fire({
-                        icon: "success",
-                        title: "¡Éxito!",
-                        showConfirmButton: false,
-                        timer: 1500,
-                        text: response,
-                      });
-                      $("#tblarticulos").DataTable().ajax.reload();
-                    },
-                    error: function () {
-                      Swal.fire({
-                        icon: "error",
-                        title: "Error al guardar",
-                        text: "Ha ocurrido un error al actualizar los datos",
-                      });
-                    },
-                  });
-                } else if (result.isDenied) {
-                  Swal.fire("Los cambios no se guardaron", "", "info");
-                  $("#tblarticulos").DataTable().ajax.reload();
-                }
-              });
-            });
-        }
-
-        // Agregar evento de clic a la imagen
-        $(nRow)
-          .find("td:eq(6) img")
-          .css("cursor", "pointer") // Cambiar el cursor a una mano
+        // Agregar evento de clic al botón de guardar
+        $(nRow) .find("#btn_editarstock")
           .click(function () {
-            mostrarModal(aData); // Llamada a la función para mostrar el modal con los datos
-          });
-      },
+            var newStock = $(nRow).find("#product_stock").val();
 
-      bDestroy: true,
-      iDisplayLength: 5, //Paginación
-      order: [[5, "desc"]], //Ordenar (columna,orden)
-    })
-    .DataTable();
+            var idarticulo = aData[8];
+
+            var formData = new FormData();
+            formData.append("idarticuloproduct", idarticulo);
+            formData.append("stockproduct", newStock);
+
+            console.log("Nuevo data:", formData);
+            $.ajax({
+              url: "../ajax/articulo.php?op=editarstockarticulo",
+              type: "POST",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function (response) {
+                Swal.fire({
+                  icon: "success",
+                  title: "¡Éxito!",
+                  showConfirmButton: false,
+                  timer: 1500,
+                  text: response,
+                });
+                $("#tblarticulos").DataTable().ajax.reload();
+              },
+              error: function () {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error al guardar",
+                  text: "Ha ocurrido un error al actualizar los datos",
+                });
+              },
+            });
+          });
+      } else {
+        $("td", nRow).css("background-color", "");
+
+        // Agregar evento de clic al botón de guardar
+        $(nRow)
+          .find("#btn_editarstock")
+          .click(function () {
+            var newStock = $(nRow).find("#product_stock").val();
+
+            var idarticulo = aData[8];
+
+            var formData = new FormData();
+            formData.append("idarticuloproduct", idarticulo);
+            formData.append("stockproduct", newStock);
+
+            Swal.fire({
+              title: "Aún tienes suficiente stock",
+              text: "¿Deseas agregar más?",
+              showDenyButton: true,
+              confirmButtonText: "Sí",
+              denyButtonText: "No",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                $.ajax({
+                  url: "../ajax/articulo.php?op=editarstockarticulo",
+                  type: "POST",
+                  data: formData,
+                  contentType: false,
+                  processData: false,
+                  success: function (response) {
+                    Swal.fire({
+                      icon: "success",
+                      title: "¡Éxito!",
+                      showConfirmButton: false,
+                      timer: 1500,
+                      text: response,
+                    });
+                    $("#tblarticulos").DataTable().ajax.reload();
+                  },
+                  error: function () {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Error al guardar",
+                      text: "Ha ocurrido un error al actualizar los datos",
+                    });
+                  },
+                });
+              } else if (result.isDenied) {
+                Swal.fire("Los cambios no se guardaron", "", "info");
+                $("#tblarticulos").DataTable().ajax.reload();
+              }
+            });
+          });
+      }
+
+      // Agregar evento de clic a la imagen
+      $(nRow)
+        .find("td:eq(6) img")
+        .css("cursor", "pointer") // Cambiar el cursor a una mano
+        .click(function () {
+          mostrarModal(aData); // Llamada a la función para mostrar el modal con los datos
+        });
+    },
+
+    bDestroy: true,
+    iDisplayLength: 10, //Paginación
+    order: [[5, "desc"]], //Ordenar (columna,orden)
+  }).DataTable();
   $("div.dataTables_filter input").focus(); // PARA PONER INPUT FOCUS
 
   $("#tblarticulos").DataTable().ajax.reload();
@@ -688,15 +695,7 @@ function guardaryeditarBoleta(e) {
   //HEREEE
   e.preventDefault(); //No se activará la acción predeterminada del evento
   // Verificar si la tabla tiene al menos una fila
-  if ($("#tipo_doc_ide").val() === "") {
-    swal.fire({
-      title: "Por favor, selecciona un tipo de documento.",
-      icon: "warning",
-      showCancelButton: false,
-      showConfirmButton: true,
-    });
-    return;
-  }
+  if ($("#tipo_doc_ide").val() === "") { sw_warning('Alerta!!',"Por favor, selecciona un tipo de documento.", 5000 ); return; }
 
   var tipoDoc = $("#tipo_doc_ide").val();
 
@@ -704,45 +703,15 @@ function guardaryeditarBoleta(e) {
   if (tipoDoc === "1" || tipoDoc === "2") {
     var dni = $("#numero_documento");
     var regexDNI = /^[0-9]{8}$/;
-
-    if (!regexDNI.test(dni.val())) {
-      swal.fire({
-        title: "El DNI debe ser de 8 dígitos.",
-        icon: "warning",
-        showCancelButton: false,
-        showConfirmButton: true,
-      });
-      dni.focus();
-      return;
-    }
+    if (!regexDNI.test(dni.val())) { sw_warning('Alerta!!',"El DNI debe ser de 8 dígitos.", 5000 ); dni.focus(); return;  }
   }
-
 
   var regexNombre = /^[A-Za-záéíóúÁÉÍÓÚñÑ ]+$/;
   var nombre = document.getElementById("razon_social");
-  if (!regexNombre.test(nombre.value)) {
-    swal.fire({
-      title: "Por favor, introduce un nombre válido (sin caracteres especiales).",
-      icon: "warning",
-      showCancelButton: false,
-      showConfirmButton: true,
-    });
-    nombre.focus();
-    return;
-  }
-
+  if (!regexNombre.test(nombre.value)) { sw_warning('Alerta!!',"Por favor, introduce un nombre válido (sin caracteres especiales).", 5000 ); nombre.focus(); return; }
 
   var rowCount = $("#detalles tbody tr").length;
-  if (rowCount == 0) {
-    swal.fire({
-      title: "La tabla está vacía, por favor agregue al menos un producto.",
-      icon: "error",
-      showCancelButton: false,
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    return;
-  }
+  if (rowCount == 0) { sw_error('Error!!', "La tabla está vacía, por favor agregue al menos un producto.", 5000); return; }
 
   var cant = document.getElementsByName("cantidad_item_12[]");
   var prec = document.getElementsByName("precio_unitario[]");
@@ -752,98 +721,77 @@ function guardaryeditarBoleta(e) {
     var inpC = cant[i];
     var inpP = prec[i];
     var inStk = stk[i];
-    if (
-      inpP.value == 0.0 ||
-      inpP.value == "" ||
-      inpC.value == 0 ||
-      inStk.value == 0 ||
-      $("#numero_boleta").val() == ""
-    ) {
+    if (  inpP.value == 0.0 || inpP.value == "" || inpC.value == 0 || inStk.value == 0 ||  $("#numero_boleta").val() == ""  ) {
       sw = sw + 1;
     }
   }
 
   if (sw != 0) {
-    swal.fire({
-      title: "Revizar précio!, cantidad, número de boleta o Stock",
-      icon: "error",
-      showCancelButton: false,
-      confirmButtonText: "Ok",
-    });
+    sw_error('Revizar précio!', "Revizar précio!, cantidad, número de boleta o Stock", 5000);    
     inpP.focus();
   } else {
-    swal
-      .fire({
-        title: "¿Desea emitir la boleta?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, emitir boleta",
-        cancelButtonText: "Cancelar",
-      })
-      .then((result) => {
-        if (result.value) {
-          capturarhora();
-          var formData = new FormData($("#formulario")[0]);
-          $.ajax({
-            url: "../ajax/boleta.php?op=guardaryeditarBoleta",
-            type: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (datos) {
-              tipoimpresion();
-              mostrarform(false);
-              refrescartabla();
-            },
-          });
-          limpiar();
-          //$("#numero_documento").val("");
-          //$("#razon_social").val("");
-          //$("#domicilio_fiscal").val("");
-          $("#tdescuentoL").text("");
-          $("#ipagado_input").val("");
-          $("#ipagado_input").replaceWith(
-            '<h6 id="ipagado">' + $("#ipagado_final").val() + "</h6>"
-          );
-          sw = 0;
-        }
-      });
+    swal.fire({
+      title: "¿Desea emitir la boleta?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, emitir boleta",
+      cancelButtonText: "Cancelar",
+    }) .then((result) => {
+      if (result.value) {
+        capturarhora();
+        var formData = new FormData($("#formulario")[0]);
+        $.ajax({
+          url: "../ajax/boleta.php?op=guardaryeditarBoleta",
+          type: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (datos) {
+            tipoimpresion();
+            mostrarform(false);
+            refrescartabla();
+          },
+        });
+        limpiar();
+        //$("#numero_documento").val("");
+        //$("#razon_social").val("");
+        //$("#domicilio_fiscal").val("");
+        $("#tdescuentoL").text("");
+        $("#ipagado_input").val("");
+        $("#ipagado_input").replaceWith( '<h6 id="ipagado">' + $("#ipagado_final").val() + "</h6>" );
+        sw = 0;
+      }
+    });
   }
 
-  setTimeout(function () {
-    $("#modalPreview2").modal("hide");
-  }, 6000);
+  // setTimeout(function () { $("#modalPreview2").modal("hide"); }, 6000);
 }
 
 function tipoimpresion() {
-  $.post(
-    "../ajax/boleta.php?op=mostrarultimocomprobanteId",
-    function (data, status) {
-      data = JSON.parse(data);
-      if (data != null) {
-        $("#idultimocom").val(data.idboleta);
-      } else {
-        $("#idultimocom").val("");
-      }
-
-      if (data.tipoimpresion == "00") {
-        var rutacarpeta = "../reportes/exTicketBoleta.php?id=" + data.idboleta;
-        $("#modalCom").attr("src", rutacarpeta);
-        $("#modalPreview2").modal("show");
-      } else if (data.tipoimpresion == "01") {
-        var rutacarpeta = "../reportes/exBoleta.php?id=" + data.idboleta;
-        $("#modalCom").attr("src", rutacarpeta);
-        $("#modalPreview2").modal("show");
-      } else {
-        var rutacarpeta =
-          "../reportes/exBoletaCompleto.php?id=" + data.idboleta;
-        $("#modalCom").attr("src", rutacarpeta);
-        $("#modalPreview2").modal("show");
-      }
+  $.post( "../ajax/boleta.php?op=mostrarultimocomprobanteId", function (data, status) {
+    data = JSON.parse(data);
+    if (data != null) {
+      $("#idultimocom").val(data.idboleta);
+    } else {
+      $("#idultimocom").val("");
     }
-  );
+
+    if (data.tipoimpresion == "00") {
+      var rutacarpeta = "../reportes/exTicketBoleta.php?id=" + data.idboleta;
+      $("#modalCom").attr("src", rutacarpeta);
+      $("#modalPreview2").modal("show");
+    } else if (data.tipoimpresion == "01") {
+      var rutacarpeta = "../reportes/exBoleta.php?id=" + data.idboleta;
+      $("#modalCom").attr("src", rutacarpeta);
+      $("#modalPreview2").modal("show");
+    } else {
+      var rutacarpeta =  "../reportes/exBoletaCompleto.php?id=" + data.idboleta;
+      $("#modalCom").attr("src", rutacarpeta);
+      $("#modalPreview2").modal("show");
+    }
+  });
 }
 
 function guardaryeditararticulo(e) {
@@ -1243,59 +1191,34 @@ function NumCheck2(e, field) {
 
   key = e.keyCode ? e.keyCode : e.which;
 
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById("codigob").focus();
-  }
+  if (e.keyCode === 13 && !e.shiftKey) { document.getElementById("codigob").focus(); }
 
   // backspace
-
   if (key == 8) return true;
-
   if (key == 9) return true;
-
   if (key > 47 && key < 58) {
     if (field.val() === "") return true;
-
     var existePto = /[.]/.test(field.val());
-
     if (existePto === false) {
       regexp = /.[0-9]{10}$/;
     } else {
       regexp = /.[0-9]{2}$/;
     }
-
     return !regexp.test(field.val());
   }
 
   if (key == 46) {
     if (field.val() === "") return false;
-
     regexp = /^[0-9]+$/;
-
     return regexp.test(field.val());
   }
 
   return false;
 }
 
-function agregarDetalle(
-  tipoagregacion,
-  idarticulo,
-  familia,
-  codigo_proveedor,
-  codigo,
-  nombre,
-  precio_factura,
-  stock,
-  unidad_medida,
-  precio_unitario,
-  cicbper,
-  mticbperuSunat,
-  factorconversion,
-  factorc,
-  descrip,
-  tipoitem
-) {
+function agregarDetalle( tipoagregacion, idarticulo, familia, codigo_proveedor, codigo, nombre, precio_factura,  stock,  unidad_medida,  precio_unitario,  cicbper,
+mticbperuSunat, factorconversion, factorc, descrip, tipoitem ) {
+
   var cantidad = 0;
   if (idarticulo != "") {
     var subtotal = cantidad * precio_factura;
@@ -1304,10 +1227,7 @@ function agregarDetalle(
     var total_fin;
     var contador = 1;
     if (parseFloat(stock) == "0") {
-      Swal.fire({
-        title: "El stock es 0, actualizar stock!",
-        icon: "warning",
-      });
+      sw_warning('Stock 0', "El stock es 0, actualizar stock!", 5000);      
       $("#codigob").val("");
       quitasuge3();
     } else {
@@ -1337,86 +1257,40 @@ function agregarDetalle(
       }
 
       // <textarea class="" name="descdet[]" id="descdet[]" rows="1" cols="70" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">'+descrip+'</textarea>
-      var fila =
-        '<tr class="filas" id="fila' +  cont + '">' +
-        '<td><i class="fa fa-close" onclick="eliminarDetalle(' + cont + ')" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>' +
-        '<td><span name="numero_orden" id="numero_orden' + cont + '" ></span>' +
-        '<input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="' + conNO + '"  ></td>' +
-        '<td><input type="hidden" name="idarticulo[]" style="font-family: times, serif; font-size:14pt; font-style:italic" value="' + idarticulo + '">' + nombre + "</td>" +
-        '<td hidden><textarea class="" name="descdet[]" id="descdet[]" rows="1" cols="70" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">'+descrip+'</textarea>' +
-        '<select name="codigotributo[]" class="" style="display:none;"> <option value="1000">IGV</option><option value="9997">EXO</option><option value="9998">INA</option></select>' +
-        '<select name="afectacionigv[]" class="" style="display:none;"> <option value="10">10-GOO</option><option value="20">20-EOO</option><option value="30">30-FRE</option></select></td>' +
-        '<td><input type="text"  class="" required="true" name="cantidad_item_12[]" id="cantidad_item_12[]"  onBlur="modificarSubototales(1)" size="6" onkeypress="return NumCheck(event, this)" value="1" ></td>' +
-        '<td><input type="text"  class="" name="descuento[]" id="descuento[]"  onBlur="modificarSubototales(1)" size="2" onkeypress="return NumCheck(event, this)" >' +
-        '<span name="SumDCTO" id="SumDCTO' +
-        cont +
-        '" style="display:none"></span> <input type="hidden"  required="true" class="" name="sumadcto[]" id="sumadcto[]" >  </td>' +
-        '<td hidden><input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]" value="' +
-        codigo_proveedor +
-        '">' +
-        codigo_proveedor +
-        "</td>" +
-        '<td hidden><input type="text" name="codigo[]" id="codigo[]" value="' +
-        codigo +
-        '" class="" style="display:none;" ></td>' +
-        '<td><input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="' +
-        unidad_medida +
-        '">' +
-        unidad_medida +
-        "</td>" +
-        '<td><input type="text" class="" name="precio_unitario[]" id="precio_unitario[]" value="' +
-        precio_factura +
-        '" onBlur="modificarSubototales(1)" size="7" onkeypress="return NumCheck2(event, this)" OnFocus="focusTest(this); return false;"  ></td>' +
-        '<td><input type="text" class="" name="valor_unitario[]" id="valor_unitario[]" size="5"  value="' +
-        precioOculto +
-        '"    ' +
-        exo +
-        ' onBlur="modificarSubototales(1"></td>' +
-        '<td><input type="text" class="" name="stock[]" id="stock[]" value="' +
-        factorconversion +
-        '" disabled="true" size="7"></td>' +
-        '<td><span name="subtotal" id="subtotal' +
-        cont +
-        '"></span>' +
-        '<input type="hidden" name="subtotalBD[]" id="subtotalBD["' +
-        cont +
-        '"]">' +
-        '<span name="igvG" id="igvG' +
-        cont +
-        '" style="background-color:#9fde90bf; display:none;"></span>' +
-        '<input type="hidden" name="igvBD[]" id="igvBD["' +
-        cont +
-        '"]"><input type="hidden" name="igvBD2[]" id="igvBD2["' +
-        cont +
-        '"]">' +
-        '<span name="total" id="total' +
-        cont +
-        '" style="background-color:#9fde90bf; display:none;" ></span>' +
-        '<span name="pvu_" id="pvu_' +
-        cont +
-        '"  style="display:none"  ></span>' +
-        '<input  type="hidden" name="vvu[]" id="vvu["' +
-        cont +
-        '"] size="2">' +
-        '<input  type="hidden" name="cicbper[]" id="cicbper["' +
-        cont +
-        '"] value="' +
-        cicbper +
-        '" >' +
-        '<input  type="hidden" name="mticbperu[]" id="mticbperu["' +
-        cont +
-        '"]" value="' +
-        mticbperuSunat +
-        '">' +
-        '<input type="hidden"  class="" required="true" name="factorc[]" id="factorc[]"   value="' +
-        factorc +
-        '">' +
-        '<input type="hidden"  class="" required="true" name="cantidadreal[]" id="cantidadreal[]" >' +
-        '<span name="mticbperuCalculado" id="mticbperuCalculado' +
-        cont +
-        '" style="background-color:#9fde90bf;display:none;"></span>' +
-        "</td>" +
-        "</tr>";
+      var fila = `<tr class="filas" id="fila${cont}">
+        <td><i class="fa fa-close" onclick="eliminarDetalle(${cont})" style="color:red;"  data-toggle="tooltip" title="Eliminar item"></i></td>
+        <td><span name="numero_orden" id="numero_orden${cont}" ></span>
+        <input type="hidden" name="numero_orden_item_29[]" id="numero_orden_item_29[]" value="${conNO}"  ></td>
+        <td><input type="hidden" name="idarticulo[]" style="font-family: times, serif; font-size:14pt; font-style:italic" value="${idarticulo}">${nombre}</td>
+        <td hidden>
+          <textarea class="" name="descdet[]" id="descdet[]" rows="1" cols="70" onkeyup="mayus(this)" onkeypress="return focusDescdet(event, this)">${descrip}</textarea>
+          <select name="codigotributo[]" class="" style="display:none;"> <option value="1000">IGV</option><option value="9997">EXO</option><option value="9998">INA</option></select>
+          <select name="afectacionigv[]" class="" style="display:none;"> <option value="10">10-GOO</option><option value="20">20-EOO</option><option value="30">30-FRE</option></select>
+        </td>
+        <td><input type="text"  class="" required="true" name="cantidad_item_12[]" id="cantidad_item_12[]"  onBlur="modificarSubototales(1)" size="6" onkeypress="return NumCheck(event, this)" value="1" ></td>
+        <td>
+          <input type="text"  class="" name="descuento[]" id="descuento[]"  onBlur="modificarSubototales(1)" size="2" onkeypress="return NumCheck(event, this)" >
+          <span name="SumDCTO" id="SumDCTO${cont}" style="display:none"></span> <input type="hidden"  required="true" class="" name="sumadcto[]" id="sumadcto[]" >
+        </td>
+        <td hidden><input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]" value="${codigo_proveedor}">${codigo_proveedor}</td>
+        <td hidden><input type="text" name="codigo[]" id="codigo[]" value="${codigo}" class="" style="display:none;" ></td>
+        <td><input type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${unidad_medida}">${unidad_medida}</td>
+        <td><input type="text" class="" name="precio_unitario[]" id="precio_unitario[]" value="${precio_factura}" onBlur="modificarSubototales(1)" size="7"   ></td>
+        <td><input type="text" class="" name="valor_unitario[]" id="valor_unitario[]" size="5"  value="${precioOculto}" ${exo} onBlur="modificarSubototales(1)"></td>
+        <td><input type="text" class="" name="stock[]" id="stock[]" value="${factorconversion}" disabled="true" size="7"></td>
+        <td><span name="subtotal" id="subtotal${cont}"></span>
+          <input type="hidden" name="subtotalBD[]" id="subtotalBD["${cont}"]">
+          <span name="igvG" id="igvG${cont}" style="background-color:#9fde90bf; display:none;"></span>
+          <input type="hidden" name="igvBD[]" id="igvBD["${cont}"]"><input type="hidden" name="igvBD2[]" id="igvBD2["${cont}"]">
+          <span name="total" id="total${cont}" style="background-color:#9fde90bf; display:none;" ></span>
+          <span name="pvu_" id="pvu_${cont}"  style="display:none"  ></span> <input  type="hidden" name="vvu[]" id="vvu["${cont}"] size="2">
+          <input  type="hidden" name="cicbper[]" id="cicbper["${cont}"] value="${cicbper}" >
+          <input  type="hidden" name="mticbperu[]" id="mticbperu["${cont}"]" value="${mticbperuSunat}">
+          <input type="hidden"  class="" required="true" name="factorc[]" id="factorc[]"   value="${factorc}">
+          <input type="hidden"  class="" required="true" name="cantidadreal[]" id="cantidadreal[]" >
+          <span name="mticbperuCalculado" id="mticbperuCalculado${cont}" style="background-color:#9fde90bf;display:none;"></span>
+        </td>
+      </tr>`;
 
       var id = document.getElementsByName("idarticulo[]");
       var can = document.getElementsByName("cantidad_item_12[]");
@@ -1453,8 +1327,7 @@ function agregarDetalle(
       document.getElementById("numero_documento").focus();
       modificarSubototales(1);
       tributocodnon();
-
-      toastr.success("Agregado al detalle " + nombre);
+      toastr_success("Agregado!!", "Agregado al detalle: " + nombre);      
       //$("#myModalArt").modal('hide');
 
       //para foco
@@ -1463,7 +1336,7 @@ function agregarDetalle(
       }, 500);
 
       //$('#tblarticulos').DataTable().ajax.reload();
-      $("input[type=search]").focus();
+      // $("input[type=search]").focus();
     } //If de stock menor a 20
   } else {
     Swal.fire({
@@ -1530,15 +1403,16 @@ $("body").on("keydown", function (e) {
 
 function agregarArticuloxCodigo(e) {
   var codigob = $("#codigob").val();
-
+  $('.charge-add-x-code').html('<i class="fas fa-spinner fa-pulse fa-lg"></i>');
   if (e.keyCode === 13 && !e.shiftKey) {
     $.post( "../ajax/boleta.php?op=listarArticulosboletaxcodigo&codigob=" + codigob + "&idempresa=" + $idempresa, function (data, status) {
       data = JSON.parse(data);
       if (data != null) {
         if (parseFloat(data.stock) == "0") {
+          $('.charge-add-x-code').html('<i class="fas fa-barcode fa-lg"></i>');
           Swal.fire({  title: "El stock es 0, actualizar stock!", icon: "warning",  });
           $("#codigob").val("");
-          quitasuge3();
+          quitasuge3();           
         } else {
           if ($("#codigo_tributo_18_3").val() == "9997") {
             exo = "";
@@ -1594,7 +1468,7 @@ function agregarArticuloxCodigo(e) {
             "</td>" +
             '<td><input type="text" class="" name="precio_unitario[]" id="precio_unitario[]" value="' +
             data.precio_venta +
-            '" onBlur="modificarSubototales(1)" size="7" onkeypress="return NumCheck2(event, this)" OnFocus="focusTest(this); return false;"  ></td>' +
+            '" onBlur="modificarSubototales(1)" size="7"    ></td>' +
             '<td><input type="text" class="" name="valor_unitario[]" id="valor_unitario[]" size="5"  value="' +
             precioOculto +
             '"    ' +
@@ -1673,10 +1547,12 @@ function agregarArticuloxCodigo(e) {
           tributocodnon();
           modificarSubototales(1);
           $("#codigob").val("");
+          $('.charge-add-x-code').html('<i class="fas fa-barcode fa-lg"></i>');
 
           document.getElementById("codigob").focus();
         }
       } else {
+        $('.charge-add-x-code').html('<i class="fas fa-barcode fa-lg"></i>');
         Swal.fire({ title: "No existe", icon: "warning", });
         $("#codigob").val("");
         document.getElementById("btnAgregarArt").style.backgroundColor = "#35770c";
@@ -2902,35 +2778,23 @@ function downFtp(idboleta) {
 //Función ListarClientes
 
 function listarClientes() {
-  tablaCLiente = $("#tblaclientes")
-    .dataTable({
-      aProcessing: false, //Activamos el procesamiento del datatables
-
-      "bRetrieve ": false, //Paginación y filtrado realizados por el servidor
-
-      dom: "Bfrtip", //Definimos los elementos del control de tabla
-
-      buttons: [],
-
-      ajax: {
-        url: "../ajax/factura.php?op=listarClientesfactura",
-
-        type: "get",
-
-        dataType: "json",
-
-        error: function (e) {
-          console.log(e.responseText);
-        },
+  tablaCLiente = $("#tblaclientes") .dataTable({
+    aProcessing: false, //Activamos el procesamiento del datatables
+    "bRetrieve ": false, //Paginación y filtrado realizados por el servidor
+    dom: "Bfrtip", //Definimos los elementos del control de tabla
+    buttons: [],
+    ajax: {
+      url: "../ajax/factura.php?op=listarClientesfactura",
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
       },
-
-      bDestroy: true,
-
-      iDisplayLength: 8, //Paginación
-
-      order: [[0, "desc"]], //Ordenar (columna,orden)
-    })
-    .DataTable();
+    },
+    bDestroy: true,
+    iDisplayLength: 8, //Paginación
+    order: [[0, "desc"]], //Ordenar (columna,orden)
+  }) .DataTable();
 
   $("#tblaclientes").DataTable().ajax.reload();
 }
@@ -2942,91 +2806,57 @@ function guardaryeditarcliente(e) {
 
   $.ajax({
     url: "../ajax/persona.php?op=guardaryeditarNclienteBoleta",
-
     type: "POST",
-
     data: formData,
-
     contentType: false,
-
     processData: false,
-
     success: function (datos) {
-      bootbox.alert(datos);
-
+      // bootbox.alert(datos); 
+      toastr_success('Correcto!!', datos);
       tabla.ajax.reload();
-
       limpiarcliente();
-
       agregarClientexRucNuevo();
     },
   });
-
   $("#ModalNcliente").modal("hide");
-
   $("#myModalCli").modal("hide");
 }
 
 function agregarClientexRucNuevo() {
-  $.post(
-    "../ajax/factura.php?op=listarClientesfacturaxDocNuevos",
-    function (data, status) {
-      data = JSON.parse(data);
+  $.post( "../ajax/factura.php?op=listarClientesfacturaxDocNuevos",  function (data, status) {
+    data = JSON.parse(data);
 
-      if (data != null) {
-        $("#numero_documento").val(data.numero_documento);
-
-        $("#idcliente").val(data.idpersona);
-
-        $("#razon_social").val(data.razon_social);
-
-        $("#domicilio_fiscal").val(data.domicilio_fiscal);
-
-        $("#tipo_documento_cliente").val(data.tipo_documento);
-
-        document.getElementById("btnAgregarArt").style.backgroundColor =
-          "#367fa9";
-
-        document.getElementById("btnAgregarArt").focus();
-      } else {
-        $("#idcliente").val("");
-
-        $("#razon_social").val("No existe");
-
-        $("#domicilio_fiscal").val("No existe");
-
-        $("#tipo_documento_cliente").val("");
-
-        document.getElementById("btnAgregarArt").style.backgroundColor =
-          "#35770c";
-
-        document.getElementById("btnAgregarCli").focus();
-      }
+    if (data != null) {
+      $("#numero_documento").val(data.numero_documento);
+      $("#idcliente").val(data.idpersona);
+      $("#razon_social").val(data.razon_social);
+      $("#domicilio_fiscal").val(data.domicilio_fiscal);
+      $("#tipo_documento_cliente").val(data.tipo_documento);
+      document.getElementById("btnAgregarArt").style.backgroundColor =  "#367fa9";
+      document.getElementById("btnAgregarArt").focus();
+    } else {
+      $("#idcliente").val("");
+      $("#razon_social").val("No existe");
+      $("#domicilio_fiscal").val("No existe");
+      $("#tipo_documento_cliente").val("");
+      document.getElementById("btnAgregarArt").style.backgroundColor = "#35770c";
+      document.getElementById("btnAgregarCli").focus();
     }
-  );
+  });
 }
 
 function limpiarcliente() {
   //NUEVO CLIENTE
 
   $("#numero_documento3").val("");
-
   $("#razon_social3").val("");
-
   $("#domicilio_fiscal3").val("");
-
   $("#iddepartamento").val("");
-
   $("#idciudad").val("");
-
   $("#iddistrito").val("");
-
   $("#telefono1").val("");
-
   $("#email").val("");
-
   $("#nruc").val("");
-
   $("#numero_documento3").val("");
 
   //=========================
@@ -3583,7 +3413,7 @@ function agregarItemdetalle() {
         "</td>" +
         '<td><input type="text" class="" name="precio_unitario[]" id="precio_unitario[]" value="' +
         $precio_boleta +
-        '"  size="7" onkeypress="return NumCheck2(event, this)" OnFocus="focusTest(this); return false;"  ></td>' +
+        '"  size="7"   ></td>' +
         '<td><input type="text" class="" name="valor_unitario[]" id="valor_unitario[]" size="5"  value="' +
         precioOculto +
         '"    ' +
@@ -3863,18 +3693,21 @@ if ($("#estado").val() == "1") {
 
 function cambiarlistado() {
   listarArticulos();
+  // if (tablaArti) { tablaArti.ajax.reload(null, false); }
 }
 
 function cambiarlistadoum() {
   $("#itemno").val("1");
 
   listarArticulos();
+  // if (tablaArti) { tablaArti.ajax.reload(null, false); }
 }
 
 function cambiarlistadoum2() {
   $("#itemno").val("0");
 
   listarArticulos();
+  // if (tablaArti) { tablaArti.ajax.reload(null, false); }
 }
 
 function generarcodigonarti() {

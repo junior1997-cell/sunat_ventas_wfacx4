@@ -11,6 +11,9 @@ $persona = new Persona();
 require_once "../modelos/Usuario.php";
 $usuario = new Usuario();
 
+date_default_timezone_set('America/Lima');  $date_now = date("d_m_Y__h_i_s_A");
+$imagen_error = "this.src='../files/logo/simagen.jpg'";
+$toltip = '<script> $(function () { $(\'[data-bs-toggle="tooltip"]\').tooltip(); }); </script>';
 
 //Factura
 $idboleta = isset($_POST["idboleta"]) ? limpiarCadena($_POST["idboleta"]) : "";
@@ -773,7 +776,7 @@ switch ($_GET["op"]) {
       $data[] = array(
         "0" =>' <div class="btn-group mb-1">
           <div class="dropdown">
-            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-cog"></i></button>
             <div class="dropdown-menu" style="">                    
               <a  class="dropdown-item" onclick="preticket2(' . $reg->idboleta . ')"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir Ticket"> </i> Formato Ticket</a>
               <a class="dropdown-item" onclick="prea4completo2(' . $reg->idboleta . ')"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir formato completo"> </i> Formato A4</a>
@@ -801,11 +804,11 @@ switch ($_GET["op"]) {
           : '<i class="fa fa-newspaper" style="font-size: 14px; color:#239B56;"> <span>' . $reg->DetalleSunat . '</span></i> ')))),
 
         "9" => '<a hidden onclick="enviarxmlSUNAT(' . $reg->idboleta . ')"  ' . $sunatAceptado . '="class_a_href" ><i class="fa fa-send"  style="color:red; font-size:18px;" data-toggle="tooltip" title="Enviar a SUNAT" ></i></a>
-          <a style="cursor:pointer;" onclick="mostrarxml(' . $reg->idboleta . ')"><img src="../public/images/xml.png" width="28px" height="28px" title="Descargar XML"></a>', 
+          <a style="cursor:pointer;" onclick="mostrarxml(' . $reg->idboleta . ')"><img src="../public/images/xml.png"  height="28px" title="Descargar XML"></a>', 
         //Si esta anulado
         //Actualizado ===============================================        
-        "10" => ' <a style="cursor:pointer;" onclick="mostrarrpta(' . $reg->idboleta . ')"><img src="../public/images/cdr.png" width="28px" height="28px" title="Descargar CDR"></a>',
-        "11" =>' <a style="cursor:pointer;" onclick="prea4completo2(' . $reg->idboleta . ')"><img src="../public/images/pdf.png" width="28px" height="28px" title="Descargar PDF"></a>'
+        "10" => ' <a style="cursor:pointer;" onclick="mostrarrpta(' . $reg->idboleta . ')"><img src="../public/images/cdr.png"  height="28px" title="Descargar CDR"></a>',
+        "11" =>' <a style="cursor:pointer;" onclick="prea4completo2(' . $reg->idboleta . ')"><img src="../public/images/pdf.png"  height="28px" title="Descargar PDF"></a>'
       );
     }
     $results = array( "sEcho" => 1,//Información para el datatables
@@ -905,12 +908,12 @@ switch ($_GET["op"]) {
       while ($reg = $rspta->fetch_object()) {
         $data[] = array(
           "0" => ($reg->stock <= $reg->limitestock) ? '<label style="color: red;">Limite stock es: </label>' . '<label style="color: red;">' . $reg->limitestock . '</label>' :
-          '<button class="btn btn-warning btn-sm" onclick="agregarDetalle(0,' . $reg->idarticulo . ',\'' . $reg->familia . '\',\'' . $reg->codigo_proveedor . '\',\'' . $reg->codigo . '\',\'' . htmlspecialchars($reg->nombre) . '\',\'' . $reg->precio_venta . '\',\'' . $reg->stock . '\',\'' . $reg->abre . '\' ,\'' . $reg->precio_unitario . '\',\'' . $reg->cicbper . '\', \'' . $reg->mticbperu . '\' , \'' . $reg->factorconversion . '\' , \'' . $reg->factorc . '\' , \'' . str_replace("\r\n", " ", $reg->descrip) . '\',  \'' . $reg->tipoitem . '\')">
-            <span class="fa fa-clone" data-toggle="tooltip" title="Agregar continuo">  </span> Continuo
+          ' <button class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar continuo" onclick="agregarDetalle(0,' . $reg->idarticulo . ',\'' . $reg->familia . '\',\'' . $reg->codigo_proveedor . '\',\'' . $reg->codigo . '\',\'' . htmlspecialchars($reg->nombre) . '\',\'' . $reg->precio_venta . '\',\'' . $reg->stock . '\',\'' . $reg->abre . '\' ,\'' . $reg->precio_unitario . '\',\'' . $reg->cicbper . '\', \'' . $reg->mticbperu . '\' , \'' . $reg->factorconversion . '\' , \'' . $reg->factorc . '\' , \'' . str_replace("\r\n", " ", $reg->descrip) . '\',  \'' . $reg->tipoitem . '\')">
+            <i class="fa fa-clone" >  </i> 
           </button>'  .
-          '<button class="btn btn-success btn-sm" onclick="agregarDetalle(1,' . $reg->idarticulo . ',\'' . $reg->familia . '\',\'' . $reg->codigo_proveedor . '\',\'' . $reg->codigo . '\',\'' . htmlspecialchars($reg->nombre) . '\',\'' . $reg->precio_venta . '\',\'' . $reg->stock . '\',\'' . $reg->abre . '\' ,\'' . $reg->precio_unitario . '\',\'' . $reg->cicbper . '\', \'' . $reg->mticbperu . '\' , \'' . $reg->factorconversion . '\' , \'' . $reg->factorc . '\' , \'' . str_replace("\r\n", " ", $reg->descrip) . '\',  \'' . $reg->tipoitem . '\'); cerrarModal();">
-            <span class="fa fa-outdent" data-toggle="tooltip" title="Agregar separado"> </span> individual
-          </button>',
+          ' <button class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar separado" onclick="agregarDetalle(1,' . $reg->idarticulo . ',\'' . $reg->familia . '\',\'' . $reg->codigo_proveedor . '\',\'' . $reg->codigo . '\',\'' . htmlspecialchars($reg->nombre) . '\',\'' . $reg->precio_venta . '\',\'' . $reg->stock . '\',\'' . $reg->abre . '\' ,\'' . $reg->precio_unitario . '\',\'' . $reg->cicbper . '\', \'' . $reg->mticbperu . '\' , \'' . $reg->factorconversion . '\' , \'' . $reg->factorc . '\' , \'' . str_replace("\r\n", " ", $reg->descrip) . '\',  \'' . $reg->tipoitem . '\'); cerrarModal();">
+            <i class="fa fa-outdent" > </i> 
+          </button>' . $toltip ,
           "1" => $reg->nombre,
           "2" => $reg->codigo,
           "3" => $reg->nombreum,
@@ -1118,9 +1121,7 @@ switch ($_GET["op"]) {
     // Datos listos para usar
     $datosDniCli = json_decode($response);
     echo json_encode($datosDniCli);
-    break;
-
-
+  break;
 
   case 'cambiartarjetadc_':
     $opc = $_GET['opcion'];

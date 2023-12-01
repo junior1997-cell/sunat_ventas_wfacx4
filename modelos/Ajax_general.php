@@ -14,7 +14,7 @@ Class Ajax_general
   } 
 
   // ══════════════════════════════════════ RENIEC JDL ══════════════════════════════════════
-  public function datos_reniec($dni) { 
+  public function datos_reniec_jdl($dni) { 
 
     $url = "https://dniruc.apisperu.com/api/v1/dni/".$dni."?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imp1bmlvcmNlcmNhZG9AdXBldS5lZHUucGUifQ.bzpY1fZ7YvpHU5T83b9PoDxHPaoDYxPuuqMqvCwYqsM";
     
@@ -29,7 +29,7 @@ Class Ajax_general
   }
 
   // ══════════════════════════════════════ RENIEC WFACX ══════════════════════════════════════
-  public function consultaDniReniec($ruc)	{ 
+  public function datos_reniec_otro($ruc)	{ 
     $token = 'apis-token-1.aTSI1U7KEuT-6bbbCguH-4Y8TI6KS73N';
     $nndnii = $_GET['nrodni'];
 
@@ -54,7 +54,7 @@ Class Ajax_general
   }
 
   // ══════════════════════════════════════ SUNAT JDL ══════════════════════════════════════
-  public function datos_sunat($ruc)	{ 
+  public function datos_sunat_jdl($ruc)	{ 
     $url = "https://dniruc.apisperu.com/api/v1/ruc/".$ruc."?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imp1bmlvcmNlcmNhZG9AdXBldS5lZHUucGUifQ.bzpY1fZ7YvpHU5T83b9PoDxHPaoDYxPuuqMqvCwYqsM";    
     $curl = curl_init();                              //  Iniciamos curl    
     curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );  // Desactivamos verificación SSL    
@@ -67,7 +67,7 @@ Class Ajax_general
   }  
 
   // ══════════════════════════════════════ SUNAT WFACX ══════════════════════════════════════
-  public function consultaRucSunat($ruc)	{ 
+  public function datos_sunat_otro($ruc)	{ 
     $token = 'apis-token-1.aTSI1U7KEuT-6bbbCguH-4Y8TI6KS73N';  
 
     // Iniciar llamada a API

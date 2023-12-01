@@ -56,6 +56,8 @@ require_once '../config/global.php';
 
 	<link rel="stylesheet" href="../custom/css/login.css" />
 	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+	<link href="../assets/css/style_new.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -74,7 +76,7 @@ require_once '../config/global.php';
 				<div class="input-box animation" style="--i:2; --j:23;">
 					<input value="" id="clavea" name="clavea" type="password" required />
 					<label>Password</label>
-					<i class="bx bxs-lock-alt"></i>
+					<i class="cursor-pointer bx bxs-lock-alt icono-password" onclick="ver_password('clavea')"></i>
 				</div>
 				<div class="form-group has-feedback" hidden>
 					<!--<label>EMPRESA</label><br>-->
@@ -110,7 +112,7 @@ require_once '../config/global.php';
 				<div hidden class="input-box animation" style="--i:19; --j:2;">
 					<input type="password" required />
 					<label>Password</label>
-					<i class="bx bxs-lock-alt"></i>
+					<i class="bx bxs-lock-alt" ></i>
 				</div>
 				<button type="submit" class="btn animation" style="--i:20; --j:3;">Cambiar</button>
 				<div class="logreg-link animation" style="--i:21; --j:4;">

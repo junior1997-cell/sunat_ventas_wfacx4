@@ -147,7 +147,7 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- almacen -->
                     <div class="mb-3 col-lg-3">
                       <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Almacen:</label>                        
+                        <label for="recipient-name" class="form-label">Almacen:</label>                        
                         <select class="form-control" name="idalmacen" id="idalmacen"  onchange="focusfamil()">
                         </select>
                       </div>                     
@@ -155,7 +155,7 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- categoria -->
                     <div class="mb-3 col-lg-3">
                       <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Categoria:</label>
+                        <label for="recipient-name" class="form-label">Categoria:</label>
                         <select class="form-control" name="idfamilia" id="idfamilia" >
                         </select>
                       </div>                      
@@ -163,7 +163,7 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- unidad medida -->                    
                     <div class="mb-3 col-lg-3" >
                       <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">U. medida:</label>
+                        <label for="recipient-name" class="form-label">U. medida:</label>
                         <select class="form-control" name="unidad_medida" id="unidad_medida" >
                         </select>
                       </div>                      
@@ -171,7 +171,7 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- marca -->
                     <div class="mb-3 col-lg-3">
                       <div class="form-group">
-                        <label for="idmarca" class="col-form-label">Marca:</label>
+                        <label for="idmarca" class="form-label">Marca:</label>
                         <select class="form-control" name="idmarca" id="idmarca" >
                         </select>
                       </div>                      
@@ -179,14 +179,14 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- nombre -->
                     <div class="mb-3 col-lg-6">
                       <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Nombre / Descripción:</label>
+                        <label for="recipient-name" class="form-label">Nombre / Descripción:</label>
                         <textarea class="form-control" id="nombre" name="nombre" placeholder="Nombre" rows="2"  onkeyup="mayus(this)"></textarea>
                       </div>
                     </div>
                     <!-- detalle -->
                     <div class="mb-3 col-lg-6">
                       <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Detalles del producto:</label>
+                        <label for="recipient-name" class="form-label">Detalles del producto:</label>
                         <textarea class="form-control" id="descripcion" name="descripcion" rows="2"  onkeyup="mayus(this)"></textarea>
                       </div>                      
                     </div>
@@ -194,21 +194,21 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- codigo -->
                     <div class="mb-3 col-lg-2">
                       <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Código Interno:</label>
+                        <label for="recipient-name" class="form-label">Código Interno:</label>
                         <input type="text" class="form-control codigo" name="codigo" id="codigo" placeholder="Código Barras" onkeyup="mayus(this);" onchange="validarcodigo()">
                       </div>
                     </div>
                     <!-- stock -->
                     <div class="mb-3 col-lg-2">
                       <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Cantidad de Stock:</label>
+                        <label for="recipient-name" class="form-label">Cantidad de Stock:</label>
                         <input type="number" class="form-control" name="stock" id="stock" min="0" step="0.01" placeholder="Stock" onkeypress="return totalc(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El stock sera igual al saldo final y saldo inicial (stock = saldo final = saldo inicial)." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">
                       </div>
                     </div>
                     <!-- limite de stok -->
                     <div class="mb-3 col-lg-2">
                       <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Limite stock:</label>
+                        <label for="recipient-name" class="form-label">Limite stock:</label>
                         <input type="number" class="form-control" name="limitestock" id="limitestock" max="999.99" min="0" step="0.01" placeholder="Limite de stock" >
                       </div>
                     </div>
@@ -216,28 +216,28 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- precio venta -->
                     <div class="mb-3 col-lg-2">
                       <div class="form-group">                      
-                        <label for="recipient-name" class="col-form-label">Precio venta (S/.):</label>
+                        <label for="recipient-name" class="form-label">Precio venta (S/.):</label>
                         <input type="number" class="form-control" name="valor_venta" id="valor_venta" min="0" step="0.01" onkeypress="return codigoi(event, this)" data-tooltip="Información de este campo" data-tooltip-more="El precio que se muestra en los ocmprobantes, incluye IGV." data-tooltip-stickto="top" data-tooltip-maxwidth="500" data-tooltip-animate-function="foldin" data-tooltip-color="green">                  
                       </div>
                     </div>
                     <!-- precio compra -->
                     <div class="mb-3 col-lg-2">
                       <div class="form-group">                      
-                        <label for="costo_compra" class="col-form-label">Precio compra (S/.):</label>
+                        <label for="costo_compra" class="form-label">Precio compra (S/.):</label>
                         <input type="number" class="form-control" name="costo_compra" id="costo_compra" min="0" step="0.01" onkeypress="return focussaldoi(event, this)" >
                       </div>
                     </div>
                     <!-- precio mayor -->
                     <div class="mb-3 col-lg-2">
                       <div class="form-group">
-                        <label for="precio2" class="col-form-label">Precio por mayor (S/.):</label>
+                        <label for="precio2" class="form-label">Precio por mayor (S/.):</label>
                         <input type="text" class="form-control" name="precio2" id="precio2" min="0" step="0.01"  placeholder="Précio por mayor">
                       </div>                      
                     </div>
                     <!-- precio distribuidor -->
                     <div class="mb-3 col-lg-2">
                       <div class="form-group">
-                        <label for="precio3" class="col-form-label">Precio distribuidor (S/.):</label>
+                        <label for="precio3" class="form-label">Precio distribuidor (S/.):</label>
                         <input type="text" class="form-control" name="precio3" id="precio3" min="0" step="0.01"  placeholder="Précio distribuidor">
                       </div>                      
                     </div>                   
@@ -245,7 +245,7 @@ if (!isset($_SESSION["nombre"])) {
                     <!-- imagen -->
                     <div class="mb-3 col-lg-4">
                       <div class="form-group">                      
-                        <label for="imagenactual" class="col-form-label">Imagen del producto:</label>
+                        <label for="imagenactual" class="form-label">Imagen del producto:</label>
                         <input type="file" class="form-control" name="imagen" id="imagen" value="" accept="image/*">
                         <input type="hidden" name="imagenactual" id="imagenactual">
                         
@@ -264,7 +264,7 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="row">
                     <!-- cod-tributo -->
                     <div class="mb-3 col-lg-3">
-                      <label for="codigott" class="col-form-label">Cód. tipo de tributo:</label>
+                      <label for="codigott" class="form-label">Cód. tipo de tributo:</label>
                       <select name="codigott" id="codigott" class="form-control">
                         <option value="1000">1000</option>
                         <option value="1016">1016</option>
@@ -279,7 +279,7 @@ if (!isset($_SESSION["nombre"])) {
                     </div>
                     <!-- tributo -->
                     <div class="mb-3 col-lg-3">
-                      <label for="recipient-name" class="col-form-label">Tributo:</label>
+                      <label for="recipient-name" class="form-label">Tributo:</label>
                       <select name="desctt" id="desctt" class="form-control">
                         <option value="IGV Impuesto General a las Ventas">IGV Impuesto General a las Ventas</option>
                         <option value="Impuesto a la Venta Arroz Pilado">Impuesto a la Venta Arroz Pilado</option>
@@ -294,7 +294,7 @@ if (!isset($_SESSION["nombre"])) {
                     </div>
                     <!-- codigo-internacional -->
                     <div class="mb-3 col-lg-3">
-                      <label for="recipient-name" class="col-form-label">Código internacional:</label>
+                      <label for="recipient-name" class="form-label">Código internacional:</label>
                       <select name="codigointtt" id="codigointtt" class="form-control">
                         <option value="VAT" selected>VAT</option>
                         <option value="EXC">EXC</option>
@@ -304,7 +304,7 @@ if (!isset($_SESSION["nombre"])) {
                     </div>
                     <!-- nombre -->
                     <div class="mb-3 col-lg-3">
-                      <label for="recipient-name" class="col-form-label">Nombre:</label>
+                      <label for="recipient-name" class="form-label">Nombre:</label>
                       <select name="nombrett" id="nombrett" class="form-control">
                         <option value="IGV">IGV</option>
                         <option value="IVAP">IVAP</option>
@@ -325,15 +325,15 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="tab-pane fade text-muted" id="proveedor-tab-pane" role="tabpanel" aria-labelledby="proveedor-tab" tabindex="0">
                   <div class="row">
                     <div class="mb-3 col-lg-4">
-                      <label for="recipient-name" class="col-form-label">Proveedor:</label>
+                      <label for="recipient-name" class="form-label">Proveedor:</label>
                       <input type="text" name="proveedor" id="proveedor" class="form-control">
                     </div>
                     <div class="mb-3 col-lg-4">
-                      <label for="recipient-name" class="col-form-label">Código proveedor:</label>
+                      <label for="recipient-name" class="form-label">Código proveedor:</label>
                       <input type="text" class="form-control" name="codigo_proveedor" id="codigo_proveedor" placeholder="Código de proveedor" value="-" onkeyup="mayus(this)">
                     </div>
                     <div class="mb-3 col-lg-2">
-                      <label for="recipient-name" class="col-form-label">Serie fac. compra:</label>
+                      <label for="recipient-name" class="form-label">Serie fac. compra:</label>
                       <input type="text" name="seriefaccompra" id="seriefaccompra" class="form-control">
                     </div>
                     <div class="mb-3 col-lg-2">

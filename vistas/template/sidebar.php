@@ -1,6 +1,6 @@
 <aside class="app-sidebar sticky" id="sidebar">
 
-  <input type="hidden" name="iva" id="iva" value='<?php echo $_SESSION[' iva']; ?>'>
+  <input type="hidden" name="iva" id="iva" value='<?php echo $_SESSION['iva']; ?>'>
   <!-- Start::main-sidebar-header -->
   <div class="main-sidebar-header">
     <a href="#" class="header-logo">

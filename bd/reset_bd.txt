@@ -5,6 +5,9 @@ DELETE FROM kardex;
 
 DELETE FROM detalle_usuario_numeracion;
 
+DELETE FROM detalle_compra_producto;
+DELETE FROM compra;
+
 DELETE FROM detalle_fac_art;
 DELETE FROM factura;
 
@@ -20,12 +23,17 @@ DELETE FROM almacen;
 
 DELETE FROM ventadiaria;
 
+DELETE FROM persona;
+
 -- Reiniciamos
 ALTER TABLE cuotas AUTO_INCREMENT = 1;
 ALTER TABLE detalle_usuario_sesion AUTO_INCREMENT = 1;
 ALTER TABLE kardex AUTO_INCREMENT = 1;
 
 ALTER TABLE detalle_usuario_numeracion AUTO_INCREMENT = 1;
+
+ALTER TABLE detalle_compra_producto AUTO_INCREMENT  = 1;
+ALTER TABLE compra AUTO_INCREMENT = 1;
 
 ALTER TABLE detalle_fac_art AUTO_INCREMENT = 1;
 ALTER TABLE factura AUTO_INCREMENT = 1;
@@ -42,7 +50,13 @@ ALTER TABLE almacen AUTO_INCREMENT = 1;
 
 ALTER TABLE ventadiaria AUTO_INCREMENT = 1;
 
+ALTER TABLE persona AUTO_INCREMENT = 1;
+
 -- insertamos por defecto
 INSERT INTO marca ( descripcion, user_created ) VALUES ('NINGUNO', 1);
 INSERT INTO familia ( descripcion, user_created ) VALUES ('NINGUNO', 1);
 INSERT INTO almacen (idempresa, nombre, direccion, user_created  ) VALUES (1,'PRINCIPAL', 'PRINCIPAL', 1);
+INSERT INTO persona( tipo_persona, nombres, apellidos, tipo_documento, numero_documento, razon_social, nombre_comercial, domicilio_fiscal, departamento, provincia, distrito, ciudad, telefono1, telefono2, email) 
+VALUES ('CLIENTE','VARIOS','VARIOS','0','VARIOS','VARIOS','VARIOS','','','','','','','','');
+
+UPDATE numeracion SET numero='0';

@@ -3,9 +3,12 @@
 require "../config/Conexion.php";
 class Boleta
 {
+  public $id_usr_sesion; public $id_empresa_sesion;
   //Implementamos nuestro constructor
-  public function __construct()
+  public function __construct( $id_usr_sesion = 0, $id_empresa_sesion = 0 )
   {
+    $this->id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+		$this->id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
   }
 
   //Implementamos un método para insertar registros para boleta
@@ -480,7 +483,8 @@ class Boleta
   }
 
   public function mostrarultimocomprobanteId($idempresa) {
-    $sql = "SELECT b.idboleta, e.tipoimpresion from boleta b inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
+    $sql = "SELECT b.idboleta, e.tipoimpresion from boleta b 
+    inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
     return ejecutarConsultaSimpleFila($sql);
   }
 
@@ -574,28 +578,22 @@ class Boleta
     //Inclusion de la tabla RUTAS
     require_once "../modelos/Rutas.php";
     $rutas = new Rutas();
-    $Rrutas = $rutas->mostrar2($idempresa);
+    $Rrutas = $rutas->mostrar2($this->id_empresa_sesion);
     $Prutas = $Rrutas->fetch_object();
-    $rutafirma = $Prutas->rutafirma; // ruta de la carpeta FIRMA
-
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    $rutafirma = $Prutas->rutafirma; // ruta de la carpeta FIRMA    
 
     $sqlsendmail = "SELECT b.idboleta, p.email, p.nombres, p.apellidos, p.nombre_comercial, e.numero_ruc, b.tipo_documento_06, b.numeracion_07 
     from boleta b 
     inner join persona p on b.idcliente=p.idpersona 
     inner join empresa e on b.idempresa=e.idempresa 
     where b.idboleta='$idboleta'";
-    $result = mysqli_query($connect, $sqlsendmail);
+    $result = ejecutarConsultaArray( $sqlsendmail);
+
     //$variable=array();
     $con = 0;
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) { $correocliente = $row["email"]; }
+    foreach ($result as $key => $row) {      
+    
+      $correocliente = $row["email"]; 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
       $path = $rutafirma;
@@ -673,8 +671,7 @@ class Boleta
         echo 'Tu mensaje ha sido enviado';
       }
       // FUNCION PARA ENVIO DE CORREO CON LA FACTURA AL CLIENTE .
-      $i = $i + 1;
-      $con = $con + 1;
+      
     }
     //Guardar en tabla envicorreo =========================================
     $sql = "INSERT INTO enviocorreo ( numero_documento, cliente, correo, comprobante, fecha_envio )
@@ -752,14 +749,14 @@ class Boleta
     $resultb = ejecutarConsultaArray( $querydetbol);
     $resultcuotas = ejecutarConsultaArray( $querycuotas);
 
-    $nombrecomercial = $datose->nombre_comercial;
-    $domiciliofiscal = $datose->domicilio_fiscal;
+    $nombrecomercial    = $datose->nombre_comercial;
+    $domiciliofiscal    = $datose->domicilio_fiscal;
     $codestablecimiento = $datose->ubigueo;
-    $codubigueo = $datose->codubigueo;
-    $ciudad = $datose->ciudad;
-    $distrito = $datose->distrito;
-    $interior = $datose->interior;
-    $codigopais = $datose->codigopais;
+    $codubigueo         = $datose->codubigueo;
+    $ciudad             = $datose->ciudad;
+    $distrito           = $datose->distrito;
+    $interior           = $datose->interior;
+    $codigopais         = $datose->codigopais;
 
     //Parametros de salida
     $fecha = "";
@@ -1174,14 +1171,14 @@ class Boleta
       $result = mysqli_query($connect, $query);
       $resultb = mysqli_query($connect, $querydetbol);
 
-      $nombrecomercial = $datose->nombre_comercial;
-      $domiciliofiscal = $datose->domicilio_fiscal;
+      $nombrecomercial    = $datose->nombre_comercial;
+      $domiciliofiscal    = $datose->domicilio_fiscal;
       $codestablecimiento = $datose->ubigueo;
-      $codubigueo = $datose->codubigueo;
-      $ciudad = $datose->ciudad;
-      $distrito = $datose->distrito;
-      $interior = $datose->interior;
-      $codigopais = $datose->codigopais;
+      $codubigueo         = $datose->codubigueo;
+      $ciudad             = $datose->ciudad;
+      $distrito           = $datose->distrito;
+      $interior           = $datose->interior;
+      $codigopais         = $datose->codigopais;
 
       //Parametros de salida
       $fecha = array();
@@ -1703,14 +1700,14 @@ class Boleta
     $resultb = ejecutarConsultaArray($querydetbol);
     $resultcuotas = ejecutarConsultaArray($querycuotas);
 
-    $nombrecomercial = $datose->nombre_comercial;
-    $domiciliofiscal = $datose->domicilio_fiscal;
+    $nombrecomercial    = $datose->nombre_comercial;
+    $domiciliofiscal    = $datose->domicilio_fiscal;
     $codestablecimiento = $datose->ubigueo;
-    $codubigueo = $datose->codubigueo;
-    $ciudad = $datose->ciudad;
-    $distrito = $datose->distrito;
-    $interior = $datose->interior;
-    $codigopais = $datose->codigopais;
+    $codubigueo         = $datose->codubigueo;
+    $ciudad             = $datose->ciudad;          // Provincia
+    $distrito           = $datose->distrito;        // Distrito
+    $interior           = $datose->interior;        // Urbanizacion
+    $codigopais         = $datose->codigopais;      // PE - Peru
 
     //Parametros de salida
     $fecha = "";

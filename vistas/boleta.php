@@ -20,12 +20,14 @@ if (!isset($_SESSION["nombre"])) {
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
     <!--Contenido-->
     <!-- Content Wrapper. Contains page content -->
+    <link href="../public/css/html5tooltips.css" rel="stylesheet">
+    <link href="../public/css/html5tooltips.animation.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="style.css"> -->
     <div class="">
       <!-- Main content -->
       <section class="">
         <div class="content-header">
-          <h1>Boleta electrónica <button class="btn btn-secondary btn-sm" id="btnagregar" onclick="mostrarform(true); limpiar()">Nuevo</button> <button class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar</button></h1>
+          <h1>Boleta electrónica <button class="btn btn-secondary btn-sm" id="btnagregar" onclick="mostrarform(true); limpiar();">Nuevo</button> <button class="btn btn-success btn-sm" id="refrescartabla" onclick="refrescartabla()">Refrescar</button></h1>
         </div>
         <div class="row">
           <div class="col-md-12">
@@ -143,7 +145,7 @@ if (!isset($_SESSION["nombre"])) {
                             <label for="numero_documento" class="col-form-label">Nro (Presione Enter):</label>
                             <div class="input-group mb-1">                              
                               <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)" onchange="agregarClientexDocCha();">                            
-                              <button class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar Reniec/Sunat" style="margin: 0 auto;"><i class="fas fa-search"></i></button>
+                              <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar Reniec/Sunat" style="margin: 0 auto;"><i class="fas fa-search"></i></button>
                             </div>
                             <div id="suggestions"> </div>
                           </div>
@@ -209,6 +211,7 @@ if (!isset($_SESSION["nombre"])) {
                             <img src="../files/articulos/transferencia.png" data-toggle="tooltip" title="Pago por transferencia"> <input type="checkbox" name="transferencia" id="transferencia" onclick="activartransferencia();">
                             <input type="hidden" name="trans" id="trans">
                           </div>
+
                           <div class="modal fade text-left" id="modalcuotas" tabindex="-1" role="dialog" aria-labelledby="modalcuotas" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable" role="document">
                               <div class="modal-content">
@@ -241,7 +244,7 @@ if (!isset($_SESSION["nombre"])) {
                                     <i class="bx bx-x d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Cancelar</span>
                                   </button>
-                                  <button id="btnGuardar" type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                  <button id="btnGuardarC" type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                                     <i class="bx bx-check d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Agregar</span>
                                   </button>
@@ -249,6 +252,7 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
+
                           <div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog" style="width: 70% !important;">
                               <div class="modal-content">
@@ -303,7 +307,7 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="mb-3 col-lg-9">
                             <!-- <label for="recipient-name" class="col-form-label">Código barra:</label> -->
                             <div class="input-group">                              
-                              <span class="input-group-text cursor-pointer"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar por codigo de producto."><i class="fas fa-barcode fa-lg"></i></span>
+                              <span class="input-group-text cursor-pointer charge-add-x-code"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar por codigo de producto."><i class="fas fa-barcode fa-lg"></i></span>
                               <input type="text" name="codigob" id="codigob" class="form-control" onkeypress="agregarArticuloxCodigo(event)" onkeyup="mayus(this);" placeholder="Digite o escanee el código de barras" onchange="quitasuge3()" style="background-color: #F5F589;">
                             </div>                            
                             <div id="suggestions3"> </div>
@@ -405,10 +409,10 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
-                          <button style="margin-left:0px;" class="btn btn-primary btn-sm" type="submit" id="btnGuardar" data-toggle="tooltip" title="Guardar boleta"><i class="fa fa-save"></i>
+                          <button class="btn btn-primary btn-sm" type="submit" id="btnGuardar" ><i class="fa fa-save"></i>
                             Guardar
                           </button>
-                          <button style="margin-left:0px;" id="btnCancelar" class="btn btn-danger btn-sm" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left" data-toggle="tooltip" title="Cancelar"></i> Cancelar</button>
+                          <button class="btn btn-danger btn-sm" type="button" id="btnCancelar" onclick="cancelarform()" ><i class="fa fa-arrow-circle-left" data-toggle="tooltip" title="Cancelar"></i> Cancelar</button>
                         </div>
                       </div>
                     </div>
@@ -580,7 +584,7 @@ if (!isset($_SESSION["nombre"])) {
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="mb-3 col-lg-6">
+              <div class="mb-3 col-lg-3">
                 <label for="tipoprecio" class="col-form-label">Precio:</label>
                 <select class="form-control" id="tipoprecio" onchange="listarArticulos()">
                   <option value='1'>PRECIO PÚBLICO</option>
@@ -588,16 +592,16 @@ if (!isset($_SESSION["nombre"])) {
                   <option value='3'>PRECIO DISTRIBUIDOR</option>
                 </select>
               </div>
-              <div class="mb-3 col-lg-6">
+              <div class="mb-3 col-lg-3">
                 <label for="almacenlista" class="col-form-label">Sucursal:</label>
                 <select class="form-control" id="almacenlista" onchange="listarArticulos()">
                 </select>
               </div>
-              <div class="mb-3 col-lg-6">
+              <div class="mb-3 col-lg-3"> <label for="tipoprecio" class="form-label">.</label> <br>
                 <button class="btn btn-danger" id="refrescartabla" data-bs-target="#modalnuevoarticulo" data-bs-toggle="modal" onclick="nuevoarticulo()">
                   <span class="sr-only"></span>Agregar producto al inventario</button>
               </div>
-              <div class="mb-3 col-lg-6">
+              <div class="mb-3 col-lg-3"> <label for="tipoprecio" class="form-label">.</label> <br>
                 <button class="btn btn-success" id="refrescartabla" onclick="refrescartabla()">
                   <span class="sr-only"></span>Actualizar Tabla</button>
               </div>
@@ -729,8 +733,10 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
+
     <!-- Modal -->
     <input type="hidden" name="idultimocom" id="idultimocom">
+
     <!-- Modal VISTA PREVIA IMPRESION -->
     <div class="modal fade" id="modalPreview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" style="width: 100% !important;">
@@ -765,9 +771,10 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Fin modal -->
+
     <!-- Modal a4-->
     <div class="modal fade text-left" id="modalPreview2" tabindex="-1" role="dialog" aria-labelledby="modalPreview2" aria-hidden="true">
-      <div class="modal-dialog modal-lg" style="width: 100% !important;">
+      <div class="modal-dialog modal-md" style="max-width: 700px !important;" >
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalPreview2">PDF Boleta A4</h5>
@@ -822,48 +829,55 @@ if (!isset($_SESSION["nombre"])) {
           <div class="modal-body">
             <div class="container">
               <form role="form" method="post" name="busqueda" id="busqueda">
-                <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                  <input type="number" class="" name="nruc" id="nruc" placeholder="Ingrese RUC o DNI" pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])" autofocus>
-                </div>
-                <button type="submit" class="btn btn-success" name="btn-submit" id="btn-submit" value="burcarclientesunat">
-                  <i class="fa fa-search"></i> Buscar SUNAT
-                </button>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="input-group mb-2">
+                    <input type="number" class="form-control" name="nruc" id="nruc" placeholder="Ingrese RUC o DNI" pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])" autofocus>
+                    <div class="input-group-append">
+                      <button type="submit" name="btn-submit" id="btn-submit" class="btn btn-primary btn-search-s" data-tooltip="Buscar Sunat" data-tooltip-stickto="top" data-tooltip-color="black" ><i class="fas fa-search fa-lg"></i></button>
+                    </div>
+                  </div>
+                </div>                  
               </form>
             </div>
             <form name="formularioncliente" id="formularioncliente" method="POST">
-              <div class="">
-                <input type="hidden" name="idpersona" id="idpersona">
-                <input type="hidden" name="tipo_persona" id="tipo_persona" value="cliente">
-              </div>
-              <div class="form-group col-lg-1 col-md-12 col-sm-12 col-xs-12">
-                <label>Tipo Doc.:</label>
-                <select class=" select-picker" name="tipo_documento" id="tipo_documento" required>
-                  <option value="6"> RUC </option>
-                </select>
-              </div>
-              <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                <label>N. Doc.:</label>
-                <input type="text" class="" name="numero_documento3" id="numero_documento3" maxlength="20" placeholder="Documento" onkeypress="return focusRsocial(event, this)">
-              </div>
-              <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <label>Razón social:</label>
-                <input type="text" class="" name="razon_social3" id="razon_social3" maxlength="100" placeholder="Razón social" required onkeypress="return focusDomi(event, this)">
-              </div>
-              <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                <label>Domicilio:</label>
-                <input type="text" class="" name="domicilio_fiscal3" id="domicilio_fiscal3" maxlength="100" placeholder="Domicilio fiscal" required onkeypress="focustel(event, this)">
-              </div>
-              <div class="form-group col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                <input type="number" class="" name="telefono1" id="telefono1" maxlength="15" placeholder="Teléfono 1" pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])" onkeypress="return focusemail(event, this)">
-              </div>
-              <div class="form-group col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <input type="text" class="" name="email" id="email" maxlength="50" placeholder="CORREO" required="true" onkeypress="return focusguardar(event, this)">
-              </div>
-              <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                <button class="btn btn-primary" type="submit" id="btnguardarncliente" name="btnguardarncliente" value="btnGuardarcliente">
-                  <i class="fa fa-save"></i> Guardar
-                </button>
-              </div>
+              <div class="row">
+                <div class="">
+                  <input type="hidden" name="idpersona" id="idpersona">
+                  <input type="hidden" name="tipo_persona" id="tipo_persona" value="cliente">
+                </div>
+                <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                  <label>Tipo Doc.:</label>
+                  <select class="form-control" name="tipo_documento" id="tipo_documento" required>
+                    <option value="6"> RUC </option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                  <label>N. Doc.:</label>
+                  <input type="text" class="form-control" name="numero_documento3" id="numero_documento3" maxlength="20" placeholder="Documento" >
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <label>Razón social:</label>
+                  <input type="text" class="form-control" name="razon_social3" id="razon_social3" maxlength="100" placeholder="Razón social" required >
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <label>Domicilio:</label>
+                  <input type="text" class="form-control" name="domicilio_fiscal3" id="domicilio_fiscal3" maxlength="100" placeholder="Domicilio fiscal" required >
+                </div>
+                <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                  <label>Telfono:</label>
+                  <input type="number" class="form-control" name="telefono1" id="telefono1" maxlength="15" placeholder="Teléfono 1" pattern="([0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])" onkeypress="return focusemail(event, this)">
+                </div>
+                <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                  <label>Correo:</label>
+                  <input type="text" class="form-control" name="email" id="email" maxlength="50" placeholder="CORREO" >
+                </div>
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12 text-center mt-5">
+                  <button class="btn btn-primary" type="submit" id="btnguardarncliente" name="btnguardarncliente" value="btnGuardarcliente">
+                    <i class="fa fa-save"></i> Guardar
+                  </button>
+                </div>
+              </div>              
+              
               <!--<div class="form-group col-lg-12 col-md-4 col-sm-6 col-xs-12">
             <iframe border="0" frameborder="0" height="450" width="100%" marginwidth="1"
             src="https://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/jcrS00Alias">
@@ -881,15 +895,15 @@ if (!isset($_SESSION["nombre"])) {
                   e.preventDefault();
                   //============== original ===========================================================
 
-                  var documento = $("#nruc").val();
+                  var documento = $("#nruc").val(); console.log(documento);
                   $.post("../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + documento, function(data, status) {
                     data = JSON.parse(data);
                     if (data != null) {
                       alert("Ya esta registrado cliente, se agregarán sus datos!");
                       $('#idpersona').val(data.idpersona);
                       $('#numero_documento').val(data.numero_documento);
-                      $("#razon_social").val(data.razon_social);
-                      $('#domicilio_fiscal').val(data.domicilio_fiscal);
+                      $("#razon_social3").val(data.razon_social);
+                      $('#domicilio_fiscal3').val(data.domicilio_fiscal);
                       //$('#correocli').val(data.email);
                       document.getElementById("btnAgregarArt").style.backgroundColor = '#367fa9';
                       document.getElementById("btnAgregarArt").focus();
@@ -898,28 +912,26 @@ if (!isset($_SESSION["nombre"])) {
 
                       $.ajax({
                         type: 'POST',
-                        url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + numero,
+                        url: "../ajax/ajax_general.php?op=sunat_otro&ruc=" + documento,
                         dataType: 'json',
-                        //data:parametros,
-
+                        data:{ruc: documento},
                         beforeSend: function() {},
-                        complete: function(data) {
-
-                        },
-                        success: function(data) {
+                        complete: function(data) {  },
+                        success: function(data) { console.log(data);
                           $('.before-send').fadeOut(500);
                           if (!jQuery.isEmptyObject(data.error)) {
                             alert(data.error);
                           } else {
-
+                            
                             $("#numero_documento3").val(data.numeroDocumento);
-                            $('#razon_social').val(data.nombre);
+                            $('#razon_social3').val(data.nombre);
+                            $('#domicilio_fiscal3').val(data.direccion);
                           }
-                          $.ajaxunblock();
+                          // $.ajaxunblock();
                         },
                         error: function(data) {
                           alert("Problemas al tratar de enviar el formulario");
-                          $.ajaxunblock();
+                          // $.ajaxunblock();
                         }
                       });
                       //============== original ===========================================================
@@ -1069,6 +1081,7 @@ if (!isset($_SESSION["nombre"])) {
   require 'footer.php';
   ?>
   <script type="text/javascript" src="scripts/boleta.js"></script>
+  <script src="../public/js/html5tooltips.js"></script>
 <?php
 }
 ob_end_flush();

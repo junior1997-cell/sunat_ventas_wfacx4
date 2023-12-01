@@ -12,8 +12,7 @@ $.post("../ajax/enlacebd.php?op=empresa", function (r) {
 });
 
 //Carga de combo para empresa =====================
-$.post("../ajax/enlacebd.php?op=empresa", function (r) {
-  data = JSON.parse(r);
+$.post("../ajax/enlacebd.php?op=empresa", function (r) {  data = JSON.parse(r);
   var lista = document.getElementById("empresa");
   for (var i = 0; i < data.length; i++) {
     var opt = document.createElement("option");
@@ -61,46 +60,32 @@ $(function () {
     btnIngresar.prop("disabled", true).html("Validando datos...");
 
     $.post("../ajax/enlacebd.php?op=verificarempresa", { "dbase": empresa }, function () {
-      $.post(
-        "../ajax/usuario.php?op=verificar",
-        { "logina": logina, "clavea": clavea, "empresa": empresa, "st": st },
-        function (data) {
-          if (data != "null") {
-            $(location).attr("href", "escritorio.php");
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Usuario y/o contraseña incorrectos o no tiene permiso para la empresa seleccionada!",
-              allowEnterKey: false,
-              showConfirmButton: false,
-              timer: 1500
-            }).then(function () {
-              btnIngresar.prop("disabled", false).html("Ingresar");
-              $("#logina").focus();
-            });
-          }
+      $.post("../ajax/usuario.php?op=verificar",  { "logina": logina, "clavea": clavea, "empresa": empresa, "st": st }, function (data) {
+        if (data != "null") {
+          $(location).attr("href", "escritorio.php");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Usuario y/o contraseña incorrectos o no tiene permiso para la empresa seleccionada!",
+            allowEnterKey: false,
+            showConfirmButton: false,
+            timer: 1500
+          }).then(function () {
+            btnIngresar.prop("disabled", false).html("Ingresar");
+            $("#logina").focus();
+          });
         }
-      );
+      });
     });
-
   });
 });
-
-
-
-
-
-
-
-
 
 function stopRKey(evt) {
   var evt = (evt) ? evt : ((event) ? event : null);
   var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
   if ((evt.keyCode == 13) && (node.type == "text")) { return false; }
 }
-
 
 function focusAgrArt(e) {
   if (e.keyCode === 13 && !e.shiftKey) {
@@ -121,25 +106,21 @@ function enter(e, field) {
   if (e.keyCode === 13 && !e.shiftKey) {
     document.getElementById('serienumero').focus();
   }
-
 }
 
 onOff = false;
 counter = setInterval(timer, 5000);
 count = 0;
 
-
 function timer() {
   count++;
   //tabla.ajax.reload(null,false);
 }
 
-
 //PARA ACTUALIZAR ESTADO
 onOff = true;
 function pause() {
   if (!onOff) {
-
     onOff = true;
     clearInterval(counter);
     //listar();
@@ -153,11 +134,9 @@ function pause() {
     //counter=setInterval(timer, 5000);
     activarTempo();
     mostrarEstado();
-
   }
 }
 //PARA ACTUALIZAR ESTADO
-
 
 function mostrarEstado() {
   $.post("../ajax/factura.php?op=datostemporizadopr", function (data) {
@@ -168,27 +147,29 @@ function mostrarEstado() {
       $("#tiempo").val(data.tiempo);
       $("#tiempoN").val(data.tiempo);
     }
-
   });
 }
-
 
 function activarTempo() {
   $.post("../ajax/factura.php?op=activartempo&st=1&tiempo=" + $("#tiempoN").val(), function (data) {
   });
 }
 
-
 function desactivarTempo() {
   $.post("../ajax/factura.php?op=activartempo&st=0&tiempo=" + $("#tiempoN").val(), function (data) {
   });
 }
 
-
-
-
-
 function empresa() {
   empresa = $("#empresaConsulta").val();
   $.post("../ajax/enlacebd.php?op=verificarempresa", { "dbase": empresa });
+}
+
+function ver_password(input) {
+	var x = document.getElementById(input); 
+	if (x.type === "password") {
+		x.type = "text"; $('.icono-password').removeClass('bx bxs-lock-alt').addClass('bx bxs-lock-open');
+	} else {
+		x.type = "password"; $('.icono-password').removeClass('bx bxs-lock-open').addClass('bx bxs-lock-alt');
+	}
 }

@@ -1258,13 +1258,10 @@ function anular(idfactura) {
 //Función para enviar respuestas por correo
 function enviarcorreo(idfactura) {
   var mmcliente = "";
-  $.post(
-    "../ajax/factura.php?op=traercorreocliente&iddff=" + idfactura,
-    function (data, status) {
-      data = JSON.parse(data);
-      $("#correo").val(data.email);
-    }
-  );
+  $.post(   "../ajax/factura.php?op=traercorreocliente&iddff=" + idfactura, function (data, status) {
+    data = JSON.parse(data);
+    $("#correo").val(data.email);
+  });
   mmcliente = $("#correo").val();
 
   Swal.fire({
@@ -1276,46 +1273,31 @@ function enviarcorreo(idfactura) {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.value) {
-      $.post(
-        "../ajax/factura.php?op=enviarcorreo&idfact=" +
-        idfactura +
-        "&ema=" +
-        result.value,
-        function (e) {
-          Swal.fire({
-            title: "¡Proceso completado!",
-            text: e,
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false,
-          });
-          tabla.ajax.reload(null, false);
-        }
-      );
+      $.post( "../ajax/factura.php?op=enviarcorreo&idfact=" +  idfactura +  "&ema=" + result.value,   function (e) {
+
+        sw_success("¡Proceso completado!", e, 5000);          
+        tabla.ajax.reload(null, false);
+      });
     }
   });
 }
 
 //Funcion para enviararchivo xml a SUNAT
 function mostrarxml(idfactura) {
-  $.post(
-    "../ajax/factura.php?op=mostrarxml",
-    { idfactura: idfactura },
-    function (e) {
-      data = JSON.parse(e);
+  $.post( "../ajax/factura.php?op=mostrarxml", { idfactura: idfactura },  function (e) {
+    data = JSON.parse(e);
 
-      if (data.rutafirma) {
-        var rutacarpeta = data.rutafirma;
-        $("#modalxml").attr("src", rutacarpeta);
-        $("#modalPreviewXml").modal("show");
-        $("#bajaxml").attr("href", rutacarpeta);
-        //bootbox.alert(data.cabextxml);
-        //bootbox.alert(data.rutafirma);
-      } else {
-        bootbox.alert(data.cabextxml);
-      }
+    if (data.rutafirma) {
+      var rutacarpeta = data.rutafirma;
+      $("#modalxml").attr("src", rutacarpeta);
+      $("#modalPreviewXml").modal("show");
+      $("#bajaxml").attr("href", rutacarpeta);
+      //bootbox.alert(data.cabextxml);
+      //bootbox.alert(data.rutafirma);
+    } else {
+      bootbox.alert(data.cabextxml);
     }
-  );
+  });
 }
 
 //Funcion para enviararchivo xml a SUNAT
