@@ -39,7 +39,7 @@
 switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
-		$validando = $persona->validarProveedor($numero_documento);
+		$validando = $persona->validarProveedor($numero_documento, $tipo_persona);
 		
 			if (empty($idpersona)) {
 				if (empty($validando)) {
@@ -115,12 +115,11 @@ switch ($_GET["op"]) {
 
 		while ($reg = $rspta->fetch_object()) {
 			$data[] = array(
-				"0" => ($reg->estado) ? '<button class="btn btn-icon btn-sm btn-info" onclick="mostrar(' . $reg->idpersona . ')"><i class="ri-edit-line"></i></button>' .
-					' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar(' . $reg->idpersona . ')"><i class="ri-delete-bin-line"></i></button>' :
-					'<button class="btn btn-icon btn-sm btn-info" onclick="mostrar(' . $reg->idpersona . ')"><i class="ri-edit-line"></i></button>' .
-					' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . $reg->idpersona . ')"><i class="ri-check-double-line"></i></button>',
+				"0" => '<button class="btn btn-icon btn-sm btn-warning" onclick="mostrar(' . $reg->idpersona . ')"><i class="ri-edit-line"></i></button>'.
+					($reg->estado ? ' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar(' . $reg->idpersona . ')"><i class="ri-delete-bin-line"></i></button>' :
+					' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . $reg->idpersona . ')"><i class="ri-check-double-line"></i></button>'),
 
-				"1" => $reg->razon_social,
+				"1" =>  ($reg->tipo_doc == 'RUC' ? $reg->razon_social : $reg->nombres . ' '. $reg->apellidos ),
 				"2" => '<b>' . $reg->tipo_doc .'</b>: '. $reg->numero_documento,
 				"3" => $reg->telefono1,
 				"4" => $reg->email,
@@ -145,15 +144,14 @@ switch ($_GET["op"]) {
 			$data[] = array(
 				"0" => '<button class="btn btn-icon btn-sm btn-warning" onclick="mostrar(' . $reg->idpersona . ')"><i class="fa fa-pencil"> </i></button>' .
 					($reg->estado ? ' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar(' . $reg->idpersona . ')"><i class="fa fa-close" ></i></button> ' :
-						' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . $reg->idpersona . ')"><i class="fa fa-check" ></i></button> '),
+					' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . $reg->idpersona . ')"><i class="fa fa-check" ></i></button> '),
 
-				"1" => htmlspecialchars_decode($reg->razon_social),
-				"2" => $reg->descripcion,
+				"1" => ($reg->tipo_doc == 'RUC' ? $reg->razon_social : $reg->nombres . ' '. $reg->apellidos ),
+				"2" => $reg->tipo_doc,
 				"3" => $reg->numero_documento,
 				"4" => $reg->telefono1,
 				"5" => $reg->email,
-				"6" => ($reg->estado) ? '<span class="label bg-green">Activado</span>' :
-					'<span class="label bg-red">Desactivado</span>'
+				"6" => ($reg->estado) ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado</span>'
 			);
 		}
 		$results = array(
@@ -192,7 +190,7 @@ switch ($_GET["op"]) {
 
 	case 'ValidarProveedor':
 		$ndocumento = $_GET['ndocumento'];
-		$rspta = $persona->validarProveedor($ndocumento);
+		$rspta = $persona->validarProveedor($ndocumento, $_GET['tipo_persona']);
 		echo json_encode($rspta); // ? "Cliente ya existe": "Documento valido";
 	break;
 

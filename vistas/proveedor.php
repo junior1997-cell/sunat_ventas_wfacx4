@@ -64,12 +64,12 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="form-group">
                     <label for="tipo_documento" class="form-label">Tipo Documento:</label>
                     <select class="form-control" name="tipo_documento" id="tipo_documento" required onchange="validate_reglas(this);">
-                      <option value="0"> S/D </option>
-                      <option value="1" selected> DNI </option>
-                      <option value="6"> RUC </option>
-                      <option value="7"> PASAPORTE </option>
-                      <option value="4"> CARNET DE EXTRANJERIA </option>                      
-                      <option value="A"> CED </option>
+                      <option value="0">S/D</option>
+                      <option value="1" selected>DNI</option>
+                      <option value="6">RUC</option>
+                      <option value="7">PASAPORTE</option>
+                      <option value="4">CARNET DE EXTRANJERIA</option>                      
+                      <option value="A">CED</option>
                     </select>
                   </div>                  
                 </div>
@@ -81,43 +81,41 @@ if (!isset($_SESSION["nombre"])) {
                       <input type="text" name="numero_documento" id="numero_documento"  class="form-control" placeholder="N° documento"  >
                       <button class="btn btn-primary btn-search-sr" type="button"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar Sunat/Recniec" onclick="buscar_s_r();"><i class="fas fa-search"></i></button>
                     </div>
-                  </div>
-                  
-                  <!-- <input type="text" class="form-control"  maxlength="11" onblur="validarProveedor();"> -->
+                  </div>                 
                 </div>
 
                 <div class="mb-3 col-lg-6">
                   <div class="form-group">
                     <label for="nombres" class="form-label">Nombres:</label>                  
-                    <input type="text" class="form-control" name="nombres" id="nombres"   onkeyup="mayus(this);">
+                    <input type="text" class="form-control" name="nombres" id="nombres"   onkeyup="to_mayus(this);">
                   </div>                
                 </div>
 
                 <div class="mb-3 col-lg-6">
                   <div class="form-group">
                     <label for="apellidos" class="form-label">Apellidos:</label>
-                   <input type="text" class="form-control" name="apellidos" id="apellidos"   onkeyup="mayus(this);">
+                   <input type="text" class="form-control" name="apellidos" id="apellidos"   onkeyup="to_mayus(this);">
                   </div>                  
                 </div>
 
                 <div class="mb-3 col-lg-6">
                   <div class="form-group">
                     <label for="razon_social" class="form-label">Razón Social:</label>                    
-                    <textarea class="form-control" name="razon_social" id="razon_social"  rows="2" onkeyup="mayus(this);"></textarea>
+                    <textarea class="form-control" name="razon_social" id="razon_social"  rows="2" onkeyup="to_mayus(this);"></textarea>
                   </div>                  
                 </div>
 
                 <div class="mb-3 col-lg-6">
                   <div class="form-group">
                     <label for="nombre_comercial" class="form-label">Nombre comercial:</label>
-                    <textarea class="form-control" name="nombre_comercial" id="nombre_comercial" rows="2" onkeyup="mayus(this);"></textarea>                    
+                    <textarea class="form-control" name="nombre_comercial" id="nombre_comercial" rows="2" onkeyup="to_mayus(this);"></textarea>                    
                   </div>                  
                 </div>
 
                 <div class="mb-3 col-lg-12">
                   <div class="form-group">
                     <label for="domicilio_fiscal" class="form-label">Domicilio fiscal:</label>
-                    <textarea class="form-control" name="domicilio_fiscal" id="domicilio_fiscal" rows="2" onkeyup="mayus(this);"></textarea>
+                    <textarea class="form-control" name="domicilio_fiscal" id="domicilio_fiscal" rows="2" onkeyup="to_mayus(this);"></textarea>
                   </div>                  
                 </div>
                 <div class="mb-3 col-lg-6">
@@ -130,20 +128,20 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="mb-3 col-lg-6">
                   <div class="form-group">
                     <label for="idprovincia" class="form-label">Provincia: <span class="chargue-pro"></span> </label>
-                    <input type="text" name="idprovincia" id="idprovincia" class="form-control" readonly>
+                    <input type="text" name="idprovincia" id="idprovincia" class="form-control" >
                   </div>    
                 </div>
                 <div class="mb-3 col-lg-6">                  
                   <div class="form-group">
                     <label for="iddepartamento" class="form-label">Departamento: <span class="chargue-dep"></span></label>
-                    <input type="text" name="iddepartamento" id="iddepartamento" class="form-control" readonly>                    
+                    <input type="text" name="iddepartamento" id="iddepartamento" class="form-control" >                    
                   </div>    
                 </div>   
                 
                 <div class="mb-3 col-lg-6">                  
                   <div class="form-group">
                     <label for="ubigeo" class="form-label">Ubigeo: <span class="chargue-ubi"></span></label>
-                    <input type="text" name="ubigeo" id="ubigeo" class="form-control" readonly>                    
+                    <input type="text" name="ubigeo" id="ubigeo" class="form-control" >                    
                   </div>    
                 </div>   
 

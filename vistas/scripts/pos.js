@@ -555,13 +555,7 @@ function agregarProductPedido( productImage, productName, productPrice, productS
       var finalStock = productStock - (currentQuantity);
 
       if (finalStock == 0) {
-        swal.fire({
-          title: "Error",
-          text: 'Este producto no se puede agregar porque se alcanzó el limite de stock.',
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false
-        });
+        sw_error("Error", 'Este producto no se puede agregar porque se alcanzó el limite de stock.');        
         return;
       }
 
@@ -2063,87 +2057,86 @@ function agregarClientexDoc(e) {
     $("#domicilio_fiscal").val("");
 
     $.post( "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni, function (data, status) {
-        data = JSON.parse(data);
-        if (data != null) {
-          $("#idcliente").val(data.idpersona);
-          $("#razon_social").val(data.nombres);
-          $("#domicilio_fiscal").val(data.domicilio_fiscal);
-          // document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
-          // document.getElementById("mensaje700").style.display = "none";
-          // document.getElementById("btnAgregarArt").focus();
-          $("#suggestions").fadeOut();
-          $("#suggestions2").fadeOut();
-          $("#suggestions3").fadeOut();
-        } else if ($("#tipo_doc_ide").val() == "1") {
-          // SI ES DNI
-          $("#razon_social").val("");
-          $("#domicilio_fiscal").val("");
-          var dni = $("#numero_documento").val();
-          //var url = '../ajax/consulta_reniec.php';
-          $.post( "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni, function (data, status) {
-              data = JSON.parse(data);
-              if (data != null) {
-                $("#idcliente").val("N");
-                // $("#numero_documento3").val(data.numeroDocumento);
-                $("#razon_social").val(data.nombre);
-              } else {
-                alert(data);
-                document.getElementById("razon_social").focus();
-                $("#idcliente").val("N");
-              }
-            }
-          );
-          $("#suggestions").fadeOut();
-          $("#suggestions2").fadeOut();
-          $("#suggestions3").fadeOut();
-        } else if ($("#tipo_doc_ide").val() == "6") {
-          // SI ES RUC
-          $("#razon_social").val("");
-          $("#domicilio_fiscal").val("");
-          var dni = $("#numero_documento").val();
-          $.post( "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni, function (data, status) {
-              data = JSON.parse(data);
-              if (data != null) {
-                $("#idcliente").val(data.idpersona);
-                $("#razon_social").val(data.razon_social);
-                $("#domicilio_fiscal").val(data.domicilio_fiscal);
-              } else {
-                $("#idcliente").val("");
-                $("#razon_social").val("No registrado");
-                $("#domicilio_fiscal").val("No registrado");
-                Swal.fire({
-                  title: "Cliente no registrado",
-                  icon: "warning",
-                });
+      data = JSON.parse(data);
+      if (data != null) { // ================================================================== SI EXISTE
+        $("#idcliente").val(data.idpersona);
+        $("#razon_social").val(data.nombres);
+        $("#domicilio_fiscal").val(data.domicilio_fiscal);
+        // document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
+        // document.getElementById("mensaje700").style.display = "none";
+        // document.getElementById("btnAgregarArt").focus();
+        $("#suggestions").fadeOut();
+        $("#suggestions2").fadeOut();
+        $("#suggestions3").fadeOut();
+      } else if ($("#tipo_doc_ide").val() == "1") { // ================================================================== SI ES DNI
+        
+        $("#razon_social").val("");
+        $("#domicilio_fiscal").val("");
+        var dni = $("#numero_documento").val();
+        //var url = '../ajax/consulta_reniec.php';
+        $.post( "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni, function (data, status) {
+          data = JSON.parse(data);
+          if ( data == null ) {
+            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+            toastr_error('Error!!', data.error);
+          } else if (data != null) {
+            $("#idcliente").val("N");            
+            $("#razon_social").val(data.nombre);
+          } else {
+            alert(data);
+            document.getElementById("razon_social").focus();
+            $("#idcliente").val("N");
+          }
+        });
+        $("#suggestions").fadeOut();
+        $("#suggestions2").fadeOut();
+        $("#suggestions3").fadeOut();
+      } else if ($("#tipo_doc_ide").val() == "6") { // ================================================================== SI ES RUC
+        
+        $("#razon_social").val("");
+        $("#domicilio_fiscal").val("");
+        var dni = $("#numero_documento").val();
+        $.post( "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni, function (data, status) {
+          data = JSON.parse(data);
+          if ( data == null ) {
+            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+            toastr_error('Error!!', data.error);
+          } else if (data != null) {
+            $("#idcliente").val(data.idpersona);
+            $("#razon_social").val(data.razon_social);
+            $("#domicilio_fiscal").val(data.domicilio_fiscal);
+          } else {
+            $("#idcliente").val("");
+            $("#razon_social").val("No registrado");
+            $("#domicilio_fiscal").val("No registrado");
+            Swal.fire({ title: "Cliente no registrado", icon: "warning", });
 
-                $("#ModalNcliente").modal("show");
-                $("#nruc").val($("#numero_documento").val());
-              }
-            }
-          );
-          $("#suggestions").fadeOut();
-          $("#suggestions2").fadeOut();
-          $("#suggestions3").fadeOut();
-        } else {
-          $("#idcliente").val("N");
-          $("#razon_social").val("");
-          document.getElementById("razon_social").placeholder = "No Registrado";
-          $("#domicilio_fiscal").val("");
-          document.getElementById("domicilio_fiscal").placeholder = "No Registrado";
-          // document.getElementById("btnAgregarArt").style.backgroundColor ="#35770c";
-          document.getElementById("razon_social").style.Color = "#35770c";
-          document.getElementById("razon_social").focus();
-        }
+            $("#ModalNcliente").modal("show");
+            $("#nruc").val($("#numero_documento").val());
+          }
+        });
+        $("#suggestions").fadeOut();
+        $("#suggestions2").fadeOut();
+        $("#suggestions3").fadeOut();
+      } else {
+        $("#idcliente").val("N");
+        $("#razon_social").val("");
+        document.getElementById("razon_social").placeholder = "No Registrado";
+        $("#domicilio_fiscal").val("");
+        document.getElementById("domicilio_fiscal").placeholder = "No Registrado";
+        // document.getElementById("btnAgregarArt").style.backgroundColor ="#35770c";
+        document.getElementById("razon_social").style.Color = "#35770c";
+        document.getElementById("razon_social").focus();
       }
-    );
+    });
   }
 }
 
 $(document).ready(function () {
   $('#numero_documento').on('input', function () {
-    if ($(this).val().length == 11 && $('#tipo_doc_ide').val() == "6") {
-      buscarRUCcliente();
-    }
+    if ($(this).val().length == 11 && $('#tipo_doc_ide').val() == "6") { buscarRUCcliente(); }
   });
 });
 

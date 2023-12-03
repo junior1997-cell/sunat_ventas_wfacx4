@@ -11,7 +11,6 @@ function init() {
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
   $("#guardar_registro_proveedor").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-proveedor").submit(); }  });
 
-
   // ══════════════════════════════════════ I N I T I A L I Z E   S E L E C T 2 ══════════════════════════════════════  
   $("#iddistrito").select2({ dropdownParent: $('#modal-agregar-proveedor'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
 
@@ -38,7 +37,7 @@ function llenar_dep_prov_ubig(input) {
       $("#ubigeo").val(e.ubigeo_inei); 
 
       $(".chargue-pro").html(''); $(".chargue-dep").html(''); $(".chargue-ubi").html('');
-      $("#form-empresa").valid();
+      $("#form-proveedor").valid();
     });
   }  
 }
@@ -47,6 +46,7 @@ function llenar_dep_prov_ubig(input) {
 function limpiar_form_proveedor() {
   $("#nombres").val("");
   $("#apellidos").val("");
+  $("#tipo_documento").val("1");
   $("#numero_documento").val("");
   $("#razon_social").val("");
   $("#domicilio_fiscal").val("");
@@ -62,7 +62,7 @@ function limpiar_form_proveedor() {
   $("#telefono2").val("");
   $("#email").val("");
   $("#idpersona").val("");
-  $("#guardar_registro_articulo").html('Actualizar');
+  $("#guardar_registro_proveedor").html('Agregar');
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -79,9 +79,9 @@ function listar() {
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
     buttons: [
       { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla_proveedor) { tabla_proveedor.ajax.reload(null, false); } } },
-      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5], }, title: 'Lista de proveedores', text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5], }, title: 'Lista de proveedores', text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     "ajax":  {
@@ -103,7 +103,7 @@ function guardar_y_editar_proveedor(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
 
   var formData = new FormData($("#form-proveedor")[0]);
-  var data_duplicada = $("#nombres").val() ? $("#nombres").val() + ' ' + $("#apellidos").val() : $("#razon_social").val();
+  var data_duplicada = $("#nombres").val() ? `${$("#apellidos").val()} ${$("#apellidos").val()}` : `${$("#razon_social").val()}`;
   $.ajax({
     url: "../ajax/persona.php?op=guardaryeditar",
     type: "POST",
@@ -112,14 +112,13 @@ function guardar_y_editar_proveedor(e) {
     processData: false,
     success: function (datos) {
       if (datos == 'duplicado') {
-        sw_error('Error', `Estos datos ya existen: <b>${data_duplicada}</b> `);
+        sw_error('Error', `Estos datos ya existen:<br> <b>${$('#tipo_documento option:selected').text()}:</b> ${$("#numero_documento").val()} <br> <b>Nombres:</b>${data_duplicada} `);
       } else {
         sw_success('Guardado!!', datos);         
         tabla_proveedor.ajax.reload();      
         limpiar_form_proveedor();
         $('#modal-agregar-proveedor').modal('hide');
-      }
-      
+      }      
     },
     error: function () {
       toastr_error('Error', 'No se pudo guardar los datos');      
@@ -132,29 +131,30 @@ function guardar_y_editar_proveedor(e) {
 function mostrar(idpersona) {
   $('#modal-agregar-proveedor').modal('show'); 
   limpiar_form_proveedor();
-  $("#guardar_registro_articulo").html('Actualizar');
+  $("#guardar_registro_proveedor").html('Actualizar');
 
   $.post("../ajax/persona.php?op=mostrar", { idpersona: idpersona }, function (data, status) {
     data = JSON.parse(data);   
 
+    $("#idpersona").val(data.idpersona);
+
     $("#nombres").val(data.nombres);
     $("#apellidos").val(data.apellidos);
-    $("#tipo_documento").val(data.tipo_documento).trigger("change");
-    //$("#tipo_documento").selectpicker('refresh');
+    $("#tipo_documento").val(data.tipo_documento).trigger("change");    
     $("#numero_documento").val(data.numero_documento)
     $("#razon_social").val(data.razon_social);
     $("#nombre_comercial").val(data.nombre_comercial);
     $("#domicilio_fiscal").val(data.domicilio_fiscal);
-    $("#iddepartamento").val(data.iddepartamento);
-    //$('#iddepartamento').selectpicker('refresh');
+
+    $("#iddepartamento").val(data.iddepartamento);    
     $("#idciudad").val(data.ciudad);
     $("#iddistrito").val(data.distrito).trigger("change");
+
     $("#telefono1").val(data.telefono1);
     $("#telefono2").val(data.telefono2);
-    $("#email").val(data.email);
-    $("#idpersona").val(data.idpersona);
+    $("#email").val(data.email);    
        
-  })
+  });
 }
 
 //Función para desactivar registros
@@ -211,7 +211,7 @@ function mayus(e) {  e.value = e.value.toUpperCase(); }
 function validarProveedor() {
 
   var ndocumento = $("#numero_documento").val();
-  $.post("../ajax/persona.php?op=ValidarProveedor&ndocumento=" + ndocumento, function (data, status) {
+  $.post(`../ajax/persona.php?op=ValidarProveedor&ndocumento=${ndocumento}&tipo_persona=PROVEEDOR`, function (data, status) {
     data = JSON.parse(data);
     if (data) {
       $("#numero_documento").attr("style", "background-color: #FF94A0");
@@ -237,12 +237,7 @@ $('#tipo_documento').change(function () {
 /*-----------------------------------------------------*/
 //            EVENTO KEYPRESS INPUT NUMERO DOC
 
-$('#numero_documento').keypress(function (e) {
-
-  if (e.which === 13 && !e.shiftKey) {
-    buscar_s_r();    
-  }
-});
+$('#numero_documento').keypress(function (e) { if (e.which === 13 && !e.shiftKey) { buscar_s_r(); } });
 
 function buscar_s_r() {
   var val_numdoc = $('#numero_documento').val();
@@ -260,7 +255,9 @@ function buscar_s_r() {
         url: "../ajax/factura.php?op=consultaRucSunat&nroucc=" + val_numdoc,
         dataType: 'json',
         success: function (data) { console.log(!jQuery.isEmptyObject(data.error));
-          if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+          if ( data == null ) {
+            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
             sw_error('Error!', data.error); 
           } else {              
             $('#razon_social').val(data.nombre);
@@ -284,7 +281,9 @@ function buscar_s_r() {
         url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + val_numdoc,
         dataType: 'json',
         success: function (data) {
-          if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+          if ( data == null ) {
+            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
             sw_error('Error!', data.error);
           } else { 
             $('#nombres').val(data.nombres);
@@ -295,6 +294,9 @@ function buscar_s_r() {
         },
         error: function (data) { toastr_error('Error!','Problemas al obtener los datos del DNI', 700 ); }
       });
+    }else{
+      toastr_info('Atencion!!', 'No hay necesidad de buscar, no tenemos informacion con ese <b>tipo de documento</b>.');
+      $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
     }
   }
 }
@@ -314,9 +316,9 @@ $(function () {
       numero_documento: { required: true, minlength:8, maxlength:8},
       nombres:          { required: true, minlength:2, maxlength:50},
       apellidos:        { required: true, minlength:2, maxlength:50 },
-      razon_social:     { required: true, minlength:2, maxlength:200},
-      nombre_comercial: { required: true, minlength:2, maxlength:200 },
-      domicilio_fiscal: { required: true, minlength:2, maxlength:100 },
+      razon_social:     { minlength:2, maxlength:200},
+      nombre_comercial: { minlength:2, maxlength:200 },
+      domicilio_fiscal: { minlength:2, maxlength:100 },
       iddepartamento:   { minlength:2, maxlength:45 },
       idprovincia:      { minlength:2, maxlength:45 }, 
       iddistrito:       { maxlength:45 }, 
@@ -329,12 +331,12 @@ $(function () {
       tipo_documento:   { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
       nombres:          { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
       apellidos:        { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
-      razon_social:     { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
-      nombre_comercial: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
-      domicilio_fiscal: { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      razon_social:     { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      nombre_comercial: { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      domicilio_fiscal: { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
       iddepartamento:   { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
       idprovincia:      { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
-      iddistrito:       {  maxlength:"Maximo {0} caracteres" },      
+      iddistrito:       { maxlength:"Maximo {0} caracteres" },      
       ubigeo:           { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },      
       telefono1:        { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
       telefono2:        { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
@@ -391,7 +393,7 @@ function validate_reglas(input) {
     $('#domicilio_fiscal').rules('add', { required: true, messages: { required: "Campo requerido" } });
   }else{
     $('#numero_documento').rules('remove', 'minlength maxlength');
-    $('#numero_documento').rules('add', { minlength: 15, maxlength: 15, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
+    $('#numero_documento').rules('add', { minlength: 5, maxlength: 15, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
     $('#nombres').rules('remove', 'required');
     $('#nombres').rules('add', { required: true, messages: { required: "Campo requerido" } });
     $('#apellidos').rules('remove', 'required');

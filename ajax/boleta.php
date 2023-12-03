@@ -16,79 +16,76 @@ $imagen_error = "this.src='../files/logo/simagen.jpg'";
 $toltip = '<script> $(function () { $(\'[data-bs-toggle="tooltip"]\').tooltip(); }); </script>';
 
 //Factura
-$idboleta = isset($_POST["idboleta"]) ? limpiarCadena($_POST["idboleta"]) : "";
-//$idusuario="2";
-$idusuario = $_SESSION["idusuario"];
-$fecha_emision_01 = isset($_POST["fecha_emision_01"]) ? limpiarCadena($_POST["fecha_emision_01"]) : "";
-$firma_digital_36 = isset($_POST["firma_digital_36"]) ? limpiarCadena($_POST["firma_digital_36"]) : "";
-$idempresa = isset($_POST["idempresa"]) ? limpiarCadena($_POST["idempresa"]) : "";
-$tipo_documento_06 = isset($_POST["tipo_documento_06"]) ? limpiarCadena($_POST["tipo_documento_06"]) : "";
-$idserie = isset($_POST["serie"]) ? limpiarCadena($_POST["serie"]) : "";
-$SerieReal = isset($_POST["SerieReal"]) ? limpiarCadena($_POST["SerieReal"]) : "";
-$numero_boleta = isset($_POST["numero_boleta"]) ? limpiarCadena($_POST["numero_boleta"]) : "";
-$idnumeracion = isset($_POST["idnumeracion"]) ? limpiarCadena($_POST["idnumeracion"]) : "";
-$numeracion_07 = isset($_POST["numeracion_07"]) ? limpiarCadena($_POST["numeracion_07"]) : "";
-$monto_15_2 = isset($_POST["subtotal_boleta"]) ? limpiarCadena($_POST["subtotal_boleta"]) : "";
-$idcliente = isset($_POST["idcliente"]) ? limpiarCadena($_POST["idcliente"]) : "";
-$codigo_tipo_15_1 = isset($_POST["codigo_tipo_15_1"]) ? limpiarCadena($_POST["codigo_tipo_15_1"]) : "";
+$idboleta           = isset($_POST["idboleta"]) ? limpiarCadena($_POST["idboleta"]) : "";
+
+$idusuario          = $_SESSION["idusuario"];
+$fecha_emision_01   = isset($_POST["fecha_emision_01"]) ? limpiarCadena($_POST["fecha_emision_01"]) : "";
+$firma_digital_36   = isset($_POST["firma_digital_36"]) ? limpiarCadena($_POST["firma_digital_36"]) : "";
+$idempresa          = isset($_POST["idempresa"]) ? limpiarCadena($_POST["idempresa"]) : "";
+$tipo_documento_06  = isset($_POST["tipo_documento_06"]) ? limpiarCadena($_POST["tipo_documento_06"]) : "";
+$idserie            = isset($_POST["serie"]) ? limpiarCadena($_POST["serie"]) : "";
+$SerieReal          = isset($_POST["SerieReal"]) ? limpiarCadena($_POST["SerieReal"]) : "";
+$numero_boleta      = isset($_POST["numero_boleta"]) ? limpiarCadena($_POST["numero_boleta"]) : "";
+$idnumeracion       = isset($_POST["idnumeracion"]) ? limpiarCadena($_POST["idnumeracion"]) : "";
+$numeracion_07      = isset($_POST["numeracion_07"]) ? limpiarCadena($_POST["numeracion_07"]) : "";
+$monto_15_2         = isset($_POST["subtotal_boleta"]) ? limpiarCadena($_POST["subtotal_boleta"]) : "";
+$idcliente          = isset($_POST["idcliente"]) ? limpiarCadena($_POST["idcliente"]) : "";
+$codigo_tipo_15_1   = isset($_POST["codigo_tipo_15_1"]) ? limpiarCadena($_POST["codigo_tipo_15_1"]) : "";
 $sumatoria_igv_18_1 = isset($_POST["total_igv"]) ? limpiarCadena($_POST["total_igv"]) : "";
 $sumatoria_igv_18_2 = isset($_POST["total_igv"]) ? limpiarCadena($_POST["total_igv"]) : "";
 
-$total_icbper = isset($_POST["total_icbper"]) ? limpiarCadena($_POST["total_icbper"]) : ""; //NUEVO POR BOLSAS
+$total_icbper       = isset($_POST["total_icbper"]) ? limpiarCadena($_POST["total_icbper"]) : ""; //NUEVO POR BOLSAS
 
-
-$codigo_tipo_15_1 = isset($_POST["codigo_tipo_15_1"]) ? limpiarCadena($_POST["codigo_tipo_15_1"]) : "";
+$codigo_tipo_15_1   = isset($_POST["codigo_tipo_15_1"]) ? limpiarCadena($_POST["codigo_tipo_15_1"]) : "";
 
 $codigo_tributo_18_3 = isset($_POST["codigo_tributo_h"]) ? limpiarCadena($_POST["codigo_tributo_h"]) : "";
 $nombre_tributo_18_4 = isset($_POST["nombre_tributo_h"]) ? limpiarCadena($_POST["nombre_tributo_h"]) : "";
 $codigo_internacional_18_5 = isset($_POST["codigo_internacional_5"]) ? limpiarCadena($_POST["codigo_internacional_5"]) : "";
 
-
-$importe_total_23 = isset($_POST["total_final"]) ? limpiarCadena($_POST["total_final"]) : "";
-$tipo_documento_25_1 = isset($_POST["tipo_documento_25_1"]) ? limpiarCadena($_POST["tipo_documento_25_1"]) : "";
-$guia_remision_25 = isset($_POST["guia_remision_25"]) ? limpiarCadena($_POST["guia_remision_25"]) : "";
-$codigo_leyenda_26_1 = isset($_POST["codigo_leyenda_26_1"]) ? limpiarCadena($_POST["codigo_leyenda_26_1"]) : "";
+$importe_total_23     = isset($_POST["total_final"]) ? limpiarCadena($_POST["total_final"]) : "";
+$tipo_documento_25_1  = isset($_POST["tipo_documento_25_1"]) ? limpiarCadena($_POST["tipo_documento_25_1"]) : "";
+$guia_remision_25     = isset($_POST["guia_remision_25"]) ? limpiarCadena($_POST["guia_remision_25"]) : "";
+$codigo_leyenda_26_1  = isset($_POST["codigo_leyenda_26_1"]) ? limpiarCadena($_POST["codigo_leyenda_26_1"]) : "";
 $descripcion_leyenda_26_2 = isset($_POST["descripcion_leyenda_26_2"]) ? limpiarCadena($_POST["descripcion_leyenda_26_2"]) : "";
-$version_ubl_37 = isset($_POST["version_ubl_37"]) ? limpiarCadena($_POST["version_ubl_37"]) : "";
+$version_ubl_37       = isset($_POST["version_ubl_37"]) ? limpiarCadena($_POST["version_ubl_37"]) : "";
 $version_estructura_38 = isset($_POST["version_estructura_38"]) ? limpiarCadena($_POST["version_estructura_38"]) : "";
-$tipo_moneda_24 = isset($_POST["tipo_moneda_24"]) ? limpiarCadena($_POST["tipo_moneda_24"]) : "";
-$tasa_igv = isset($_POST["tasa_igv"]) ? limpiarCadena($_POST["tasa_igv"]) : "";
-$estado = isset($_POST["estado"]) ? limpiarCadena($_POST["estado"]) : "";
-$codigo_precio = isset($_POST["codigo_precio"]) ? limpiarCadena($_POST["codigo_precio"]) : "";
-$rucCliente = isset($_POST["numero_documento"]) ? limpiarCadena($_POST["numero_documento"]) : "";
-$RazonSocial = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
-$tipo_doc_ide = isset($_POST["tipo_doc_ide"]) ? limpiarCadena($_POST["tipo_doc_ide"]) : "";
-$domicilio_fiscal = isset($_POST["domicilio_fiscal"]) ? limpiarCadena($_POST["domicilio_fiscal"]) : "";
-$hora = isset($_POST["hora"]) ? limpiarCadena($_POST["hora"]) : "";
-$vendedorsitio = isset($_POST["vendedorsitio"]) ? limpiarCadena($_POST["vendedorsitio"]) : "";
+$tipo_moneda_24       = isset($_POST["tipo_moneda_24"]) ? limpiarCadena($_POST["tipo_moneda_24"]) : "";
+$tasa_igv             = isset($_POST["tasa_igv"]) ? limpiarCadena($_POST["tasa_igv"]) : "";
+$estado               = isset($_POST["estado"]) ? limpiarCadena($_POST["estado"]) : "";
+$codigo_precio        = isset($_POST["codigo_precio"]) ? limpiarCadena($_POST["codigo_precio"]) : "";
+$rucCliente           = isset($_POST["numero_documento"]) ? limpiarCadena($_POST["numero_documento"]) : "";
+$RazonSocial          = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
+$tipo_doc_ide         = isset($_POST["tipo_doc_ide"]) ? limpiarCadena($_POST["tipo_doc_ide"]) : "";
+$domicilio_fiscal     = isset($_POST["domicilio_fiscal"]) ? limpiarCadena($_POST["domicilio_fiscal"]) : "";
+$hora                 = isset($_POST["hora"]) ? limpiarCadena($_POST["hora"]) : "";
+$vendedorsitio        = isset($_POST["vendedorsitio"]) ? limpiarCadena($_POST["vendedorsitio"]) : "";
 
-$tcambio = isset($_POST["tcambio"]) ? limpiarCadena($_POST["tcambio"]) : "";
-$tdescuento = isset($_POST["total_dcto"]) ? limpiarCadena($_POST["total_dcto"]) : "";
+$tcambio              = isset($_POST["tcambio"]) ? limpiarCadena($_POST["tcambio"]) : "";
+$tdescuento           = isset($_POST["total_dcto"]) ? limpiarCadena($_POST["total_dcto"]) : "";
 
+$ipagado              = isset($_POST["ipagado_final"]) ? limpiarCadena($_POST["ipagado_final"]) : "";
+$saldo                = isset($_POST["saldo_final"]) ? limpiarCadena($_POST["saldo_final"]) : "";
+$tipopago             = isset($_POST["tipopago"]) ? limpiarCadena($_POST["tipopago"]) : "";
+$nroreferencia        = isset($_POST["nroreferencia"]) ? limpiarCadena($_POST["nroreferencia"]) : "";
+$tipoboleta           = isset($_POST["tipoboleta"]) ? limpiarCadena($_POST["tipoboleta"]) : "";
 
+$ccuotas              = isset($_POST["ccuotas"]) ? limpiarCadena($_POST["ccuotas"]) : "";
+$fechavecredito       = isset($_POST["fechavecredito"]) ? limpiarCadena($_POST["fechavecredito"]) : "";
+$montocuota           = isset($_POST["montocuota"]) ? limpiarCadena($_POST["montocuota"]) : "";
 
-$ipagado = isset($_POST["ipagado_final"]) ? limpiarCadena($_POST["ipagado_final"]) : "";
-$saldo = isset($_POST["saldo_final"]) ? limpiarCadena($_POST["saldo_final"]) : "";
-$tipopago = isset($_POST["tipopago"]) ? limpiarCadena($_POST["tipopago"]) : "";
-$nroreferencia = isset($_POST["nroreferencia"]) ? limpiarCadena($_POST["nroreferencia"]) : "";
-$tipoboleta = isset($_POST["tipoboleta"]) ? limpiarCadena($_POST["tipoboleta"]) : "";
+$tadc                 = isset($_POST["tadc"]) ? limpiarCadena($_POST["tadc"]) : "";
+$transferencia        = isset($_POST["trans"]) ? limpiarCadena($_POST["trans"]) : "";
 
-$ccuotas = isset($_POST["ccuotas"]) ? limpiarCadena($_POST["ccuotas"]) : "";
-$fechavecredito = isset($_POST["fechavecredito"]) ? limpiarCadena($_POST["fechavecredito"]) : "";
-$montocuota = isset($_POST["montocuota"]) ? limpiarCadena($_POST["montocuota"]) : "";
+$fechavenc            = isset($_POST["fechavenc"]) ? limpiarCadena($_POST["fechavenc"]) : "";
 
-$tadc = isset($_POST["tadc"]) ? limpiarCadena($_POST["tadc"]) : "";
-$transferencia = isset($_POST["trans"]) ? limpiarCadena($_POST["trans"]) : "";
+$efectivo             = isset($_POST["efectivo"]) ? limpiarCadena($_POST["efectivo"]) : "";
+$visa                 = isset($_POST["visa"]) ? limpiarCadena($_POST["visa"]) : "";
+$yape                 = isset($_POST["yape"]) ? limpiarCadena($_POST["yape"]) : "";
+$plin                 = isset($_POST["plin"]) ? limpiarCadena($_POST["plin"]) : "";
+$mastercard           = isset($_POST["mastercard"]) ? limpiarCadena($_POST["mastercard"]) : "";
+$deposito             = isset($_POST["deposito"]) ? limpiarCadena($_POST["deposito"]) : "";
 
-
-$fechavenc = isset($_POST["fechavenc"]) ? limpiarCadena($_POST["fechavenc"]) : "";
-
-$efectivo = isset($_POST["efectivo"]) ? limpiarCadena($_POST["efectivo"]) : "";
-$visa = isset($_POST["visa"]) ? limpiarCadena($_POST["visa"]) : "";
-$yape = isset($_POST["yape"]) ? limpiarCadena($_POST["yape"]) : "";
-$plin = isset($_POST["plin"]) ? limpiarCadena($_POST["plin"]) : "";
-$mastercard = isset($_POST["mastercard"]) ? limpiarCadena($_POST["mastercard"]) : "";
-$deposito = isset($_POST["deposito"]) ? limpiarCadena($_POST["deposito"]) : "";
+// ══════════════════════════════════════ DATA CLIENTE ══════════════════════════════════════  
 
 switch ($_GET["op"]) {
   case 'guardaryeditarBoleta':

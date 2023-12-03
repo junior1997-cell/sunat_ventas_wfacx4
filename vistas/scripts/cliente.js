@@ -1,81 +1,88 @@
-var tabla;
+var tabla_cliente;
 
 
 //Función que se ejecuta al inicio
 function init() {
-	mostrarform(false);
+	
 	listar();
+ 	// ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════   
+ 	$.post("../ajax/ajax_general.php?op=select2_distrito", function (r) { $("#iddistrito").html(r); });
 
-	$("#formulario").on("submit", function (e) { guardaryeditar(e); })
+	// ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
+  $("#guardar_registro_cliente").on("click", function (e) { if ( $(this).hasClass('send-data')==false) { $("#submit-form-cliente").submit(); }  });	
 
-	// Carga de departamentos
-	$.post("../ajax/persona.php?op=selectDepartamento", function (r) {	$("#iddepartamento").html(r);	});
+	// ══════════════════════════════════════ I N I T I A L I Z E   S E L E C T 2 ══════════════════════════════════════  
+  $("#iddistrito").select2({ dropdownParent: $('#modal-agregar-cliente'),  theme: "bootstrap4", placeholder: "Seleccione", allowClear: true,  });
+
 }
 
-function llenarCiudad() {
-	var iddepartamento = $("#iddepartamento option:selected").val();
-	$.post("../ajax/persona.php?op=selectCiudad&id=" + iddepartamento, function (r) {
-		$("#idciudad").html(r);
-		$("#idciudad").val("");
-	});
-}
+function llenar_dep_prov_ubig(input) {
 
-function llenarDistrito() {
-	var idciudad = $("#idciudad option:selected").val();
-	$.post("../ajax/persona.php?op=selectDistrito&id=" + idciudad, function (r) {	$("#iddistrito").html(r);	});
+  $(".chargue-pro").html(`<i class="fas fa-spinner fa-pulse text-danger"></i>`); 
+  $(".chargue-dep").html(`<i class="fas fa-spinner fa-pulse text-danger"></i>`); 
+  $(".chargue-ubi").html(`<i class="fas fa-spinner fa-pulse text-danger"></i>`); 
+
+  if ($(input).select2("val") == null || $(input).select2("val") == '') { 
+    $("#iddepartamento").val(""); 
+    $("#idprovincia").val(""); 
+    $("#ubigeo").val(""); 
+
+    $(".chargue-pro").html(''); $(".chargue-dep").html(''); $(".chargue-ubi").html('');
+  } else {
+    var iddistrito =  $(input).select2('data')[0].element.attributes.iddistrito.value;
+    $.post(`../ajax/ajax_general.php?op=select2_distrito_id&id=${iddistrito}`, function (e) {   
+      e = JSON.parse(e); console.log(e);
+      $("#iddepartamento").val(e.departamento); 
+      $("#idprovincia").val(e.provincia); 
+      $("#ubigeo").val(e.ubigeo_inei); 
+
+      $(".chargue-pro").html(''); $(".chargue-dep").html(''); $(".chargue-ubi").html('');
+      $("#form-cliente").valid();
+    });
+  }  
 }
 
 //Función limpiar
-function limpiar() {
+function limpiar_form_cliente() {
 	$("#nombres").val("");
-	$("#apellidos").val("");
-	$("#numero_documento").val("");
-	$("#nombre_comercial").val("");
-	$("#razon_social").val("");
-	$("#domicilio_fiscal").val("");
-	$("#iddepartamento").val("");
-	$("#idciudad").val("");
-	$("#iddistrito").val("");
-	$("#telefono1").val("");
-	$("#telefono2").val("");
-	$("#email").val("");
-	$("#idpersona").val("");
-	document.getElementById("btnGuardar").innerHTML = "Agregar";
-}
+  $("#apellidos").val("");
+  $("#tipo_documento").val("1");
+  $("#numero_documento").val("");
+  $("#razon_social").val("");
+  $("#domicilio_fiscal").val("");
+  $("#nombre_comercial").val("");
 
-//Función mostrar formulario
-function mostrarform(flag) {
-	limpiar();
-	if (flag) {
-		$("#listadoregistros").hide();
-		$("#formularioregistros").show();
-		$("#nombres").focus();
-		$("#btnGuardar").prop("disabled", false);
-		$("#btnagregar").hide();
-	}	else {
-		$("#listadoregistros").show();
-		$("#formularioregistros").hide();
-		$("#btnagregar").show();
-	}
-}
-function cancelarform() {
-	limpiar();
-	//Función cancelarform
-	mostrarform(false);
+  $("#iddepartamento").val("");
+  $("#idprovincia").val("");
+  $("#iddistrito").val("").trigger("change");
+  $("#ciudad").val("");
+  $("#ubigeo").val("");  
+
+  $("#telefono1").val("");
+  $("#telefono2").val("");
+  $("#email").val("");
+  $("#idpersona").val("");
+	
+	$("#guardar_registro_cliente").html('Agregar');
+
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
 }
 
 //Función Listar
 function listar() {
-	tabla = $('#tbllistado').dataTable(	{
+	tabla_cliente = $('#tbllistado').dataTable(	{
 		lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
 		"aProcessing": true,//Activamos el procesamiento del datatables
 		"aServerSide": true,//Paginación y filtrado realizados por el servidor
 		dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
     buttons: [
-      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla) { tabla.ajax.reload(null, false); } } },
-      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla_cliente) { tabla_cliente.ajax.reload(null, false); } } },
+      { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5], }, title: 'Lista de clientes', text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5], }, title: 'Lista de clientes', text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
 		"ajax":	{
@@ -93,77 +100,59 @@ function listar() {
 }
 //Función para guardar o editar
 
-function guardaryeditar(e) {
-	e.preventDefault(); //No se activará la acción predeterminada del evento
-	$("#btnGuardar").prop("disabled", true);
-	var formData = new FormData($("#formulario")[0]);
-
+function guardar_y_editar_cliente(e) {
+	//e.preventDefault(); //No se activará la acción predeterminada del evento
+	
+	var formData = new FormData($("#form-cliente")[0]);
+	var data_duplicada = $("#nombres").val() ? `${$("#apellidos").val()} ${$("#apellidos").val()}` : `${$("#razon_social").val()}`;
 	$.ajax({
 		url: "../ajax/persona.php?op=guardaryeditar",
 		type: "POST",
 		data: formData,
 		contentType: false,
 		processData: false,
-		success: function (datos) {
-			Swal.fire({	title: "¡Correcto!",text: datos,	icon: "success",	showConfirmButton: true,timer: 3500 });
-
-			mostrarform(false);
-			tabla.ajax.reload();
-			$('#agregarclientes').modal('hide');
+		success: function (datos) {	
+			if (datos == 'duplicado') {
+				sw_error('Error', `Estos datos ya existen:<br> <b>${$('#tipo_documento option:selected').text()}:</b> ${$("#numero_documento").val()} <br> <b>Nombres:</b>${data_duplicada} `);
+      } else {
+        sw_success('Guardado!!', datos);         
+        tabla_cliente.ajax.reload();      
+        $('#modal-agregar-cliente').modal('hide');
+				limpiar_form_cliente();
+      }  
 		},
 		error: function (xhr, status, error) {
-			Swal.fire({
-				title: "Error",
-				text: "Hubo un error al procesar la solicitud. Intente nuevamente.",
-				icon: "error",
-				showConfirmButton: false,
-				timer: 1500
-			});
+			toastr_error('Error!', 'Hubo un error al procesar la solicitud. Intente nuevamente.');				
 		},
-	});
-	limpiar();
+	});	
 }
 
 
 function mostrar(idpersona) {
+	$('#modal-agregar-cliente').modal('show');
+	limpiar_form_cliente();
+	$("#guardar_registro_cliente").html('Actualizar');
 	$.post("../ajax/persona.php?op=mostrar", { idpersona: idpersona }, function (data, status) {
-		data = JSON.parse(data);
-		mostrarform(true);
+		data = JSON.parse(data);		
 
-		$("#nombres").val(data.nombres);
-		$("#apellidos").val(data.apellidos);
-		$("#tipo_documento").val(data.tipo_documento);
-		//$("#tipo_documento").selectpicker('refresh');
-		$("#numero_documento").val(data.numero_documento)
-		$("#razon_social").val((data.razon_social));
-		$("#nombre_comercial").val((data.nombre_comercial));
-		$("#domicilio_fiscal").val(data.domicilio_fiscal);
-		$("#telefono1").val(data.telefono1);
-		$("#telefono2").val(data.telefono2);
-		$("#email").val(data.email);
 		$("#idpersona").val(data.idpersona);
-		$('#agregarclientes').modal('show');
-		document.getElementById("btnGuardar").innerHTML = "Actualizar";
 
-		$('#iddepartamento').val(data.departamento).change();
+    $("#nombres").val(data.nombres);
+    $("#apellidos").val(data.apellidos);
+    $("#tipo_documento").val(data.tipo_documento).trigger("change");    
+    $("#numero_documento").val(data.numero_documento)
+    $("#razon_social").val(data.razon_social);
+    $("#nombre_comercial").val(data.nombre_comercial);
+    $("#domicilio_fiscal").val(data.domicilio_fiscal);
 
-		var iddepartamento = data.departamento;
-		$.post("../ajax/persona.php?op=selectCiudad&id=" + iddepartamento, function (r) {
-			$("#idciudad").html(r);	
-			$('#idciudad').val(data.ciudad).change();
+    $("#iddepartamento").val(data.iddepartamento);    
+    $("#idciudad").val(data.ciudad);
+    $("#iddistrito").val(data.distrito).trigger("change");
 
-			$.post("../ajax/persona.php?op=selectDistrito&id=" + data.ciudad, function (r) {
-				$("#iddistrito").html(r);
-				$('#iddistrito').val(data.distrito).change();
-			});
-		});
-
+    $("#telefono1").val(data.telefono1);
+    $("#telefono2").val(data.telefono2);
+    $("#email").val(data.email);    
 	});
-}
-
-function llenardistrito() {
-	var idciudad = $("#idciudad").val();
-	$.post("../ajax/persona.php?op=selectDistrito&id=" + idciudad, function (r) {	$("#iddistrito").html(r);	});
 }
 
 //Función para desactivar registros
@@ -179,7 +168,7 @@ function desactivar(idpersona) {
 		if (result.isConfirmed) {
 			$.post("../ajax/persona.php?op=desactivar",	{ idpersona: idpersona },	function (e) {
 				Swal.fire({	title: "¡Correcto!", text: e,	icon: "success", showConfirmButton: true, timer: 3500	});
-				tabla.ajax.reload();
+				tabla_cliente.ajax.reload();
 			});
 		}
 	});
@@ -198,222 +187,35 @@ function activar(idpersona) {
 		if (result.isConfirmed) {
 			$.post("../ajax/persona.php?op=activar",{ idpersona: idpersona },	function (e) {
 					Swal.fire({	title: "¡Correcto!",	text: e,	icon: "success",showConfirmButton: true,	timer: 3500	});
-					tabla.ajax.reload();
-				}
-			);
+					tabla_cliente.ajax.reload();
+			});
 		}
 	});
 }
 
 
-//Función para aceptar solo numeros con dos decimales
-function NumCheckrz(e, field) {
-
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('razon_social').focus();
-	}
-	// Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-	key = e.keyCode ? e.keyCode : e.which
-	// backspace
-	if (key == 8) return true;
-	if (key == 9) return true;
-	if (key > 47 && key < 58) {
-		if (field.val() === "") return true;
-		var existePto = (/[.]/).test(field.val());
-		if (existePto === false) {
-			regexp = /.[0-9]{10}$/;
-		}
-		else {
-			regexp = /.[0-9]{2}$/;
-		}
-		return !(regexp.test(field.val()));
-	}
-
-	if (key == 46) {
-		if (field.val() === "") return false;
-		regexp = /^[0-9]+$/;
-		return regexp.test(field.val());
-	}
-	return false;
-}
-
-//Función para aceptar solo numeros con dos decimales
-function NumChecktel1(e, field) {
-
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('telefono2').focus();
-	}
-	// Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-	key = e.keyCode ? e.keyCode : e.which
-	// backspace
-	if (key == 8) return true;
-	if (key == 9) return true;
-	if (key > 47 && key < 58) {
-		if (field.val() === "") return true;
-		var existePto = (/[.]/).test(field.val());
-		if (existePto === false) {
-			regexp = /.[0-9]{10}$/;
-		}
-		else {
-			regexp = /.[0-9]{2}$/;
-		}
-		return !(regexp.test(field.val()));
-	}
-
-	if (key == 46) {
-		if (field.val() === "") return false;
-		regexp = /^[0-9]+$/;
-		return regexp.test(field.val());
-	}
-	return false;
-}
-
-
-//Función para aceptar solo numeros con dos decimales
-function NumChecktel2(e, field) {
-
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('email').focus();
-	}
-	// Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-	key = e.keyCode ? e.keyCode : e.which
-	// backspace
-	if (key == 8) return true;
-	if (key == 9) return true;
-	if (key > 47 && key < 58) {
-		if (field.val() === "") return true;
-		var existePto = (/[.]/).test(field.val());
-		if (existePto === false) {
-			regexp = /.[0-9]{10}$/;
-		}
-		else {
-			regexp = /.[0-9]{2}$/;
-		}
-		return !(regexp.test(field.val()));
-	}
-
-	if (key == 46) {
-		if (field.val() === "") return false;
-		regexp = /^[0-9]+$/;
-		return regexp.test(field.val());
-	}
-	return false;
-}
-
-
-//=========================
-//Funcion para mayusculas
-function mayus(e) {
-	e.value = e.value.toUpperCase();
-}
-//=========================
-
 function validarCliente() {
 
-	var ndocumento = $("#numero_documento").val();
-	$.post("../ajax/persona.php?op=ValidarCliente&ndocumento=" + ndocumento, function (data, status) {
+	var ndocumento = $("#numero_documento").val(); 
+	$.post(`../ajax/persona.php?op=ValidarCliente&ndocumento=${ndocumento}&tipo_persona=CLIENTE`, function (data, status) {
 		data = JSON.parse(data);
-		//$('#ndocu').val(data.numero_documento);
-		//var valida=$('#ndocu').val();
-		//var valida=data.numero_documento;
-		if (data) {
-			//alert("Cliente ya existe");
-			$("#numero_documento").attr("style", "background-color: #FF94A0");
-			//$("#numero_documento").val("");
+		
+		if (data) {			
+			$("#numero_documento").attr("style", "background-color: #FF94A0");			
 			document.getElementById("numero_documento").focus();
 		} else {
 			$("#numero_documento").attr("style", "background-color: #A7FF64");
 		}
-
 	});
-
 }
 
-
-function focusnd() {
-	document.getElementById('numero_documento').focus();
-}
-
+function focusnd() { document.getElementById('numero_documento').focus(); }
 
 function stopRKey(evt) {
 	var evt = (evt) ? evt : ((event) ? event : null);
 	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 	if ((evt.keyCode == 13) && (node.type == "text")) { return false; }
 }
-
-
-function focusnombre(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('apellidos').focus();
-	}
-}
-
-
-function focusapellido(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('tipo_documento').focus();
-	}
-}
-
-
-function focusrz(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('nombre_comercial').focus();
-	}
-}
-
-function focusnc(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('domicilio_fiscal').focus();
-	}
-}
-
-
-function focusdf(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('iddepartamento').focus();
-	}
-}
-
-function focusdep(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('idciudad').focus();
-	}
-}
-
-function focusciu(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('iddistrito').focus();
-	}
-}
-
-function focusdist(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('telefono1').focus();
-	}
-}
-
-
-function focustel1(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('telefono1').focus();
-	}
-}
-
-
-function focusoctel1() {
-
-	document.getElementById('telefono1').focus();
-
-}
-
-
-function focusmail(e) {
-	if (e.keyCode === 13 && !e.shiftKey) {
-		document.getElementById('btnGuardar').focus();
-	}
-}
-
 
 document.onkeypress = stopRKey;
 
@@ -422,133 +224,176 @@ document.onkeypress = stopRKey;
 //          EVENTO CHANGE SELECT TIPO DOCUMENTO
 
 $('#tipo_documento').change(function () {
-
-	$('#numero_documento').val('');
-
-	$('#razon_social').val('');
-	$('#domicilio_fiscal').val('');
-	$('#iddepartamento').val('');
-	$('#idciudad').val('');
-	$('#iddistrito').val('');
-
-	$('#nombres').val('');
-	$('#apellidos').val('');
-
-
 	if ($('#tipo_documento').val() == 6 || $('#tipo_documento').val() == 1) {
 		$('#l_tipo_documento').text('Número de documento (Presione Enter):')
 	} else {
 		$('#l_tipo_documento').text('Número de documento');
 	}
-
-})
+});
 
 /*-----------------------------------------------------*/
 //            EVENTO KEYPRESS INPUT NUMERO DOC
 
-$('#numero_documento').keypress(function (e) {
+$('#numero_documento').keypress(function (e) {	if (e.which === 13 && !e.shiftKey) { buscar_s_r(); } });
 
-	if (e.which === 13 && !e.shiftKey) {
+function buscar_s_r() {
+  var val_numdoc = $('#numero_documento').val();
+  $('.btn-search-sr').html(`<i class="fas fa-spinner fa-pulse fa-lg"></i>`);
 
-		var val_numdoc = $('#numero_documento').val();
+  if (val_numdoc == '') {
+    sw_warning('Cuidado..!', "El campo número documento está vacío" );      
+    $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+  } else {
 
-		if (val_numdoc == '') {
+    if ($('#tipo_documento').val() == 6) {
 
-			swal.fire({
-				title: 'Cuidado..!',
-				text: "El campo número documento está vacío",
-				icon: "warning",
-				timer: 2000,
-				showConfirmButton: false
-			});
+      $.ajax({
+        type: 'POST',
+        url: "../ajax/factura.php?op=consultaRucSunat&nroucc=" + val_numdoc,
+        dataType: 'json',
+        success: function (data) { console.log(!jQuery.isEmptyObject(data.error));
+          if ( data == null ) {
+            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+            sw_error('Error!', data.error); 
+          } else {              
+            $('#razon_social').val(data.nombre);
+            $('#nombre_comercial').val('--');
+            $('#domicilio_fiscal').val(data.direccion);
 
-		} else {
+            $('#iddepartamento').val(data.departamento);
+            $('#idciudad').val(data.provincia);
+            $('#iddistrito').val(data.distrito).trigger("change");
+          }
+          $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+          $("#form-cliente").valid();
+        },
+        error: function (data) { toastr_error('Error!','Problemas al obtener la razón social', 700 ); }
+      });
 
-			if ($('#tipo_documento').val() == 6) {
+    } else if ($('#tipo_documento').val() == 1) {
 
-				$.ajax({
-					type: 'POST',
-					url: "../ajax/factura.php?op=consultaRucSunat&nroucc=" + val_numdoc,
-					dataType: 'json',
-
-					success: function (data) {
-
-						if (!jQuery.isEmptyObject(data.error)) {
-
-							swal.fire({
-								title: 'Error!',
-								text: data.error,
-								icon: "error",
-								timer: 2000,
-								showConfirmButton: false
-							});
-
-						} else {
-							console.log(data);
-							$('#razon_social').val(data.nombre);
-							$('#domicilio_fiscal').val(data.direccion);
-
-							$('#iddepartamento').val(data.departamento);
-							$('#idciudad').val(data.provincia);
-							$('#iddistrito').val(data.distrito);
-
-						}
-					},
-					error: function (data) {
-						// alert("Problemas al tratar de enviar el formulario");
-						swal.fire({
-							title: 'Error!',
-							text: 'Problemas al obtener la razón social',
-							icon: "error",
-							timer: 2000,
-							showConfirmButton: false
-						});
-					}
-				});
-
-			} else if ($('#tipo_documento').val() == 1) {
-
-				$.ajax({
-					type: 'POST',
-					url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + val_numdoc,
-					dataType: 'json',
-
-					success: function (data) {
-
-						if (!jQuery.isEmptyObject(data.error)) {
-
-							swal.fire({
-								title: 'Error!',
-								text: data.error,
-								icon: "error",
-								timer: 2000,
-								showConfirmButton: false
-							});
-
-						} else {
-							// console.log(data);
-
-							$('#nombres').val(data.nombres);
-							$('#apellidos').val(data.apellidoPaterno + ' ' + data.apellidoMaterno);
-
-						}
-					},
-					error: function (data) {
-						// alert("Problemas al tratar de enviar el formulario");
-						swal.fire({
-							title: 'Error!',
-							text: 'Problemas al obtener los datos del DNI',
-							icon: "error",
-							timer: 2000,
-							showConfirmButton: false
-						});
-					}
-				});
-			}
-
+      $.ajax({
+        type: 'POST',
+        url: "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + val_numdoc,
+        dataType: 'json',
+        success: function (data) {
+          if ( data == null ) {
+            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+            sw_error('Error!', data.error);
+          } else { 
+            $('#nombres').val(data.nombres);
+            $('#apellidos').val(data.apellidoPaterno + ' ' + data.apellidoMaterno);
+          }
+          $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+          $("#form-cliente").valid();
+        },
+        error: function (data) { toastr_error('Error!','Problemas al obtener los datos del DNI', 700 ); }
+      });
+    }else{
+			toastr_info('Atencion!!', 'No hay necesidad de buscar, no tenemos informacion con ese <b>tipo de documento</b>.');
+			$('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
 		}
-	}
-});
-
+  }
+}
 
 init();
+
+// .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
+$(function () {
+  // $('#fecha_proximo_pago').rules('remove', 'required');
+  // $('#fecha_proximo_pago').rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+  $("#form-cliente").validate({
+    // ignore: "",
+    rules: { 
+      tipo_documento:   { required: true, },
+      numero_documento: { required: true, minlength:8, maxlength:8},
+      nombres:          { required: true, minlength:2, maxlength:50},
+      apellidos:        { required: true, minlength:2, maxlength:50 },
+      razon_social:     { minlength:2, maxlength:200},
+      nombre_comercial: { minlength:2, maxlength:200 },
+      domicilio_fiscal: { minlength:2, maxlength:100 },
+      iddepartamento:   { minlength:2, maxlength:45 },
+      idprovincia:      { minlength:2, maxlength:45 }, 
+      iddistrito:       { maxlength:45 }, 
+      ubigeo:           { minlength:2, maxlength:6 },       
+      telefono1:        { number: true, maxlength: 9,  }, 
+      telefono2:        { number: true, maxlength: 9,  }, 
+      email:            { email: true,   }, 
+    },
+    messages: {
+      tipo_documento:   { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      nombres:          { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      apellidos:        { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      razon_social:     { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      nombre_comercial: { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      domicilio_fiscal: { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      iddepartamento:   { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      idprovincia:      { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      iddistrito:       { maxlength:"Maximo {0} caracteres" },      
+      ubigeo:           { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },      
+      telefono1:        { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      telefono2:        { minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      email:            { email: "Ingrese correo valido" },
+    },
+        
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");   
+    },
+    submitHandler: function (e) {
+      $(".modal-body").animate({ scrollTop: $(document).height() }, 600); // Scrollea hasta abajo de la página
+      guardar_y_editar_cliente(e);      
+    },
+  });  
+});
+
+function validate_reglas(input) {
+
+  var input_tipo_doc = $(input).val(); console.log(input_tipo_doc);
+
+  if ( input_tipo_doc == 1 ) { // DNI
+    $('#numero_documento').rules('remove', 'minlength maxlength');
+    $('#numero_documento').rules('add', { minlength: 8, maxlength: 8, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
+    $('#nombres').rules('remove', 'required');
+    $('#nombres').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#apellidos').rules('remove', 'required');
+    $('#apellidos').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#razon_social').rules('remove', 'required');
+    $('#nombre_comercial').rules('remove', 'required');
+    $('#domicilio_fiscal').rules('remove', 'required');
+  } else if ( input_tipo_doc == 6 ) { // RUC
+    $('#numero_documento').rules('remove', 'minlength maxlength');
+    $('#numero_documento').rules('add', { minlength: 11, maxlength: 11, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
+    $('#nombres').rules('remove', 'required');
+    $('#apellidos').rules('remove', 'required');
+    $('#razon_social').rules('remove', 'required');
+    $('#razon_social').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#nombre_comercial').rules('remove', 'required');
+    $('#nombre_comercial').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#domicilio_fiscal').rules('remove', 'required');
+    $('#domicilio_fiscal').rules('add', { required: true, messages: { required: "Campo requerido" } });
+  }else{
+    $('#numero_documento').rules('remove', 'minlength maxlength');
+    $('#numero_documento').rules('add', { minlength: 5, maxlength: 15, messages: { minlength: 'Minimo {0} caracteres', maxlength: 'Maximo {0} caracteres' } });
+    $('#nombres').rules('remove', 'required');
+    $('#nombres').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#apellidos').rules('remove', 'required');
+    $('#apellidos').rules('add', { required: true, messages: { required: "Campo requerido" } });
+    $('#razon_social').rules('remove', 'required');
+    $('#nombre_comercial').rules('remove', 'required');
+    $('#domicilio_fiscal').rules('remove', 'required');
+  }
+  $("#form-cliente").valid();
+}

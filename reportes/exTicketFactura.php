@@ -77,7 +77,7 @@ if (!isset($_SESSION["nombre"])) {
           </tr>
 
           <tr align="center">
-            <td style="font-size: 8px">
+            <td style="font-size: 12px">
               .::<strong>
                 <?php echo utf8_decode(htmlspecialchars_decode($datose->nombre_comercial)) ?>
               </strong>::.
@@ -201,66 +201,26 @@ if (!isset($_SESSION["nombre"])) {
 
         <?php
 
-
         if ($reg->tipopago == "Contado") {
 
-          //echo "<tr><td colspan='6'><strong>Métodos de pago:</strong></td></tr>";
-
+          echo "<tr><td colspan='6'><strong>Métodos de pago:</strong></td></tr>";
 
           echo "<tr>"; // Abrir fila de los nombres de los tipos de pago
-
-          if ($reg->yape > 0) {
-            echo "<td><strong>Yape</strong></td>";
-          }
-
-          if ($reg->visa > 0) {
-            echo "<td><strong>Visa</strong></td>";
-          }
-
-          if ($reg->efectivo > 0) {
-            echo "<td><strong>Efectivo</strong></td>";
-          }
-
-          if ($reg->plin > 0) {
-            echo "<td><strong>Plin</strong></td>";
-          }
-
-          if ($reg->masterC > 0) {
-            echo "<td><strong>MasterC</strong></td>";
-          }
-
-          if ($reg->dep > 0) {
-            echo "<td><strong>Dep.</strong></td>";
-          }
-
+          if ($reg->yape > 0) { echo "<td><strong>Yape</strong></td>";  }
+            if ($reg->visa > 0) { echo "<td><strong>Visa</strong></td>"; }
+          if ($reg->efectivo > 0) { echo "<td><strong>Efectivo</strong></td>"; }
+          if ($reg->plin > 0) { echo "<td><strong>Plin</strong></td>"; }
+          if ($reg->masterC > 0) { echo "<td><strong>MasterC</strong></td>"; }
+          if ($reg->dep > 0) { echo "<td><strong>Dep.</strong></td>"; }
           echo "</tr>"; // Cerrar fila de los nombres
 
           echo "<tr>"; // Abrir fila de los montos
-
-          if ($reg->yape > 0) {
-            echo "<td> $reg->yape </td>";
-          }
-
-          if ($reg->visa > 0) {
-            echo "<td> $reg->visa </td>";
-          }
-
-          if ($reg->efectivo > 0) {
-            echo "<td> $reg->efectivo </td>";
-          }
-
-          if ($reg->plin > 0) {
-            echo "<td> $reg->plin </td>";
-          }
-
-          if ($reg->masterC > 0) {
-            echo "<td> $reg->masterC </td>";
-          }
-
-          if ($reg->dep > 0) {
-            echo "<td> $reg->dep </td>";
-          }
-
+          if ($reg->yape > 0) { echo "<td> $reg->yape </td>";  }
+          if ($reg->visa > 0) { echo "<td> $reg->visa </td>"; }
+          if ($reg->efectivo > 0) { echo "<td> $reg->efectivo </td>"; }
+          if ($reg->plin > 0) { echo "<td> $reg->plin </td>"; }
+          if ($reg->masterC > 0) { echo "<td> $reg->masterC </td>"; }
+          if ($reg->dep > 0) { echo "<td> $reg->dep </td>"; }
           echo "</tr>"; // Cerrar fila de los montos
 
         } elseif ($reg->tipopago == "Credito") {
@@ -285,7 +245,7 @@ if (!isset($_SESSION["nombre"])) {
       <!-- Mostramos los detalles de la venta en el documento HTML -->
       <table border="0" align="center" width="230px" style="font-size: 8px">
         <tr>
-          <td colspan="5">-----------------------------------------------------</td>
+          <td colspan="5">--------------------------------------------------------</td>
         </tr>
         <tr>
           <td>Cant.</td>
@@ -295,7 +255,7 @@ if (!isset($_SESSION["nombre"])) {
         </tr>
 
         <tr>
-          <td colspan="5">-----------------------------------------------------</td>
+          <td colspan="5">--------------------------------------------------------</td>
         </tr>
 
         <?php
@@ -348,69 +308,59 @@ if (!isset($_SESSION["nombre"])) {
           echo "<tr>";
           echo "<td>" . $regd->cantidad_item_12 . "</td>";
           echo "<td>" . strtolower($regd->articulo) . "</td>";
-          echo "<td>" . number_format($pv, 2) . "</td>";
-          echo "<td align='right'>" . $subt . "</td>";
+          echo '<td style="text-align: right;">' . number_format($pv, 2) . "</td>";
+          echo '<td style="text-align: right;">' . $subt . "</td>";
           echo "</tr>";
           $cantidad += $regd->cantidad_item_12;
         }
         ?>
         <tr>
-          <td colspan="5">-----------------------------------------------------</td>
+          <td colspan="5">--------------------------------------------------------</td>
         </tr>
       </table>
 
       <table border='0' width='230px' style='font-size: 8px;' align="center">
         <tr>
           <td colspan='5'><strong>Descuento</strong></td>
-          <td>:
-            <?php echo $reg->tdescuento ?>
-          </td>
+          <td>:</td>
+          <td style="text-align: right;"><?php echo $reg->tdescuento ?> </td>
         </tr>
         <tr>
           <td colspan='5'><strong>Op. Gravada</strong></td>
-          <td>:
-            <?php echo $nombretigv; ?>
-          </td>
+          <td>:</td>
+          <td style="text-align: right;"> <?php echo $nombretigv; ?></td>
         </tr>
         <tr>
           <td colspan='5'><strong>Op. Exonerado</strong></td>
-          <td>:
-            <?php echo $nombretexo; ?>
-          </td>
+          <td>:</td>
+          <td style="text-align: right;"> <?php echo $nombretexo; ?> </td>
         </tr>
         <tr>
           <td colspan='5'><strong>Op. Inafecto</strong></td>
-          <td>: 0.00</td>
+          <td>:</td>
+          <td style="text-align: right;">0.00</td>
         </tr>
         <tr>
           <td colspan='5'><strong>I.G.V.</strong></td>
-          <td>:
-            <?php echo $reg->sumatoria_igv_22_1 ?>
-          </td>
+          <td>:</td>
+          <td style="text-align: right;"> <?php echo $reg->sumatoria_igv_22_1 ?> </td>
         </tr>
         <!-- <tr><td colspan='5'><strong>Otros</strong></td><td>: <?php echo $reg->otroscargos ?></td></tr> -->
-
         <tr>
           <td colspan='5'><strong>Imp. Pagado</strong></td>
-          <td>:
-            <?php echo $reg->ipagado ?>
-          </td>
+          <td>:</td>
+          <td style="text-align: right;"><?php echo $reg->ipagado ?></td>
         </tr>
         <tr>
           <td colspan='5'><strong>Vuelto</strong></td>
-          <td>:
-            <?php echo $reg->saldo ?>
-          </td>
+          <td>:</td>
+          <td style="text-align: right;"> <?php echo $reg->saldo ?> </td>
         </tr>
-
         <tr>
           <td colspan='5'><strong>Importe a pagar</strong></td>
-          <td>:
-            <?php echo $reg->importe_total_venta_27 ?>
-          </td>
-        </tr>
-
-        <tr>
+          <td>:</td>
+          <td style="text-align: right;"> <?php echo $reg->importe_total_venta_27 ?> </td>
+        </tr>        
 
       </table>
 
@@ -420,8 +370,8 @@ if (!isset($_SESSION["nombre"])) {
       // $con_letra = strtoupper($V->ValorEnLetras($reg->importe_total_venta_27, ""));
       $num_total = $numero_a_letra->toInvoice( $reg->importe_total_venta_27, 2, " SOLES" );      
 
-      echo "<table border='0'  width='220px' style='font-size: 12px' align='center' >
-        <tr><td>-----------------------------------------------------</td></tr>";
+      echo "<table border='0'  width='230px' style='font-size: 12px' align='center' >
+        <tr><td>--------------------------------------------------------</td></tr>";
       echo "<tr><td></br><strong>SON: </strong>" . $num_total . "</td></tr></table>";
       ?>
 
@@ -439,8 +389,7 @@ if (!isset($_SESSION["nombre"])) {
           </td>
         </tr>
         <tr>
-          <td align="center">Representación impresa de la Factura de Venta Electrónica puede ser consultada en
-            https://www.servitecfl.com/</td>
+          <td align="center">Representación impresa de la Factura de Venta Electrónica puede ser consultada en https://cpeconsultas.jdl.pe</td>
         </tr>
 
         <tr>

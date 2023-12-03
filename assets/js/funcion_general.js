@@ -491,8 +491,7 @@ function preservarNumeroLetra(str) {
   return string;
 }
 
-// to miniscula
-function convert_minuscula(e) { e.value = e.value.toLowerCase(); }
+
 
 function quitar_punto(string){ 
   return string.replace(/\./g,'');
@@ -518,6 +517,10 @@ function recorte_text(str='', cant = 10) {
   }
 }
 
+// to miniscula
+function convert_minuscula(e) { e.value = e.value.toLowerCase(); }
+
+function to_mayus(e) { e.value = e.value.toUpperCase(); }
 //capitalize all words of a string. 
 function capitalizeWords(str) {
   var string = "";

@@ -84,17 +84,18 @@ class Persona
 
 	//Implementar un método para listar los registros
 	public function listarp()	{
-		$sql = "SELECT p.*, ct6.descripcion as tipo_doc from persona p 
+		$sql = "SELECT p.*, ct6.descripcion as tipo_doc 
+		from persona p 
 		inner join catalogo6 ct6 on p.tipo_documento=ct6.codigo 
 		where p.tipo_persona='PROVEEDOR' order by nombres, razon_social asc";
 		return ejecutarConsulta($sql);
 	}
 
 	public function listarc()	{
-		$sql = "SELECT p.idpersona, p.tipo_persona, p.nombres, p.apellidos, p.tipo_documento, p.numero_documento, p.razon_social, 
-		p.nombre_comercial, p.domicilio_fiscal, p.departamento, p.ciudad, p.distrito, p.telefono1, p.telefono2, p.email, p.estado, 
-		ct6.codigo, ct6.descripcion, ct6.abrev
-		from persona p inner join catalogo6 ct6 on p.tipo_documento = ct6.codigo 
+		$sql = "SELECT p.*, 
+		ct6.codigo, ct6.descripcion as tipo_doc, ct6.abrev
+		from persona p 
+		inner join catalogo6 ct6 on p.tipo_documento = ct6.codigo 
 		where p.tipo_persona='CLIENTE';";
 		return ejecutarConsulta($sql);
 	}
@@ -144,8 +145,8 @@ class Persona
 	}
 
 	//Busca por numero de cliente el documento 
-	public function validarProveedor($numdocumento)	{
-		$sql = "SELECT numero_documento from persona where tipo_persona='PROVEEDOR' and numero_documento='$numdocumento'";
+	public function validarProveedor($numdocumento, $tipo_persona)	{
+		$sql = "SELECT numero_documento from persona where tipo_persona='$tipo_persona' and numero_documento='$numdocumento'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 

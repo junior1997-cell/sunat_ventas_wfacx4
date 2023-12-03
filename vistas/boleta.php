@@ -430,6 +430,7 @@ if (!isset($_SESSION["nombre"])) {
     </div>
     <!-- /.content-wrapper -->
     <!--Fin-Contenido-->
+
     <!-- Modal -->
     <div class="modal fade" id="myModalCli" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="width: 100% !important;">
@@ -463,6 +464,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Fin modal -->
+
     <!-- Modal   SELECCION DE PRODUCTO O SERVICIO -->
     <div class="modal fade" id="myModalnuevoitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" role="Documento">
       <div class="modal-dialog" style="width: 50% !important;">
@@ -739,30 +741,21 @@ if (!isset($_SESSION["nombre"])) {
 
     <!-- Modal VISTA PREVIA IMPRESION -->
     <div class="modal fade" id="modalPreview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" style="width: 100% !important;">
+      <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable" >
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">SELECCIONE EL FORMATO DE IMPRESIÓN</h4>
+            <h4 class="modal-title">FORMATO DE IMPRESIÓN</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="text-center">
-            <a onclick="preticket()">
-              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <img src="../files/vistaprevia/ticket.jpg">
-              </div>
-            </a>
-            <a onclick="prea42copias()">
-              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <img src="../files/vistaprevia/a42copias.jpg">
-              </div>
-            </a>
-            <a onclick="prea4completo()">
-              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <img src="../files/vistaprevia/a4completo.jpg">
-              </div>
-            </a>
-            <img src="../files/vistaprevia/hoja.jpg"> RECUERDE QUE PUEDE ENVIAR LOS COMPROBANTES POR CORREO. EVITE
-            IMPRIMIR.
+          <div class="modal-body">
+            <div class="row">              
+              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 cursor-pointer" onclick="preticket()">  <img src="../files/vistaprevia/ticket.jpg" width="100px"> </div>              
+              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 cursor-pointer" onclick="prea42copias()"> <img src="../files/vistaprevia/a42copias.jpg" width="100px">  </div>              
+              <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 cursor-pointer" onclick="prea4completo()">  <img src="../files/vistaprevia/a4completo.jpg" width="100px"> </div> 
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <img src="../files/vistaprevia/hoja.jpg" width="50px"> RECUERDE QUE PUEDE ENVIAR LOS COMPROBANTES POR CORREO. EVITE  IMPRIMIR.
+              </div>              
+            </div>           
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -772,7 +765,7 @@ if (!isset($_SESSION["nombre"])) {
     </div>
     <!-- Fin modal -->
 
-    <!-- Modal a4-->
+    <!-- MODAL - PDF Boleta A4 -->
     <div class="modal fade text-left" id="modalPreview2" tabindex="-1" role="dialog" aria-labelledby="modalPreview2" aria-hidden="true">
       <div class="modal-dialog modal-md" style="max-width: 700px !important;" >
         <div class="modal-content">
@@ -818,7 +811,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- MODAL - AGREGAR CLIENTE -->
     <div class="modal fade" id="ModalNcliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="width: 100% !important;">
         <div class="modal-content">
@@ -951,7 +944,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
 
-    <!-- Fin modal -->
+    <!-- MODAL - XML DE BOLETA -->
     <div class="modal fade text-left" id="modalPreviewXml" tabindex="-1" role="dialog" aria-labelledby="modalPreviewXml" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
@@ -977,7 +970,8 @@ if (!isset($_SESSION["nombre"])) {
         </div>
       </div>
     </div>
-
+    
+    <!-- MODAL - CDR DE BOLETA -->
     <div class="modal fade text-left" id="modalPreviewCdr" tabindex="-1" role="dialog" aria-labelledby="modalPreviewCdr" aria-hidden="true">
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -1004,7 +998,7 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
 
-    <!-- Modal  nuevo articulo -->
+    <!-- MODAL - AGREGAR ARTICULO -->
     <div class="modal fade text-left" id="modalnuevoarticulo" tabindex="-1" role="dialog" aria-labelledby="modalnuevoarticulo" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">

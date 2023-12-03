@@ -27,6 +27,8 @@
         <link href="../public/css/html5tooltips.css" rel="stylesheet">
         <link href="../public/css/html5tooltips.animation.css" rel="stylesheet">
 
+        <link rel="stylesheet" href="../public/css/toastr.css">
+
         <link rel="stylesheet" href="../public/css/autobusqueda.css">
         <link href="../assets/css/style_new.css" rel="stylesheet">
 
@@ -389,15 +391,12 @@
                         </div>
 
                         <div class="col-sm-6 mb-2 doc_dni">
-                          <label for="numero_documento" class="label-data">Nro (Presione Enter):</label>
-                          <!-- <input type="text" class="form-control" name="numero_documento" id="numero_documento"
-                          placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)"
-                          onchange="agregarClientexDocCha();"> -->
-
-                          <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)">
-
-                          <!-- <div id="suggestions"></div> -->
-                          <!-- <input hidden type="text" name="numero_documento2" id="numero_documento2" value="-"> -->
+                          <label for="numero_documento" class="label-data">Nro (Presione Enter):</label>                          
+                          <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)">
+                            <button class="btn btn-primary btn-search-sr" type="button"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar Sunat/Recniec" onclick="agregarClientexDoc(event);"><i class="fas fa-search"></i></button>
+                          </div>
+                          <!-- <div id="suggestions"></div> -->                          
                         </div>
 
                         <div class="col-sm-6 mb-2 doc_ruc">
@@ -1175,6 +1174,7 @@
         <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
         <script type="text/javascript" src="../assets/js/funcion_general.js"></script>
+        <script type="text/javascript" src="../assets/js/funcion_crud.js"></script>
         <script type="text/javascript" src="scripts/pos.js"></script>
         <script src="../public/js/html5tooltips.js"></script>
         <img src="" alt="">

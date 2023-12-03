@@ -393,19 +393,19 @@ function crud_eliminar_papelera(url_papelera, url_eliminar, id_tabla, title, men
 
 /*  ══════════════════════════════════════════ - A L E R T A S   S w e e t A l e r t 2 - ══════════════════════════════════════════ */
 
-function sw_cancelar(title='Cancelado!', txt = "Acción cancelada.", timer = 3000) {
+function sw_cancelar(title='Cancelado!', txt = "Acción cancelada.", timer = 7000) {
   Swal.fire({ title: title, html: txt, timer: timer, icon: "info", });
 }
 
-function sw_warning(title='OJO!', txt = "Alerta antes de avanzar.", timer = 3000) {
+function sw_warning(title='OJO!', txt = "Alerta antes de avanzar.", timer = 7000) {
   Swal.fire({ title: title, html: txt, timer: timer, icon: "warning", });
 }
 
-function sw_error(title='Error!', txt = "Acción con error.", timer = 3000) {
+function sw_error(title='Error!', txt = "Acción con error.", timer = 7000) {
   Swal.fire({ title: title, html: txt, timer: timer, icon: "error", });
 }
 
-function sw_success(title='Exito!', txt = "Acción ejecutada con éxito", timer = 3000) {
+function sw_success(title='Exito!', txt = "Acción ejecutada con éxito", timer = 7000) {
   Swal.fire({ title: title, html: txt, timer: timer, icon: "success", });
 }
 
