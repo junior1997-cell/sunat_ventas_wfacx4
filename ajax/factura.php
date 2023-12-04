@@ -1192,17 +1192,9 @@ switch ($_GET["op"]) {
     $pathRpta = $rutarpta;
 
     // Verificar si los paths son válidos
-    if (is_dir($path)) {
-      $files = array_diff(scandir($path), array('.', '..'));
-    }
-
-    if (is_dir($pathFirma)) {
-      $filesFirma = array_diff(scandir($pathFirma), array('.', '..'));
-    }
-
-    if (is_dir($pathRpta)) {
-      $files2 = array_diff(scandir($pathRpta), array('.', '..'));
-    }
+    if (is_dir($path)) { $files = array_diff(scandir($path), array('.', '..')); }
+    if (is_dir($pathFirma)) { $filesFirma = array_diff(scandir($pathFirma), array('.', '..')); }
+    if (is_dir($pathRpta)) { $files2 = array_diff(scandir($pathRpta), array('.', '..')); }
 
 
     // $path  = $rutaenvio;
@@ -1223,11 +1215,7 @@ switch ($_GET["op"]) {
     $urlC = '../reportes/exFacturaCompleto.php?id=';
 
     while ($reg = $rspta->fetch_object()) {
-      if ($reg->tipo_documento_07 == 'Ticket') {
-        $url = '../reportes/exTicketFactura.php?id=';
-      } else {
-        $url = '../reportes/exFactura.php?id=';
-      }
+      if ($reg->tipo_documento_07 == 'Ticket') { $url = '../reportes/exTicketFactura.php?id='; } else { $url = '../reportes/exFactura.php?id=';  }
       //==============Agregar====================================================
       $archivo = $reg->numero_ruc . "-" . $reg->tipo_documento_07 . "-" . $reg->numeracion_08;
       $archivo2 = "R" . $reg->numero_ruc . "-" . $reg->tipo_documento_07 . "-" . $reg->numeracion_08;
@@ -1276,7 +1264,6 @@ switch ($_GET["op"]) {
         $send = 'none';
       }
 
-
       if ($reg->estado == '3') {
         $stt = 'disabled';
         $sunat = '';
@@ -1284,45 +1271,33 @@ switch ($_GET["op"]) {
 
       if ($reg->estado == '0') {
         $stt = 'none';
-
         $sunat = '';
       }
 
       $estadoenvio = '1';
 
-
       //=====================================================================================
       //$client=substr($reg->cliente,0,10);//oficial
-      // Ajustar el nombre del artículo
-      // Truncar nombre de artículo si es demasiado largo
-      $nombre_articulo_mostrado = (strlen($reg->nombre_articulo) > 10)
-        ? substr($reg->nombre_articulo, 0, 10) . '...'
-        : $reg->nombre_articulo;
+      // Ajustar el nombre del artículo Truncar nombre de artículo si es demasiado largo
+      $nombre_articulo_mostrado = (strlen($reg->nombre_articulo) > 10) ? substr($reg->nombre_articulo, 0, 10) . '...' : $reg->nombre_articulo;
 
       // Truncar nombre de cliente si es demasiado largo
-      $nombre_cliente_mostrado = (strlen($reg->cliente) > 10)
-        ? substr($reg->cliente, 0, 10) . '...'
-        : $reg->cliente;
-
-
+      $nombre_cliente_mostrado = (strlen($reg->cliente) > 10) ? substr($reg->cliente, 0, 10) . '...' : $reg->cliente;
 
       $data[] = array(
-        "0" => '
-                <div class="btn-group mb-1">
-                <div class="dropdown">
-                    <!-- Modifica el estilo del botón aquí con `justify-content` y `align-items` -->
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" style="justify-content: center; align-items: center;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" onclick="preticket2(' . $reg->idfactura . ')">Formato Ticket</a>
-                        <a class="dropdown-item" onclick="prea4completo2(' . $reg->idfactura . ')">Formato A4</a>
-                        <a class="dropdown-item" onclick="baja(' . $reg->idfactura . ')">Dar de baja</a>
-                        <a class="dropdown-item" onclick="enviarcorreo(' . $reg->idfactura . ')">Enviar por correo
-                        </a>
-                    </div>
-                </div>
+        "0" => '<div class="btn-group mb-1">
+          <div class="dropdown">
+            <!-- Modifica el estilo del botón aquí con `justify-content` y `align-items` -->
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" style="justify-content: center; align-items: center;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-cog"></i> </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" onclick="preticket2(' . $reg->idfactura . ')">Formato Ticket</a>
+              <a class="dropdown-item" onclick="prea4completo2(' . $reg->idfactura . ')">Formato A4</a>
+              <a class="dropdown-item" onclick="baja(' . $reg->idfactura . ')">Dar de baja</a>
+              <a class="dropdown-item" onclick="enviarcorreo(' . $reg->idfactura . ')">Enviar por correo
+              </a>
             </div>
-            ',
+          </div>
+        </div>',
 
         "1" => $reg->fecha,
         "2" => '<span title="' . $reg->cliente . '">' . $nombre_cliente_mostrado . '</span>',

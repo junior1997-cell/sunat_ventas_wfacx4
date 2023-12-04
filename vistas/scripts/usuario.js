@@ -5,25 +5,12 @@ function init() {
 	mostrarform(false);
 	listar();
 
-	$("#formulario").on("submit", function (e) {
-		guardaryeditar(e);
-	})
-
+	$("#formulario").on("submit", function (e) {guardaryeditar(e);})
 	$("#imagenmuestra").hide();
 
-	$.post("../ajax/usuario.php?op=permisos&id=", function (r) {
-		$("#permisos").html(r);
-	});
-
-	$.post("../ajax/usuario.php?op=seriesnuevo&id=", function (r) {
-		$("#series").html(r);
-	});
-
-	$.post("../ajax/usuario.php?op=permisosEmpresaTodos", function (r) {
-		$("#empresas").html(r);
-	});
-
-
+	$.post("../ajax/usuario.php?op=permisos&id=", function (r) {	$("#permisos").html(r);	});
+	$.post("../ajax/usuario.php?op=seriesnuevo&id=", function (r) {	$("#series").html(r);	});
+	$.post("../ajax/usuario.php?op=permisosEmpresaTodos", function (r) {	$("#empresas").html(r);	});
 }
 
 //Función limpiar
@@ -58,21 +45,13 @@ function mostrarform(flag) {
 		if (!imagenMuestra.src || imagenMuestra.src == "") {
 			imagenMuestra.src = '../assets/images/faces/9.jpg';
 		}
-	}
-	else {
+	}	else {
 		$("#listadoregistros").show();
 		$("#formularioregistros").hide();
 		$("#btnagregar").show();
 
-		$.post("../ajax/usuario.php?op=permisos&id=", function (r) {
-			$("#permisos").html(r);
-		});
-
-		$.post("../ajax/usuario.php?op=series&id=", function (r) {
-			$("#series").html(r);
-		});
-
-
+		$.post("../ajax/usuario.php?op=permisos&id=", function (r) { $("#permisos").html(r); });
+		$.post("../ajax/usuario.php?op=series&id=", function (r) { $("#series").html(r); });
 	}
 }
 
@@ -84,38 +63,30 @@ function cancelarform() {
 
 //Función Listar
 function listar() {
-	tabla = $('#tbllistado').dataTable(
-		{
-			"aProcessing": true,//Activamos el procesamiento del datatables
-			"aServerSide": true,//Paginación y filtrado realizados por el servidor
-			dom: 'Bfrtip',//Definimos los elementos del control de tabla
-			buttons: [
-
-			],
-			"ajax":
-			{
-				url: '../ajax/usuario.php?op=listar',
-				type: "get",
-				dataType: "json",
-				error: function (e) {
-					console.log(e.responseText);
-				}
-			},
-			"bDestroy": true,
-			"iDisplayLength": 5,//Paginación
-			"order": [[0, "desc"]]//Ordenar (columna,orden)
-		}).DataTable();
+	tabla = $('#tbllistado').dataTable({
+		"aProcessing": true,//Activamos el procesamiento del datatables
+		"aServerSide": true,//Paginación y filtrado realizados por el servidor
+		dom: 'Bfrtip',//Definimos los elementos del control de tabla
+		buttons: [	],
+		"ajax":	{
+			url: '../ajax/usuario.php?op=listar',
+			type: "get",
+			dataType: "json",
+			error: function (e) {
+				console.log(e.responseText);
+			}
+		},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+		"order": [[0, "desc"]]//Ordenar (columna,orden)
+	}).DataTable();
 }
 //Función para guardar o editar
 
 function guardaryeditar(e) {
 	e.preventDefault(); //No se activará la acción predeterminada del evento
 	if (modoDemo) {
-		Swal.fire({
-			icon: 'warning',
-			title: 'Modo demo',
-			text: 'No puedes editar o guardar en modo demo',
-		});
+		sw_warning('Modo demo', 'No puedes editar o guardar en modo demo');		
 		return;
 	}
 

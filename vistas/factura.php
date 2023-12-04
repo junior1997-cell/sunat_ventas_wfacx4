@@ -967,9 +967,10 @@ if (!isset($_SESSION["nombre"])) {
 
     <!-- Modal -->
     <div class="modal fade" id="modalPreviewticket" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" style="width: 24% !important;">
+      <div class="modal-dialog modal-md" style="width: 100% !important;">
         <div class="modal-content">
           <div class="modal-header">
+            <h5 class="modal-title" >Ticket de Factura</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <iframe name="modalComticket" id="modalComticket" border="0" frameborder="0" width="100%" style="height: 800px;" marginwidth="1" src="">

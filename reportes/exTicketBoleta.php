@@ -3,21 +3,18 @@ require '../vendor/autoload.php';
 use Luecano\NumeroALetras\NumeroALetras;
 //Activamos el almacenamiento en el buffer
 ob_start();
-if (strlen(session_id()) < 1)
-  session_start();
+if (strlen(session_id()) < 1){session_start();} 
 
 if (!isset($_SESSION["nombre"])) {
   echo 'Debe ingresar al sistema correctamente para visualizar el reporte';
 } else {
   if ($_SESSION['Ventas'] == 1) {
-?>
+  ?>
     <html>
 
     <head>
-
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
       <link href="../public/css/ticket.css" rel="stylesheet" type="text/css">
-
     </head>
 
     <body onload="window.print();">
@@ -45,12 +42,9 @@ if (!isset($_SESSION["nombre"])) {
       $logo = "../files\logo\\" . $datose->logo;
 
       //$logo = $datose->rutalogo.$datose->logo;
-
-      $ext_logo = substr($datose->logo, strpos($datose->logo, '.'), -4);
-
+      // $ext_logo = substr($datose->logo, strpos($datose->logo, '.'), -4);
 
       if ($reg->nombretrib == "IGV") {
-
         $nombretigv = $reg->subtotal;
         $nombretexo = "0.00";
       } else {
@@ -58,139 +52,44 @@ if (!isset($_SESSION["nombre"])) {
         $nombretexo = $reg->subtotal;
       }
 
-
       ?>
       <!-- <div class="zona_impresion"> -->
       <!-- codigo imprimir -->
+      
       <br>
+      <!-- Detalle de empresa -->
       <table border="0" align="center" width="230px">
         <tbody>
-          <tr>
-            <td align="center">
-              <img src="<?php echo $logo; ?>" width="100">
-            </td>
-          </tr>
-          <tr align="center">
-            <td style="font-size: 14px">
-              .::<strong>
-                <?php echo utf8_decode(htmlspecialchars_decode($datose->nombre_comercial)) ?>
-              </strong>::.
-            </td>
-          </tr>
-
-          <tr align="center">
-            <td>
-              <?php echo $datose->textolibre; ?>
-            </td>
-          </tr>
-
-          <tr align="center">
-            <td>
-              <strong> R.U.C.
-                <?php echo $datose->numero_ruc; ?>
-              </strong>
-            </td>
-          </tr>
-
-          <tr align="center">
-            <td> 
-              <?php echo utf8_decode($datose->domicilio_fiscal) . ' <br> ' . $datose->telefono1 . "-" . $datose->telefono2; ?>
-            </td>
-          </tr>
-
-          <tr align="center">
-            <td>
-              <?php echo utf8_decode(strtolower($datose->correo)); ?>
-            </td>
-          </tr>
-
-          <tr align="center">
-            <td>
-              <?php echo utf8_decode(strtolower($datose->web)); ?>
-            </td>
-          </tr>
-
-
-
-          <tr>
-            <td style="text-align: center;">-------------------------------------------------------</td>
-          </tr>
-
-          <tr>
-            <td align="center">
-              <strong> BOLETA DE VENTA ELECTRÓNICA <br>
-                <?php echo $reg->numeracion_07; ?>
-              </strong>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="text-align: center;">-------------------------------------------------------</td>
-          </tr>
+          <tr><td align="center"><img src="<?php echo $logo; ?>" width="<?php echo ($datose->logo_c_r == 0 ? 150 : 100);?>"></td></tr>
+          <tr align="center"><td style="font-size: 14px">.::<strong> <?php echo utf8_decode(htmlspecialchars_decode($datose->nombre_comercial)) ?> </strong>::.</td></tr>
+          <tr align="center"><td style="font-size: 10px"> <?php echo $datose->nombre_razon_social; ?> </td></tr>
+          <tr align="center"><td style="font-size: 14px"> <strong> R.U.C. <?php echo $datose->numero_ruc; ?> </strong> </td></tr>
+          <tr align="center"><td style="font-size: 10px"> <?php echo utf8_decode($datose->domicilio_fiscal) . ' <br> ' . $datose->telefono1 . "-" . $datose->telefono2; ?> </td></tr>
+          <tr align="center"><td style="font-size: 10px"> <?php echo utf8_decode(strtolower($datose->correo)); ?> </td></tr>
+          <tr align="center"><td style="font-size: 10px"> <?php echo utf8_decode(strtolower($datose->web)); ?> </td></tr>
+          <tr><td style="text-align: center;">--------------------------------------------------------</td></tr>
+          <tr><td align="center"> <strong> BOLETA DE VENTA ELECTRÓNICA </strong> <br> <b style="font-size: 14px"><?php echo $reg->numeracion_07; ?> </b></td></tr>
+          <tr><td style="text-align: center;">--------------------------------------------------------</td></tr>
+        </tbody>
+      </table>
+      <!-- Datos cliente -->
+      <table border="0" align="center" width="230px">
+        <tbody>
+          <tr align="left"><td><strong>Cliente:</strong> <?php echo $reg->cliente; ?> </td> </tr>
+          <tr align="left"><td><strong>Documento:</strong> DNI - <?php echo $reg->numero_documento; ?></td> </tr>
+          <tr align="left"><td><strong>Dirección:</strong> <?php echo $reg->direccion; ?></td></tr>
+          <tr align="left"><td><strong>Fecha de emisión:</strong> <?php echo $reg->fecha . " / " . $reg->hora; ?> </td></tr>          
+          <tr align="left"><td><strong>Moneda:</strong> SOLES</td> </tr>
+          <tr align="left"><td><strong>Atención:</strong> <?php echo $reg->vendedorsitio; ?> </td></tr>
+          <tr><td><strong>Tipo de pago:</strong> <?php echo $reg->tipopago; ?> </td></tr>
+          <tr><td><strong>Nro referencia:</strong> <?php echo $reg->nroreferencia; ?> </td></tr>
+          <tr><td><strong>Observación:</strong> <?php echo $reg->descripcion_leyenda_26_2; ?> </td></tr>
         </tbody>
       </table>
 
-
-      <table border="0" align="center" width="230px">
-        <tbody>
-          <tr align="left">
-            <td><strong>Cliente:</strong>
-              <?php echo $reg->cliente; ?>
-            </td>
-          </tr>
-
-          <tr align="left">
-            <td><strong>Documento:</strong> DNI -
-              <?php echo $reg->numero_documento; ?>
-            </td>
-          </tr>
-
-          <tr align="left">
-            <td><strong>Dirección:</strong>
-              <?php echo $reg->direccion; ?>
-            </td>
-          </tr>
-
-          <tr align="left">
-            <td><strong>Fecha de emisión:</strong>
-              <?php echo $reg->fecha . " / " . $reg->hora; ?>
-            </td>
-          </tr>
-
-          <!--  <tr>  <td ><strong>Fecha de Vcto:</strong> <?php echo "."; ?></td> </tr> -->
-
-          <tr align="left">
-            <td><strong>Moneda:</strong>    SOLES</td>
-          </tr>
-
-          <tr align="left">
-            <td><strong>Atención:</strong>
-              <?php echo $reg->vendedorsitio; ?>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>Tipo de pago:</strong>
-              <?php echo $reg->tipopago; ?>
-            </td>
-          </tr>
-
-
-          <tr>
-            <td><strong>Nro referencia:</strong>
-              <?php echo $reg->nroreferencia; ?>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>Observación:</strong>
-              <?php echo $reg->descripcion_leyenda_26_2; ?>
-            </td>
-          </tr>
-        </tbody>
-      </table>
       <br>
-      <table border="0" align="center" width="220px" style="font-size: 4px">
+      <!-- Datos de como pago -->
+      <table border="0" align="center" width="230px" style="font-size: 4px">
 
         <?php
         if ($reg->tipopago == "Contado") {
@@ -234,20 +133,10 @@ if (!isset($_SESSION["nombre"])) {
       </table>
 
       <!-- Mostramos los detalles de la venta en el documento HTML -->
-      <table border="0" align="center" width="220px" style="font-size: 12px">
-        <tr>
-          <td colspan="5">-----------------------------------------------------</td>
-        </tr>
-        <tr>
-          <td>Cant.</td>
-          <td>Producto</td>
-          <td>P.u.</td>
-          <td>Importe</td>
-        </tr>
-
-        <tr>
-          <td colspan="5">-----------------------------------------------------</td>
-        </tr>
+      <table border="0" align="center" width="230px" style="font-size: 12px">
+        <tr><td colspan="5">--------------------------------------------------------</td> </tr>
+        <tr><td>Cant.</td> <td>Producto</td> <td>P.u.</td> <td>Importe</td></tr>
+        <tr><td colspan="5">--------------------------------------------------------</td></tr>
 
         <?php
 
@@ -313,97 +202,46 @@ if (!isset($_SESSION["nombre"])) {
           echo "<td>" . strtolower($regd->articulo) . "</td>";
           echo '<td style="text-align: right;">' . number_format($pv, 2) . "</td>";
           echo '<td style="text-align: right;">' . $subt . "</td>";
-
           echo "</tr>";
           $cantidad += $regd->cantidad_item_12;
         }
         ?>
+      </table>      
+      
+      <!-- Division -->
+      <table border='0'  align='center' width='230px' style='font-size: 12px' >
+        <tr><td>--------------------------------------------------------</td></tr>
+        <tr></tr>
       </table>
-      <?php
-
-      echo "<table border='0'  align='center' width='220px' style='font-size: 12px' >
-    <tr><td>-----------------------------------------------------</td></tr>";
-      echo "<tr></tr></table>";
-      ?>
-      <table border='0' width='220px' style='font-size: 12px' align="center">
-        <tr>
-          <td colspan='5'><strong>Descuento </strong></td>
-          <td>:</td>
-          <td style="text-align: right;"> <?php echo $reg->tdescuento ?> </td>
-        </tr>
-        <tr>
-          <td colspan='5'><strong>Op. Gravada </strong></td>
-          <td>:</td>
-          <td style="text-align: right;"> <?php echo $nombretigv; ?> </td>
-        </tr>
-        <tr>
-          <td colspan='5'><strong>Op. Exonerado </strong></td>
-          <td>:</td>
-          <td style="text-align: right;"> <?php echo $nombretexo; ?> </td>
-        </tr>
-        <tr>
-          <td colspan='5'><strong>Op. Inafecto </strong></td>
-          <td>:</td>
-          <td style="text-align: right;">0.00</td>
-        </tr>
-        <tr>
-          <td colspan='5'><strong>ICBPER</strong></td>
-          <td>:</td>
-          <td style="text-align: right;"> <?php echo $reg->icbper ?> </td>
-        </tr>
-        <tr>
-          <td colspan='5'><strong>I.G.V.</strong></td>
-          <td>:</td>
-          <td style="text-align: right;"> <?php echo $reg->igv ?> </td>
-        </tr>
-        <tr>
-          <td colspan='5'><strong>Imp. Pagado: </strong></td>
-          <td>:</td>
-          <td style="text-align: right;"> <?php echo $reg->ipagado ?> </td>
-        </tr>
-        <tr>
-          <td colspan='5'><strong>Vuelto: </strong></td>
-          <td>:</td>
-          <td style="text-align: right;"> <?php echo $reg->saldo ?> </td>
-        </tr>
-
+      
+      <!-- Detalles de totales sunat -->
+      <table border='0'  align="center" width='230px' style='font-size: 12px'>
+        <tr><td colspan='5'><strong>Descuento </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->tdescuento ?> </td></tr>
+        <tr><td colspan='5'><strong>Op. Gravada </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $nombretigv; ?> </td></tr>
+        <tr><td colspan='5'><strong>Op. Exonerado </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $nombretexo; ?> </td></tr>
+        <tr><td colspan='5'><strong>Op. Inafecto </strong></td> <td>:</td> <td style="text-align: right;">0.00</td></tr>
+        <tr><td colspan='5'><strong>ICBPER</strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->icbper ?> </td></tr>
+        <tr><td colspan='5'><strong>I.G.V.</strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->igv ?> </td></tr>
+        <tr><td colspan='5'><strong>Imp. Pagado: </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->ipagado ?> </td></tr>
+        <tr><td colspan='5'><strong>Vuelto: </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->saldo ?> </td></tr>
         <!--<tr><td colspan='5'><strong>I.G.V. 18.00 </strong></td><td >:</td><td><?php echo $reg->sumatoria_igv_18_1; ?></td></tr>-->
       </table>
 
+      <?php $num_total = $numero_a_letra->toInvoice( $reg->Itotal, 2, " SOLES" ); ?>
 
       <!-- Mostramos los totales de la venta en el documento HTML -->
-
-      <table border='0' width='220px' style='font-size: 12px' align="center">
-        <tr>
-          <td><strong>Importe a pagar </strong></td>
-          <td>:</td>
-          <td style="text-align: right;"><strong> <?php echo $reg->Itotal ?> </strong></td>
-        </tr><br>
-
-        <!--<tr> <td colspan="5">&nbsp;</td>  </tr>-->
-
-        <!--<tr>  <td colspan="5" align="center"><?php echo utf8_decode($datose->nombre_comercial) ?></td>  </tr>-->
-        <!--<tr>  <td colspan="5" align="center">::.GRACIAS POR SU COMPRA.::</td>  </tr>-->
-
-        <?php
-
-        // require_once "Letras.php";
-        // $V = new EnLetras();
-        // $con_letra = strtoupper($V->ValorEnLetras($reg->Itotal, "NUEVOS SOLES"));
-        $num_total = $numero_a_letra->toInvoice( $reg->Itotal, 2, " SOLES" );
-
-        echo "<table border='0'  align='center' width='220px' style='font-size: 12px' >
-          <tr><td>-----------------------------------------------------</td></tr>";
-        echo "<tr><td></br><strong>Son: </strong>" . $num_total . "</td></tr></table>";
-        ?>
-
+      <table border='0' align="center" width='230px' style='font-size: 12px' >
+        <tr><td><strong>Importe a pagar </strong></td> <td>:</td> <td style="text-align: right;"><strong> <?php echo $reg->Itotal ?> </strong></td></tr>        
+        <tr><td colspan="3">--------------------------------------------------------</td></tr>
+        <tr><td colspan="3"><strong>Son: </strong> <?php echo $num_total; ?> </td></tr>
+        <tr><td colspan="3">--------------------------------------------------------</td></tr>
       </table>
+
       <br>
+
       <div style="text-align: center;">
         <img src=<?php echo $logoQr; ?> width="90" height="90"><br>
-        <label>
-          <?php echo $reg->hashc;; ?>
-        </label>
+        <label>  <?php echo $reg->hashc; ?>  </label>
         <br>
         <br>
         <label>Representación impresa de la Boleta de<br>Venta Electrónica puede ser consultada<br>en
@@ -412,14 +250,12 @@ if (!isset($_SESSION["nombre"])) {
         <br>
         <br>
         <label><strong>::.GRACIAS POR SU COMPRA.::</strong></label>
-
       </div>
       <p>&nbsp;</p>
-
     </body>
 
     </html>
-<?php
+  <?php
   } else {
     echo 'No tiene permiso para visualizar el reporte';
   }

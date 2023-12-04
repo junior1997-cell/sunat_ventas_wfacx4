@@ -990,25 +990,18 @@ function modificarSubtotales(modificar) {
         // +IGV
         //inpPVU.value=inpP.value / 1.18; //Obtener el valor unitario
         inpPVU.value = inpP.value / ($iva / 100 + 1); //Obtener el valor unitario
-        document.getElementsByName("valor_unitario[]")[i].value = redondeo(
-          inpPVU.value,
-          5
-        ); // Se asigan el valor al campo
-        dctO.value = dctO.value;
-        sumaDcto.value = sumaDcto.value;
-        inpNOI.value = inpNOI.value;
-        inpI.value = inpI.value;
-        inpS.value = inpC.value * (inpP.value / ($iva / 100 + 1)); //Calculo de subtotal excluyendo el igv
-        inD2.value = (inpC.value * inpP.value * dctO.value) / 100; //Calculo acumulado del descuento
+        document.getElementsByName("valor_unitario[]")[i].value = redondeo( inpPVU.value, 5 ); // Se asigan el valor al campo
+        dctO.value      = dctO.value;
+        sumaDcto.value  = sumaDcto.value;
+        inpNOI.value    = inpNOI.value;
+        inpI.value      = inpI.value;
+        inpS.value      = inpC.value * (inpP.value / ($iva / 100 + 1)); //Calculo de subtotal excluyendo el igv
+        inD2.value      = (inpC.value * inpP.value * dctO.value) / 100; //Calculo acumulado del descuento
         //FOMULA IGV
-        inpI.value =
-          inpC.value * inpP.value -
-          (inpC.value * inpP.value) / ($iva / 100 + 1); //Calculo de IGV
-        inpT.value =
-          inpC.value * inpP.value -
-          (inpC.value * inpP.value * dctO.value) / 100; //Calculo del total
-        inpIitem = (inpPVU.value * $iva) / 100; // Calculo de igv del valor unitario
-        mtiMonto.value = 0.0; // Calculo de ICbper * cantidad (0.10 * 20)
+        inpI.value      = inpC.value * inpP.value - (inpC.value * inpP.value) / ($iva / 100 + 1); //Calculo de IGV
+        inpT.value      = inpC.value * inpP.value - (inpC.value * inpP.value * dctO.value) / 100; //Calculo del total
+        inpIitem        = (inpPVU.value * $iva) / 100; // Calculo de igv del valor unitario
+        mtiMonto.value  = 0.0; // Calculo de ICbper * cantidad (0.10 * 20)
 
         // if (tipoumm == "1") {
         //   inpCantiR.value =
@@ -1023,30 +1016,21 @@ function modificarSubtotales(modificar) {
         // EXONERADA
 
         //document.getElementsByName("precio_unitario[]")[i].value = redondeo(inpVuni.value,5);
-        document.getElementsByName("precio_unitario[]")[i].value = redondeo(
-          inpP.value,
-          5
-        );
-        inpNOI.value = inpNOI.value;
-        inpI.value = inpI.value;
-        dctO.value = dctO.value;
-        sumaDcto.value = sumaDcto.value;
-        inpS.value = inpC.value * inpP.value;
-        inD2.value = (inpC.value * inpVuni.value * dctO.value) / 100; //Calculo acumulado del descuento
+        document.getElementsByName("precio_unitario[]")[i].value = redondeo( inpP.value, 5 );
+        inpNOI.value    = inpNOI.value;
+        inpI.value      = inpI.value;
+        dctO.value      = dctO.value;
+        sumaDcto.value  = sumaDcto.value;
+        inpS.value      = inpC.value * inpP.value;
+        inD2.value      = (inpC.value * inpVuni.value * dctO.value) / 100; //Calculo acumulado del descuento
         //FOMULA IGV
-        inpI.value = 0.0;
-        inpT.value =
-          inpC.value * inpP.value -
-          (inpC.value * inpVuni.value * dctO.value) / 100; //Calculo del total;
-        inpPVU.value =
-          document.getElementsByName("precio_unitario[]")[i].value;
-        //inpIitem = 0.00;
-        inpIitem = inpP.value;
-        mtiMonto.value = mticbperuNN.value * inpC.value; // Calculo de ICbper * cantidad (0.10 * 20)
-        document.getElementsByName("valor_unitario[]")[i].value = redondeo(
-          inpP.value,
-          5
-        ); // Se asigan el valor al campo
+        inpI.value      = 0.0;
+        inpT.value      = inpC.value * inpP.value - (inpC.value * inpVuni.value * dctO.value) / 100; //Calculo del total;
+        inpPVU.value    =  document.getElementsByName("precio_unitario[]")[i].value;
+        //inpIitem      = 0.00;
+        inpIitem        = inpP.value;
+        mtiMonto.value  = mticbperuNN.value * inpC.value; // Calculo de ICbper * cantidad (0.10 * 20)
+        document.getElementsByName("valor_unitario[]")[i].value = redondeo( inpP.value, 5 ); // Se asigan el valor al campo
       }
 
       document.getElementsByName("subtotal")[i].innerHTML = redondeo( inpS.value, 2 );
@@ -1271,11 +1255,8 @@ function modificarSubtotales(modificar) {
       // } //Final de if
 
     } //Final de for
-
   }
-
   updateTotals();
-
 }
 
 
@@ -1286,9 +1267,7 @@ $('#container_datos').hide();
 
 $('#btn_datos').on('click', function (e) {
   e.preventDefault();
-
   $('#container_datos').slideToggle();
-
 });
 
 /* ---------------------------------------------------------------- */
@@ -1315,9 +1294,7 @@ $(".calculator-button").click(function () {
   currentInput.focus();
 });
 
-$(".calculator-input").click(function () {
-  currentInput = $(this);
-});
+$(".calculator-input").click(function () {currentInput = $(this); });
 
 /* ---------------------------------------------------------------- */
 //                       FUNCIONES TECLADO
@@ -1348,37 +1325,25 @@ $(".design").click(function () {
         currentInput.val(inputValue + buttonText);
       }
     }
-
     calcularPago();
   }
-
 });
 
 //Backspace
 $('#backspace').click(function () {
-
   if (currentInput) {
     var value = currentInput.val();
-    if (!(parseInt(parseFloat(value)) == 0 && value.length == 1)) {
-      currentInput.val(value.slice(0, value.length - 1));
-    }
-    if (value.length == 1 || value.length == 0) {
-      currentInput.val("0");
-    }
+    if (!(parseInt(parseFloat(value)) == 0 && value.length == 1)) { currentInput.val(value.slice(0, value.length - 1));  }
+    if (value.length == 1 || value.length == 0) { currentInput.val("0"); }
     calcularPago();
   }
-
 });
 
 // All Clear
 $("#allClear").click(function () {
   // $("#expression").val("0");
   // $("#result").val("0");
-  if (currentInput) {
-    currentInput.val("0");
-
-    calcularPago();
-  }
+  if (currentInput) { currentInput.val("0"); calcularPago(); }
 });
 
 /* ---------------------------------------------------------------- */
@@ -1387,141 +1352,58 @@ $("#allClear").click(function () {
 $('#btn_metodopago').click(function () {
 
   if ($('.items-order .card').length === 0) {
-    swal.fire({
-      title: "Error",
-      text: 'Debe agregar al menos un producto al pedido antes de continuar.',
-      icon: "error",
-      timer: 2000,
-      showConfirmButton: false
-    });
+    sw_error("Error",'Debe agregar al menos un producto al pedido antes de continuar.');   
     return;
   }
-
   var totalpedido = $('#totalpagar').val().replace(',', '');
-
   $('#p_pedido').val(totalpedido);
   $('#efectivo').val(parseFloat(totalpedido).toFixed(2));
 
   // Verificar que completaron datos
 
-  //HERE
-
   var d_tipocomprobante = $('#d_tipocomprobante').val();
 
-  if ($('#d_tipocomprobante').val() == null) {
-    swal.fire({
-      title: "Error",
-      text: 'Complete los datos antes de continuar.',
-      icon: "error",
-      timer: 2000,
-      showConfirmButton: false
-    });
-
+  if ($('#d_tipocomprobante').val() == null) {    
+    sw_error("Error", 'Complete los datos antes de continuar.');
     $('#btn_datos').focus();
-
     return;
-
   } else if (d_tipocomprobante == 0 || d_tipocomprobante == 2) {
-
     if ($('#tipo_doc_ide').val() == '') {
-
-      swal.fire({
-        title: "Error",
-        text: 'Complete el Tipo de Documento.',
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false
-      });
-
+      sw_error("Error",'Complete el Tipo de Documento.' );
       $('#btn_datos').focus();
       return;
-
     } else if ($('#numero_documento').val() == '' || $('#numero_documento').val() == '-') {
-
-      swal.fire({
-        title: "Error",
-        text: 'Complete el Número de Documento.',
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false
-      });
-
+      sw_error("Error", 'Complete el Número de Documento.');
       $('#btn_datos').focus();
       return;
-
     } else if ($('#razon_social').val() == '' || $('#razon_social').val() == '-') {
-
-      swal.fire({
-        title: "Error",
-        text: 'Complete los Nombres y Apellidos.',
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false
-      });
-
+      sw_error("Error", 'Complete los Nombres y Apellidos.');
       $('#btn_datos').focus();
       return;
-
     }
-
   } else if (d_tipocomprobante == 1) {
-
     if ($('#tipo_doc_ide').val() == '') {
-
-      swal.fire({
-        title: "Error",
-        text: 'Complete el Tipo de Documento.',
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false
-      });
-
+      sw_error("Error",'Complete el Tipo de Documento.'); 
       $('#btn_datos').focus();
       return;
-
     } else if ($('#numero_documento2').val() == '' || $('#numero_documento2').val() == '-') {
-
-      swal.fire({
-        title: "Error",
-        text: 'Complete el Número de Documento.',
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false
-      });
-
+      sw_error("Error",'Complete el Número de Documento.'); 
       $('#btn_datos').focus();
       return;
-
     } else if ($('#razon_social2').val() == '' || $('#razon_social2').val() == '-') {
-
-      swal.fire({
-        title: "Error",
-        text: 'Complete los Nombres y Apellidos.',
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false
-      });
-
+      sw_error("Error", 'Complete los Nombres y Apellidos.'); 
       $('#btn_datos').focus();
       return;
-
     }
-
   }
-
 
   $('#modal_metodopago').modal('show');
 
-  setTimeout(function () {
-    $('#efectivo').focus();
-  }, 500);
+  setTimeout(function () { $('#efectivo').focus(); }, 500);
 
   currentInput = $('#efectivo');
   calcularPago();
-
-
-
-})
+});
 
 
 /* ---------------------------------------------------------------- */
@@ -1687,15 +1569,9 @@ $("#d_tipocomprobante").change(function () {
   }
 
   focusI();
-
-
   modificarSubtotales();
-
-
   $('#serie').prop('disabled', true);
-
   obtenerSerie();
-
 });
 
 /* ---------------------------------------------------------------- */
@@ -1936,25 +1812,19 @@ function focusTdoc() {
 //                   FUNCION FOCUS (tipo_doc_ide)
 
 function focusI() {
-  var tipo = $("#tipo_doc_ide option:selected").val();
-
-  limpiarDatos();
+  var tipo = $("#tipo_doc_ide option:selected").val(); 
 
   if (tipo == "0") {
     $.post("../ajax/persona.php?op=mostrarClienteVarios", function (data, status) {
       data = JSON.parse(data);
-      $("#idcliente").val(data.idpersona);
+      $("#idcliente").val(1);      
       $("#numero_documento").val(data.numero_documento);
       $("#razon_social").val(data.razon_social);
       $("#domicilio_fiscal").val(data.domicilio_fiscal);
-
       $("#numero_documento").prop('readonly', true);
       $("#razon_social").prop('readonly', true);
       $("#domicilio_fiscal").prop('readonly', true);
     });
-
-    //document.getElementById('numero_documento').focus();
-
     $('.doc_dni').show();
     $('.doc_ruc').hide();
   }
@@ -1966,10 +1836,7 @@ function focusI() {
     $("#domicilio_fiscal").val("");
     document.getElementById("numero_documento").focus();
     document.getElementById("numero_documento").maxLength = 20;
-
-
     enabledTipoDoc();
-
     $('.doc_dni').show();
     $('.doc_ruc').hide();
   }
@@ -1980,7 +1847,6 @@ function focusI() {
     $("#domicilio_fiscal").val("");
     document.getElementById("numero_documento").focus();
     document.getElementById("numero_documento").maxLength = 15;
-
     enabledTipoDoc();
     $('.doc_dni').show();
     $('.doc_ruc').hide();
@@ -1992,7 +1858,6 @@ function focusI() {
     $("#domicilio_fiscal").val("");
     document.getElementById("numero_documento").focus();
     document.getElementById("numero_documento").maxLength = 15;
-
     enabledTipoDoc();
     $('.doc_dni').show();
     $('.doc_ruc').hide();
@@ -2000,16 +1865,10 @@ function focusI() {
 
   if (tipo == "A") {
     $("#numero_documento").val("");
-
     $("#razon_social").val("");
-
     $("#domicilio_fiscal").val("");
-
     document.getElementById("numero_documento").focus();
-
     document.getElementById("numero_documento").maxLength = 15;
-
-
     enabledTipoDoc();
     $('.doc_dni').show();
     $('.doc_ruc').hide();
@@ -2017,20 +1876,13 @@ function focusI() {
 
   if (tipo == "6") {
     $("#numero_documento").val("");
-
     $("#razon_social").val("");
-
     $("#domicilio_fiscal").val("");
-
     document.getElementById("numero_documento").focus();
-
     document.getElementById("numero_documento").maxLength = 11;
-
     $('.doc_dni').hide();
     $('.doc_ruc').show();
-
     enabledTipoDoc();
-
   }
 }
 
@@ -2048,91 +1900,103 @@ function enabledTipoDoc() {
 //             FUNCION agregarClientexDoc (numero_documento)
 
 function agregarClientexDoc(e) {
-  var dni = $("#numero_documento").val();
+  
 
   if (e.keyCode === 13 && !e.shiftKey) {
     e.preventDefault();
 
     $("#razon_social").val("");
     $("#domicilio_fiscal").val("");
-
-    $.post( "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni, function (data, status) {
-      data = JSON.parse(data);
-      if (data != null) { // ================================================================== SI EXISTE
-        $("#idcliente").val(data.idpersona);
-        $("#razon_social").val(data.nombres);
-        $("#domicilio_fiscal").val(data.domicilio_fiscal);
-        // document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
-        // document.getElementById("mensaje700").style.display = "none";
-        // document.getElementById("btnAgregarArt").focus();
-        $("#suggestions").fadeOut();
-        $("#suggestions2").fadeOut();
-        $("#suggestions3").fadeOut();
-      } else if ($("#tipo_doc_ide").val() == "1") { // ================================================================== SI ES DNI
-        
-        $("#razon_social").val("");
-        $("#domicilio_fiscal").val("");
-        var dni = $("#numero_documento").val();
-        //var url = '../ajax/consulta_reniec.php';
-        $.post( "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni, function (data, status) {
-          data = JSON.parse(data);
-          if ( data == null ) {
-            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
-          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
-            toastr_error('Error!!', data.error);
-          } else if (data != null) {
-            $("#idcliente").val("N");            
-            $("#razon_social").val(data.nombre);
-          } else {
-            alert(data);
-            document.getElementById("razon_social").focus();
-            $("#idcliente").val("N");
-          }
-        });
-        $("#suggestions").fadeOut();
-        $("#suggestions2").fadeOut();
-        $("#suggestions3").fadeOut();
-      } else if ($("#tipo_doc_ide").val() == "6") { // ================================================================== SI ES RUC
-        
-        $("#razon_social").val("");
-        $("#domicilio_fiscal").val("");
-        var dni = $("#numero_documento").val();
-        $.post( "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni, function (data, status) {
-          data = JSON.parse(data);
-          if ( data == null ) {
-            toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
-          } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
-            toastr_error('Error!!', data.error);
-          } else if (data != null) {
-            $("#idcliente").val(data.idpersona);
-            $("#razon_social").val(data.razon_social);
-            $("#domicilio_fiscal").val(data.domicilio_fiscal);
-          } else {
-            $("#idcliente").val("");
-            $("#razon_social").val("No registrado");
-            $("#domicilio_fiscal").val("No registrado");
-            Swal.fire({ title: "Cliente no registrado", icon: "warning", });
-
-            $("#ModalNcliente").modal("show");
-            $("#nruc").val($("#numero_documento").val());
-          }
-        });
-        $("#suggestions").fadeOut();
-        $("#suggestions2").fadeOut();
-        $("#suggestions3").fadeOut();
-      } else {
-        $("#idcliente").val("N");
-        $("#razon_social").val("");
-        document.getElementById("razon_social").placeholder = "No Registrado";
-        $("#domicilio_fiscal").val("");
-        document.getElementById("domicilio_fiscal").placeholder = "No Registrado";
-        // document.getElementById("btnAgregarArt").style.backgroundColor ="#35770c";
-        document.getElementById("razon_social").style.Color = "#35770c";
-        document.getElementById("razon_social").focus();
-      }
-    });
+    buscando_cliente();
+    
   }
 }
+
+function buscando_cliente() {
+  $('.tooltip').remove();
+  var dni = $("#numero_documento").val();
+  $('.btn-search-sr').html(`<i class="fas fa-spinner fa-pulse fa-lg"></i>`);
+  $.post( "../ajax/boleta.php?op=listarClientesboletaxDoc&doc=" + dni, function (data, status) {
+    data = JSON.parse(data);
+    if (data != null) { // ================================================================== SI EXISTE
+      $("#idcliente").val(data.idpersona);
+      $("#razon_social").val(data.nombres);
+      $("#domicilio_fiscal").val(data.domicilio_fiscal);
+      // document.getElementById("btnAgregarArt").style.backgroundColor = "#367fa9";
+      // document.getElementById("mensaje700").style.display = "none";
+      // document.getElementById("btnAgregarArt").focus();
+      $("#suggestions").fadeOut();
+      $("#suggestions2").fadeOut();
+      $("#suggestions3").fadeOut();
+      $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+    } else if ($("#tipo_doc_ide").val() == "1") { // ================================================================== SI ES DNI
+      
+      $("#razon_social").val("");
+      $("#domicilio_fiscal").val("");
+      var dni = $("#numero_documento").val();
+      //var url = '../ajax/consulta_reniec.php';
+      $.post( "../ajax/boleta.php?op=consultaDniSunat&nrodni=" + dni, function (data, status) {
+        data = JSON.parse(data);
+        if ( data == null ) {
+          toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+        } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+          toastr_error('Error!!', data.error);
+        } else if (data != null) {
+          $("#idcliente").val("N");            
+          $("#razon_social").val(data.nombre);
+        } else {
+          alert(data);
+          document.getElementById("razon_social").focus();
+          $("#idcliente").val("N");
+        }
+        $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+      });
+      $("#suggestions").fadeOut();
+      $("#suggestions2").fadeOut();
+      $("#suggestions3").fadeOut();
+    } else if ($("#tipo_doc_ide").val() == "6") { // ================================================================== SI ES RUC
+      
+      $("#razon_social").val("");
+      $("#domicilio_fiscal").val("");
+      var dni = $("#numero_documento").val();
+      $.post( "../ajax/factura.php?op=listarClientesfacturaxDoc&doc=" + dni, function (data, status) {
+        data = JSON.parse(data);
+        if ( data == null ) {
+          toastr_error('Error!!', 'No se logro encontrar los datos intente nuevamente.'); 
+        } else if (!jQuery.isEmptyObject(data.error) || !jQuery.isEmptyObject(data.message)) {
+          toastr_error('Error!!', data.error);
+        } else if (data != null) {
+          $("#idcliente").val(data.idpersona);
+          $("#razon_social").val(data.razon_social);
+          $("#domicilio_fiscal").val(data.domicilio_fiscal);
+        } else {
+          $("#idcliente").val("");
+          $("#razon_social").val("No registrado");
+          $("#domicilio_fiscal").val("No registrado");
+          Swal.fire({ title: "Cliente no registrado", icon: "warning", });
+
+          $("#ModalNcliente").modal("show");
+          $("#nruc").val($("#numero_documento").val());
+        }
+        $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+      });
+      $("#suggestions").fadeOut();
+      $("#suggestions2").fadeOut();
+      $("#suggestions3").fadeOut();
+    } else {
+      $('.btn-search-sr').html(`<i class="fas fa-search"></i>`);
+      $("#idcliente").val("N");
+      $("#razon_social").val("");
+      document.getElementById("razon_social").placeholder = "No Registrado";
+      $("#domicilio_fiscal").val("");
+      document.getElementById("domicilio_fiscal").placeholder = "No Registrado";
+      // document.getElementById("btnAgregarArt").style.backgroundColor ="#35770c";
+      document.getElementById("razon_social").style.Color = "#35770c";
+      document.getElementById("razon_social").focus();
+    }
+  });
+}
+
 
 $(document).ready(function () {
   $('#numero_documento').on('input', function () {
@@ -2491,11 +2355,9 @@ $('#btn_realizarpago').click(function () {
 
   select_tipocomp = $('#d_tipocomprobante').val();
 
-
   if (select_tipocomp == 0) {
-    $("#idcliente").val("N");
+    // $("#idcliente").val("N");
     $("#tipo_documento_06").val('03');
-
     // Si es boleta
     url_pago = "../ajax/boleta.php?op=guardaryeditarBoleta";
 
@@ -2539,7 +2401,7 @@ $('#btn_realizarpago').click(function () {
     url_pago = "../ajax/factura.php?op=guardaryeditarFactura2";
 
   } else if (select_tipocomp == 2) {
-    $("#idcliente").val("N");
+    // $("#idcliente").val("N");
     $("#tipo_documento_06").val(50);
     // Si es Nota de Pedido
     url_pago = "../ajax/notapedido.php?op=guardaryeditarBoleta";
@@ -2719,10 +2581,7 @@ $('#btn_realizarpago').click(function () {
         contentType: false,
         processData: false,
         success: function (response) {
-
           Swal.close();
-
-
           swal.fire({
             title: "¡Éxito!",
             text: response,
@@ -2730,13 +2589,10 @@ $('#btn_realizarpago').click(function () {
             timer: 2000,
             showConfirmButton: false
           });
-
           $('#modal_metodopago').modal('hide');
-
           limpiarFormulario();
           tipoimpresion(); 
           filtros();
-
         },
       });
     }
@@ -2842,7 +2698,7 @@ function limpiarFormulario() {
   $("#idcliente").val("N");
   $("#idpersona").val("");
 
-  // $("#tipo_doc_ide").val(0);
+  $("#tipo_doc_ide").val('0').trigger("change");
   // focusI()
   $("#numero_documento").val('');
   $("#numero_documento2").val('');

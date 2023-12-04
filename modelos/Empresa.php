@@ -16,17 +16,17 @@ Class Empresa
 
   //Implementamos un método para insertar registros
 
-  public function insertar($razonsocial,$ncomercial,$domicilio,$ruc,$tel1,$tel2,$correo,  $web,$webconsul,$imagen, $ubigueo, $igv, $porDesc, $codubigueo, $ciudad, 
+  public function insertar($razonsocial,$ncomercial,$domicilio,$ruc,$tel1,$tel2,$correo,  $web,$webconsul,$imagen, $logo_c_r, $ubigueo, $igv, $porDesc, $codubigueo, $ciudad, 
   $distrito, $interior,$codigopais, $banco1, $cuenta1 , $banco2, $cuenta2 , $banco3, $cuenta3 , $banco4, $cuenta4, $cuentacci1, $cuentacci2,$cuentacci3,$cuentacci4, 
   $tipoimpresion, $textolibre) {
 
     $sw=true;
 
-    $sql="INSERT into  empresa (nombre_razon_social, nombre_comercial, domicilio_fiscal, numero_ruc, telefono1, telefono2, correo, web, webconsul, logo, ubigueo, codubigueo,
-    ciudad,distrito,interior,codigopais,banco1,cuenta1,banco2, cuenta2,banco3,cuenta3,
+    $sql="INSERT into  empresa (nombre_razon_social, nombre_comercial, domicilio_fiscal, numero_ruc, telefono1, telefono2, correo, web, webconsul, logo, logo_c_r, 
+    ubigueo, codubigueo, ciudad,distrito,interior,codigopais,banco1,cuenta1,banco2, cuenta2,banco3,cuenta3,
     banco4,cuenta4,cuentacci1,cuentacci2,cuentacci3,cuentacci4,tipoimpresion,textolibre )
-    values ('$razonsocial','$ncomercial','$domicilio','$ruc','$tel1','$tel2','$correo','$web','$webconsul','$imagen', '$ubigueo', '$codubigueo', 
-    '$ciudad', '$distrito', '$interior', '$codigopais' , '$banco1' , '$cuenta1' , '$banco2' , '$cuenta2' , '$banco3' , '$cuenta3' , 
+    values ('$razonsocial','$ncomercial','$domicilio','$ruc','$tel1','$tel2','$correo','$web','$webconsul','$imagen', '$logo_c_r',
+    '$ubigueo', '$codubigueo', '$ciudad', '$distrito', '$interior', '$codigopais' , '$banco1' , '$cuenta1' , '$banco2' , '$cuenta2' , '$banco3' , '$cuenta3' , 
     '$banco4' , '$cuenta4' , '$cuentacci1', '$cuentacci2', '$cuentacci3', '$cuentacci4', '$tipoimpresion', '$textolibre')";
 
     $idempresanew=ejecutarConsulta_retornarID($sql);
@@ -39,42 +39,16 @@ Class Empresa
 
   //Implementamos un método para editar registros
 
-  public function editar($idempresa,$razonsocial,$ncomercial,$domicilio,$ruc,$tel1,$tel2,$correo,$web,$webconsul,$imagen, $ubigueo, $igv, $porDesc, $codubigueo, $ciudad,
+  public function editar($idempresa,$razonsocial,$ncomercial,$domicilio,$ruc,$tel1,$tel2,$correo,$web,$webconsul,$imagen, $logo_c_r, $ubigueo, $igv, $porDesc, $codubigueo, $ciudad,
   $distrito, $interior, $codigopais ,$banco1, $cuenta1 , $banco2, $cuenta2 , $banco3, $cuenta3 , $banco4, $cuenta4, $cuentacci1, $cuentacci2, $cuentacci3, $cuentacci4, 
   $tipoimpresion, $textolibre) {
     $sw=true;
 
-    $sql="UPDATE empresa set 
-    nombre_razon_social='$razonsocial',
-    nombre_comercial='$ncomercial',
-    domicilio_fiscal='$domicilio',
-    numero_ruc='$ruc',
-    telefono1='$tel1',
-    telefono2='$tel2',
-    correo='$correo',
-    web='$web',
-    webconsul='$webconsul',
-    logo='$imagen',
-    ubigueo='$ubigueo',
-    codubigueo='$codubigueo',
-    ciudad='$ciudad',
-    distrito='$distrito',
-    interior='$interior',
-    banco1='$banco1',
-    cuenta1='$cuenta1',
-    banco2='$banco2',
-    cuenta2='$cuenta2',
-    banco3='$banco3',
-    cuenta3='$cuenta3',
-    banco4='$banco4',
-    cuenta4='$cuenta4',
-    cuentacci1='$cuentacci1',
-    cuentacci2='$cuentacci2',
-    cuentacci3='$cuentacci3',
-    cuentacci4='$cuentacci4',
-    codigopais='$codigopais',
-    tipoimpresion='$tipoimpresion',
-    textolibre= '$textolibre'
+    $sql="UPDATE empresa set nombre_razon_social='$razonsocial', nombre_comercial='$ncomercial', domicilio_fiscal='$domicilio', numero_ruc='$ruc', telefono1='$tel1', 
+    telefono2='$tel2', correo='$correo', web='$web', webconsul='$webconsul', logo='$imagen', logo_c_r='$logo_c_r', ubigueo='$ubigueo', codubigueo='$codubigueo', 
+    ciudad='$ciudad', distrito='$distrito', interior='$interior', banco1='$banco1', cuenta1='$cuenta1', banco2='$banco2', cuenta2='$cuenta2', banco3='$banco3', 
+    cuenta3='$cuenta3', banco4='$banco4', cuenta4='$cuenta4', cuentacci1='$cuentacci1', cuentacci2='$cuentacci2', cuentacci3='$cuentacci3',
+    cuentacci4='$cuentacci4', codigopais='$codigopais', tipoimpresion='$tipoimpresion', textolibre= '$textolibre'
     where idempresa='$idempresa'";
 
     $sqlConf="UPDATE configuraciones set igv='$igv', porDesc='$porDesc' where idempresa='$idempresa'";
