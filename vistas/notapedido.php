@@ -182,7 +182,7 @@ if (!isset($_SESSION["nombre"])) {
                             <div class="mb-3 form-group col-lg-3">
                               <label>Dirección:</label>
                               <input type="text" class="form-control" name="domicilio_fiscal" id="domicilio_fiscal"
-                                value="-" required="true" onkeyup="mayus(this);" placeholder="Dirección"
+                                value="-"  onkeyup="mayus(this);" placeholder="Dirección"
                                 onkeypress="agregarArt(event)">
                             </div>
 
@@ -794,7 +794,7 @@ if (!isset($_SESSION["nombre"])) {
 
     <!-- Modal -->
     <div class="modal fade" id="modalPreviewXml" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg" style="width: 70% !important;">
+      <div class="modal-dialog modal-md" style="width: 70% !important;">
         <div class="modal-content">
 
           <div class="modal-header">
@@ -819,7 +819,7 @@ if (!isset($_SESSION["nombre"])) {
 
     <div class="modal fade" id="modalPreviewticket" tabindex="-1" aria-labelledby="modalPreviewticketLabel"
       aria-hidden="true">
-      <div class="modal-dialog modal-lg" style="max-width: 24% !important;">
+      <div class="modal-dialog modal-md" style="max-width: 24% !important;">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalPreviewticketLabel">Ticket de venta</h5>

@@ -11,141 +11,42 @@ class Cotizacion
   }
 
 
-  public function insertarTc($fechatc, $compra, $venta)
-  {
-    $sql = "insert into tcambio (fecha, compra, venta)
-        values ('$fechatc', '$compra', '$venta')";
+  public function insertarTc($fechatc, $compra, $venta) {
+    $sql = "insert into tcambio (fecha, compra, venta) values ('$fechatc', '$compra', '$venta')";
     return ejecutarConsulta($sql);
   }
 
   //Implementamos un método para editar registros
-  public function editarTc($id, $fechatc, $compra, $venta)
-  {
+  public function editarTc($id, $fechatc, $compra, $venta)  {
     $sql = "update tcambio  set fecha='$fechatc', compra='$compra', venta='$venta' where idtipocambio='$id' ";
     return ejecutarConsulta($sql);
   }
 
-
-
   //Implementamos un método para insertar registros para factura
-  public function insertar(
-    $idempresa,
-    $idusuario,
-    $idcliente,
-    $serienota,
-    $moneda,
-    $fechaemision,
-    $hora,
-    $tipocotizacion,
-    $subtotal,
-    $impuesto,
-    $total,
-    $observacion,
-    $vendedor,
-    $idarticulo,
-    $codigo,
-    $cantidad,
-    $precio_unitario,
-    $numero_cotizacion,
-    $idserie,
-    $descdet,
-    $norden,
-    $fechavalidez,
-    $tcambio,
-    $valorventa,
-    $valorunitario,
-    $igvitem,
-    $igventa,
-    $nrofactura
-  ) {
+  public function insertar( $idempresa, $idusuario, $idcliente, $serienota, $moneda, $fechaemision, $hora, $tipocotizacion, $subtotal, $impuesto, 
+  $total, $observacion, $vendedor, $idarticulo, $codigo, $cantidad, $precio_unitario, $numero_cotizacion, $idserie, 
+  $descdet, $norden, $fechavalidez, $tcambio, $valorventa, $valorunitario, $igvitem, $igventa, $nrofactura ) {
 
-
-    $sql = "insert into 
-        cotizacion
-         (  
-            idempresa,
-            idusuario, 
-            idcliente, 
-            serienota, 
-            moneda, 
-            fechaemision, 
-            tipocotizacion, 
-            subtotal, 
-            impuesto, 
-            total, 
-            observacion, 
-            vendedor,
-            tipocambio,
-            fechavalidez,
-            nrofactura
-          )
-          values
-          (
-          '$idempresa',
-          '$idusuario',
-          '$idcliente',
-          '$serienota',
-          '$moneda',
-          '$fechaemision $hora',
-          '$tipocotizacion',
-          '$subtotal',
-          '$impuesto',
-          '$total',
-          '$observacion',
-          '$vendedor',
-          '$tcambio',
-          '$fechavalidez',
-          '$nrofactura'
-        )";
+    $sql = "INSERT into cotizacion ( idempresa,idusuario, idcliente, serienota, moneda, fechaemision, tipocotizacion, subtotal, impuesto, total, observacion, vendedor, 
+    tipocambio, fechavalidez, nrofactura, estado ) values ( '$idempresa', '$idusuario', '$idcliente', '$serienota', '$moneda', '$fechaemision $hora', '$tipocotizacion', '$subtotal', 
+    '$impuesto', '$total', '$observacion', '$vendedor', '$tcambio', '$fechavalidez', '$nrofactura', 2 )";
     //return ejecutarConsulta($sql);
     $idcotizacionnew = ejecutarConsulta_retornarID($sql);
-
 
     $num_elementos = 0;
     $sw = true;
 
     while ($num_elementos < count($idarticulo)) {
       //Guardar en Detalle
-      $sql_detalle = "insert into 
-        detalle_articulo_cotizacion
-        (
-        idcotizacion, 
-        iditem, 
-        codigo, 
-        cantidad, 
-        precio,
-        descdet,
-        norden,
-        valorventa,
-        valorunitario,
-        igvvalorventa,
-        igvitem
-          ) 
-          values 
-          (
-          '$idcotizacionnew', 
-          '$idarticulo[$num_elementos]',
-          '$codigo[$num_elementos]',
-          '$cantidad[$num_elementos]',
-          '$precio_unitario[$num_elementos]',
-          '$descdet[$num_elementos]',
-          '$norden[$num_elementos]',
-          '$valorventa[$num_elementos]',
-          '$valorunitario[$num_elementos]',
-          '$igventa[$num_elementos]',
-          '$igvitem[$num_elementos]'
-        )";
+      $sql_detalle = "INSERT into detalle_articulo_cotizacion ( idcotizacion, iditem, codigo, cantidad, precio, descdet, norden, valorventa, valorunitario,
+      igvvalorventa, igvitem ) values ( '$idcotizacionnew', '$idarticulo[$num_elementos]', '$codigo[$num_elementos]', '$cantidad[$num_elementos]',
+      '$precio_unitario[$num_elementos]', '$descdet[$num_elementos]', '$norden[$num_elementos]', '$valorventa[$num_elementos]',
+      '$valorunitario[$num_elementos]', '$igventa[$num_elementos]', '$igvitem[$num_elementos]' )";
 
       //Para actualizar numeracion de las series de la factura
-      $sql_update_numeracion = "update 
-         numeracion 
-         set 
-         numero='$numero_cotizacion' where idnumeracion='$idserie'";
+      $sql_update_numeracion = "UPDATE numeracion set numero='$numero_cotizacion' where idnumeracion='$idserie'";
       ejecutarConsulta($sql_update_numeracion) or $sw = false;
-      //Fin 
-
-      //$sqlupdatecorreocliente="update persona set email='$email', domicilio_fiscal='$domicilio_fiscal2', razon_social='$RazonSocial', nombre_comercial='$RazonSocial'   where idpersona='$idcliente'";
-
+      
       //return ejecutarConsulta($sql);
       ejecutarConsulta($sql_detalle) or $sw = false;
       //ejecutarConsulta($sqlupdatecorreocliente) or $sw = false;
@@ -153,34 +54,18 @@ class Cotizacion
       $num_elementos = $num_elementos + 1;
     }
 
-
-    $sqldetallesesionusuario = "insert into detalle_usuario_sesion 
-              (idusuario, tcomprobante, idcomprobante, fechahora) 
-               values 
-              ('$idusuario', 'COTI','$idcotizacionnew', now())";
+    $sqldetallesesionusuario = "INSERT into detalle_usuario_sesion (idusuario, tcomprobante, idcomprobante, fechahora) values ('$idusuario', 'COTI','$idcotizacionnew', now())";
     ejecutarConsulta($sqldetallesesionusuario);
 
-
     return $idcotizacionnew; //FIN DE LA FUNCION
-
   }
 
-
-
-
-
-
-
-
-  public function mostrarultimocomprobante($idempresa)
-  {
+  public function mostrarultimocomprobante($idempresa)  {
     $sql = "SELECT numeracion_08 from factura f inner join empresa e on f.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idfactura desc limit 1";
     return ejecutarConsultaSimpleFila($sql);
   }
 
-
-  public function crearPDF($idfactura, $idempresa)
-  {
+  public function crearPDF($idfactura, $idempresa)  {
     require('Factura.php');
     //Obtenemos los datos de la cabecera de la venta actuall
     require_once "../modelos/Factura.php";
@@ -514,8 +399,7 @@ class Cotizacion
   }
 
 
-  public function enviarcorreo($idfactura, $idempresa)
-  {
+  public function enviarcorreo($idfactura, $idempresa) {
 
     require_once "../modelos/Factura.php";
     $factura = new Factura();
@@ -537,22 +421,11 @@ class Cotizacion
       exit();
     }
 
-    $sqlsendmail = "SELECT 
-        f.idfactura, 
-        p.email,  
-        p.nombres, 
-        p.apellidos, 
-        p.nombre_comercial, 
-        e.numero_ruc,
-        f.tipo_documento_07,
-        f.numeracion_08 
-        from 
-        factura f inner join persona p on 
-        f.idcliente=p.idpersona inner join empresa e on 
-        f.idempresa=e.idempresa 
-        where 
-        f.idfactura='$idfactura' and e.idempresa='$idempresa' ";
-
+    $sqlsendmail = "SELECT f.idfactura, p.email, p.nombres, p.apellidos, p.nombre_comercial, e.numero_ruc, f.tipo_documento_07, f.numeracion_08 
+    from factura f 
+    inner join persona p on f.idcliente=p.idpersona 
+    inner join empresa e on f.idempresa=e.idempresa 
+    where f.idfactura='$idfactura' and e.idempresa='$idempresa' ";
     $result = mysqli_query($connect, $sqlsendmail);
 
     $con = 0;
@@ -652,98 +525,50 @@ class Cotizacion
       }
       // FUNCION PARA ENVIO DE CORREO CON LA FACTURA AL CLIENTE .
 
-
       $i = $i + 1;
       $con = $con + 1;
     }
 
-
     //Guardar en tabla envicorreo =========================================
-    $sql = "insert into 
-        enviocorreo
-         (  
-            numero_documento,
-            cliente, 
-            correo, 
-            comprobante, 
-            fecha_envio
-          )
-          values
-          (
-          
-          (select numero_documento from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
-          (select razon_social from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
-          (select email from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
-          (select numeracion_08 from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
-          now()
-        )";
+    $sql = "INSERT into enviocorreo ( numero_documento, cliente, correo, comprobante, fecha_envio ) values (          
+      (select numero_documento from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
+      (select razon_social from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
+      (select email from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
+      (select numeracion_08 from factura f inner join persona p on f.idcliente=p.idpersona where f.idfactura='$idfactura'),
+      now()
+    )";
     //return ejecutarConsulta($sql);
     $enviarcorreo = ejecutarConsulta($sql);
     //Guardar en tabla envicorreo =========================================
-
-
-
   }
-
-
-
 
   //Implementar un método para listar los registros
-  public function listar($idempresa)
-  {
-    $sql = "SELECT 
-        c.idcotizacion,
-        date_format(c.fechaemision,'%d/%m/%y') as fecha,
-        c.idcliente,
-        p.razon_social as cliente,
-        c.vendedor,
-        u.nombre as usuario,
-        c.serienota,
-        format(c.total,2)as total ,
-        c.impuesto,
-        c.estado,
-        e.numero_ruc,
-        p.email,
-        c.nrofactura,
-        c.moneda
-        from 
-        cotizacion c inner join persona p on c.idcliente=p.idpersona 
-        inner join usuario u on c.idusuario=u.idusuario 
-        inner join empresa e on c.idempresa=e.idempresa
-
-         where
-        e.idempresa='$idempresa' 
-        order by idcotizacion desc";
+  public function listar($idempresa) {
+    $sql = "SELECT c.idcotizacion, date_format(c.fechaemision,'%d/%m/%y') as fecha, c.idcliente, p.razon_social as cliente, c.vendedor, 
+    u.nombre as usuario, c.serienota, format(c.total,2)as total, c.impuesto, c.estado, e.numero_ruc, p.email, c.nrofactura,
+    c.moneda from cotizacion c 
+    inner join persona p on c.idcliente=p.idpersona 
+    inner join usuario u on c.idusuario=u.idusuario 
+    inner join empresa e on c.idempresa=e.idempresa
+    where e.idempresa='$idempresa' order by idcotizacion desc";
     return ejecutarConsulta($sql);
   }
 
-
-
-  public function listarDR($ano, $mes, $idempresa)
-  {
-    $sql = "SELECT 
-        f.idfactura,
-        f.idcliente,
-        numeracion_08 as numerofactura,
-        date_format(f.fecha_emision_01,'%d/%m/%y') as fecha,
-        date_format(f.fecha_baja,'%d/%m/%y') as fechabaja,
-        left(p.razon_social,20) as cliente,
-        p.numero_documento as ruccliente,
-        f.total_operaciones_gravadas_monto_18_2 as opgravada,        
-        f.sumatoria_igv_22_1 as igv,
-        format(f.importe_total_venta_27,2) as total,
-        f.vendedorsitio,
-        f.estado 
-        from 
-        factura f inner join persona p on f.idcliente=p.idpersona 
-        inner join usuario u on f.idusuario=u.idusuario 
-        inner join empresa e on f.idempresa=e.idempresa where  year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and f.estado in ('0','3') and e.idempresa='$idempresa'
-        order by idfactura desc";
+  public function listarDR($ano, $mes, $idempresa) {
+    $sql = "SELECT f.idfactura, f.idcliente, numeracion_08 as numerofactura, date_format(f.fecha_emision_01,'%d/%m/%y') as fecha,
+    date_format(f.fecha_baja,'%d/%m/%y') as fechabaja, left(p.razon_social,20) as cliente, p.numero_documento as ruccliente, 
+    f.total_operaciones_gravadas_monto_18_2 as opgravada, f.sumatoria_igv_22_1 as igv, format(f.importe_total_venta_27,2) as total,
+    f.vendedorsitio, f.estado 
+    from factura f 
+    inner join persona p on f.idcliente=p.idpersona 
+    inner join usuario u on f.idusuario=u.idusuario 
+    inner join empresa e on f.idempresa=e.idempresa 
+    where  year(f.fecha_emision_01)='$ano' and month(f.fecha_emision_01)='$mes' and f.estado in ('0','3') and e.idempresa='$idempresa'
+    order by idfactura desc";
     return ejecutarConsulta($sql);
   }
 
-  public function listarDRdetallado($idcomp, $idempresa)
-  {
+  public function listarDRdetallado($idcomp, $idempresa) {
     $sql = "SELECT 
         ncd.codigo_nota,
         ncd.numeroserienota as numero,

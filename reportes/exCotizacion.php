@@ -1,8 +1,7 @@
 <?php
 //Activamos el almacenamiento en el buffer
 ob_start();
-if (strlen(session_id()) < 1)
-  session_start();
+if (strlen(session_id()) < 1){ session_start(); }  
 
 if (!isset($_SESSION["nombre"])) {
   echo 'Debe ingresar al sistema correctamente para visualizar el reporte';
@@ -126,8 +125,8 @@ if (!isset($_SESSION["nombre"])) {
     $pdf->AutoPrint();
     //Linea para guardar la factura en la carpeta facturas PDF
     $Factura = $pdf->Output($regv->serienota . '.pdf', 'I');
-    //$Factura=$pdf->Output('../cotizacionPDF/'.$regv->serienota.'.pdf','F');
-    $Factura = $pdf->Output('C:/sfs/cotizacionPDF/' . $regv->serienota . '.pdf', 'F');
+    $Factura=$pdf->Output('../cotizacionPDF/'.$regv->serienota.'.pdf','F');
+    // $Factura = $pdf->Output('C:/sfs/cotizacionPDF/' . $regv->serienota . '.pdf', 'F');
 
   } else {
     echo 'No tiene permiso para visualizar el reporte';
