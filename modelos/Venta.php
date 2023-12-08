@@ -447,34 +447,42 @@ as tabla ";
     return ejecutarConsulta($sql);
   }
 
+  //$ano, $mes, $idempresa, $tmon
+  //$fechadel, $fechaal, $idempresa, $tcomprobante
 
-  public function regventareporte($ano, $mes, $idempresa, $tmon)
+  public function regventareporte($fechadel, $fechaal, $idempresa, $tcomprobante, $tipo_moneda)
   {
-    $sql = "SELECT 
-    idfactura as id,
-    tipo_documento_07 as tipodocu, 
-    date_format(fecha_emision_01, '%d') as fecha, 
-    numeracion_08 as documento,
-    format(subtotal, 2) as subtotal, 
-    format(igv, 2) as igv, 
-    format(total, 2) as total, 
-    tabla.estado, 
-    numero_documento, 
-    razon_social,
-    format(icbper, 2) as icbper,
-    tipofactura,
-    tipomoneda,
-    tcambio,
-    max(efectivo) as efectivo,
-    max(visa) as visa,
-    max(yape) as yape,
-    max(plin) as plin,
-    max(mastercard) as mastercard,
-    max(deposito) as deposito,
-    group_concat(a.nombre) as productos_adquiridos
-  from 
-  (
-    select 
+   // return "$fechadel, $fechaal, $idempresa, $tcomprobante, $tipo_moneda";
+    $filtro_fecha_f= '';
+    $filtro_fecha_b= '';
+    $filtro_fecha_np= '';
+    $filtro_fecha_nc ='';
+
+    $filtro_factura = '';
+    $filtro_boleta = '';
+    $filtro_nota_pedido = '';
+    $filtro_nota_credito = '';
+
+    if (!empty($fechadel) && !empty($fechaal) && $fechadel!='TODOS' && $fechaal!='TODOS') {
+      $filtro_fecha_f =" AND DATE(f.fecha_emision_01) BETWEEN '$fechadel' AND '$fechaal'";
+      $filtro_fecha_b = " AND DATE(b.fecha_emision_01) BETWEEN '$fechadel' AND '$fechaal'";
+      $filtro_fecha_np = " AND DATE(np.fecha_emision_01) BETWEEN '$fechadel' AND '$fechaal'";
+      $filtro_fecha_nc = " AND DATE(ncd.fecha) BETWEEN '$fechadel' AND '$fechaal'";
+    } else if (!empty($fechadel) && $fechadel!='TODOS') {
+      $filtro_fecha_f = " AND DATE(f.fecha_emision_01) = '$fechadel'";
+      $filtro_fecha_b = " AND DATE(b.fecha_emision_01) = '$fechadel'";
+      $filtro_fecha_np = " AND DATE(np.fecha_emision_01) = '$fechadel'";
+      $filtro_fecha_nc = " AND DATE(ncd.fecha) = '$fechadel'";
+    } else if (!empty($fechaal) && $fechaal!='TODOS') {
+      $filtro_fecha_f = " AND DATE(f.fecha_emision_01) = '$fechaal'";
+      $filtro_fecha_b = " AND DATE(b.fecha_emision_01) = '$fechaal'";
+      $filtro_fecha_np = " AND DATE(np.fecha_emision_01) = '$fechaal'";
+      $filtro_fecha_nc = " AND DATE(ncd.fecha) = '$fechaal'";
+    }
+  // return $filtro_fecha;
+    if ($tcomprobante == 'FACTURA' || $tcomprobante == 'TODOS') {
+      
+      $filtro_factura = "SELECT 
       f.idfactura, 
       f.tipo_documento_07, 
       f.fecha_emision_01,
@@ -496,23 +504,27 @@ as tabla ";
       case when f.estado = '5' then f.mastercard else 0 end as mastercard,
       case when f.estado = '5' then f.deposito else 0 end as deposito,
       dfa.idarticulo
-    from 
-        factura f 
-    inner join 
-        persona p on f.idcliente = p.idpersona 
-    inner join 
-        empresa e on f.idempresa = e.idempresa 
-    left join 
-        detalle_fac_art dfa on f.idfactura = dfa.idfactura
-    where 
-        year(f.fecha_emision_01) = '$ano' 
-        and month(f.fecha_emision_01) = '$mes' 
-        and p.tipo_persona = 'cliente' 
-        and f.estado in ('5', '3', '0', '6', '1', '4')  
-        and e.idempresa = '$idempresa' 
-        and f.tipo_moneda_28 = '$tmon'
-    union all
-    select 
+      from 
+          factura f 
+      inner join 
+          persona p on f.idcliente = p.idpersona 
+      inner join 
+          empresa e on f.idempresa = e.idempresa 
+      left join 
+          detalle_fac_art dfa on f.idfactura = dfa.idfactura
+      where 
+          p.tipo_persona = 'cliente' 
+          and f.estado in ('5', '3', '0', '6', '1', '4')  
+          and e.idempresa = '$idempresa' 
+          and f.tipo_moneda_28 = '$tipo_moneda'
+          $filtro_fecha_f
+          ";
+    }
+    $union_all_f = empty($filtro_factura) ? '' : 'union all';
+   // return $filtro_factura;
+    if ($tcomprobante == 'BOLETA' || $tcomprobante == 'TODOS') {
+
+      $filtro_boleta = "SELECT 
         b.idboleta as id,
         b.tipo_documento_06 as tipodocu, 
         b.fecha_emision_01,
@@ -534,113 +546,152 @@ as tabla ";
         case when b.estado = '5' then b.mastercard else 0 end as mastercard,
         case when b.estado = '5' then b.deposito else 0 end as deposito,
         dbp.idarticulo
-    from 
-        boleta b 
-    inner join 
-        persona p on b.idcliente = p.idpersona 
-    inner join 
-        empresa e on b.idempresa = e.idempresa 
-    left join 
-        detalle_boleta_producto dbp on b.idboleta = dbp.idboleta
-    where 
-        year(b.fecha_emision_01) = '$ano' 
-        and month(b.fecha_emision_01) = '$mes' 
-        and p.tipo_persona = 'cliente' 
-        and b.estado in ('5', '3', '0', '6', '1', '4')  
-        and e.idempresa = '$idempresa' 
-        and b.tipo_moneda_24 = '$tmon'
-    union all
-    select 
-      np.idboleta as id,
-      np.tipo_documento_06 as tipodocu, 
-      np.fecha_emision_01,
-      case when np.estado = '5' then np.monto_15_2 else 0 end as subtotal,  
-      np.numeracion_07, 
-      case when np.estado = '5' then np.sumatoria_igv_18_1 else 0 end as igv,
-      case when np.estado = '5' then np.importe_total_23 else 0 end as total, 
-      np.estado, 
-      p.numero_documento, 
-      p.razon_social, 
-      np.icbper,
-      np.tiponota as tipofactura, 
-      np.tipo_moneda_24 as tipomoneda, 
-      np.tcambio,
-      case when np.estado = '5' then np.efectivo else 0 end as efectivo,
-      case when np.estado = '5' then np.visa else 0 end as visa,
-      case when np.estado = '5' then np.yape else 0 end as yape,
-      case when np.estado = '5' then np.plin else 0 end as plin,
-      case when np.estado = '5' then np.mastercard else 0 end as mastercard,
-      case when np.estado = '5' then np.deposito else 0 end as deposito,
-      dnpp.idarticulo
-    from 
-        notapedido np 
-    inner join 
-        persona p on np.idcliente = p.idpersona 
-    inner join 
-        empresa e on np.idempresa = e.idempresa 
-    left join 
-        detalle_notapedido_producto dnpp on np.idboleta = dnpp.idboleta
-    where 
-        year(np.fecha_emision_01) = '$ano' 
-        and month(np.fecha_emision_01) = '$mes' 
-        and p.tipo_persona = 'cliente' 
-        and np.estado in ('5', '3', '0', '6', '1', '4')  
-        and e.idempresa = '$idempresa' 
-        and np.tipo_moneda_24 = '$tmon'
-    union all
-    select 
-        ncd.idnota as id,
-        ncd.codigo_nota as tipodocu, 
-        ncd.fecha,
-        case when ncd.estado = '5' then 
-            if(ncd.codigo_nota='07', ncd.total_val_venta_og * -1, ncd.total_val_venta_og) 
-            else 0 
-        end as subtotal,  
-        ncd.numeroserienota, 
-        case when ncd.estado = '5' then 
-            if(ncd.codigo_nota='07', ncd.sum_igv * -1, ncd.sum_igv) 
-            else 0 
-        end as igv,
-        case when ncd.estado = '5' then 
-            if(ncd.codigo_nota='07',ncd.importe_total * -1,ncd.importe_total) 
-            else 0 
-        end as total, 
-        ncd.estado, 
+        from 
+            boleta b 
+        inner join 
+            persona p on b.idcliente = p.idpersona 
+        inner join 
+            empresa e on b.idempresa = e.idempresa 
+        left join 
+            detalle_boleta_producto dbp on b.idboleta = dbp.idboleta
+        where 
+            p.tipo_persona = 'cliente' 
+            and b.estado in ('5', '3', '0', '6', '1', '4')  
+            and e.idempresa = '$idempresa' 
+            and b.tipo_moneda_24 = '$tipo_moneda'
+            $filtro_fecha_b
+           ";
+    }
+    $union_all_b = empty($filtro_boleta) ? '' : 'union all';
+    //return $filtro_boleta;
+    if ($tcomprobante == 'NOTA PEDIDO' || $tcomprobante == 'TODOS') {
+      $filtro_nota_pedido = "SELECT 
+        np.idboleta as id,
+        np.tipo_documento_06 as tipodocu, 
+        np.fecha_emision_01,
+        case when np.estado = '5' then np.monto_15_2 else 0 end as subtotal,  
+        np.numeracion_07, 
+        case when np.estado = '5' then np.sumatoria_igv_18_1 else 0 end as igv,
+        case when np.estado = '5' then np.importe_total_23 else 0 end as total, 
+        np.estado, 
         p.numero_documento, 
         p.razon_social, 
-        ncd.icbper,
-        ncd.tiponotacd as tipofactura, 
-        ncd.tipo_moneda as tipomoneda, 
-        ncd.tcambio,
-        case when ncd.estado = '5' then ncd.efectivo else 0 end as efectivo,
-        case when ncd.estado = '5' then ncd.visa else 0 end as visa,
-        case when ncd.estado = '5' then ncd.yape else 0 end as yape,
-        case when ncd.estado = '5' then ncd.plin else 0 end as plin,
-        case when ncd.estado = '5' then ncd.mastercard else 0 end as mastercard,
-        case when ncd.estado = '5' then ncd.deposito else 0 end as deposito,
-        null as idarticulo  
-    from 
-        notacd ncd 
-    inner join 
-        factura f on ncd.idcomprobante = f.idfactura 
-    inner join 
-        persona p on f.idcliente = p.idpersona 
-    inner join 
-        empresa e on ncd.idempresa = e.idempresa 
-    where 
-        year(ncd.fecha) = '$ano' 
-        and month(ncd.fecha) = '$mes' 
-        and p.tipo_persona = 'cliente' 
-        and ncd.estado in ('5', '3', '0', '1', '4')  
-        and e.idempresa = '$idempresa' 
-        and ncd.tipo_moneda = '$tmon'
+        np.icbper,
+        np.tiponota as tipofactura, 
+        np.tipo_moneda_24 as tipomoneda, 
+        np.tcambio,
+        case when np.estado = '5' then np.efectivo else 0 end as efectivo,
+        case when np.estado = '5' then np.visa else 0 end as visa,
+        case when np.estado = '5' then np.yape else 0 end as yape,
+        case when np.estado = '5' then np.plin else 0 end as plin,
+        case when np.estado = '5' then np.mastercard else 0 end as mastercard,
+        case when np.estado = '5' then np.deposito else 0 end as deposito,
+        dnpp.idarticulo
+      from 
+          notapedido np 
+      inner join 
+          persona p on np.idcliente = p.idpersona 
+      inner join 
+          empresa e on np.idempresa = e.idempresa 
+      left join 
+          detalle_notapedido_producto dnpp on np.idboleta = dnpp.idboleta
+      where 
+          p.tipo_persona = 'cliente' 
+          and np.estado in ('5', '3', '0', '6', '1', '4')  
+          and e.idempresa = '$idempresa' 
+          and np.tipo_moneda_24 = '$tipo_moneda'
+          $filtro_fecha_np
+      ";
+    }
+    $union_all_np = empty($filtro_nota_pedido) ? '' : 'union all';
+    if ($tcomprobante == 'NOTA CREDITO' || $tcomprobante == 'TODOS') {
+      
+      $filtro_nota_credito ="SELECT 
+          ncd.idnota as id,
+          ncd.codigo_nota as tipodocu, 
+          ncd.fecha,
+          case when ncd.estado = '5' then 
+              if(ncd.codigo_nota='07', ncd.total_val_venta_og * -1, ncd.total_val_venta_og) 
+              else 0 
+          end as subtotal,  
+          ncd.numeroserienota, 
+          case when ncd.estado = '5' then 
+              if(ncd.codigo_nota='07', ncd.sum_igv * -1, ncd.sum_igv) 
+              else 0 
+          end as igv,
+          case when ncd.estado = '5' then 
+              if(ncd.codigo_nota='07',ncd.importe_total * -1,ncd.importe_total) 
+              else 0 
+          end as total, 
+          ncd.estado, 
+          p.numero_documento, 
+          p.razon_social, 
+          ncd.icbper,
+          ncd.tiponotacd as tipofactura, 
+          ncd.tipo_moneda as tipomoneda, 
+          ncd.tcambio,
+          case when ncd.estado = '5' then ncd.efectivo else 0 end as efectivo,
+          case when ncd.estado = '5' then ncd.visa else 0 end as visa,
+          case when ncd.estado = '5' then ncd.yape else 0 end as yape,
+          case when ncd.estado = '5' then ncd.plin else 0 end as plin,
+          case when ncd.estado = '5' then ncd.mastercard else 0 end as mastercard,
+          case when ncd.estado = '5' then ncd.deposito else 0 end as deposito,
+          null as idarticulo  
+      from 
+          notacd ncd 
+      inner join 
+          factura f on ncd.idcomprobante = f.idfactura 
+      inner join 
+          persona p on f.idcliente = p.idpersona 
+      inner join 
+          empresa e on ncd.idempresa = e.idempresa 
+      where 
+          p.tipo_persona = 'cliente' 
+          and ncd.estado in ('5', '3', '0', '1', '4')  
+          and e.idempresa = '$idempresa' 
+          and ncd.tipo_moneda = '$tipo_moneda'
+          $filtro_fecha_nc";
+    }
+
+    $sql = "SELECT 
+    idfactura as id,
+    tipo_documento_07 as tipodocu, 
+    fecha_emision_01 as fecha, 
+    numeracion_08 as documento,
+    format(subtotal, 2) as subtotal, 
+    format(igv, 2) as igv, 
+    format(total, 2) as total, 
+    tabla.estado, 
+    numero_documento, 
+    razon_social,
+    format(icbper, 2) as icbper,
+    tipofactura,
+    tipomoneda,
+    tcambio,
+    max(efectivo) as efectivo,
+    max(visa) as visa,
+    max(yape) as yape,
+    max(plin) as plin,
+    max(mastercard) as mastercard,
+    max(deposito) as deposito,
+    group_concat(a.nombre) as productos_adquiridos
+  from 
+  (
+    $filtro_factura 
+    $union_all_f
+    $filtro_boleta 
+    $union_all_b
+    $filtro_nota_pedido 
+    $union_all_np
+    $filtro_nota_credito 
   ) as tabla 
   left join 
     articulo a on tabla.idarticulo = a.idarticulo
   group by 
     idfactura, documento  
   order by fecha asc;";
-    return ejecutarConsulta($sql);
+    return ejecutarConsultaArray($sql);
+    //return $sql;
   }
 
   public function regventareporteFacturaDia($idempresa)
