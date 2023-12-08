@@ -22,8 +22,14 @@ $descripcioncate = isset($_POST["descripcioncate"]) ? limpiarCadena($_POST["desc
 switch ($_GET["op"]) {
   case 'guardaryeditar':
     if (empty($idinsumo)) {
+
+      $rspta = $insumos->EstadoCaja();
+
+      if (empty($rspta)) { echo 'caja_cerrada'; exit(); }elseif ($rspta['estado']=='0') { echo 'caja_cerrada'; exit(); }
+
       $rspta = $insumos->insertar($tipodato, $fecharegistro, $categoriai, $documnIDE, $numDOCIDE, $acredor, $descripcion, $monto);
       echo $rspta ? "Monto registrado" : "Monto no se pudo registrar";
+
     } else {
       $rspta = $insumos->editar($idinsumo, $fecharegistro, $categoriai, $documnIDE, $numDOCIDE, $acredor, $descripcion, $monto);
       echo $rspta ? "Insumo actualizado" : "Insumo no se pudo actualizar";
@@ -35,8 +41,8 @@ switch ($_GET["op"]) {
   case 'mostrar':
     $rspta = $insumos->mostrar($idinsumo);
     echo json_encode($rspta);
-    break;
-    break;
+  break;
+
 
   case 'listar':
     //$fech=$_GET['hh'];
@@ -67,10 +73,7 @@ switch ($_GET["op"]) {
     );
     echo json_encode($results);
 
-    break;
-
-
-
+  break;
 
   case 'selectcate':
     require_once "../modelos/Insumos.php";
@@ -79,26 +82,40 @@ switch ($_GET["op"]) {
     while ($reg = $rspta->fetch_object()) {
       echo '<option value=' . $reg->idcategoriai . '>' . $reg->descripcionc . '</option>';
     }
-    break;
+  break;
 
   case 'guardaryeditarcate':
     if (empty($idcategoria)) {
       $rspta = $insumos->insertarcategoria($descripcioncate);
       echo $rspta ? "Categoría registrada" : "Categoría no se pudo registrar";
     }
-    break;
+  break;
 
   case 'eliminar':
     $rspta = $insumos->eliminar($idinsumo);
     echo $rspta ? "Insumo eliminado" : "Insumo no se puede eliminar";
-    break;
-    break;
+  break;
+  
+  // case 'select_cajas':
+  //   $rspta = $insumos->select_cajas();
+  //   echo '<option value="TODOS">TODOS</option>';
+  //   foreach ($rspta as $key => $reg) {
+  //     $selected = ($key==0) ? 'selected' : '' ;
+  //   echo '<option value="' . $reg['idcaja'] . '" '.$selected.' >' . $reg['codigo_caja'] . '</option>';
+  //   }
+    
+  // break;
+  case 'Estado_Caja':
+    $rspta = $insumos->EstadoCaja();
+    echo json_encode($rspta);
+  break;
 
+  //---------------------------
   case 'eliminarutilidad':
     $rspta = $insumos->eliminarutilidad($idutilidad);
     echo $rspta ? "Utilidad eliminada" : "Utilidad no se puede eliminar";
-    break;
-    break;
+  break;
+
 
 
 
@@ -132,7 +149,7 @@ switch ($_GET["op"]) {
       "aaData" => $data
     );
     echo json_encode($results);
-    break;
+  break;
 
   case 'recalcularutilidad':
     $idduti = $_GET['iduti'];
@@ -163,7 +180,7 @@ switch ($_GET["op"]) {
       "aaData" => $data
     );
     echo json_encode($results);
-    break;
+  break;
 
 
 
@@ -196,12 +213,12 @@ switch ($_GET["op"]) {
     );
     echo json_encode($results);
 
-    break;
+  break;
 
 
   case 'aprobarutilidad':
     $rspta = $insumos->aprobarutilidad($idutilidad);
     echo $rspta ? "Utilidad aprobada" : "Utilidad no se pudo aprobar";
-    break;
-    break;
+
+  break;
 }

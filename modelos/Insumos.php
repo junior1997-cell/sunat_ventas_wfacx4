@@ -12,6 +12,7 @@ class Insumos
   //Implementamos un método para insertar registros
   public function insertar($tipodato, $fecharegistro, $categoriai, $documnIDE, $numDOCIDE, $acredor, $descripcion, $monto)
   {
+    // return $fecharegistro; 
     if ($tipodato == 'gasto') {
       $sql = "insert into insumos (tipodato, idcategoriai, fecharegistro, descripcion, gasto, documnIDE, numDOCIDE, acredor)
 		values ('$tipodato', '$categoriai' ,'$fecharegistro', '$descripcion', '$monto', '$documnIDE' , '$numDOCIDE' , '$acredor')";
@@ -74,6 +75,18 @@ class Insumos
   }
 
 
+  // public function select_cajas(){
+  //   $sql="SELECT idcaja,codigo_caja FROM caja ORDER by idcaja DESC;";
+  //   return ejecutarConsultaArray($sql);
+  // }
+  public function EstadoCaja(){
+    $sql="SELECT idcaja,estado FROM caja where idcaja=(SELECT MAX(idcaja) FROM caja);";
+    return ejecutarConsultaSimpleFila($sql);
+  }
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -
 
   public function categoriaagrupadogastos($fecha)
   {
@@ -156,7 +169,6 @@ class Insumos
 
   public function datosemp()
   {
-
     $sql = "SELECT * from empresa";
     return ejecutarConsulta($sql);
   }

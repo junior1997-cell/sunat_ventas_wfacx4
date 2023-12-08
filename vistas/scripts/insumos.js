@@ -3,19 +3,11 @@ var tabla;
 //Función que se ejecuta al inicio
 function init() {
 
-  $("#formulario").on("submit", function (e) {
-    guardaryeditar(e);
-  })
+  $("#formulario").on("submit", function (e) { guardaryeditar(e); })
 
-  $("#formnewcate").on("submit", function (e) {
-    guardaryeditarCategoria(e);
-  })
+  $("#formnewcate").on("submit", function (e) { guardaryeditarCategoria(e); })
 
-  $("#formularioutilidad").on("submit", function (e) {
-    guardarutilidad(e);
-  })
-
-
+  $("#formularioutilidad").on("submit", function (e) { guardarutilidad(e); })
 
   //$("#fecharegistro").prop("disabled",false);
   var now = new Date();
@@ -30,17 +22,12 @@ function init() {
   $('#fechaingreso').val(today);
 
 
-  $.post("../ajax/insumos.php?op=selectcate", function (r) {
-    $("#categoriai").html(r);
-    //$('#categoriai').selectpicker('refresh');
-  });
-
+  $.post("../ajax/insumos.php?op=selectcate", function (r) { $("#categoriai").html(r); });
 
   limpiar();
   listar();
   listarutilidad();
-
-
+  validar_caja();
 }
 
 //Función limpiar
@@ -59,13 +46,11 @@ function focusTest(el) {
   el.select();
 }
 
-
 function foco0() {
 
   document.getElementById('descripcion').focus();
 
 }
-
 
 function foco1(e) {
   if (e.keyCode === 13 && !e.shiftKey) {
@@ -79,32 +64,26 @@ function foco2(e) {
   }
 }
 
-
-
-
 //Función cancelarform
 function cancelarform() {
   limpiar();
-
 
 }
 
 //Función Listar
 function listar() {
 
-  //fechahoy = $('#fecharegistro').val();
-  // console.log('fechahoy : ' + fechahoy);
   tabla = $('#tbllistado').dataTable(
     {
-      lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
+      lengthMenu: [[-1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200,]],//mostramos el menú de registros a revisar
       "aProcessing": true,//Activamos el procesamiento del datatables
       "aServerSide": true,//Paginación y filtrado realizados por el servidor
-      dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+      dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
       buttons: [
-        { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } } },
-        { extend: 'copyHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true,  }, 
-        { extend: 'excelHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true,  }, 
-        { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5,6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+        { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function (e, dt, node, config) { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } } },
+        { extend: 'copyHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true, },
+        { extend: 'excelHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true, },
+        { extend: 'pdfHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL', },
         { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
       ],
       "ajax":
@@ -126,10 +105,6 @@ function listar() {
       "order": [[0, "desc"]]//Ordenar (columna,orden)
     }).DataTable();
 }
-//Función para guardar o editar
-
-
-
 
 function calcularutilidad() {
   fecha1 = $("#fecha1").val();
@@ -162,7 +137,6 @@ function calcularutilidad() {
   }, 500);
 }
 
-
 function recalcularutilidad(idutilidad) {
 
   tabla = $('#tbllistadouti').dataTable(
@@ -194,7 +168,6 @@ function recalcularutilidad(idutilidad) {
 
 }
 
-
 function listarutilidad() {
   tabla = $('#tbllistadouti').dataTable(
     {
@@ -219,8 +192,7 @@ function listarutilidad() {
     }).DataTable();
 }
 
-
-
+// - - - - - - - - -GUARDAR INSUMO---------------
 function guardaryeditar(e) {
   e.preventDefault(); //No se activará la acción predeterminada del evento
 
@@ -234,28 +206,27 @@ function guardaryeditar(e) {
     processData: false,
 
     success: function (datos) {
-      Swal.fire({
-        title: "Guardado",
-        text: datos,
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500
-      }).then((result) => {
-        document.getElementById("mensaje").style.visibility = "hidden";
-        listar();
-        limpiar();
-        $("#agregarmaspagos").modal('hide');
+      if (datos == 'caja_cerrada') {
 
-      });
+        sw_warning('Caja cerrada', '<b>Aperturar una Caja</b> antes de seguir con tus operaciones', 5000);
+
+      } else {
+
+        sw_success('Guardado', datos, 5000);
+
+        document.getElementById("mensaje").style.visibility = "hidden";
+        listar(); limpiar();
+        $("#agregarmaspagos").modal('hide');
+        
+      }
+
     }
 
   });
 
 }
 
-
-
-
+// - - - - - - - - -GUARDAR CATEGORIA-------------
 function guardaryeditarCategoria(e) {
   e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#formnewcate")[0]);
@@ -300,16 +271,9 @@ function guardaryeditarCategoria(e) {
   $("#ModalNcategoria").modal('hide');
 }
 
-
-
 function actcategoria() {
-  $.post("../ajax/insumos.php?op=selectcate", function (r) {
-    $("#categoriai").html(r);
-    //$('#categoriai').selectpicker('refresh');
-  });
-
+  $.post("../ajax/insumos.php?op=selectcate", function (r) { $("#categoriai").html(r); });
 }
-
 
 
 function stopRKey(evt) {
@@ -322,6 +286,7 @@ function stopRKey(evt) {
 var field = $('#monto');
 //Función para aceptar solo numeros con dos decimales
 function NumCheck(e, field) {
+
   // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
   key = e.keyCode ? e.keyCode : e.which
 
@@ -352,6 +317,14 @@ function NumCheck(e, field) {
   }
   return false;
 }
+//------------validar caja abierta------------
+function validar_caja() {
+  $.post("../ajax/insumos.php?op=Estado_Caja", {}, function (data, status) {
+    data = JSON.parse(data);
+    console.log(data);
+
+  })
+}
 
 
 
@@ -370,8 +343,6 @@ function mostrar(idunidadm) {
 
   })
 }
-
-
 
 
 function mayus(e) {
@@ -437,34 +408,11 @@ function aprobarutilidad(idutilidad) {
   listarutilidad();
 }
 
-
-// function aprobarutilidad(idutilidad) {
-// 	Swal.fire({
-// 	  title: '¿Está seguro de aprobar?',
-// 	  showCancelButton: true,
-// 	  confirmButtonText: `Sí`,
-// 	  cancelButtonText: `No`,
-// 	}).then((result) => {
-// 	  if (result.isConfirmed) {
-// 		$.post("../ajax/insumos.php?op=aprobarutilidad", { idutilidad: idutilidad }, function (e) {
-// 		  Swal.fire('¡Aprobado!', e, 'success');
-// 		  tabla.ajax.reload();
-// 		});
-// 	  }
-// 	});
-// 	listarutilidad();
-//   }
-
-
-
-
 function reporteutilidad(idutilidad) {
   var rutacarpeta = '../reportes/reportegastosvsingresossemanal.php?id=' + idutilidad;
   $("#modalCom").attr('src', rutacarpeta);
   $("#modalPreview").modal("show");
 }
-
-
 
 function cargarEmpleados() {
 

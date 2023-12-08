@@ -21,32 +21,6 @@ if (!isset($_SESSION["nombre"])) {
         <div class="card">
           <div class="card-body">
 
-            <div class="row">
-
-              <div class="card-header col-12 mb-3">
-                <div class="row">
-
-                  <div class="col-lg-4">
-                    <label for="filtro_idalmacen">FECHA INICIO </label>
-                    <input type="datetime-local" class="form-control" placeholder="" name="fechaingreso" id="fechaingreso">
-                  </div>
-
-                  <div class="col-lg-4">
-                    <label for="filtro_idfamilia">FECHA FINAL</label>
-                    <input type="datetime-local" class="form-control" placeholder="" name="fechaingreso" id="fechaingreso">
-                  </div>
-
-                  <div class="col-lg-4">
-                    <label for="filtro_idmarca">LISTA CAJAS</label>
-                    <select class="form-control" name="filtro_idmarca" id="filtro_idmarca" style="width: 100%;" onchange="cargando_search(); delay(function(){filtros()}, 100 );">
-                    </select>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-
             <div class="table-responsive" id="listadoregistros">
               <table id="tbllistado" class="table table-striped" style="width: 100% !important;">
 
