@@ -48,10 +48,11 @@ $serienota = $SerieReal . "-" . $numero_cotizacion;
 switch ($_GET["op"]) {
   case 'guardaryeditarcotizacion':
 
-
-
     if (empty($idcotizacion)) {
-      $rspta = $cotizacion->insertar($idempresa, $idusuario, $idcliente, $serienota, $tipo_moneda, $fecha_emision, $hora, $tipocotizacion, $subtotal_producto,  $impuesto, $total, $observacion, $vendedorsitio, $_POST["idarticulo"], $_POST["codigo"], $_POST["cantidad"], $_POST["precio_unitario"], $numero_cotizacion, $idserie, $_POST["descdet"], $_POST["numero_orden_item"], $fechavalidez, $tcambio, $_POST["subtotalBD"], $_POST["pvt"], $_POST["igvBD"], $_POST["igvBD2"]);
+      $rspta = $cotizacion->insertar($idempresa, $idusuario, $idcliente, $serienota, $tipo_moneda, $fecha_emision, $hora, $tipocotizacion, $subtotal_producto,  $impuesto, 
+      $total, $observacion, $vendedorsitio, $_POST["idarticulo"], $_POST["codigo"], $_POST["cantidad"], $_POST["precio_unitario"], $numero_cotizacion, $idserie,
+      $_POST["descdet"], $_POST["numero_orden_item"], $fechavalidez, $tcambio, $_POST["subtotalBD"], $_POST["pvt"], $_POST["igvBD"], $_POST["igvBD2"], $serienota);
+
       $hora = date("h:i:s");
       echo $rspta ? "Se guardo correctamente cotizacion" : "Problemas al guardar cotizacion";
     } else {
@@ -60,11 +61,7 @@ switch ($_GET["op"]) {
       echo $rspta ? "Se edito correctamente" : "Problemas al guardar";
     }
 
-
-
-
-
-    break;
+  break;
 
 
   case 'guardaryeditarTcambio':
@@ -297,8 +294,6 @@ switch ($_GET["op"]) {
       );
     }
 
-
-
     $results = array(
       "sEcho" => 1, //Información para el datatables
       "iTotalRecords" => count($data), //enviamos el total registros al datatable
@@ -306,8 +301,7 @@ switch ($_GET["op"]) {
       "aaData" => $data
     );
     echo json_encode($results);
-    break;
-
+  break;
 
   case 'listarArticulosservicio':
     require_once "../modelos/Bienservicio.php";
@@ -331,18 +325,7 @@ switch ($_GET["op"]) {
       "aaData" => $data
     );
     echo json_encode($results);
-    break;
-
-
-
-
-
-
-
-
-
-
-
+  break;
 
   case 'listar':
     $rspta = $cotizacion->listar($_SESSION['idempresa']);
@@ -353,58 +336,45 @@ switch ($_GET["op"]) {
       $urlC = '';
       $stt = '';
 
+      if ($reg->estado == '3') {  $stt = 'none';  }
 
-
-
-      if ($reg->estado == '3') {
-        $stt = 'none';
-      }
       //=====================================================================================
       $data[] = array(
-        "0" =>
-        '<div class="btn-group mb-1">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Opciones
-                    </button>
-                    <div class="dropdown-menu" style="">
-                        
-                        <a  class="dropdown-item" onclick="editarcotizacion(' . $reg->idcotizacion . ')" style="display:' . $stt . '><i class="fa  fa-pencil"  data-toggle="tooltip" title="Imprimir Ticket"> </i> Editar cotización</a>
-                        <a class="dropdown-item" onclick="baja(' . $reg->idcotizacion . ')" style="display:' . $stt . '><i class="fa  fa-level-down"  data-toggle="tooltip" title="Imprimir formato completo"> </i> Dar de baja
-                        </a>
-                        <a target="_blank" href="' . $urlCT . $reg->idcotizacion . '" class="dropdown-item"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir formato completo"> </i> Imprimir
-                        </a>                        
-                    </div>
-                </div>
-                </div>'
-
+        "0" => '<div class="btn-group mb-1">
+          <div class="dropdown">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Opciones
+            </button>
+            <div class="dropdown-menu" style="">                
+              <a  class="dropdown-item" onclick="editarcotizacion(' . $reg->idcotizacion . ')" style="display:' . $stt . '><i class="fa  fa-pencil"  data-toggle="tooltip" title="Imprimir Ticket"> </i> Editar cotización</a>
+              <a class="dropdown-item" onclick="baja(' . $reg->idcotizacion . ')" style="display:' . $stt . '><i class="fa  fa-level-down"  data-toggle="tooltip" title="Imprimir formato completo"> </i> Dar de baja
+              </a>
+              <a target="_blank" href="' . $urlCT . $reg->idcotizacion . '" class="dropdown-item"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir formato completo"> </i> Imprimir
+              </a>                        
+            </div>
+          </div>
+        </div>',
 
         // <a>
         //  <i class="fa  fa-pencil"  data-toggle="tooltip" title="Editar doccumento"  style="font-size:18px;" onclick="editarcotizacion('.$reg->idcotizacion.')"> </i>
         //  </a>
-
         //  <a>
         //  <i class="fa fa-level-down"  onclick="baja('.$reg->idcotizacion.')"  data-toggle="tooltip" title="Anular y dar de baja" '.$stt.'  style="display:'.$stt.';  color:red; font-size:18px;"></i>
         //  </a>
-
         //  <a target="_blank" href="'.$urlCT.$reg->idcotizacion.'">
         //  <i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir cotizacion"  style="font-size:18px;" onclick=""> </i>
-        //  </a>'
-        ,
+        //  </a>'      
 
         "1" => ($reg->estado == '2') ? '<a style="cursor: pointer;">
-                       <i class="fa fa-play" data-toggle="tooltip" title="Generar factura" style="font-size:11px; position: relative;"  color:red;" onclick="nuevafactura(' . $reg->idcotizacion . ')"> Emitir factura </i>
-                     </a>' : '',
+          <i class="fa fa-play" data-toggle="tooltip" title="Generar factura" style="font-size:11px; position: relative;"  color:red;" onclick="nuevafactura(' . $reg->idcotizacion . ')"> Emitir factura </i>
+        </a>' : '',
         "2" => $reg->fecha,
         "3" => $reg->serienota,
         "4" => $reg->cliente,
         "5" => $reg->total,
         "6" => $reg->vendedor,
         // "7"=>$reg->nrofactura,
-        "7" => ($reg->estado == '1') //si esta emitido
-          ? '<i><span style="color:brown;">EMITIDO</span></i>'
-          : (($reg->estado == '2') ? '<i  style="color:green;"> <span>APROBADO</span></i>'
-            : '<i  style="color:red;"> <span>ANULADO</span></i>'),
+        "7" => ($reg->estado == '1') ? '<i><span style="color:brown;">EMITIDO</span></i>' : (($reg->estado == '2') ? '<i  style="color:green;"> <span>APROBADO</span></i>' : '<i  style="color:red;"> <span>ANULADO</span></i>'),//si esta emitido
         "8" => $reg->moneda
       );
     }
@@ -417,36 +387,27 @@ switch ($_GET["op"]) {
     );
 
     echo json_encode($results);
-    break;
-
-
-
-
-
+  break;
 
   case 'listarClientescotizacionxDoc':
     require_once "../modelos/Persona.php";
     $persona = new Persona();
     $doc = $_GET['doc'];
     $rspta = $persona->buscarClientexDoccotizacion($doc);
-
     echo json_encode($rspta);
-
-    break;
+  break;
 
   case 'listarClientescotizacionxDocNuevos':
     require_once "../modelos/Persona.php";
     $persona = new Persona();
     $rspta = $persona->buscarClientexDoccotizacionNuevos();
     echo json_encode($rspta);
-
-    break;
+  break;
 
   case 'mostrarultimocomprobante':
     $rspta = $cotizacion->mostrarultimocomprobante($_SESSION['idempresa']);
     echo json_encode($rspta);
-    break;
-
+  break;
 
   case 'estadoDoc':
     $rspta = $cotizacion->mostrarCabFac();
@@ -457,7 +418,7 @@ switch ($_GET["op"]) {
       $archivo = $reg->$reg->ruc . "-" . $reg->tipodoc . "-" . $reg->numerodoc;
     }
     echo json_encode($archivo);
-    break;
+  break;
 
   case 'listarArticuloscotizacionxcodigo':
     require_once "../modelos/Articulo.php";
@@ -466,7 +427,7 @@ switch ($_GET["op"]) {
     $codigob = $_GET['codigob'];
     $rspta = $articulo->listarActivosVentaxCodigo($codigob, $idempresa);
     echo json_encode($rspta);
-    break;
+  break;
 
   case 'busquedaPredic':
     require_once "../modelos/cotizacion.php";
@@ -474,7 +435,7 @@ switch ($_GET["op"]) {
     $buscar = $_POST['b'];
     $rspta = $cotizacion->AutocompletarRuc($buscar);
     echo json_encode($rspta);
-    break;
+  break;
 
   case 'selectNombreCli':
     require_once "../modelos/Persona.php";
@@ -485,10 +446,7 @@ switch ($_GET["op"]) {
     while ($reg = $rspta->fetch_object()) {
       echo '<option value=' . $reg->idpersona . '>' . $reg->razon_social . '</option>';
     }
-    break;
-
-
-
+  break;
 
   case 'uploadFtp':
     $rspta = $cotizacion->uploadFtp($idcotizacion);

@@ -122,14 +122,14 @@
               <i class="bx bx-credit-card side-menu__icon"></i> <span class="side-menu__label">Realizar venta</span> <i class="fe fe-chevron-right side-menu__angle"></i>
             </a>
             <ul class="slide-menu child1">
-              <li class="slide side-menu__label1"> <a href="javascript:void(0)">Realizar venta</a> </li>
-              <li class="slide"> <a href="guiaremision.php" class="side-menu__item">Guía de remisión</a> </li>
+              <li class="slide side-menu__label1"> <a href="javascript:void(0)">Realizar venta</a> </li>              
               <li class="slide"> <a href="boleta.php" class="side-menu__item">Boleta</a> </li>
               <li class="slide"> <a href="factura.php" class="side-menu__item">Factura</a> </li>
               <li class="slide"> <a href="notapedido.php" class="side-menu__item">Nota de venta</a> </li>
               <li class="slide"> <a href="cotizacion.php" class="side-menu__item">Cotización</a> </li>
               <li class="slide"> <a href="notac.php" class="side-menu__item">Nota de Crédito</a> </li>
-              <li class="slide"> <a href="notad.php" class="side-menu__item">Nota de Débito</a> </li>                                
+              <li class="slide"> <a href="notad.php" class="side-menu__item">Nota de Débito</a> </li>   
+              <li class="slide"> <a href="guiaremision.php" class="side-menu__item">Guía de remisión</a> </li>                             
             </ul>
           </li>
 

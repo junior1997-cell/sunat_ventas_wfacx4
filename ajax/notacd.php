@@ -4,69 +4,77 @@ if (strlen(session_id()) < 1) {	session_start(); }//Validamos si existe o no la 
 
 require_once "../modelos/Notacd.php";
 require_once "../modelos/Numeracion.php";
+require_once "../modelos/Notacf.php";
+require_once "../modelos/Notacb.php";
+
 $notacd = new Notacd();
-$idusuario = $_SESSION["idusuario"];
-$idnota = isset($_POST["idnota"]) ? limpiarCadena($_POST["idnota"]) : "";
-$idcomprobante = isset($_POST["idcomprobante"]) ? limpiarCadena($_POST["idcomprobante"]) : "";
-$nombre = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
-$serie = isset($_POST["SerieReal"]) ? limpiarCadena($_POST["SerieReal"]) : "";
-$numero_nc = isset($_POST["numero_nc"]) ? limpiarCadena($_POST["numero_nc"]) : "";
-$fecha = isset($_POST["fecha_emision"]) ? limpiarCadena($_POST["fecha_emision"]) : "";
-$codigo_nota = isset($_POST["codigo_nota"]) ? limpiarCadena($_POST["codigo_nota"]) : "";
-$codtiponota = isset($_POST["codtiponota"]) ? limpiarCadena($_POST["codtiponota"]) : "";
-$descripitem = isset($_POST["descripitem"]) ? limpiarCadena($_POST["descripitem"]) : "";
 
-$desc_motivo = isset($_POST["desc_motivo"]) ? limpiarCadena($_POST["desc_motivo"]) : "";
-$motivonota = isset($_POST["nomcodtipo"]) ? limpiarCadena($_POST["nomcodtipo"]) : ""; //Nuevo
+$notacf = new Notacf();
+$notacb = new Notacb();
+$numeracion = new Numeracion();
 
-$tipocomprobante = isset($_POST["tipocomprobante"]) ? limpiarCadena($_POST["tipocomprobante"]) : "";
+$idusuario      = $_SESSION["idusuario"];
+$idnota         = isset($_POST["idnota"]) ? limpiarCadena($_POST["idnota"]) : "";
+$idcomprobante  = isset($_POST["idcomprobante"]) ? limpiarCadena($_POST["idcomprobante"]) : "";
+$nombre         = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
+$serie          = isset($_POST["SerieReal"]) ? limpiarCadena($_POST["SerieReal"]) : "";
+$numero_nc      = isset($_POST["numero_nc"]) ? limpiarCadena($_POST["numero_nc"]) : "";
+$fecha          = isset($_POST["fecha_emision"]) ? limpiarCadena($_POST["fecha_emision"]) : "";
+$codigo_nota    = isset($_POST["codigo_nota"]) ? limpiarCadena($_POST["codigo_nota"]) : "";
+$codtiponota    = isset($_POST["codtiponota"]) ? limpiarCadena($_POST["codtiponota"]) : "";
+$descripitem    = isset($_POST["descripitem"]) ? limpiarCadena($_POST["descripitem"]) : "";
+
+$desc_motivo    = isset($_POST["desc_motivo"]) ? limpiarCadena($_POST["desc_motivo"]) : "";
+$motivonota     = isset($_POST["nomcodtipo"]) ? limpiarCadena($_POST["nomcodtipo"]) : ""; //Nuevo
+
+$tipocomprobante    = isset($_POST["tipocomprobante"]) ? limpiarCadena($_POST["tipocomprobante"]) : "";
 $numero_comprobante = isset($_POST["numero_comprobante"]) ? limpiarCadena($_POST["numero_comprobante"]) : "";
 
-$tipo_doc_ide = isset($_POST["tipo_documento_cliente"]) ? limpiarCadena($_POST["tipo_documento_cliente"]) : "";
-$numero_documento = isset($_POST["numero_documento_cliente"]) ? limpiarCadena($_POST["numero_documento_cliente"]) : "";
-$razon_social = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
-$tipo_moneda = isset($_POST["tipo_moneda"]) ? limpiarCadena($_POST["tipo_moneda"]) : "";
-$sum_ot_car = isset($_POST["sum_ot_car"]) ? limpiarCadena($_POST["sum_ot_car"]) : "";
+$tipo_doc_ide       = isset($_POST["tipo_documento_cliente"]) ? limpiarCadena($_POST["tipo_documento_cliente"]) : "";
+$numero_documento   = isset($_POST["numero_documento_cliente"]) ? limpiarCadena($_POST["numero_documento_cliente"]) : "";
+$razon_social       = isset($_POST["razon_social"]) ? limpiarCadena($_POST["razon_social"]) : "";
+$tipo_moneda        = isset($_POST["tipo_moneda"]) ? limpiarCadena($_POST["tipo_moneda"]) : "";
+$sum_ot_car         = isset($_POST["sum_ot_car"]) ? limpiarCadena($_POST["sum_ot_car"]) : "";
 $total_val_venta_oi = isset($_POST["total_val_venta_oi"]) ? limpiarCadena($_POST["total_val_venta_oi"]) : "";
 $total_val_venta_oe = isset($_POST["total_val_venta_oe"]) ? limpiarCadena($_POST["total_val_venta_oe"]) : "";
-$sum_isc = isset($_POST["sum_isc"]) ? limpiarCadena($_POST["sum_isc"]) : "";
-$sum_ot = isset($_POST["sum_ot"]) ? limpiarCadena($_POST["sum_ot"]) : "";
+$sum_isc            = isset($_POST["sum_isc"]) ? limpiarCadena($_POST["sum_isc"]) : "";
+$sum_ot             = isset($_POST["sum_ot"]) ? limpiarCadena($_POST["sum_ot"]) : "";
 
 //totales iguales en nota de credito y debito
-$subtotal = isset($_POST["subtotal_comprobante"]) ? limpiarCadena($_POST["subtotal_comprobante"]) : "";
-$igv_ = isset($_POST["total_igv"]) ? limpiarCadena($_POST["total_igv"]) : "";
-$total = isset($_POST["total_final"]) ? limpiarCadena($_POST["total_final"]) : "";
+$subtotal           = isset($_POST["subtotal_comprobante"]) ? limpiarCadena($_POST["subtotal_comprobante"]) : "";
+$igv_               = isset($_POST["total_igv"]) ? limpiarCadena($_POST["total_igv"]) : "";
+$total              = isset($_POST["total_final"]) ? limpiarCadena($_POST["total_final"]) : "";
 //
 
-$tipo_doc_mod = isset($_POST["tipo_doc_mod"]) ? limpiarCadena($_POST["tipo_doc_mod"]) : "";
-$idserie = isset($_POST["serie"]) ? limpiarCadena($_POST["serie"]) : "";
-$fecha_factura = isset($_POST["fecha_factura"]) ? limpiarCadena($_POST["fecha_factura"]) : "";
-$hora = isset($_POST["hora"]) ? limpiarCadena($_POST["hora"]) : "";
-$hora2 = isset($_POST["hora2"]) ? limpiarCadena($_POST["hora2"]) : "";
-$fecha2 = isset($_POST["fecha2"]) ? limpiarCadena($_POST["fecha2"]) : "";
-$adicional = isset($_POST["adicional"]) ? limpiarCadena($_POST["adicional"]) : "";
+$tipo_doc_mod       = isset($_POST["tipo_doc_mod"]) ? limpiarCadena($_POST["tipo_doc_mod"]) : "";
+$idserie            = isset($_POST["serie"]) ? limpiarCadena($_POST["serie"]) : "";
+$fecha_factura      = isset($_POST["fecha_factura"]) ? limpiarCadena($_POST["fecha_factura"]) : "";
+$hora               = isset($_POST["hora"]) ? limpiarCadena($_POST["hora"]) : "";
+$hora2              = isset($_POST["hora2"]) ? limpiarCadena($_POST["hora2"]) : "";
+$fecha2             = isset($_POST["fecha2"]) ? limpiarCadena($_POST["fecha2"]) : "";
+$adicional          = isset($_POST["adicional"]) ? limpiarCadena($_POST["adicional"]) : "";
 
 //SI NOTA DE CREDITO ES PARA ANULAR TODA LA OPERACION
 $subtotal_facturaNC = isset($_POST["subtotal_facturaNC"]) ? limpiarCadena($_POST["subtotal_facturaNC"]) : "";
-$total_igvNC = isset($_POST["total_igvNC"]) ? limpiarCadena($_POST["total_igvNC"]) : "";
-$total_finalNC = isset($_POST["total_finalNC"]) ? limpiarCadena($_POST["total_finalNC"]) : "";
+$total_igvNC        = isset($_POST["total_igvNC"]) ? limpiarCadena($_POST["total_igvNC"]) : "";
+$total_finalNC      = isset($_POST["total_finalNC"]) ? limpiarCadena($_POST["total_finalNC"]) : "";
 
-$tiponotaC = isset($_POST["tiponotaC"]) ? limpiarCadena($_POST["tiponotaC"]) : "";
+$tiponotaC          = isset($_POST["tiponotaC"]) ? limpiarCadena($_POST["tiponotaC"]) : "";
 
 //Nuevas variables de nota de debito
-$cantidadnd = isset($_POST["cantidadnd"]) ? limpiarCadena($_POST["cantidadnd"]) : "";
-$vunitariond = isset($_POST["vunitariond"]) ? limpiarCadena($_POST["vunitariond"]) : "";
-$totalnd = isset($_POST["totalnd"]) ? limpiarCadena($_POST["totalnd"]) : "";
+$cantidadnd         = isset($_POST["cantidadnd"]) ? limpiarCadena($_POST["cantidadnd"]) : "";
+$vunitariond        = isset($_POST["vunitariond"]) ? limpiarCadena($_POST["vunitariond"]) : "";
+$totalnd            = isset($_POST["totalnd"]) ? limpiarCadena($_POST["totalnd"]) : "";
 
 
 //SI LA NOTA DE CREDITO ES POR DESCUENTO GLOBAL
-$subtotaldesc = isset($_POST["subtotaldesc"]) ? limpiarCadena($_POST["subtotaldesc"]) : "";
-$igvdescu = isset($_POST["igvdescu"]) ? limpiarCadena($_POST["igvdescu"]) : "";
-$totaldescu = isset($_POST["totaldescu"]) ? limpiarCadena($_POST["totaldescu"]) : "";
+$subtotaldesc       = isset($_POST["subtotaldesc"]) ? limpiarCadena($_POST["subtotaldesc"]) : "";
+$igvdescu           = isset($_POST["igvdescu"]) ? limpiarCadena($_POST["igvdescu"]) : "";
+$totaldescu         = isset($_POST["totaldescu"]) ? limpiarCadena($_POST["totaldescu"]) : "";
 
-$vendedorsitio = isset($_POST["vendedorsitio"]) ? limpiarCadena($_POST["vendedorsitio"]) : "";
-$idempresa = isset($_POST["idempresa"]) ? limpiarCadena($_POST["idempresa"]) : "";
-$tipodoc_mod = isset($_POST["tipo_doc_mod"]) ? limpiarCadena($_POST["tipo_doc_mod"]) : "";
+$vendedorsitio      = isset($_POST["vendedorsitio"]) ? limpiarCadena($_POST["vendedorsitio"]) : "";
+$idempresa          = isset($_POST["idempresa"]) ? limpiarCadena($_POST["idempresa"]) : "";
+$tipodoc_mod        = isset($_POST["tipo_doc_mod"]) ? limpiarCadena($_POST["tipo_doc_mod"]) : "";
 
 switch ($_GET["op"]) {
   case 'guardaryeditarnc':
@@ -76,24 +84,13 @@ switch ($_GET["op"]) {
         $rspta = $notacd->insertarNC($idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipocomprobante, $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotal_facturaNC, $total_val_venta_oi, $total_val_venta_oe, $total_igvNC, $sum_isc, $sum_ot, $total_finalNC, $idserie, $idcomprobante, $fecha_factura, $hora, $tiponotaC, $_POST["idarticulo"], $_POST["codigo"], $_POST["cantidad"], $_POST["pvt"], $_POST["unidad_medida"], $_POST["igvBD"], $_POST["valor_unitario"], $_POST["subtotalBD"], $vendedorsitio, $idempresa, $tipodoc_mod, $tipodoc_mod, $motivonota, $_POST["aigv"], $_POST["codtrib"], $_POST["nomtrib"], $_POST["coditrib"], $_POST["numorden"], $_POST["descarti"], $_POST["descripitem"]);
 
         $tipodocu = $_GET['tipodo'];
-        if ($tipodocu == "01") {
-          //Nota creedito
-          require_once "../modelos/Notacf.php";
-          $notacf = new Notacf();
-          //Solo actualiza el stock y no anula el comprobante
-          $rsptaf = $notacf->anularFacturaxItem($idcomprobante, $_POST["idarticulo"], $_POST["cantidad"]);
-        }
-
-        if ($tipodocu == "03") {
-          require_once "../modelos/Notacb.php";
-          $notacb = new Notacb();
-          $rsptab = $notacb->anularBoletaxItem($idcomprobante, $_POST["idarticulo"], $_POST["cantidad"]);
-        }
+        //Nota credito          
+        //Solo actualiza el stock y no anula el comprobante
+        if ($tipodocu == "01") { $rsptaf = $notacf->anularFacturaxItem($idcomprobante, $_POST["idarticulo"], $_POST["cantidad"]);  }
+        if ($tipodocu == "03") { $rsptab = $notacb->anularBoletaxItem($idcomprobante, $_POST["idarticulo"], $_POST["cantidad"]); }
 
         echo $rspta ? "Nota de crédito por item registrada" : "No se pudieron registrar todos los datos de la Nota de crédito";
       } elseif ($tiponotaC == '4') { //Descuento global
-
-
 
         $rspta = $notacd->insertarNCxDescuentoGlobal($idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipocomprobante, $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotaldesc, $total_val_venta_oi, $total_val_venta_oe, $igvdescu, $sum_isc, $sum_ot, $totaldescu, $idserie, $idcomprobante, $fecha_factura, $hora, $tiponotaC, $vendedorsitio, $idempresa, $tipodoc_mod, $motivonota);
         echo $rspta ? "Nota de crédito registrada" : "No se pudieron registrar todos los datos de la Nota de crédito";
@@ -102,46 +99,28 @@ switch ($_GET["op"]) {
         $rspta = $notacd->insertarNC($idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipocomprobante, $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotal, $total_val_venta_oi, $total_val_venta_oe, $igv_, $sum_isc, $sum_ot, $total, $idserie, $idcomprobante, $fecha_factura, $hora, $tiponotaC, '', '', '', '', '', '', '', '', $vendedorsitio, $idempresa, $tipodoc_mod, $motivonota, '', '', '', '', '', $_POST["descarti"]);
 
         $tipodocu = $_GET['tipodo']; //Para anular y actualizar el stock de los productos que se regresan
-        if ($tipodocu == "01") {
-          //Nota creedito
-          require_once "../modelos/Notacf.php";
-          $notacf = new Notacf();
-          $rsptaf = $notacf->anularFactura($idcomprobante);
-        }
-
-        if ($tipodocu == "03") {
-          require_once "../modelos/Notacb.php";
-          $notacb = new Notacb();
-          $rsptab = $notacb->anularBoleta($idcomprobante);
-        }
+        //Nota creedito   
+        if ($tipodocu == "01") { $rsptaf = $notacf->anularFactura($idcomprobante); }
+        if ($tipodocu == "03") { $rsptab = $notacb->anularBoleta($idcomprobante);  }
 
         echo $rspta ? "Nota de crédito registrada" : "No se pudo registrar la Nota de crédito completo";
       }
     }
-    break;
-
-
+  break;
 
   case 'guardaryeditarnd':
     if (empty($idnota)) {
       $rspta = $notacd->insertarND($idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipocomprobante, $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotaldesc, $total_val_venta_oi, $total_val_venta_oe, $igvdescu, $sum_isc, $sum_ot, $totaldescu, $idserie, $idcomprobante, $fecha2, $hora2, '0', $vendedorsitio, $idempresa, $tipodoc_mod, $motivonota);
       $tipodocu = $_GET['tipodo'];
-
       echo $rspta ? "Nota de débito registrada" : "No se pudieron registrar todos los datos de la Nota de débito";
     }
-    break;
+  break;
 
-
-
-  case 'actualizarNumero':
-    require_once "../Modelos/Numeracion.php";
-    $numeracion = new Numeracion();
-
+  case 'actualizarNumero':    
     $num = $_GET['Num'];
     $idnumeracion = $_GET['Idnumeracion'];
     $rspta = $numeracion->UpdateNumeracion($num, $idnumeracion);
-    break;
-
+  break;
 
   case 'listarNC':
     //$idempresa=$_GET['idempresa'];
@@ -162,7 +141,6 @@ switch ($_GET["op"]) {
     $files = array_diff(scandir($path), array('.', '..'));
     $files2 = array_diff(scandir($path2), array('.', '..'));
     //=============================================================
-
 
     $rspta = $notacd->listarNC($_SESSION['idempresa']);
     //Vamos a declarar un array
@@ -227,36 +205,25 @@ switch ($_GET["op"]) {
 
       $data[] = array(
 
-        "0" =>
+        "0" => '<div class="dropup">
+          <button  class="btn-sm dropdown-toggle" type="button" data-toggle="dropdown"> ::: <span class="caret"></span></button> 
+          <ul class="dropdown-menu pull-center">
+            <li>
+              <a target="_blank" href="' . $url . $reg->idnota . $urlTipo . $reg->tipo_doc_mod . '">  
+                <i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir formato 2 copias" onclick=""> Imprimir Nota</i>
+              </a>
+            </li>
+            <li>
+              <a  onclick="baja(' . $reg->idnota . ')" color:red;"> 
+                <i class="fa fa-level-down"  data-toggle="tooltip" title="Dar de baja" onclick=""></i>Dar de baja
+              </a>
+            </li>
+          </ul>
+        </div>',
 
-        '<div class="dropup">
-                <button  class="btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                :::
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu pull-center">
-                <li>
-                     <a target="_blank" href="' . $url . $reg->idnota . $urlTipo . $reg->tipo_doc_mod . '">  <i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir formato 2 copias" onclick=""> Imprimir Nota</i>
-                    </a>
-                </li>
-
-
-                  <li>
-                  <a  onclick="baja(' . $reg->idnota . ')" color:red;"> 
-                   <i class="fa fa-level-down"  data-toggle="tooltip" title="Dar de baja" onclick=""></i>Dar de 
-                   baja
-                    </a>
-
-                  </li>
-
-                  </ul>
-                  </div>',
-
-        //         '<a target="_blank" href="'.$url.$reg->idnota.$urlTipo.$reg->tipo_doc_mod.'"> <button class="btn btn-info" data-toggle="tooltip" title="Imprimir Nota de crédito"><i class="fa  fa-print" > </i></button>
-        //         </a>'
-
-        // .
-        //  '<button class="btn btn-info"  data-toggle="tooltip" title="Enviar por correo a: '.$reg->email.'" onclick="enviarcorreo('.$reg->idnota.')" '.$send.'><i class="fa fa-send"></i></button>'
-        //          ,
+        //'<a target="_blank" href="'.$url.$reg->idnota.$urlTipo.$reg->tipo_doc_mod.'"> <button class="btn btn-info" data-toggle="tooltip" title="Imprimir Nota de crédito"><i class="fa  fa-print" > </i></button>
+        //</a>'
+        // '<button class="btn btn-info"  data-toggle="tooltip" title="Enviar por correo a: '.$reg->email.'" onclick="enviarcorreo('.$reg->idnota.')" '.$send.'><i class="fa fa-send"></i></button>'
 
         "1" => $reg->numeroserienota,
         "2" => $reg->fecha,
@@ -271,62 +238,44 @@ switch ($_GET["op"]) {
         "9" => ($reg->estado == '1') //si esta emitido
           ? '<span style="color:#BA4A00;">' . $reg->DetalleSunat . '</span>'
           : (($reg->estado == '4') ? '<span style="color:#239B56;">' . $reg->DetalleSunat . '</span>' //si esta firmado
-            : (($reg->estado == '3') ? '<span style="color:#E59866;">' . $reg->DetalleSunat . '</span>' // si esta de baja
-              : (($reg->estado == '0') ? '<span style="color:#E59866;">' . $reg->DetalleSunat . '</span>' //si esta firmadoc/nota
-                : (($reg->estado == '5') ? '<span style="color:#145A32;">' . $reg->DetalleSunat . '</span>' // Si esta aceptado por SUNAT
-                  : '<span style="color:#239B56;">' . $reg->DetalleSunat . '</span>')))),
+          : (($reg->estado == '3') ? '<span style="color:#E59866;">' . $reg->DetalleSunat . '</span>' // si esta de baja
+          : (($reg->estado == '0') ? '<span style="color:#E59866;">' . $reg->DetalleSunat . '</span>' //si esta firmadoc/nota
+          : (($reg->estado == '5') ? '<span style="color:#145A32;">' . $reg->DetalleSunat . '</span>' // Si esta aceptado por SUNAT
+          : '<span style="color:#239B56;">' . $reg->DetalleSunat . '</span>')))),
         //Opciones de envio
-        "10" =>
-
-        '<div class="dropdown">
-                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                Opciones
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu pull-right">
-
-                  <li>
-                    <a onclick="generarxml(' . $reg->idnota . ')" ' . $sunatFirma . '="class_a_href"><i class="fa fa-download"  style="color:orange;" data-toggle="tooltip" title="Generar xml"> Generarl xml</i></a>
-                  </li>
-
-
-                  <li>
-                   <a onclick="enviarxmlSUNAT(' . $reg->idnota . ')" ><i class="fa fa-send"  style="color:red; font-size:18px;" data-toggle="tooltip" title="Enviar a SUNAT" ></i>Enviar a SUNAT</a>
-                  </li>
-
-                   <li>
-                   <a onclick="mostrarxml(' . $reg->idnota . ')"><i class="fa fa-check" style="color:orange; "  data-toggle="tooltip" title="Mostrar XML"> Mostrar XML</i></a>
-                  </li>
-
-                  <li>
-                   <a onclick="mostrarrpta(' . $reg->idnota . ')"><i class="fa fa-check" style="color:green; "  data-toggle="tooltip" title="Mostrar respuesta CDR"> Mostrar CDR</i></a>
-                  </li>
-
-
-                 <li>
-                   <a href="https://bit.ly/31qZoI1" target=_blank >  <img src="../public/images/sunat.png" style="color:green; "  data-toggle="tooltip" title="Consulta de validez con SUNAT"> Validar en SUNAT</i></a>
-                  </li>
-
-
-
-                   </ul>
-                </div>'
-
+        "10" =>'<div class="dropdown">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"> Opciones<span class="caret"></span></button>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a onclick="generarxml(' . $reg->idnota . ')" ' . $sunatFirma . '="class_a_href"><i class="fa fa-download"  style="color:orange;" data-toggle="tooltip" title="Generar xml"> Generarl xml</i></a>
+            </li>
+            <li>
+              <a onclick="enviarxmlSUNAT(' . $reg->idnota . ')" ><i class="fa fa-send"  style="color:red; font-size:18px;" data-toggle="tooltip" title="Enviar a SUNAT" ></i>Enviar a SUNAT</a>
+            </li>
+              <li>
+              <a onclick="mostrarxml(' . $reg->idnota . ')"><i class="fa fa-check" style="color:orange; "  data-toggle="tooltip" title="Mostrar XML"> Mostrar XML</i></a>
+            </li>
+            <li>
+              <a onclick="mostrarrpta(' . $reg->idnota . ')"><i class="fa fa-check" style="color:green; "  data-toggle="tooltip" title="Mostrar respuesta CDR"> Mostrar CDR</i></a>
+            </li>
+            <li>
+              <a href="https://bit.ly/31qZoI1" target=_blank >  <img src="../public/images/sunat.png" style="color:green; "  data-toggle="tooltip" title="Consulta de validez con SUNAT"> Validar en SUNAT</i></a>
+            </li>
+          </ul>
+        </div>'
       );
     }
 
     $results = array(
-      "sEcho" => 1,
-      //Información para el datatables
-      "iTotalRecords" => count($data),
-      //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data),
-      //enviamos el total registros a visualizar
+      "sEcho" => 1,    //Información para el datatables
+      "iTotalRecords" => count($data),    //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data),    //enviamos el total registros a visualizar
       "aaData" => $data
     );
 
     echo json_encode($results);
 
-    break;
+  break;
 
 
   case 'listarNCDia':
@@ -715,36 +664,27 @@ switch ($_GET["op"]) {
     );
 
     echo json_encode($results);
+  break;
 
-    break;
-
-
-
-
-  case 'autonumeracion':
-
-    $numeracion = new Numeracion();
+  case 'autonumeracion':    
     $Ser = $_GET['ser'];
     $idempresa = $_GET['idempresa'];
     $rspta = $numeracion->llenarNumeroNcredito($Ser, $idempresa);
     while ($reg = $rspta->fetch_object()) {
       echo $reg->Nnumero;
     }
-    break;
+  break;
 
-
-  case 'autonumeracionDebito':
-
-    $numeracion = new Numeracion();
+  case 'autonumeracionDebito':   
     $Ser = $_GET['ser'];
     $idempresa = $_GET['idempresa'];
     $rspta = $numeracion->llenarNumeroNdedito($Ser, $idempresa);
     while ($reg = $rspta->fetch_object()) {
       echo $reg->Nnumero;
     }
-    break;
+  break;
 
-    //====================================================================================
+  //====================================================================================
 
   case 'selectcatalogo9':
     require_once "../modelos/Notacd.php";
@@ -764,34 +704,22 @@ switch ($_GET["op"]) {
     while ($reg = $rspta->fetch_object()) {
       echo '<option value=' . $reg->codigo . '>' . $reg->descripcion . '</option>';
     }
-    break;
+  break;
 
-
-
-  case 'selectSerie':
-    //$idempresa=$_GET['idempresa'];
-    require_once "../modelos/Numeracion.php";
-    $numeracion = new Numeracion();
-
+  case 'selectSerie':   
+    require_once "../modelos/Numeracion.php";   
     $rspta = $numeracion->llenarSerieNcredito($idusuario);
-
     while ($reg = $rspta->fetch_object()) {
       echo '<option value=' . $reg->idnumeracion . '>' . $reg->serie . '</option>';
     }
-    break;
+  break;
 
   case 'selectSerieDebito':
-    require_once "../modelos/Numeracion.php";
-    $numeracion = new Numeracion();
-
     $rspta = $numeracion->llenarSerieNdebito($idusuario);
-
     while ($reg = $rspta->fetch_object()) {
       echo '<option value=' . $reg->idnumeracion . '>' . $reg->serie . '</option>';
     }
-    break;
-
-
+  break;
 
   case 'listarComprobante':
 
@@ -800,8 +728,7 @@ switch ($_GET["op"]) {
     $mone = $_GET['mo'];
 
     if ($tipodocu == '01') {
-      require_once "../modelos/Notacf.php";
-      $notacf = new Notacf();
+      
       $rsptaf = $notacf->buscarComprobante($idempresa, $mone);
       //Vamos a declarar un array
       $data = array();
@@ -809,11 +736,9 @@ switch ($_GET["op"]) {
       while ($reg = $rsptaf->fetch_object()) {
         $data[] = array(
           "0" => '<button class="btn btn-warning btn-sm" onclick="agregarComprobante(' . $reg->idfactura . ',\'' . $reg->tdcliente . '\',\'' . $reg->ndcliente . '\',\'' . $reg->rzcliente . '\',\'' . $reg->domcliente . '\', \'' . $reg->tipocomp . '\',\'' . $reg->numerodoc . '\',\'' . $reg->subtotal . '\',\'' . $reg->igv . '\',\'' . $reg->total . '\' ,\'' . $reg->fecha1 . '\',\'' . $reg->fecha2 . '\')"><span class="fa fa-plus"></span></button>',
-
           "1" => $reg->ndcliente,
           "2" => $reg->fecha1,
           "3" => $reg->rzcliente,
-
           "4" => $reg->numerodoc,
           "5" => $reg->tmoneda,
           "6" => $reg->subtotal,
@@ -822,12 +747,9 @@ switch ($_GET["op"]) {
         );
       }
       $results = array(
-        "sEcho" => 1,
-        //Información para el datatables
-        "iTotalRecords" => count($data),
-        //enviamos el total registros al datatable
-        "iTotalDisplayRecords" => count($data),
-        //enviamos el total registros a visualizar
+        "sEcho" => 1,     //Información para el datatables
+        "iTotalRecords" => count($data),   //enviamos el total registros al datatable
+        "iTotalDisplayRecords" => count($data),  //enviamos el total registros a visualizar
         "aaData" => $data
       );
 
@@ -883,8 +805,7 @@ switch ($_GET["op"]) {
 
 
     if ($tipodocu == "01") { //FACTURA 
-      require_once "../modelos/Notacf.php";
-      $notacf = new Notacf();
+      
       $rsptaf = $notacf->buscarComprobanteId($idcomp);
 
       $data = array();
@@ -1001,7 +922,7 @@ switch ($_GET["op"]) {
     $hoy = date("Y-m-d");
     $rspta = $notacd->bajanc($idnota, $hoy, $com, $hor);
     echo $rspta ? "La nota de credito esta de baja" : "Nota no se dar de baja";
-    break;
+  break;
 
 
   case 'listarArticulosNC':
@@ -1013,8 +934,7 @@ switch ($_GET["op"]) {
 
 
     require_once "../modelos/Articulo.php";
-    $articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);
-    $idempresa = $_GET['idempresa'];
+    $articulo = new Articulo($_SESSION['idusuario'], $_SESSION['idempresa']);    
     $rspta = $articulo->listarActivosVentaumventa($_SESSION['idempresa'], $tpff, $almacen, $tipoprecioa);
     //Vamos a declarar un array
     $data = array();
@@ -1027,22 +947,16 @@ switch ($_GET["op"]) {
         "3" => $reg->unidad_medida,
         "4" => $reg->precio_venta,
         "5" => ""
-
       );
     }
     $results = array(
-      "sEcho" => 1,
-      //Información para el datatables
-      "iTotalRecords" => count($data),
-      //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data),
-      //enviamos el total registros a visualizar
+      "sEcho" => 1,    //Información para el datatables
+      "iTotalRecords" => count($data),     //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data),   //enviamos el total registros a visualizar
       "aaData" => $data
     );
     echo json_encode($results);
-    break;
-
-    //<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >
-
+  break;
+  //<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >
 
 }
