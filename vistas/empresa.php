@@ -231,6 +231,15 @@
                         <hr>
                         <div id="preview"></div>
                       </div>
+                      <div class="col-lg-1">
+                        <div class="form-group ">
+                          <label class="form-label logo_cuadrado_rectangulo">Rectangulo </label> <br>
+                          <div class="custom-toggle-switch d-flex align-items-center mb-4">
+                            <input id="logo_c_r" name="logo_c_r" type="checkbox" value="1" onchange="logo_cu_re(this);">
+                            <label for="logo_c_r" class="label-dark"></label><span class="ms-3"></span>
+                          </div>                          
+                        </div>                        
+                      </div>
                     </div>
 
                     <h5>Cuentas Bancarias</h5>

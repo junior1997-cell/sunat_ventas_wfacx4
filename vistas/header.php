@@ -32,13 +32,15 @@ $rsptav = $consulta->insertarVentaDiaria($totalventas);
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SISTEMA WFACX | Facturación electrónica</title>
-
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="../custom/modules/fontawesome6.1.1/css/all.css">
-  <link rel="stylesheet" href="../public/css/factura.css">
+
   <!-- Favicon -->
+  <link rel="shortcut icon" href="../assets/images/brand-logos/toggle-logo.png" type="image/x-icon">
   <link rel="apple-touch-icon" href="../assets/images/brand-logos/toggle-logo.png">
-  <link rel="shortcut icon" href="../assets/images/brand-logos/toggle-logo.png">
+  <link rel="icon" href="../assets/images/brand-logos/toggle-logo.png" sizes="42x42">
+ 
+  <link rel="stylesheet" href="../custom/modules/fontawesome6.1.1/css/all.css">
+  <link rel="stylesheet" href="../public/css/factura.css">  
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">

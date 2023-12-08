@@ -15,6 +15,11 @@
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="../assets/images/brand-logos/toggle-logo.png" type="image/x-icon">
+        <link rel="apple-touch-icon" href="../assets/images/brand-logos/toggle-logo.png">
+        <link rel="icon" href="../assets/images/brand-logos/toggle-logo.png" sizes="42x42">
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <!-- <link rel="stylesheet" href="../public/css/bootstrap.css"> -->
@@ -394,7 +399,7 @@
                           <label for="numero_documento" class="label-data">Nro (Presione Enter):</label>                          
                           <div class="input-group mb-3">
                             <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="Número" value="-" required="true" onkeypress="agregarClientexDoc(event)">
-                            <button class="btn btn-primary btn-search-sr" type="button"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar Sunat/Recniec" onclick="agregarClientexDoc(event);"><i class="fas fa-search"></i></button>
+                            <button class="btn btn-primary btn-search-sr" type="button"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Buscar Sunat/Recniec" onclick="buscando_cliente();"><i class="fas fa-search"></i></button>
                           </div>
                           <!-- <div id="suggestions"></div> -->                          
                         </div>
@@ -727,7 +732,7 @@
           <!-- MODAL VISUALIZAR COMPROBANTE -->
           <!-- Modal a4-->
           <div class="modal fade text-left" id="modalPreview2" tabindex="-1" role="dialog" aria-labelledby="modalPreview2" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg" style="width: 100% !important;">
+            <div class="modal-dialog  modal-lg" style="width: 100% !important;">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="modalPreview2">PDF Boleta A4</h5>

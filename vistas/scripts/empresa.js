@@ -112,6 +112,8 @@ function mostrar(idempresa) {
 		//$("#imagenmuestra").attr("src","../files/logo/"+data.logo);
 		$("#imagenmuestra").show();
 
+		if (data.logo_c_r == 1) { $("#logo_c_r").prop('checked', true).trigger("change");	} else { $("#logo_c_r").prop('checked', false).trigger("change");	}		
+
 		if (data.logo == "" || data.logo == null ) {
 			$("#imagenmuestra").attr("src", "../files/logo/img_defecto.png");
 			//$("#imagenmuestra").attr("src","c:/sfs/files/logo/simagen.png");
@@ -244,6 +246,14 @@ function llenar_dep_prov_ubig(input) {
 			$("#form-empresa").valid();
     });
   }  
+}
+
+function logo_cu_re(input) {
+	if ($(input).is(":checked")) {
+		$('.logo_cuadrado_rectangulo').html('Cuadrado');
+	} else {
+		$('.logo_cuadrado_rectangulo').html('Rectangunlo');
+	}
 }
 
 

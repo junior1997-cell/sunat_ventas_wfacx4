@@ -409,10 +409,13 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
-                          <button class="btn btn-primary btn-sm" type="submit" id="btnGuardar" ><i class="fa fa-save"></i>
-                            Guardar
-                          </button>
-                          <button class="btn btn-danger btn-sm" type="button" id="btnCancelar" onclick="cancelarform()" ><i class="fa fa-arrow-circle-left" data-toggle="tooltip" title="Cancelar"></i> Cancelar</button>
+                          <div class="col-lg-12">
+                            <button class="btn btn-primary btn-sm" type="submit" id="btnGuardar" ><i class="fa fa-save"></i>
+                              Guardar
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button" id="btnCancelar" onclick="cancelarform()" ><i class="fa fa-arrow-circle-left" data-toggle="tooltip" title="Cancelar"></i> Cancelar</button>
+                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -792,7 +795,7 @@ if (!isset($_SESSION["nombre"])) {
       <div class="modal-dialog modal-md" style="width: 100% !important;">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalPreviewticket">Ticket de Boleta</h5>
+            <h5 class="modal-title" >Ticket de Boleta</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
