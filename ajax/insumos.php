@@ -31,7 +31,7 @@ switch ($_GET["op"]) {
       echo $rspta ? "Monto registrado" : "Monto no se pudo registrar";
 
     } else {
-      $rspta = $insumos->editar($idinsumo, $fecharegistro, $categoriai, $documnIDE, $numDOCIDE, $acredor, $descripcion, $monto);
+      $rspta = $insumos->editar($idinsumo,$tipodato, $fecharegistro, $categoriai, $documnIDE, $numDOCIDE, $acredor, $descripcion, $monto);
       echo $rspta ? "Insumo actualizado" : "Insumo no se pudo actualizar";
     }
     break;
@@ -39,30 +39,34 @@ switch ($_GET["op"]) {
 
 
   case 'mostrar':
-    $rspta = $insumos->mostrar($idinsumo);
+    $rspta = $insumos->mostrar($_POST['id_insumo']);
     echo json_encode($rspta);
   break;
 
 
   case 'listar':
-    //$fech=$_GET['hh'];
-    $rspta = $insumos->listar();
-    //Vamos a declarar un array
+    $rspta = $insumos->listar($_GET['idcaja']);
+
     $data = array();
+    // $rspta['data']
+    foreach ($rspta as $key => $reg) {
 
-    while ($reg = $rspta->fetch_object()) {
+      $estado= ($reg['estado_caja'])=='1' ? '<button class="btn btn-icon btn-sm btn-info" onclick="mostrar_editar('.$reg['idinsumo'].')"><i class="ri-edit-line"></i></button>' .
+      ' <button class="btn btn-icon btn-sm btn-danger" onclick="eliminar('.$reg['idinsumo'].')"><i class="ri-delete-bin-line"></i></button>' : 
+      '<button class="btn btn-icon btn-sm btn-info" disabled><i class="ri-edit-line"></i></button>' .
+      ' <button class="btn btn-icon btn-sm btn-danger" disabled><i class="ri-delete-bin-line"></i></button>' ;
+
       $data[] = array(
-        "0" => $reg->idinsumo,
-        "1" => $reg->tipodato,
-        "2" => $reg->documnIDE,
-        "3" => $reg->numDOCIDE,
-        "4" => $reg->acredor,
-        "5" => $reg->descripcionc,
-        "6" => $reg->descripcion,
-        "7" => $reg->gasto,
-        "8" => $reg->ingreso,
-        "9" => '<a onclick="eliminar(' . $reg->idinsumo . ')"><i class="fa fa-close" style="color:red;"></i></a>'
-
+        "0" => $reg['idinsumo'],
+        "1" => $reg['tipodato'],
+        "2" => $reg['fecharegistro'],
+        "3" => $reg['documnIDE'].' : '.$reg['numDOCIDE'],
+        "4" => $reg['acredor'],
+        "5" => $reg['descripcionc'],
+        "6" => $reg['descripcion'],
+        "7" => $reg['gasto'],
+        "8" => $reg['ingreso'],
+        "9" => $estado
       );
     }
     $results = array(
@@ -96,15 +100,16 @@ switch ($_GET["op"]) {
     echo $rspta ? "Insumo eliminado" : "Insumo no se puede eliminar";
   break;
   
-  // case 'select_cajas':
-  //   $rspta = $insumos->select_cajas();
-  //   echo '<option value="TODOS">TODOS</option>';
-  //   foreach ($rspta as $key => $reg) {
-  //     $selected = ($key==0) ? 'selected' : '' ;
-  //   echo '<option value="' . $reg['idcaja'] . '" '.$selected.' >' . $reg['codigo_caja'] . '</option>';
-  //   }
+  case 'select_cajas':
+    $rspta = $insumos->select_cajas();
+    echo '<option value="TODOS">TODOS</option>';
+    foreach ($rspta as $key => $reg) {
+      $selected = ($key==0) ? 'selected' : '' ;
+    echo '<option value="' . $reg['idcaja'] . '"  fa="' . $reg['fecha_apertura'] . '" fc="' . $reg['fecha_cierre'] . '" '.$selected.' >' . $reg['codigo_caja'] . ' - '.$reg['estado_caja'] .'</option>';
+    }
     
-  // break;
+  break;
+
   case 'Estado_Caja':
     $rspta = $insumos->EstadoCaja();
     echo json_encode($rspta);

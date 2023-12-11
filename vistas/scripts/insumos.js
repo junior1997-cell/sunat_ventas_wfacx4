@@ -1,5 +1,5 @@
 var tabla;
-
+var Valuecaja = '';
 //Función que se ejecuta al inicio
 function init() {
 
@@ -23,22 +23,49 @@ function init() {
 
 
   $.post("../ajax/insumos.php?op=selectcate", function (r) { $("#categoriai").html(r); });
+  $.post("../ajax/insumos.php?op=select_cajas", function (r) { $("#select_cajas").html(r); listar(); mostrarfechas(); });
 
   limpiar();
-  listar();
+
   listarutilidad();
-  validar_caja();
+
+  $("#select_cajas").select2({ theme: "bootstrap4", placeholder: "Seleccione", allowClear: true, });
+
 }
+
+function mostrarfechas() {
+  if ($('#select_cajas').val() == null || $('#select_cajas').val() == '' || $('#select_cajas').val() == 'TODOS') {
+    $(".fachas_Caja").html(``);
+  } else {
+    var fa = $('#select_cajas').select2('data')[0].element.attributes.fa.value;
+    var fc = $('#select_cajas').select2('data')[0].element.attributes.fc.value;
+    $(".fachas_Caja").html(`${fa} - ${fc}`);
+  }
+}
+
 
 //Función limpiar
 function limpiar() {
   $("#descripcion").val("");
   $("#monto").val("");
+  $("#fecharegistro").val("");
+  $("#numDOCIDE").val("");
+  $("#fecharegistro").val("");
+
+  $("#tipodato").val("null").trigger("change");
+  $("#documnIDE").val("null").trigger("change");
+
+  $("#categoriai").val("null").trigger("change");
+  $("#acredor").val("Ninguno").trigger("change");
+
+  $("#glosa").val("null").trigger("change");
+
   setTimeout(function () {
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('descripcion').focus();
     });
   }, 100);
+
 }
 
 
@@ -73,37 +100,44 @@ function cancelarform() {
 //Función Listar
 function listar() {
 
-  tabla = $('#tbllistado').dataTable(
-    {
-      lengthMenu: [[-1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200,]],//mostramos el menú de registros a revisar
-      "aProcessing": true,//Activamos el procesamiento del datatables
-      "aServerSide": true,//Paginación y filtrado realizados por el servidor
-      dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
-      buttons: [
-        { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function (e, dt, node, config) { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } } },
-        { extend: 'copyHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true, },
-        { extend: 'excelHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true, },
-        { extend: 'pdfHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL', },
-        { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
-      ],
-      "ajax":
+  $(document).ready(function () {
+
+    Valuecaja = $('#select_cajas').val();
+
+    tabla = $('#tbllistado').dataTable(
       {
-        url: '../ajax/insumos.php?op=listar',
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-        }
-      },
-      language: {
-        lengthMenu: "Mostrar: _MENU_ registros",
-        buttons: { copyTitle: "Tabla Copiada", copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada", }, },
-        sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
-      },
-      "bDestroy": true,
-      "iDisplayLength": 5,//Paginación
-      "order": [[0, "desc"]]//Ordenar (columna,orden)
-    }).DataTable();
+        lengthMenu: [[-1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200,]],//mostramos el menú de registros a revisar
+        "aProcessing": true,//Activamos el procesamiento del datatables
+        "aServerSide": true,//Paginación y filtrado realizados por el servidor
+        dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+        buttons: [
+          { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function (e, dt, node, config) { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } } },
+          { extend: 'copyHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray m-r-5px", footer: true, },
+          { extend: 'excelHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success m-r-5px", footer: true, },
+          { extend: 'pdfHtml5', exportOptions: { columns: [1, 2, 3, 4, 5, 6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL', },
+          { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+        ],
+        "ajax":
+        {
+          url: `../ajax/insumos.php?op=listar&idcaja=${Valuecaja}`,
+          type: "get",
+          dataType: "json",
+          error: function (e) {
+            console.log(e.responseText);
+          }
+        },
+        language: {
+          lengthMenu: "Mostrar: _MENU_ registros",
+          buttons: { copyTitle: "Tabla Copiada", copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada", }, },
+          sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
+        },
+        "bDestroy": true,
+        "iDisplayLength": 5,//Paginación
+        "order": [[0, "desc"]]//Ordenar (columna,orden)
+      }).DataTable();
+
+  });
+
 }
 
 function calcularutilidad() {
@@ -206,6 +240,7 @@ function guardaryeditar(e) {
     processData: false,
 
     success: function (datos) {
+
       if (datos == 'caja_cerrada') {
 
         sw_warning('Caja cerrada', '<b>Aperturar una Caja</b> antes de seguir con tus operaciones', 5000);
@@ -217,7 +252,7 @@ function guardaryeditar(e) {
         document.getElementById("mensaje").style.visibility = "hidden";
         listar(); limpiar();
         $("#agregarmaspagos").modal('hide');
-        
+
       }
 
     }
@@ -283,40 +318,7 @@ function stopRKey(evt) {
 }
 
 
-var field = $('#monto');
-//Función para aceptar solo numeros con dos decimales
-function NumCheck(e, field) {
 
-  // Backspace = 8, Enter = 13, ’0′ = 48, ’9′ = 57, ‘.’ = 46
-  key = e.keyCode ? e.keyCode : e.which
-
-  if (e.keyCode === 13 && !e.shiftKey) {
-    document.getElementById('btnGuardar').focus();
-  }
-
-
-  // backspace
-  if (key == 8) return true;
-  if (key == 9) return true;
-  if (key > 44 && key < 58) {
-    if (input.val() === "") return true;
-    var existePto = (/[.]/).test(field.val());
-    if (existePto === false) {
-      regexp = /.[0-9]{10}$/;
-    }
-    else {
-      regexp = /.[0-9]{2}$/;
-    }
-    return !(regexp.test(field.val()));
-  }
-
-  if (key == 46) {
-    if (field.val() === "") return false;
-    regexp = /^[0-9]+$/;
-    return regexp.test(field.val());
-  }
-  return false;
-}
 //------------validar caja abierta------------
 function validar_caja() {
   $.post("../ajax/insumos.php?op=Estado_Caja", {}, function (data, status) {
@@ -331,16 +333,29 @@ function validar_caja() {
 //BLOQUEA ENTER 
 document.onkeypress = stopRKey;
 
-function mostrar(idunidadm) {
-  $.post("../ajax/umedida.php?op=mostrar", { idunidadm: idunidadm }, function (data, status) {
+function mostrar_editar(id_insumo) {
+  limpiar();
+
+  $.post("../ajax/insumos.php?op=mostrar", { id_insumo: id_insumo }, function (data, status) {
     data = JSON.parse(data);
-    mostrarform(true);
 
-    $("#idunidadm").val(data.idunidad);
-    $("#nombre").val(data.nombreum);
-    $("#abre").val(data.abre);
-    $("#equivalencia").val(data.equivalencia);
+    $("#idinsumo").val(data.idinsumo);
+    $("#fecharegistro").val(data.fecharegistro);
+    $("#tipodato").val(data.tipodato);
+    $("#categoriai").val(data.idcategoriai);
+    $("#documnIDE").val(data.documnIDE);
+    $("#numDOCIDE").val(data.numDOCIDE);
+    $("#acredor").val(data.acredor);
 
+    if (data.tipodato == 'ingreso') {
+      $("#monto").val(data.ingreso);
+    } else {
+      $("#monto").val(data.gasto);
+    }
+
+    $("#descripcion").val(data.descripcion);
+
+    $("#agregarmaspagos").modal('show');
   })
 }
 
@@ -441,7 +456,6 @@ function cargarEmpleados() {
 }
 
 function llenarSelect(data) {
-  console.log(data);
   var select = $('#acredor');
   select.empty();
   select.append($('<option>', {

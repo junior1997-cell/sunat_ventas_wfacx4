@@ -12,7 +12,19 @@ if (!isset($_SESSION["nombre"])) {
 
 ?>
     <div class="content-header">
-      <h1>Gastos e Ingresos <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#agregarmaspagos"> Agregar mas pagos</button></h1>
+      <div class="row">
+        <div class="mb-1 col-lg-3">
+          <h1>Gastos e Ingresos <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#agregarmaspagos"> Agregar mas pagos</button>
+
+          </h1>
+        </div>
+        <div class="mb-2 col-lg-1 text-center" style=" font-size: 20px; font-weight: bolder; color: #0c6be5;"> Cajas -> </div>
+        <div class="mb-3 col-lg-2"> <select class="form-control" name="select_cajas" id="select_cajas" onchange="mostrarfechas(); delay(function(){listar()}, 100 );"></select> </div>
+        <div class="mb-3 col-lg-4 d-flex" style=" font-size: 15px; font-weight: bolder; color: #000000;">
+          <div class="fachas_Caja align-self-center"></div>
+        </div>
+      </div>
+
     </div>
 
     <div class="row">
@@ -60,7 +72,7 @@ if (!isset($_SESSION["nombre"])) {
               <div class="row">
                 <div class="mb-3 col-lg-6">
                   <label for="recipient-name" class="col-form-label">Fecha de registro:</label>
-                  <input type="datetime-local" name="fecharegistro" id="fecharegistro" class="form-control" onchange="listar();">
+                  <input type="datetime-local" name="fecharegistro" id="fecharegistro" class="form-control" onchange="listar();" required="true">
                 </div>
                 <div class="mb-3 col-lg-6">
                   <label for="message-text" class="col-form-label">Tipo:</label>
@@ -101,7 +113,7 @@ if (!isset($_SESSION["nombre"])) {
 
                 <div class="mb-3 col-lg-6">
                   <label for="recipient-name" class="col-form-label">Monto:</label>
-                  <input type="text" class="form-control" name="monto" id="monto" placeholder="0.00" onkeypress="return NumCheck(event, this)" required="true">
+                  <input type="text" class="form-control" name="monto" id="monto" placeholder="0.00" required="true">
                   <label id="mensaje" style="color: green;"> </label>
                 </div>
 

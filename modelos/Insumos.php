@@ -25,9 +25,17 @@ class Insumos
   }
 
   //Implementamos un método para editar registros
-  public function editar($idinsumo, $descripcion, $monto)
+  public function editar($idinsumo,$tipodato, $fecharegistro, $categoriai, $documnIDE, $numDOCIDE, $acredor, $descripcion, $monto)
   {
-    $sql = "update insumos set descripcion='$descripcion' , monto='$monto' where idinsumo='$idinsumo'";
+    if ($tipodato == 'gasto') {
+      $sql = "UPDATE insumos SET tipodato='$tipodato',idcategoriai='$categoriai',fecharegistro='$fecharegistro',
+      descripcion='$descripcion',gasto='$monto',ingreso='0', documnIDE='$documnIDE',numDOCIDE='$numDOCIDE',acredor='$acredor' 
+      WHERE idinsumo='$idinsumo' ";
+    } else {
+      $sql = "UPDATE insumos SET tipodato='$tipodato',idcategoriai='$categoriai',fecharegistro='$fecharegistro',
+      descripcion='$descripcion',gasto='0',ingreso='$monto', documnIDE='$documnIDE',numDOCIDE='$numDOCIDE',acredor='$acredor' 
+      WHERE idinsumo='$idinsumo';";
+    }
     return ejecutarConsulta($sql);
   }
 
@@ -40,13 +48,100 @@ class Insumos
   }
 
   //Implementar un método para listar los registros
-  public function listar()
+  public function listar($caja)
   {
-    $fecha=date('Y-m-d 00:00:00');
-    
-    $sql = "SELECT * from insumos ins inner join categoriainsumos ci on ins.idcategoriai=ci.idcategoriai where
-        date(fecharegistro)='$fecha' order by idinsumo desc";
-    return ejecutarConsulta($sql);
+    $data = [];
+    $filtro = '';
+    $fecha_aper = '';
+    $fecha_cie = '';
+    $estado = '';
+
+    if (empty($caja) || $caja == 'TODOS') {
+
+      $sql = "SELECT idcaja,fecha_apertura,fecha_cierre,estado from caja";
+      $rusultado = ejecutarConsultaArray($sql);
+
+      foreach ($rusultado as $key => $reg1) {
+
+        $fecha_aper = $reg1['fecha_apertura'];
+        $fecha_cie =  $reg1['fecha_cierre'];
+        $estado = $reg1['estado'];
+
+        if ($estado == '1') {
+          $filtro = "where  fecharegistro>='$fecha_aper'";
+        } else {
+          $filtro = "where  fecharegistro BETWEEN '$fecha_aper' AND '$fecha_cie'";
+        }
+
+        $sql_1 = "SELECT idinsumo,tipodato,documnIDE,numDOCIDE,acredor,descripcionc,descripcion,gasto,ingreso,fecharegistro 
+        from insumos ins inner join categoriainsumos ci on ins.idcategoriai=ci.idcategoriai 
+        $filtro order by idinsumo desc";
+        $insumos = ejecutarConsultaArray($sql_1);
+
+        foreach ($insumos as $key => $reg2) {
+
+          $data[] = array(
+
+            "idinsumo" => $reg2['idinsumo'],
+            "fecharegistro" => $reg2['fecharegistro'],
+            "tipodato" => $reg2['tipodato'],
+            "documnIDE" => $reg2['documnIDE'],
+            "numDOCIDE" => $reg2['numDOCIDE'],
+            "acredor" => $reg2['acredor'],
+            "descripcionc" => $reg2['descripcionc'],
+            "descripcion" => $reg2['descripcion'],
+            "gasto" => $reg2['gasto'],
+            "ingreso" => $reg2['ingreso'],
+            "estado_caja" => $estado
+
+          );
+          # code...
+        }
+      }
+
+      return  $data;
+    } else if (!empty($caja) && $caja != 'TODOS') {
+
+      $sql = "SELECT idcaja,fecha_apertura,fecha_cierre,estado from caja where idcaja='$caja'; ";
+      $rusultado = ejecutarConsultaSimpleFila($sql);
+
+      $fecha_aper = $rusultado['fecha_apertura'];
+      $fecha_cie =  $rusultado['fecha_cierre'];
+      $estado = $rusultado['estado'];
+
+      if ($estado == '1') {
+        $filtro = "where  fecharegistro>='$fecha_aper'";
+      } else {
+        $filtro = "where  fecharegistro BETWEEN '$fecha_aper' AND '$fecha_cie'";
+      }
+    }
+
+    $sql_1 = "SELECT idinsumo,tipodato,documnIDE,numDOCIDE,acredor,descripcionc,descripcion,gasto,ingreso,fecharegistro 
+    from insumos ins inner join categoriainsumos ci on ins.idcategoriai=ci.idcategoriai 
+    $filtro order by idinsumo desc";
+    $insumos = ejecutarConsultaArray($sql_1);
+
+
+    foreach ($insumos as $key => $reg) {
+
+      $data[] = array(
+
+        "idinsumo" => $reg['idinsumo'],
+        "fecharegistro" => $reg['fecharegistro'],
+        "tipodato" => $reg['tipodato'],
+        "documnIDE" => $reg['documnIDE'],
+        "numDOCIDE" => $reg['numDOCIDE'],
+        "acredor" => $reg['acredor'],
+        "descripcionc" => $reg['descripcionc'],
+        "descripcion" => $reg['descripcion'],
+        "gasto" => $reg['gasto'],
+        "ingreso" => $reg['ingreso'],
+        "estado_caja" => $estado
+
+      );
+    }
+
+    return $data;
   }
   //Implementar un método para listar los registros y mostrar en el select
   public function select()
@@ -75,12 +170,15 @@ class Insumos
   }
 
 
-  // public function select_cajas(){
-  //   $sql="SELECT idcaja,codigo_caja FROM caja ORDER by idcaja DESC;";
-  //   return ejecutarConsultaArray($sql);
-  // }
-  public function EstadoCaja(){
-    $sql="SELECT idcaja,estado FROM caja where idcaja=(SELECT MAX(idcaja) FROM caja);";
+  public function select_cajas()
+  {
+    $sql = "SELECT idcaja,codigo_caja ,CASE estado WHEN '1' THEN 'Caja Abierta' ELSE 'Caja Cerrada' END AS estado_caja ,fecha_apertura,fecha_cierre   
+    FROM caja ORDER by idcaja DESC;";
+    return ejecutarConsultaArray($sql);
+  }
+  public function EstadoCaja()
+  {
+    $sql = "SELECT idcaja,estado FROM caja where idcaja=(SELECT MAX(idcaja) FROM caja);";
     return ejecutarConsultaSimpleFila($sql);
   }
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -
@@ -182,14 +280,6 @@ class Insumos
   public function calcularuti($fecha1, $fecha2)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $totalutilidad = "SELECT 
 		sum(gasto) as totalgastos, 
 		sum(ingreso) as totalingresos, 
@@ -199,15 +289,14 @@ class Insumos
 		insumos ins inner join categoriainsumos ci on ins.idcategoriai=ci.idcategoriai 
 		 where  
 		 fecharegistro between '$fecha1' and  '$fecha2' and not descripcionc in('tarjeta','efectivo total')";
-    $result1 = mysqli_query($connect, $totalutilidad);
+    $result1 = ejecutarConsultaArray($totalutilidad);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $totalgastos1 = $row["totalgastos"];
-        $totalingresos1 = $row["totalingresos"];
-        $utilid = $row["utilidad"];
-        $porc = $row["porcentaje"];
-      }
+    foreach ($result1 as $key => $row) {
+
+      $totalgastos1 = $row["totalgastos"];
+      $totalingresos1 = $row["totalingresos"];
+      $utilid = $row["utilidad"];
+      $porc = $row["porcentaje"];
     }
 
 
@@ -233,23 +322,13 @@ class Insumos
   public function recalcularuti($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $totalutilidad = "SELECT 
@@ -261,15 +340,14 @@ class Insumos
 		insumos ins inner join categoriainsumos ci on ins.idcategoriai=ci.idcategoriai 
 		 where  
 		 fecharegistro between '$fecha1' and  '$fecha2' and not descripcionc in('tarjeta','efectivo total')";
-    $result1 = mysqli_query($connect, $totalutilidad);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $totalgastos1 = $row["totalgastos"];
-        $totalingresos1 = $row["totalingresos"];
-        $utilid = $row["utilidad"];
-        $porc = $row["porcentaje"];
-      }
+    $result1 = ejecutarConsultaArray($totalutilidad);
+
+    foreach ($result1 as $key => $row) {
+      $totalgastos1 = $row["totalgastos"];
+      $totalingresos1 = $row["totalingresos"];
+      $utilid = $row["utilidad"];
+      $porc = $row["porcentaje"];
     }
 
 
@@ -361,23 +439,14 @@ class Insumos
   public function reporteutilidad($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
 
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
@@ -402,23 +471,13 @@ class Insumos
   public function reporteutilidadtotal($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
@@ -438,23 +497,13 @@ class Insumos
   public function detalladodatosingresos($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
@@ -472,23 +521,13 @@ class Insumos
   public function detalladodatosingresostotal($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
@@ -503,23 +542,13 @@ class Insumos
   public function detalladodatosgastos($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
@@ -541,23 +570,13 @@ class Insumos
   public function detalladodatosgastototal($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
@@ -571,23 +590,13 @@ class Insumos
   public function detalladodatosingresotarjetadetalle($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
@@ -606,23 +615,13 @@ class Insumos
   public function detalladodatosingresostotaltarjeta($idutilidad)
   {
 
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
-
     $sql = "SELECT fecha1, fecha2
             from utilidadgi where idutilidad='$idutilidad'";
-    $result1 = mysqli_query($connect, $sql);
+    $result1 = ejecutarConsultaArray($sql);
 
-    while ($row = mysqli_fetch_assoc($result1)) {
-      for ($i = 0; $i <= count($result1); $i++) {
-        $fecha1 = $row["fecha1"];
-        $fecha2 = $row["fecha2"];
-      }
+    foreach ($result1 as $key => $row) {
+      $fecha1 = $row["fecha1"];
+      $fecha2 = $row["fecha2"];
     }
 
     $sqlruti = "SELECT 
