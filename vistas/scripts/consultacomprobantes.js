@@ -51,11 +51,11 @@ function listarcomprobantes() {
 
 function prea42copias2(idcomprobante, tipocomp) {
   if (tipocomp == '01') {
-    var rutacarpeta = '../reportes/exFactura.php?id=' + idcomprobante;
+    var rutacarpeta = '../reportes/exFacturaCompleto.php?id=' + idcomprobante;
     $("#modalCom").attr('src', rutacarpeta);
     $("#modalPreview2").modal("show");
   } else {
-    var rutacarpeta = '../reportes/exBoleta.php?id=' + idcomprobante;
+    var rutacarpeta = '../reportes/exBoletaCompleto.php?id=' + idcomprobante;
     $("#modalCom").attr('src', rutacarpeta);
     $("#modalPreview2").modal("show");
   }

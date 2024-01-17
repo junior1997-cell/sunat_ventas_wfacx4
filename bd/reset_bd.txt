@@ -1,4 +1,7 @@
 -- Eliminamos
+DELETE FROM detalle_articulo_cotizacion;
+DELETE FROM cotizacion;
+
 DELETE FROM cuotas;
 DELETE FROM detalle_usuario_sesion;
 DELETE FROM kardex;
@@ -25,7 +28,12 @@ DELETE FROM ventadiaria;
 
 DELETE FROM persona;
 
+DELETE FROM categoriainsumos;
+
 -- Reiniciamos
+ALTER TABLE detalle_articulo_cotizacion AUTO_INCREMENT = 1;
+ALTER TABLE cotizacion AUTO_INCREMENT = 1;
+
 ALTER TABLE cuotas AUTO_INCREMENT = 1;
 ALTER TABLE detalle_usuario_sesion AUTO_INCREMENT = 1;
 ALTER TABLE kardex AUTO_INCREMENT = 1;
@@ -49,6 +57,8 @@ ALTER TABLE familia AUTO_INCREMENT = 1;
 ALTER TABLE almacen AUTO_INCREMENT = 1;
 
 ALTER TABLE ventadiaria AUTO_INCREMENT = 1;
+
+ALTER TABLE persona AUTO_INCREMENT = 1;
 
 ALTER TABLE persona AUTO_INCREMENT = 1;
 

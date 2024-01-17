@@ -13,6 +13,11 @@ $notacf = new Notacf();
 $notacb = new Notacb();
 $numeracion = new Numeracion();
 
+date_default_timezone_set('America/Lima');
+$date_now = date("d_m_Y__h_i_s_A");
+$imagen_error = "this.src='../assets/svg/404-v2.svg'";
+$toltip = '<script> $(function () { $(\'[data-bs-toggle="tooltip"]\').tooltip(); }); </script>';
+
 $idusuario      = $_SESSION["idusuario"];
 $idnota         = isset($_POST["idnota"]) ? limpiarCadena($_POST["idnota"]) : "";
 $idcomprobante  = isset($_POST["idcomprobante"]) ? limpiarCadena($_POST["idcomprobante"]) : "";
@@ -219,6 +224,15 @@ switch ($_GET["op"]) {
               </a>
             </li>
           </ul>
+        </div>'. 
+        '<div class="btn-group mb-1">
+          <div class="dropdown">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> </button>
+            <div class="dropdown-menu" style="">
+                <a class="dropdown-item" href="' . $url . $reg->idnota . $urlTipo . $reg->tipo_doc_mod . '" target="_blank"><i class="fas fa-print"></i> Imprimir Nota</a>              
+                <button class="dropdown-item" onclick="baja(' . $reg->idnota . ')" ><i class="fas fa-skull-crossbones text-danger"></i> Anular</button>
+            </div>
+          </div>
         </div>',
 
         //'<a target="_blank" href="'.$url.$reg->idnota.$urlTipo.$reg->tipo_doc_mod.'"> <button class="btn btn-info" data-toggle="tooltip" title="Imprimir Nota de crédito"><i class="fa  fa-print" > </i></button>
@@ -410,34 +424,19 @@ switch ($_GET["op"]) {
 
       $data[] = array(
 
-        "0" =>
+        "0" => 
+        '<div class="btn-group ">
+          <div class="dropdown ">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i> </button>
+            <div class="dropdown-menu" style="">
+              <a class="dropdown-item" href="' . $urlT . $reg->idnota . $urlTipo . $reg->tipo_doc_mod . '" target="_blank"><i class="fas fa-print"></i> Imprimir Nota</a>              
+              <button class="dropdown-item" onclick="baja(' . $reg->idnota . ')" ><i class="fas fa-skull-crossbones text-danger"></i> Anular</button>
+            </div>
+          </div>
+        </div>',
 
-        '<div class="dropup">
-                <button  class="btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                :::
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu pull-center">
-                <li>
-                     <a target="_blank" style="color: #081A51" href="' . $urlT . $reg->idnota . $urlTipo . $reg->tipo_doc_mod . '">  Imprimir</a>
-                </li>
-
-
-                  <li>
-                  <a style="cursor:pointer; color:red;"  class="anularnc" onclick="baja(' . $reg->idnota . ')" color:red;"> 
-                   Anular
-                    </a>
-
-                  </li>
-
-                  </ul>
-                  </div>',
-
-        //         '<a target="_blank" href="'.$url.$reg->idnota.$urlTipo.$reg->tipo_doc_mod.'"> <button class="btn btn-info" data-toggle="tooltip" title="Imprimir Nota de crédito"><i class="fa  fa-print" > </i></button>
-        //         </a>'
-
-        // .
-        //  '<button class="btn btn-info"  data-toggle="tooltip" title="Enviar por correo a: '.$reg->email.'" onclick="enviarcorreo('.$reg->idnota.')" '.$send.'><i class="fa fa-send"></i></button>'
-        //          ,
+        //'<a target="_blank" href="'.$url.$reg->idnota.$urlTipo.$reg->tipo_doc_mod.'"> <button class="btn btn-info" data-toggle="tooltip" title="Imprimir Nota de crédito"><i class="fa  fa-print" > </i></button></a>'
+        // '<button class="btn btn-info"  data-toggle="tooltip" title="Enviar por correo a: '.$reg->email.'" onclick="enviarcorreo('.$reg->idnota.')" '.$send.'><i class="fa fa-send"></i></button>' ,
 
         "1" => $reg->numeroserienota,
         "2" => $reg->fecha,
@@ -488,24 +487,19 @@ switch ($_GET["op"]) {
     }
 
     $results = array(
-      "sEcho" => 1,
-      //Información para el datatables
-      "iTotalRecords" => count($data),
-      //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data),
-      //enviamos el total registros a visualizar
+      "sEcho" => 1,   //Información para el datatables
+      "iTotalRecords" => count($data),  //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
       "aaData" => $data
     );
 
     echo json_encode($results);
-
-    break;
+  break;
 
   case 'enviarcorreo':
     $rspta = $notacd->enviarcorreo($idnota);
     echo $rspta;
-    break;
-
+  break;
 
   case 'listarND':
     $idempresa = $_GET['idempresa'];
@@ -654,12 +648,9 @@ switch ($_GET["op"]) {
     }
 
     $results = array(
-      "sEcho" => 1,
-      //Información para el datatables
-      "iTotalRecords" => count($data),
-      //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data),
-      //enviamos el total registros a visualizar
+      "sEcho" => 1,   //Información para el datatables
+      "iTotalRecords" => count($data),  //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data),  //enviamos el total registros a visualizar
       "aaData" => $data
     );
 
@@ -735,15 +726,12 @@ switch ($_GET["op"]) {
 
       while ($reg = $rsptaf->fetch_object()) {
         $data[] = array(
-          "0" => '<button class="btn btn-warning btn-sm" onclick="agregarComprobante(' . $reg->idfactura . ',\'' . $reg->tdcliente . '\',\'' . $reg->ndcliente . '\',\'' . $reg->rzcliente . '\',\'' . $reg->domcliente . '\', \'' . $reg->tipocomp . '\',\'' . $reg->numerodoc . '\',\'' . $reg->subtotal . '\',\'' . $reg->igv . '\',\'' . $reg->total . '\' ,\'' . $reg->fecha1 . '\',\'' . $reg->fecha2 . '\')"><span class="fa fa-plus"></span></button>',
-          "1" => $reg->ndcliente,
+          "0" => '<button class="btn btn-warning btn-sm" onclick="agregarComprobante(' . $reg->idfactura . ',\'' . $reg->tdcliente . '\',\'' . $reg->ndcliente . '\',\'' . $reg->rzcliente . '\',\'' . $reg->domcliente . '\', \'' . $reg->tipocomp . '\',\'' . $reg->numerodoc . '\',\'' . $reg->subtotal . '\',\'' . $reg->igv . '\',\'' . $reg->total . '\' ,\'' . $reg->fecha1 . '\',\'' . $reg->fecha2 . '\')" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar"><span class="fa fa-plus"></span></button>',
+          "1" => $reg->numerodoc,
           "2" => $reg->fecha1,
-          "3" => $reg->rzcliente,
-          "4" => $reg->numerodoc,
-          "5" => $reg->tmoneda,
-          "6" => $reg->subtotal,
-          "7" => $reg->igv,
-          "8" => $reg->total
+          "3" => '<span class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="'. $reg->rzcliente.'">'. $reg->ra_so.'</span> <br> <b>' . $reg->tip_doc . '</b>: ' . $reg->ndcliente ,          
+          "4" => $reg->tmoneda,          
+          "5" => $reg->total . $toltip
         );
       }
       $results = array(
@@ -756,49 +744,33 @@ switch ($_GET["op"]) {
       echo json_encode($results);
     } else if ($tipodocu == '03') { // sis es boleta
 
-      require_once "../modelos/Notacb.php";
-      $notacb = new Notacb();
       $rsptab = $notacb->buscarComprobante($idempresa, $mone);
       //Vamos a declarar un array
       $data = array();
 
       while ($reg = $rsptab->fetch_object()) {
         $data[] = array(
-          "0" => '<button class="btn btn-warning btn-sm" onclick="agregarComprobante(' . $reg->idboleta . ',\'' . $reg->tipo_documento . '\',\'' . $reg->numero_documento . '\',\'' . $reg->razon_social . '\',\'' . $reg->domicilio . '\', \'' . $reg->tipocomp . '\',\'' . $reg->numerodoc . '\',\'' . $reg->subtotal . '\',\'' . $reg->igv . '\',\'' . $reg->total . '\',\'' . $reg->fecha1 . '\',\'' . $reg->fecha2 . '\')"><span class="fa fa-plus"></span></button>',
-
-          "1" => $reg->numero_documento,
-          "2" => $reg->fecha1,
-          "3" => $reg->razon_social,
-
-          "4" => $reg->numerodoc,
-          "5" => $reg->tmoneda,
-          "6" => $reg->subtotal,
-          "7" => $reg->igv,
-          "8" => $reg->total
+          "0" => '<button class="btn btn-warning btn-sm" onclick="agregarComprobante(' . $reg->idboleta . ',\'' . $reg->tipo_documento . '\',\'' . $reg->numero_documento . '\',\'' . $reg->razon_social . '\',\'' . $reg->domicilio . '\', \'' . $reg->tipocomp . '\',\'' . $reg->numerodoc . '\',\'' . $reg->subtotal . '\',\'' . $reg->igv . '\',\'' . $reg->total . '\',\'' . $reg->fecha1 . '\',\'' . $reg->fecha2 . '\')" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Agregar"><span class="fa fa-plus"></span></button>' ,
+          "1" => $reg->numerodoc,
+          "2" => $reg->fecha1,         
+          "3" =>  ($reg->idpersona == 1 ? '<span class="text-primary">'. $reg->razon_social.'</span>'  :  '<span class="text-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="'. $reg->razon_social.'">'. $reg->ra_so.'</span> <br> <b>' . $reg->tip_doc . '</b>: ' .$reg->numero_documento),          
+          "4" => $reg->tmoneda,          
+          "5" => $reg->total. $toltip
         );
       }
 
       $results = array(
-        "sEcho" => 1,
-        //Información para el datatables
-        "iTotalRecords" => count($data),
-        //enviamos el total registros al datatable
-        "iTotalDisplayRecords" => count($data),
-        //enviamos el total registros a visualizar
+        "sEcho" => 1,    //Información para el datatables
+        "iTotalRecords" => count($data),    //enviamos el total registros al datatable
+        "iTotalDisplayRecords" => count($data),   //enviamos el total registros a visualizar
         "aaData" => $data
       );
 
       echo json_encode($results);
     }
-    break;
+  break;
 
-
-
-
-
-
-
-  case 'detalle':
+  case 'detalle_comprobante':
 
     $tipodocu = $_GET['tipo'];
     $idcomp = $_GET['id'];
@@ -811,31 +783,33 @@ switch ($_GET["op"]) {
       $data = array();
       $item = 1;
       echo '<thead style="background-color:#494a48; color: #fff;">
-                                  <th style="width: 15px;">+</th>
-                                    <th>Item</th>
-                                    <th>Código</th>
-                                    <th>Descripción</th>
-                                    <th>Cantidad</th>
-                                    <th>Va. Uni. Item</th>
-                                    <th>Pre. Uni. Item</th>
-                                    <th>Valor de venta</th>
-                                    <th>Igv Item</th>
+        <th style="width: 15px;">+</th>
+        <th>Item</th>
+        <th>Código</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Va. Uni. Item</th>
+        <th>Pre. Uni. Item</th>
+        <th>Valor de venta</th>
+        <th>Igv Item</th>
+      </thead>';
 
-
-                      </thead>';
       while ($reg = $rsptaf->fetch_object()) {
         $sw = in_array($reg->idfactura, $data);
 
         echo '<tr class="filas" id="fila">
-        <td><button type="button" class="btn btn-info btn-sm" onclick="agregarDetalle(' . $reg->idarticulo . ',0,\'' . $reg->codigo_proveedor . '\',\'' . $reg->codigo . '\',\'' . $reg->descripcion . '\',\'' . $reg->precio_venta . '\',\'' . $reg->stock . '\',\'' . $reg->unidad_medida . '\' ,\'' . $reg->precio_unitario . '\' ,\'' . $reg->descarti . '\')" data-toggle="tooltip" title="Agregar a detalle">√</button></td>    
-    <td><span type="text"  name="numero_orden" id="numero_orden" value="' . $item . '" readonly>' . $item . '</span></td>
-<td><span type="text" name="codigo" id="codigo"  value="' . $reg->codigo . '"  disabled="true" >' . $reg->codigo . '</span></td>
-<td><span type="text"   name="descripcion" id="descripcion" value="' . $reg->descripcion . '" readonly>' . $reg->descripcion . '</span></td>
-<td><span type="text"  name="cantidad" id="cantidad" value="' . $reg->cantidad . '" readonly >' . $reg->cantidad . '</span></td>
-<td><span type="text"  name="vunitario" id="vunitario" value="' . $reg->vui . '"  readonly>' . $reg->vui . '</span></td>
-<td><span type="text"  name="punitario" id="punitario" value="' . $reg->pvi . '"  readonly>' . $reg->pvi . '</span></td>
-<td><span type="text" name="vventa" id="vventa" value="' . $reg->vvi . '" readonly>' . $reg->vvi . '</span></td>
-<td><span type="text" name="igvventa" id="igvventa" value="' . $reg->igvi . '" readonly>' . $reg->igvi . '</span></td>
+          <td><span class="text-success" data-toggle="tooltip" title="OK"><i class="fas fa-check fa-lg"></i></span></td>
+          <td><span type="text" name="numero_orden" id="numero_orden" value="' . $item . '" readonly>' . $item . '</span></td>
+          <td><span type="text" name="codigo" id="codigo"  value="' . $reg->codigo . '"  disabled="true" >' . $reg->codigo . '</span></td>
+          <td><span type="text" name="descripcion" id="descripcion" value="' . $reg->descripcion . '" readonly>' . $reg->descripcion . '</span></td>
+          <td><span type="text" name="cantidad" id="cantidad" value="' . $reg->cantidad . '" readonly >' . $reg->cantidad . '</span></td>
+          <td><span type="text" name="vunitario" id="vunitario" value="' . $reg->vui . '"  readonly>' . $reg->vui . '</span></td>
+          <td><span type="text" name="punitario" id="punitario" value="' . $reg->pvi . '"  readonly>' . $reg->pvi . '</span></td>
+          <td><span type="text" name="vventa" id="vventa" value="' . $reg->vvi . '" readonly>' . $reg->vvi . '</span></td>
+          <td>
+            <span type="text" name="igvventa" id="igvventa" value="' . $reg->igvi . '" readonly>' . $reg->igvi . '</span>
+            <input type="hidden" name="descarti" id="descarti">
+          </td>
         </tr>';
         $item = $item + 1;
       }
@@ -848,55 +822,52 @@ switch ($_GET["op"]) {
       $data = array();
       $item = 1;
       echo '<thead style="background-color:#494a48; color: #fff;">
-                                  <th style="width: 15px;">+</th>
-                                    <th>Item</th>
-                                    <th>Código</th>
-                                    <th>Descripción</th>
-                                    <th>Cantidad</th>
-                                    <th>Va. Uni. Item</th>
-                                    <th>Pre. Uni. Item</th>
-                                    <th>Valor de venta</th>
-                                    <th>Igv Item</th>
-
-
-                      </thead>';
+        <th style="width: 15px;">+</th>
+        <th>Item</th>
+        <th>Código</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Va. Uni. Item</th>
+        <th>Pre. Uni. Item</th>
+        <th>Valor de venta</th>
+        <th>Igv Item</th>
+      </thead>';
       while ($reg = $rsptab->fetch_object()) {
         $sw = in_array($reg->idboleta, $data);
 
         echo '<tr class="filas" id="fila">
-
-<td><button type="button" class="btn btn-info bt-sm" onclick="agregarDetalle(' . $reg->idarticulo . ',0,\'' . $reg->codigo_proveedor . '\',\'' . $reg->codigo . '\',\'' . $reg->descripcion . '\',\'' . $reg->precio_venta . '\',\'' . $reg->stock . '\',\'' . $reg->unidad_medida . '\' ,\'' . $reg->precio_unitario . '\')" data-toggle="tooltip" title="Agregar a detalle">√</button></td>
-
-<td><span type="text"  name="numero_orden" id="numero_orden" value="' . $item . '" size="1" disabled="true" disabled="true">' . $item . '</span></td>
-<td><span type="text" name="codigo" id="codigo"  value="' . $reg->codigo . '"  disabled="true" >' . $reg->codigo . '</span></td>
-<td><span type="text"   name="descripcion" id="descripcion" value="' . $reg->descripcion . '" size="20" disabled="true" disabled="true">' . $reg->descripcion . '</span></td>
-<td><span type="text"  name="cantidad" id="cantidad" value="' . $reg->cantidad . '" disabled="true" >' . $reg->cantidad . '</span></td>
-<td><span type="text"  name="vunitario" id="vunitario" value="' . $reg->vui . '"  disabled="true">' . $reg->vui . '</span></td>
-<td><span type="text"  name="punitario" id="punitario" value="' . $reg->pvi . '"  disabled="true">' . $reg->pvi . '</span></td>
-<td><span type="text" name="vventa" id="vventa" value="' . $reg->vvi . '" disabled="true">' . $reg->vvi . '</span></td>
-<td><span type="text" name="igvventa" id="igvventa" value="' . $reg->igvi . '" disabled="true">' . $reg->igvi . '</span></td>
+          <td><span class="text-success" data-toggle="tooltip" title="OK"><i class="fas fa-check fa-lg"></i></span></td>
+          <td><span type="text" name="numero_orden" id="numero_orden" value="' . $item . '" size="1" disabled="true" disabled="true">' . $item . '</span></td>
+          <td><span type="text" name="codigo" id="codigo"  value="' . $reg->codigo . '"  disabled="true" >' . $reg->codigo . '</span></td>
+          <td><span type="text" name="descripcion" id="descripcion" value="' . $reg->descripcion . '" size="20" disabled="true" disabled="true">' . $reg->descripcion . '</span></td>
+          <td><span type="text" name="cantidad" id="cantidad" value="' . $reg->cantidad . '" disabled="true" >' . $reg->cantidad . '</span></td>
+          <td><span type="text" name="vunitario" id="vunitario" value="' . $reg->vui . '"  disabled="true">' . $reg->vui . '</span></td>
+          <td><span type="text" name="punitario" id="punitario" value="' . $reg->pvi . '"  disabled="true">' . $reg->pvi . '</span></td>
+          <td><span type="text" name="vventa" id="vventa" value="' . $reg->vvi . '" disabled="true">' . $reg->vvi . '</span></td>
+          <td>
+            <span type="text" name="igvventa" id="igvventa" value="' . $reg->igvi . '" disabled="true">' . $reg->igvi . '</span>
+            <input type="hidden" name="descarti" id="descarti">
+          </td>
         </tr>';
         $item = $item + 1;
       }
     }
-    break;
-
+  break;
 
   case 'generarxml':
     $rspta = $notacd->generarxml($idnota, $_SESSION['idempresa']);
     echo json_encode($rspta);
-    break;
+  break;
 
   case 'generarxmlNd':
     $rspta = $notacd->generarxmlNd($idnota, $_SESSION['idempresa']);
     echo json_encode($rspta);
-    break;
-
+  break;
 
   case 'enviarxmlSUNAT':
     $rspta = $notacd->enviarxmlSUNAT($idnota, $_SESSION['idempresa']);
     echo $rspta;
-    break;
+  break;
 
 
   case 'mostrarxml':
@@ -906,13 +877,12 @@ switch ($_GET["op"]) {
       $rspta = "No se ha creado";
     }
     echo json_encode($rspta);
-    break;
+  break;
 
   case 'mostrarrpta':
     $rspta = $notacd->mostrarrpta($idnota, $_SESSION['idempresa']);
     echo json_encode($rspta);
-    break;
-
+  break;
 
   case 'bajanc':
     $com = $_GET['comentario'];
@@ -923,7 +893,6 @@ switch ($_GET["op"]) {
     $rspta = $notacd->bajanc($idnota, $hoy, $com, $hor);
     echo $rspta ? "La nota de credito esta de baja" : "Nota no se dar de baja";
   break;
-
 
   case 'listarArticulosNC':
 

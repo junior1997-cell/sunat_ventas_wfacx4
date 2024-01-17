@@ -1271,9 +1271,7 @@ function setCodigoFieldReadonly() {
 init();
 
 
-// .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 
-// .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
 function cargando_search() {
   var nombre_almacen  = $('#filtro_idalmacen').find(':selected').text();
   var nombre_familia  = ' ─ ' + $('#filtro_idfamilia').find(':selected').text();
@@ -1397,3 +1395,5 @@ $(function () {
   });
 
 });
+
+// .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..

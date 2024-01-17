@@ -986,7 +986,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                           <div>
                             <p class="text-muted mb-0">Total Boletas</p>
-                            <h4 class="fw-semibold mt-1">S/<?php echo number_format($totalvboletahoy, 2); ?></h4>
+                            <h4 class="fw-semibold mt-1">S/<?php echo number_format( floatval($totalvboletahoy) , 2, '.', ','); ?></h4>
                           </div>
                           <div id="crm-total-customers"></div>
                         </div>
@@ -1018,7 +1018,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                           <div>
                             <p class="text-muted mb-0">Total Facturas</p>
-                            <h4 class="fw-semibold mt-1">S/<?php echo number_format($totalvfacturahoy, 2); ?></h4>
+                            <h4 class="fw-semibold mt-1">S/<?php echo number_format( floatval($totalvfacturahoy) , 2, '.', ','); ?></h4>
                           </div>
                           <div id="crm-total-revenue"></div>
                         </div>
@@ -1050,7 +1050,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                           <div>
                             <p class="text-muted mb-0">Total Nota de Venta</p>
-                            <h4 class="fw-semibold mt-1">S/<?php echo number_format($totalvnpedidohoy, 2); ?></h4>
+                            <h4 class="fw-semibold mt-1">S/<?php echo number_format( floatval($totalvnpedidohoy) , 2, '.', ','); ?></h4>
                           </div>
                           <div id="crm-conversion-ratio"></div>
                         </div>
@@ -1082,7 +1082,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                           <div>
                             <p class="text-muted mb-0">Venta Total</p>
-                            <h4 class="fw-semibold mt-1">S/<?php echo number_format($totalventas, 2); ?></h4>
+                            <h4 class="fw-semibold mt-1">S/<?php echo number_format( floatval($totalventas), 2, '.', ','); ?></h4>
                           </div>
                           <div id="crm-total-deals"></div>
                         </div>
@@ -1334,7 +1334,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="ps-4 py-3 pe-3 text-center border-end border-inline-end-dashed">
                           <span class="text-muted fs-12 mb-1 crm-lead-legend mobile d-inline-block">Categorias
                           </span>
-                          <div><span class="fs-16 fw-semibold"><?php echo number_format($totalcategoriaActiva); ?></span>
+                          <div><span class="fs-16 fw-semibold"><?php echo number_format( floatval( $totalcategoriaActiva), 2, '.', ','); ?></span>
                           </div>
                         </div>
                       </div>
@@ -1342,14 +1342,14 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="p-3 text-center border-end border-inline-end-dashed">
                           <span class="text-muted fs-12 mb-1 crm-lead-legend desktop d-inline-block">Artículos
                           </span>
-                          <div><span class="fs-16 fw-semibold"><?php echo number_format($totaArticulosRegistrados); ?></span></div>
+                          <div><span class="fs-16 fw-semibold"><?php echo number_format( floatval( $totaArticulosRegistrados), 2, '.', ','); ?></span></div>
                         </div>
                       </div>
                       <div class="col p-0">
                         <div class="p-3 text-center border-end border-inline-end-dashed">
                           <span class="text-muted fs-12 mb-1 crm-lead-legend laptop d-inline-block">Usuarios
                           </span>
-                          <div><span class="fs-16 fw-semibold"><?php echo number_format($totaUsuarioRegistrados); ?></span>
+                          <div><span class="fs-16 fw-semibold"><?php echo number_format( floatval( $totaUsuarioRegistrados), 2, '.', ','); ?></span>
                           </div>
                         </div>
                       </div>
@@ -1357,7 +1357,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="p-3 text-center">
                           <span class="text-muted fs-12 mb-1 crm-lead-legend tablet d-inline-block">Clientes
                           </span>
-                          <div><span class="fs-16 fw-semibold"><?php echo number_format($totaClientesRegistrados); ?></span></div>
+                          <div><span class="fs-16 fw-semibold"><?php echo number_format( floatval($totaClientesRegistrados) , 2, '.', ','); ?></span></div>
                         </div>
                       </div>
                     </div>

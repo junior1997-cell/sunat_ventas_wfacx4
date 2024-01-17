@@ -571,12 +571,6 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
 
-
-
-
-
-
-
     <!-- Modal -->
     <div class="modal fade" id="modalTcambio">
       <div class="modal-dialog" style="width: 100% !important;">
@@ -593,10 +587,6 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
     <!-- Modal -->
-
-
-
-
 
     <div class="modal fade text-left" id="modalnuevoarticulo" tabindex="-1" role="dialog"
       aria-labelledby="modalnuevoarticulo" aria-hidden="true">
@@ -695,7 +685,6 @@ if (!isset($_SESSION["nombre"])) {
     </div>
 
 
-
     <!-- Modal  nuevo articulo -->
     <div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" style="width: 70% !important;">
@@ -790,8 +779,6 @@ if (!isset($_SESSION["nombre"])) {
     </div>
     <!-- Fin modal -->
 
-
-
     <!-- Modal -->
     <div class="modal fade" id="modalPreviewXml" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-md" style="width: 70% !important;">
@@ -814,8 +801,6 @@ if (!isset($_SESSION["nombre"])) {
     </div>
 
     <!-- Fin modal -->
-
-
 
     <div class="modal fade" id="modalPreviewticket" tabindex="-1" aria-labelledby="modalPreviewticketLabel"
       aria-hidden="true">
@@ -841,8 +826,6 @@ if (!isset($_SESSION["nombre"])) {
 
 
     <!-- Fin modal -->
-
-
     <div class="modal fade" id="modalPreview2Hojas" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -863,8 +846,6 @@ if (!isset($_SESSION["nombre"])) {
       </div>
     </div>
 
-
-
     <script>
       function imprim1(imp1) {
         var printContents = document.getElementById('imp1').innerHTML;
@@ -877,10 +858,6 @@ if (!isset($_SESSION["nombre"])) {
         return true;
       }
     </script>
-
-
-
-
 
     <?php
   } else {

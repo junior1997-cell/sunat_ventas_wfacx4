@@ -393,20 +393,24 @@ function crud_eliminar_papelera(url_papelera, url_eliminar, id_tabla, title, men
 
 /*  ══════════════════════════════════════════ - A L E R T A S   S w e e t A l e r t 2 - ══════════════════════════════════════════ */
 
-function sw_cancelar(title='Cancelado!', txt = "Acción cancelada.", timer = 7000) {
-  Swal.fire({ title: title, html: txt, timer: timer, icon: "info", });
+function sw_info(title='Cancelado!', txt = "Acción cancelada.", timer = null) {
+  timer == null ? Swal.fire({ title: title, html: txt, showConfirmButton: true, icon: "info", }) :  Swal.fire({ title: title, html: txt, timer: timer, icon: "info", });
 }
 
-function sw_warning(title='OJO!', txt = "Alerta antes de avanzar.", timer = 7000) {
-  Swal.fire({ title: title, html: txt, timer: timer, icon: "warning", });
+function sw_warning(title='OJO!', txt = "Alerta antes de avanzar.", timer = null) {  
+  timer == null ? Swal.fire({ title: title, html: txt, showConfirmButton: true, icon: "warning", }) :  Swal.fire({ title: title, html: txt, timer: timer, icon: "warning", });
 }
 
-function sw_error(title='Error!', txt = "Acción con error.", timer = 7000) {
-  Swal.fire({ title: title, html: txt, timer: timer, icon: "error", });
+function sw_error(title='Error!', txt = "Acción con error.", timer = null) {
+  timer == null ? Swal.fire({ title: title, html: txt, showConfirmButton: true, icon: "error", }) :  Swal.fire({ title: title, html: txt, timer: timer, icon: "error", });  
 }
 
-function sw_success(title='Exito!', txt = "Acción ejecutada con éxito", timer = 7000) {
-  Swal.fire({ title: title, html: txt, timer: timer, icon: "success", });
+function sw_success(title='Exito!', txt = "Acción ejecutada con éxito", timer = null) {
+  timer == null ? Swal.fire({ title: title, html: txt, showConfirmButton: true, icon: "success", }) :  Swal.fire({ title: title, html: txt, timer: timer, icon: "success", });
+}
+
+function sw_cancelar(title='Cancelado!', txt = "Acción cancelada.", timer = null) {
+  timer == null ? Swal.fire({ title: title, html: txt, showConfirmButton: true, icon: "info", }) :  Swal.fire({ title: title, html: txt, timer: timer, icon: "info", });
 }
 
 function confirmar_formulario(flat, callback) {

@@ -23,144 +23,29 @@ class Notacd
     return ejecutarConsulta($sql);
   }
 
-  public function insertarNCxDescuentoGlobal($idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipo_doc_mod, $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotaldesc, $total_val_venta_oi, $total_val_venta_oe, $igvdescu, $sum_isc, $sum_ot, $totaldescu, $idserie, $idcomprobante, $fecha_comprobante, $hora, $tiponotaC, $vendedorsitio, $idempresa, $tipodoc_mod, $descripitem)
-  {
+  public function insertarNCxDescuentoGlobal($idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipo_doc_mod, $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotaldesc, $total_val_venta_oi, $total_val_venta_oe, $igvdescu, $sum_isc, $sum_ot, $totaldescu, $idserie, $idcomprobante, $fecha_comprobante, $hora, $tiponotaC, $vendedorsitio, $idempresa, $tipodoc_mod, $descripitem)  {
     $sw = true;
     //Guardar en la table nota de credito
-    $sql = "insert into notacd 
-        (
-        idnota, 
-        nombre, 
-        numeroserienota, 
-        fecha, 
-        codigo_nota, 
-        codtiponota,  
-        desc_motivo, 
-        tipo_doc_mod, 
-        serie_numero, 
-        tipo_doc_ide, 
-        numero_doc_ide, 
-        razon_social, 
-        tipo_moneda, 
-        sum_ot_car, 
-        total_val_venta_og, 
-        total_val_venta_oi, 
-        total_val_venta_oe, 
-        sum_igv, 
-        sum_isc, 
-        sum_ot, 
-        importe_total, 
-        estado, 
-        idcomprobante,
-        fechacomprobante, 
-        idempresa,
-        vendedorsitio,
-        difComprobante,
-        DetalleSunat,
-        motivonota,
-        descripitem
-        )
-        values
-        (
-         '$idnota',
-         '$nombre',
-         '$serie-$numero_nc',
-         '$fecha $hora',
-         '$codigo_nota',
-         '$codtiponota',
-         '$desc_motivo',
-         '$tipo_doc_mod',
-         '$numero_comprobante',
-         '$tipo_doc_ide',
-         '$numero_documento',
-         '$razon_social',
-         '$tipo_moneda',
-         '$sum_ot_car',
-         '$subtotaldesc',
-         '$total_val_venta_oi',
-         '$total_val_venta_oe',
-         '$igvdescu',
-         '$sum_isc',
-         '0',
-         '$totaldescu', 
-         '1',
-         '$idcomprobante',
-         '$fecha_comprobante',
-          '$idempresa',
-          '$vendedorsitio',
-          '$tipodoc_mod',
-          'EMITIDO',
-          '$motivonota',
-          '$descripitem'
-        )";
+    $sql = "INSERT into notacd ( idnota,  nombre,  numeroserienota,  fecha,  codigo_nota,  codtiponota,   desc_motivo,  tipo_doc_mod, serie_numero,  tipo_doc_ide,  
+    numero_doc_ide,  razon_social,  tipo_moneda,  sum_ot_car,  total_val_venta_og, total_val_venta_oi,  total_val_venta_oe,  sum_igv,  sum_isc,  sum_ot, importe_total,  
+    estado,  idcomprobante, fechacomprobante,  idempresa, vendedorsitio, difComprobante, DetalleSunat, motivonota, descripitem )
+    values ( '$idnota', '$nombre', '$serie-$numero_nc', '$fecha $hora', '$codigo_nota', '$codtiponota', '$desc_motivo', '$tipo_doc_mod', '$numero_comprobante', 
+    '$tipo_doc_ide', '$numero_documento', '$razon_social', '$tipo_moneda', '$sum_ot_car', '$subtotaldesc', '$total_val_venta_oi', '$total_val_venta_oe',
+    '$igvdescu', '$sum_isc', '0', '$totaldescu', '1', '$idcomprobante', '$fecha_comprobante', '$idempresa', '$vendedorsitio', '$tipodoc_mod', 'EMITIDO',
+    '$motivonota', '$descripitem' )";
     $idnotanew = ejecutarConsulta_retornarID($sql);
 
     //Guardar registro en Kardex
-    $sql_kardex = "insert into 
-        kardex 
-        (
-          idcomprobante,
-          idarticulo, 
-          transaccion, 
-          codigo, 
-          fecha, 
-          tipo_documento, 
-          numero_doc, 
-          cantidad, 
-          costo_1, 
-          unidad_medida, 
-          saldo_final, 
-          costo_2, 
-          valor_final, idempresa) 
-
-          values 
-
-          (
-          '$idnotanew', 
-          (select idarticulo 
-          from 
-          articulo where codigo='1000ncdg'), 
-          'NOTAC', 
-          '1000ncdg',
-          '$fecha', 
-          '07', 
-          '$serie-$numero_nc', 
-             '1', 
-             '',
-             '',
-             '',
-             '',
-             '', '$idempresa')";
+    $sql_kardex = "INSERT into kardex ( idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, 
+    costo_2, valor_final, idempresa) 
+    values ( '$idnotanew', (select idarticulo from articulo where codigo='1000ncdg'), 'NOTAC', '1000ncdg', '$fecha', '07', '$serie-$numero_nc', '1', '',  '',  '',  '',  '', '$idempresa')";
     ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
 
     //Guardar en el detalle de nota de crédito
-    $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-          values 
-          (
-          '$idnotanew', 
-          (select idarticulo 
-          from 
-          articulo where codigo='1000ncdg'), 
-          '1', 
-          '1', 
-          '$totaldescu',
-          '$igvdescu',
-          '$subtotaldesc',
-          '$subtotaldesc'
-        )";
-
+    $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo,  nro_orden,  cantidad,  precio_venta,  igv,  valor_unitario, valor_venta ) 
+    values ( '$idnotanew', (select idarticulo from articulo where codigo='1000ncdg'), '1', '1', '$totaldescu', '$igvdescu', '$subtotaldesc', '$subtotaldesc' )";
     ejecutarConsulta($sql_det_notacd) or $sw = false;
+
     //Para actualizar numeracion de las series de la factura
     $sql_update_numeracion = "update numeracion set numero='$numero_nc' where idnumeracion='$idserie'";
     ejecutarConsulta($sql_update_numeracion) or $sw = false;
@@ -188,44 +73,17 @@ class Notacd
     $rutadata = $Prutas->rutadata; // ruta de la carpeta DATA
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATA
 
-    $querynotacd = "SELECT
-       n.codigo_nota, 
-       n.numeroserienota, 
-       date_format(n.fecha,'%Y-%m-%d') as fecha, 
-       date_format(n.fecha, '%H:%i:%s') as hora,
-       n.codtiponota, 
-       c.descripcion, 
-       n.tipo_doc_mod, 
-       n.serie_numero, 
-       n.tipo_doc_ide, 
-       n.numero_doc_ide, 
-       n.razon_social, 
-       n.tipo_moneda, 
-       n.sum_ot, 
-       n.total_val_venta_og, 
-       n.total_val_venta_oi, 
-       n.total_val_venta_oe, 
-       n.sum_igv, n.sum_isc, 
-       n.sum_ot, 
-       n.importe_total as total
-        from
-         notacd n inner join catalogo9 c on n.codtiponota=c.codigo where n.idnota='$idnotanew' ";
+    $querynotacd = "SELECT n.codigo_nota,  n.numeroserienota, date_format(n.fecha,'%Y-%m-%d') as fecha, date_format(n.fecha, '%H:%i:%s') as hora, n.codtiponota,  
+    c.descripcion, n.tipo_doc_mod, n.serie_numero, n.tipo_doc_ide, n.numero_doc_ide, n.razon_social, n.tipo_moneda, n.sum_ot, n.total_val_venta_og, n.total_val_venta_oi, 
+    n.total_val_venta_oe, n.sum_igv, n.sum_isc, n.sum_ot, n.importe_total as total
+    from notacd n inner join catalogo9 c on n.codtiponota=c.codigo where n.idnota='$idnotanew' ";
 
     $querydetfacncd = "SELECT f.tipo_documento_07 as tipocomp,  f.numeracion_08 as numerodoc, dncd.cantidad, a.codigo, a.nombre as descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.unidad_medida as um, ncd.sum_igv 
-      from 
-      factura f inner join  notacd ncd on f.idfactura=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' order by ncd.numeroserienota";
-
+    from factura f inner join  notacd ncd on f.idfactura=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' order by ncd.numeroserienota";
 
     $querydetbolncd = "SELECT b.tipo_documento_06 as tipocomp , b.numeracion_07 as numerodoc,  dncd.cantidad, a.codigo, a.nombre as descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.unidad_medida as um, ncd.sum_igv   
-      from 
-      boleta b inner join notacd ncd on b.idboleta=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' order by ncd.numeroserienota";
-
-
-
+    from boleta b inner join notacd ncd on b.idboleta=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' order by ncd.numeroserienota";
     $resultnc = mysqli_query($connect, $querynotacd);
-
-
-
 
     if ($tipo_doc_mod == '01') {
 
@@ -483,337 +341,116 @@ class Notacd
     return $sw;
   }
 
-
-
-
-
-
-
   //Implementamos un método para insertar registros para factura
-  public function insertarNC(
-    $idnota,
-    $nombre,
-    $serie,
-    $numero_nc,
-    $fecha,
-    $codigo_nota,
-    $codtiponota,
-    $desc_motivo,
-    $tipo_doc_mod,
-    $numero_comprobante,
-    $tipo_doc_ide,
-    $numero_documento,
-    $razon_social,
-    $tipo_moneda,
-    $sum_ot_car,
-    $subtotal,
-    $total_val_venta_oi,
-    $total_val_venta_oe,
-    $igv_,
-    $sum_isc,
-    $total_finalNC,
-    $total,
-    $idserie,
-    $idcomprobante,
-    $fecha_comprobante,
-    $hora,
-    $tiponotaC,
-    $idarticulo,
-    $codigo,
-    $cantidad,
-    $pvt,
-    $unidad_medida,
-    $igvBD,
-    $valor_unitario,
-    $subtotalBD,
-    $vendedorsitio,
-    $idempresa,
-    $tipodoc_mod,
-    $motivonota,
-    $aigv,
-    $codtrib,
-    $nomtrib,
-    $coditrib,
-    $numorden,
-    $descarti
-  ) {
+  public function insertarNC( $idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipo_doc_mod, 
+  $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotal, $total_val_venta_oi, 
+  $total_val_venta_oe, $igv_, $sum_isc, $total_finalNC, $total, $idserie, $idcomprobante, $fecha_comprobante, $hora, $tiponotaC, $idarticulo, 
+  $codigo, $cantidad, $pvt, $unidad_medida, $igvBD, $valor_unitario, $subtotalBD, $vendedorsitio, $idempresa, $tipodoc_mod, $motivonota, 
+  $aigv, $codtrib, $nomtrib, $coditrib, $numorden, $descarti ) {
     $sw = true;
     //Guardar en la table nota de credito
-    $sql = "insert into notacd 
-        (
-         
-        nombre, 
-        numeroserienota, 
-        fecha, 
-        codigo_nota, 
-        codtiponota,  
-        desc_motivo, 
-        tipo_doc_mod, 
-        serie_numero, 
-        tipo_doc_ide, 
-        numero_doc_ide, 
-        razon_social, 
-        tipo_moneda, 
-        sum_ot_car, 
-        total_val_venta_og, 
-        total_val_venta_oi, 
-        total_val_venta_oe, 
-        sum_igv, 
-        sum_isc, 
-        sum_ot, 
-        importe_total, 
-        estado, 
-        idcomprobante,
-        fechacomprobante, 
-        idempresa,
-        vendedorsitio,
-        difComprobante,
-        DetalleSunat,
-        motivonota
-        )
-        values
-        (
-        
-         '$nombre',
-         '$serie-$numero_nc',
-         '$fecha $hora',
-         '$codigo_nota',
-         '$codtiponota',
-         '$desc_motivo',
-         '$tipo_doc_mod',
-         '$numero_comprobante',
-         '$tipo_doc_ide',
-         '$numero_documento',
-         '$razon_social',
-         '$tipo_moneda',
-         '$sum_ot_car',
-         '$subtotal',
-         '$total_val_venta_oi',
-         '$total_val_venta_oe',
-         '$igv_',
-         '$sum_isc',
-         '0',
-         '$total', 
-         '1',
-         '$idcomprobante',
-         '$fecha_comprobante',
-          '$idempresa',
-          '$vendedorsitio',
-          '$tipodoc_mod',
-           'EMITIDO',
-          '$motivonota'
-        )";
+    $sql = "INSERT into notacd ( nombre, numeroserienota, fecha, codigo_nota, codtiponota, desc_motivo, tipo_doc_mod, serie_numero, 
+    tipo_doc_ide, numero_doc_ide, razon_social, tipo_moneda, sum_ot_car, total_val_venta_og, total_val_venta_oi, total_val_venta_oe, 
+    sum_igv, sum_isc, sum_ot, importe_total, estado, idcomprobante, fechacomprobante,  idempresa, vendedorsitio, difComprobante, DetalleSunat,
+    motivonota ) values
+    ( '$nombre', '$serie-$numero_nc', '$fecha $hora', '$codigo_nota', '$codtiponota', '$desc_motivo', '$tipo_doc_mod', '$numero_comprobante', 
+    '$tipo_doc_ide', '$numero_documento', '$razon_social', '$tipo_moneda', '$sum_ot_car', '$subtotal', '$total_val_venta_oi', '$total_val_venta_oe', 
+    '$igv_', '$sum_isc', '0', '$total', '1', '$idcomprobante', '$fecha_comprobante', '$idempresa', '$vendedorsitio', '$tipodoc_mod', 'EMITIDO', '$motivonota' )";
 
     $idnotanew = ejecutarConsulta_retornarID($sql);
 
     //Para actualizar numeracion de las series de la factura
-    $sql_update_numeracion = "update numeracion set numero='$numero_nc' where idnumeracion='$idserie'";
+    $sql_update_numeracion = "UPDATE numeracion set numero='$numero_nc' where idnumeracion='$idserie'";
     ejecutarConsulta($sql_update_numeracion) or $sw = false;
     //Para actualizar numeracion de las series de la factura
 
-
-    //===============================================================================================
-    $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
-    //Si tenemos un posible error en la conexión lo mostramos
-    if (mysqli_connect_errno()) {
-      printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
-      exit();
-    }
+    //===============================================================================================    
 
     if ($tipodoc_mod == '01') { //SI ES FACTURA
       if ($idarticulo == '') { // si es por todo el comprobante
 
-        $query = "SELECT 
-    idfactura, 
-    idarticulo  
-    from 
-    detalle_fac_art 
-    where idfactura = '$idcomprobante'";
-        $resultado = mysqli_query($connect, $query);
+        $query = "SELECT idfactura, idarticulo  from detalle_fac_art where idfactura = '$idcomprobante'";
+        $resultado = ejecutarConsultaArray( $query);
 
-        $Idf = array();
-        $Ida = array();
+        $Idf = '';
+        $Ida = '';
 
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-          for ($i = 0; $i < count($resultado); $i++) {
-            $Idf[$i] = $fila["idfactura"];
-            $Ida[$i] = $fila["idarticulo"];
+        foreach ($resultado as $key => $fila) {        
+          
+          $Idf = $fila["idfactura"];
+          $Ida = $fila["idarticulo"];
 
-            //Guardar registro en Kardex
-            $sql_kardex = "insert into 
-        kardex 
-        (
-          idcomprobante,
-          idarticulo, 
-          transaccion, 
-          codigo, 
-          fecha, 
-          tipo_documento, 
-          numero_doc, 
-          cantidad, 
-          costo_1, 
-          unidad_medida, 
-          saldo_final, 
-          costo_2, 
-          valor_final, 
-          idempresa) 
+          //Guardar registro en Kardex
+          $sql_kardex = "INSERT into kardex (
+          idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, 
+          costo_2, valor_final, idempresa) 
+          values ( '$idnotanew', 
+            ( select a.idarticulo 
+              from articulo a 
+              inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo 
+              where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'
+            ), 
+          'NOTAC', 
+          ( select a.codigo from articulo a 
+            inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo 
+            where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'
+          ),
+          '$fecha', '07', '$serie-$numero_nc', 
+          ( select dtf.cantidad_item_12 from articulo a 
+            inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo 
+            where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'), 
+          ( select dtf.valor_uni_item_14 from articulo a 
+            inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo 
+            where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'
+          ),
+          ( select a.unidad_medida from articulo a 
+            inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo 
+            where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'
+          ),
+          0, 0, 0, '$idempresa')";
 
-          values 
-
-          (
-          '$idnotanew', 
-          (select a.idarticulo 
-            from 
-            articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-
-            'NOTAC', 
-
-            (select a.codigo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-             '$fecha', 
-             '07', 
-             '$serie-$numero_nc', 
-
-             (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-
-             (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-             (select a.unidad_medida from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-             0, 0, 0, '$idempresa')";
-
-            //Guardar en el detalle de nota de crédito
-            $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta,
-          aigv, 
-          codtrib, 
-          nomtrib, 
-          coditrib,
-          descripitem 
-          ) 
-          values 
-          (
-          '$idnotanew', 
-
-    (select a.idarticulo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-
-    (select dtf.numero_orden_item_33 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-
-          (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-
-          (select dtf.precio_venta_item_15_2 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-          (select dtf.afectacion_igv_item_16_2 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-          (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-          (select dtf.valor_venta_item_21 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-           (select dtf.afectacion_igv_item_16_3 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-           (select dtf.afectacion_igv_item_16_4 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-           (select dtf.afectacion_igv_item_16_5 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
-           (select dtf.afectacion_igv_item_16_6 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-           ''
-
-           
-        )";
-          }
+          //Guardar en el detalle de nota de crédito
+          $sql_det_notacd = "INSERT into detalle_notacd_art (idnotacd, idarticulo, nro_orden, cantidad, precio_venta, igv, valor_unitario, valor_venta, aigv, codtrib, 
+          nomtrib, coditrib, descripitem ) 
+          values ( '$idnotanew',
+          (select a.idarticulo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.numero_orden_item_33 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'), 
+          (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'), 
+          (select dtf.precio_venta_item_15_2 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.afectacion_igv_item_16_2 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.valor_venta_item_21 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.afectacion_igv_item_16_3 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.afectacion_igv_item_16_4 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.afectacion_igv_item_16_5 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.afectacion_igv_item_16_6 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida' and dtf.idfactura = '$Idf'),
+          '' )";          
 
           ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
           ejecutarConsulta($sql_det_notacd) or $sw = false;
         }
-      } else // else de la nota de credito cuando es por item//===========================
-      {
+      } else {// else de la nota de credito cuando es por item//===========================      
 
         // si solo es por algunos items
-        $num_elementos = 0;
-        while ($num_elementos < count($idarticulo)) { // While1
+        $yy = 0;
+        while ($yy < count($idarticulo)) { // While1
           //Guardar en Kardex
-          $sum = $num_elementos + 1;
-          $sql_kardex = "insert into 
-        kardex 
-        (
-          idcomprobante,
-          idarticulo, 
-          transaccion, 
-          codigo, 
-          fecha, 
-          tipo_documento, 
-          numero_doc, 
-          cantidad, 
-          costo_1, 
-          unidad_medida, 
-          saldo_final, 
-          costo_2, 
-          valor_final
-          ) 
-          values 
-          (
-            '$idnotanew', 
-            '$idarticulo[$num_elementos]',
-            'NOTAC', 
-            '$codigo[$num_elementos]', 
-            '$fecha' , 
-            '07',
-            '$serie-$numero_nc', 
-            '$cantidad[$num_elementos]', 
-            '$pvt[$num_elementos]',
-            '$unidad_medida[$num_elementos]',
-            (select saldo_finu - '$cantidad[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]') ,
-            (select precio_final_kardex from articulo where idarticulo='$idarticulo[$num_elementos]'), saldo_final * costo_2
-          )";
+          $sum = $yy + 1;
+          $sql_kardex = "INSERT into kardex ( idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, costo_2, valor_final ) 
+          values ( '$idnotanew', '$idarticulo[$yy]', 'NOTAC', '$codigo[$yy]', '$fecha', '07', '$serie-$numero_nc', '$cantidad[$yy]', '$pvt[$yy]', '$unidad_medida[$yy]',
+          (select saldo_finu - '$cantidad[$yy]' from articulo where idarticulo='$idarticulo[$yy]'),
+          (select precio_final_kardex from articulo where idarticulo='$idarticulo[$yy]'), saldo_final * costo_2 )";
 
           //Guardar en el detalle de nota de crédito
-          $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta,
-           aigv, codtrib, nomtrib, coditrib , numorden,
-           descripitem
-          ) 
-          values 
-          (
-          '$idnotanew', 
-          '$idarticulo[$num_elementos]', 
-          '$sum', 
-          '$cantidad[$num_elementos]', 
-          '$valor_unitario[$num_elementos]',
-          '$igvBD[$num_elementos]',
-          '$pvt[$num_elementos]',
-          '$subtotalBD[$num_elementos]',
-
-          '$aigv[$num_elementos]',
-          '$codtrib[$num_elementos]',
-          '$nomtrib[$num_elementos]',
-          '$coditrib[$num_elementos]',
-          '$numorden[$num_elementos]',
-          '$descarti[$num_elementos]'
-        )";
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo, nro_orden, cantidad, precio_venta, igv, 
+          valor_unitario, valor_venta, aigv, codtrib, nomtrib, coditrib , numorden, descripitem ) 
+          values ( '$idnotanew',  '$idarticulo[$yy]',  '$sum',  '$cantidad[$yy]',  '$valor_unitario[$yy]', '$igvBD[$yy]', '$pvt[$yy]', '$subtotalBD[$yy]', '$aigv[$yy]', 
+          '$codtrib[$yy]', '$nomtrib[$yy]', '$coditrib[$yy]', '$numorden[$yy]', '$descarti[$yy]' )";
 
           ejecutarConsulta($sql_kardex) or $sw = false;
           ejecutarConsulta($sql_det_notacd) or $sw = false;
 
-          $num_elementos = $num_elementos + 1;
+          $yy = $yy + 1;
         } //Fin while 1
       } //Fin else de nota de credito por Item
 
@@ -821,55 +458,27 @@ class Notacd
     } else if ($tipodoc_mod == '04') { //FACTURA DE SERVICIO
       if ($idarticulo == '') { // si es por todo el comprobante
 
-        $query = "SELECT 
-    idfactura, 
-    idarticulo  
-    from 
-    detalle_fac_art_ser 
-    where idfactura = '$idcomprobante'";
-        $resultado = mysqli_query($connect, $query);
+        $query = "SELECT idfactura, idarticulo  from detalle_fac_art_ser where idfactura = '$idcomprobante'";
+        $resultado = ejecutarConsultaArray( $query);
 
-        $Idf = array();
-        $Ida = array();
+        $Idf = '';
+        $Ida = '';
 
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-          for ($i2 = 0; $i2 < count($resultado); $i2++) {
-            $Idf[$i2] = $fila["idfactura"];
-            $Ida[$i2] = $fila["idarticulo"];
+        foreach ($resultado as $key => $fila) {       
+          
+          $Idf = $fila["idfactura"];
+          $Ida = $fila["idarticulo"];
 
-
-            //Guardar en el detalle de nota de crédito
-            $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-          values 
-          (
-          '$idnotanew', 
-
-  (select a.id from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i2]' and dtf.idfactura = '$Idf[$i2]'), 
-
-          '$i2', 
-
-          '1', 
-
-          (select dtf.precio_venta_item_15_2 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i2]' and dtf.idfactura = '$Idf[$i2]'),
-
-          (select dtf.afectacion_igv_item_16_2 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i2]' and dtf.idfactura = '$Idf[$i2]'),
-
-          (select dtf.valor_uni_item_14 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i2]' and dtf.idfactura = '$Idf[$i2]'),
-
-          (select dtf.valor_venta_item_21 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i2]' and dtf.idfactura = '$Idf[$i2]')
-        )";
-          }
+          //Guardar en el detalle de nota de crédito
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo, nro_orden, cantidad, precio_venta, igv, valor_unitario, valor_venta) 
+          values ( '$idnotanew', 
+          (select a.id from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida' and dtf.idfactura = '$Idf'), 
+          '$key', '1', 
+          (select dtf.precio_venta_item_15_2 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.afectacion_igv_item_16_2 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.valor_uni_item_14 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida' and dtf.idfactura = '$Idf'),
+          (select dtf.valor_venta_item_21 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida' and dtf.idfactura = '$Idf')
+          )";          
 
           ejecutarConsulta($sql_det_notacd) or $sw = false;
         }
@@ -884,7 +493,7 @@ class Notacd
         // while ($num_elementos < count($idarticulo)){ // While1
         //     //Guardar en Kardex
         //       //Guardar en el detalle de nota de crédito
-        //       $sql_det_notacd="insert into 
+        //       $sql_det_notacd="INSERT into 
         //     detalle_notacd_art 
         //     (
         //       idnotacd,
@@ -916,399 +525,141 @@ class Notacd
 
 
 
-    } else if ($tipodoc_mod == '03') // Else SI ES BOLETA 
-    {
+    } else if ($tipodoc_mod == '03'){ // Else SI ES BOLETA 
+    
       if ($idarticulo == '') { //SI ES POR TODO EL COMPROBANTE
 
-        $query = "SELECT 
-    idboleta, 
-    idarticulo  
-    from 
-    detalle_boleta_producto 
-    where idboleta = '$idcomprobante'";
-        $resultado = mysqli_query($connect, $query);
+        $query = "SELECT idboleta, idarticulo from detalle_boleta_producto where idboleta = '$idcomprobante'";
+        $resultado = ejecutarConsultaArray( $query);
 
-        $Idb = array();
-        $Ida = array();
+        $Idb = '';
+        $Ida = '';
 
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-          for ($i = 0; $i < count($resultado); $i++) {
-            $Idb[$i] = $fila["idboleta"];
-            $Ida[$i] = $fila["idarticulo"];
-            //Guardar en Kardex
-            $sql_kardex = "insert into 
-        kardex 
-        (idcomprobante,
-          idarticulo, 
-          transaccion, 
-          codigo, 
-          fecha, 
-          tipo_documento, 
-          numero_doc, 
-          cantidad, 
-          costo_1, 
-          unidad_medida, 
-          saldo_final, 
-          costo_2, 
-          valor_final, idempresa) 
+        foreach ($resultado as $key => $fila) {        
+          
+          $Idb = $fila["idboleta"];
+          $Ida = $fila["idarticulo"];
+          //Guardar en Kardex
+          $sql_kardex = "INSERT into kardex (idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, 
+          saldo_final, costo_2, valor_final, idempresa)
+          values ('$idnotanew', 
+          (select a.idarticulo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'), 
+          'NOTAC', 
+          (select a.codigo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          '$fecha','07', '$serie-$numero_nc',
+          (select dtb.cantidad_item_12 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'), 
+          (select dtb.valor_uni_item_31 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select a.unidad_medida from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          0, 0, 0,'$idempresa')";
 
-          values 
-
-          ('$idnotanew', 
-          (select 
-            a.idarticulo 
-            from 
-            articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-
-            'NOTAC', 
-
-            (select a.codigo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-             '$fecha','07', '$serie-$numero_nc', 
-
-             (select dtb.cantidad_item_12 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-
-             (select dtb.valor_uni_item_31 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-             (select a.unidad_medida from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-             0, 0, 0,'$idempresa')";
-
-            //Guardar en el detalle de nota de crédito
-            $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta,
-          aigv, codtrib, nomtrib, coditrib , numorden
-          ) 
-          values 
-          (
-          '$idnotanew', 
-          (select a.idarticulo 
-          from 
-          articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-           (select dtb.numero_orden_item_29 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-          (select dtb.cantidad_item_12 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-          (select dtb.precio_uni_item_14_2 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-          (select dtb.afectacion_igv_item_monto_27_1 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-          (select dtb.valor_uni_item_31 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-          (select dtb.valor_venta_item_32 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-          (select dtb.afectacion_igv_3 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-           (select dtb.afectacion_igv_4 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-           (select dtb.afectacion_igv_5 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-           (select dtb.afectacion_igv_6 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-           (select dtb.numero_orden_item_29 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]')
-
-        )";
-          }
+          //Guardar en el detalle de nota de crédito
+          $sql_det_notacd = "INSERT into detalle_notacd_art (idnotacd, idarticulo,  nro_orden,  cantidad,  precio_venta, igv, valor_unitario, valor_venta, aigv, codtrib, nomtrib, coditrib , numorden ) 
+          values ( '$idnotanew', 
+          (select a.idarticulo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'), 
+          (select dtb.numero_orden_item_29 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'), 
+          (select dtb.cantidad_item_12 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'), 
+          (select dtb.precio_uni_item_14_2 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.afectacion_igv_item_monto_27_1 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.valor_uni_item_31 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.valor_venta_item_32 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.afectacion_igv_3 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.afectacion_igv_4 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.afectacion_igv_5 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.afectacion_igv_6 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.numero_orden_item_29 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida' and dtb.idboleta = '$Idb') )";
+        
 
           ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
           ejecutarConsulta($sql_det_notacd) or $sw = false;
         }
-      } else // else de la nota de credito cuando es por item//==========BOLETA
-      {
+      } else { // else de la nota de credito cuando es por item//==========BOLETA      
 
         // si solo es por algunos items
-        $num_elementos = 0;
-        while ($num_elementos < count($idarticulo)) { // While1 //BOLETA 02-10
+        $xx = 0;
+        while ($xx < count($idarticulo)) { // While1 //BOLETA 02-10
           //Guardar en Kardex
-          $sql_kardex = "insert into 
-        kardex 
-        (
-          idcomprobante,
-          idarticulo, 
-          transaccion, 
-          codigo, 
-          fecha, 
-          tipo_documento, 
-          numero_doc, 
-          cantidad, 
-          costo_1, 
-          unidad_medida, 
-          saldo_final, 
-          costo_2, 
-          valor_final, idempresa
-          ) 
-          values 
-          (
-          '$idnotanew', 
-           '$idarticulo[$num_elementos]',
-            'NOTA DE CREDITO', 
-            '$codigo[$num_elementos]', 
-            '$fecha' , 
-            '07',
-            '$serie-$numero_nc', 
-            '$cantidad[$num_elementos]', 
-            '$pvt[$num_elementos]',
-            '$unidad_medida[$num_elementos]',
-            (select saldo_finu - '$cantidad[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]') ,
-            (select precio_final_kardex from articulo where idarticulo='$idarticulo[$num_elementos]'), saldo_final * costo_2, '$idempresa'
-          )";
+          $sql_kardex = "INSERT into kardex ( idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, 
+          costo_2, valor_final, idempresa ) 
+          values ( '$idnotanew', $idarticulo[$xx]','NOTA DE CREDITO', '$codigo[$xx]', '$fecha', '07', '$serie-$numero_nc', '$cantidad[$xx]', '$pvt[$xx]', '$unidad_medida[$xx]',
+          (select saldo_finu - '$cantidad[$xx]' from articulo where idarticulo='$idarticulo[$xx]') ,
+          (select precio_final_kardex from articulo where idarticulo='$idarticulo[$xx]'), saldo_final * costo_2, '$idempresa' )";
 
           //Guardar en el detalle de nota de crédito
-          $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta,
-          aigv, codtrib, nomtrib, coditrib , numorden,
-          descripitem
-          ) 
-          values 
-          (
-          '$idnotanew', 
-          '$idarticulo[$num_elementos]', 
-          '$num_elementos', 
-          '$cantidad[$num_elementos]', 
-          '$valor_unitario[$num_elementos]',
-          '$igvBD[$num_elementos]',
-          '$pvt[$num_elementos]',
-          '$subtotalBD[$num_elementos]',
-
-          '$aigv[$num_elementos]',
-          '$codtrib[$num_elementos]',
-          '$nomtrib[$num_elementos]',
-          '$coditrib[$num_elementos]',
-          '$numorden[$num_elementos]',
-          '$descarti[$num_elementos]'
-
-        )";
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo, nro_orden, cantidad, precio_venta, igv, valor_unitario, valor_venta, aigv, codtrib, 
+          nomtrib, coditrib , numorden, descripitem ) 
+          values ( '$idnotanew', '$idarticulo[$xx]', '$xx', '$cantidad[$xx]', '$valor_unitario[$xx]', '$igvBD[$xx]', '$pvt[$xx]', '$subtotalBD[$xx]', '$aigv[$xx]', 
+          '$codtrib[$xx]', '$nomtrib[$xx]', '$coditrib[$xx]', '$numorden[$xx]', '$descarti[$xx]')";
 
           ejecutarConsulta($sql_kardex) or $sw = false;
           ejecutarConsulta($sql_det_notacd) or $sw = false;
 
-          $num_elementos = $num_elementos + 1;
+          $xx = $xx + 1;
         } //Fin while 1
       } //Fin else de nota de credito por Item BOLETA
 
-
-
     } else { //BOLETA DE SERVICIO
 
-
-
       if ($idarticulo == '') { //SI ES POR TODO EL COMPROBANTE
-        $query = "SELECT 
-    idboleta, 
-    idarticulo  
-    from 
-    detalle_boleta_producto_ser 
-    where idboleta = '$idcomprobante'";
-        $resultado = mysqli_query($connect, $query);
+        $query = "SELECT idboleta, idarticulo  from detalle_boleta_producto_ser where idboleta = '$idcomprobante'";
+        $resultado = ejecutarConsultaArray($query);
 
-        $Idb = array();
-        $Ida = array();
+        $Idb = '';
+        $Ida = '';
 
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-          for ($i = 0; $i < count($resultado); $i++) {
-            $Idb[$i] = $fila["idboleta"];
-            $Ida[$i] = $fila["idarticulo"];
-            //Guardar en Kardex
-            //Guardar en el detalle de nota de crédito
-            $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-         values 
-          (
-          '$idnotanew', 
-
-          (select a.id 
-          from 
-          servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-
-          '$i', 
-
-          '1', 
-
-          (select dtb.precio_uni_item_14_2 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-          (select dtb.afectacion_igv_item_monto_27_1 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-          (select dtb.valor_uni_item_31 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-          (select dtb.valor_venta_item_32 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]')
-        )";
-          }
+        foreach ($resultado as $key => $fila) {       
+         
+          $Idb = $fila["idboleta"];
+          $Ida = $fila["idarticulo"];
+          //Guardar en Kardex
+          //Guardar en el detalle de nota de crédito
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo, nro_orden, cantidad, precio_venta, igv, valor_unitario, valor_venta ) 
+          values ( '$idnotanew', 
+          (select a.id from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida' and dtb.idboleta = '$Idb'),
+          '$key', 
+          '1',
+          (select dtb.precio_uni_item_14_2 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.afectacion_igv_item_monto_27_1 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.valor_uni_item_31 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida' and dtb.idboleta = '$Idb'),
+          (select dtb.valor_venta_item_32 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida' and dtb.idboleta = '$Idb')
+          )";          
         }
 
         ejecutarConsulta($sql_det_notacd) or $sw = false;
-      } else // else de la nota de credito cuando es por item//==========BOLETA
-      {
+      } else { // else de la nota de credito cuando es por item//==========BOLETA
+      
         // si solo es por algunos items
-        $num_elementos = 0;
-        while ($num_elementos < count($idarticulo)) { // While1 //BOLETA 02-10
+        $ii = 0;
+        while ($ii < count($idarticulo)) { // While1 //BOLETA 02-10
           //Guardar en Kardex
           //Guardar en el detalle de nota de crédito
-          $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-          values 
-          (
-          '$idnotanew', 
-          '$idarticulo[$num_elementos]', 
-          '$num_elementos', 
-          '$cantidad[$num_elementos]', 
-          '$valor_unitario[$num_elementos]',
-          '$igvBD[$num_elementos]',
-          '$pvt[$num_elementos]',
-          '$subtotalBD[$num_elementos]'
-        )";
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo, nro_orden, cantidad, precio_venta, igv, valor_unitario, valor_venta ) 
+          values ( '$idnotanew', '$idarticulo[$ii]', '$ii', '$cantidad[$ii]', '$valor_unitario[$ii]', '$igvBD[$ii]', '$pvt[$ii]', '$subtotalBD[$ii]' )";
 
           ejecutarConsulta($sql_det_notacd) or $sw = false;
-          $num_elementos = $num_elementos + 1;
+          $ii = $ii + 1;
         } //Fin while 1
       } //Fin else de nota de credito por Item BOLETA
 
     }
     //=========================================================================
 
-
-
-
     //===================== EXPORTAR A TX COMPROBANTE ===================================
     return $sw;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   //Implementamos un método para insertar registros para factura
   public function insertarND($idnota, $nombre, $serie, $numero_nc, $fecha, $codigo_nota, $codtiponota, $desc_motivo, $tipo_doc_mod, $numero_comprobante, $tipo_doc_ide, $numero_documento, $razon_social, $tipo_moneda, $sum_ot_car, $subtotal, $total_val_venta_oi, $total_val_venta_oe, $igv_, $sum_isc, $sum_ot, $total, $idserie, $idcomprobante, $fecha_comprobante, $hora2, $totalnd, $vendedorsitio, $idempresa, $tipodoc_mod, $motivonota)
   {
     $sw = true;
 
-    $sql = "insert into notacd
-         (
-         idnota, 
-          nombre, 
-          numeroserienota, 
-          fecha, 
-          codigo_nota, 
-          codtiponota, 
-          desc_motivo, 
-          tipo_doc_mod, 
-          serie_numero, 
-          tipo_doc_ide, 
-          numero_doc_ide, 
-          razon_social, 
-          tipo_moneda, 
-          sum_ot_car, 
-          total_val_venta_og, 
-          total_val_venta_oi, 
-          total_val_venta_oe, 
-          sum_igv, 
-          sum_isc, 
-          sum_ot, 
-          importe_total, 
-          estado, 
-          idcomprobante, 
-          fechacomprobante,
-          adicional,
-          idempresa,
-          vendedorsitio,
-          difComprobante,
-           DetalleSunat,
-          motivonota
-        )
-        values 
-        (
-        ' $idnota',
-         '$nombre',
-         '$serie-$numero_nc',
-         '$fecha $hora2',
-         '$codigo_nota',
-         '$codtiponota',
-         '$desc_motivo',
-         '$tipo_doc_mod',
-         '$numero_comprobante',
-         '$tipo_doc_ide',
-         '$numero_documento',
-         '$razon_social',
-         '$tipo_moneda',
-         '$sum_ot_car',
-         '$subtotal',
-         '$total_val_venta_oi',
-         '$total_val_venta_oe',
-         '$igv_',
-         '$sum_isc',
-         '0',
-         '$total', 
-         '1',
-         '$idcomprobante',
-         '$fecha_comprobante',
-         '$totalnd',
-         '$idempresa',
-         '$vendedorsitio',
-         '$tipodoc_mod',
-         'EMITIDO',
-         '$motivonota'
-      )";
+    $sql = "INSERT into notacd ( idnota, nombre, numeroserienota, fecha, codigo_nota, codtiponota, desc_motivo, tipo_doc_mod, serie_numero, tipo_doc_ide, numero_doc_ide, 
+    razon_social, tipo_moneda, sum_ot_car, total_val_venta_og, total_val_venta_oi, total_val_venta_oe, sum_igv, sum_isc, sum_ot, importe_total, estado, idcomprobante, 
+    fechacomprobante, adicional, idempresa, vendedorsitio, difComprobante, DetalleSunat, motivonota )
+    values ( '$idnota', '$nombre', '$serie-$numero_nc', '$fecha $hora2', '$codigo_nota', '$codtiponota', '$desc_motivo', '$tipo_doc_mod', '$numero_comprobante',
+    '$tipo_doc_ide', '$numero_documento', '$razon_social', '$tipo_moneda', '$sum_ot_car', '$subtotal', '$total_val_venta_oi', '$total_val_venta_oe', '$igv_', '$sum_isc', 
+    '0', '$total', '1', '$idcomprobante', '$fecha_comprobante', '$totalnd', '$idempresa', '$vendedorsitio', '$tipodoc_mod', 'EMITIDO', '$motivonota' )";
     $idnotanew = ejecutarConsulta_retornarID($sql);
+
     //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 
@@ -1320,16 +671,9 @@ class Notacd
       exit();
     }
 
-
-
     if ($tipodoc_mod == '01') { //SI ES FACTURa
 
-      $query = "SELECT 
-    idfactura, 
-    idarticulo  
-    from 
-    detalle_fac_art 
-    where idfactura = '$idcomprobante'";
+      $query = "SELECT idfactura, idarticulo  from detalle_fac_art where idfactura = '$idcomprobante'";
       $resultado = mysqli_query($connect, $query);
 
       $Idf = array();
@@ -1341,64 +685,32 @@ class Notacd
           $Ida[$i] = $fila["idarticulo"];
 
           //Guardar registro en Kardex
-          $sql_kardex = "insert into 
-        kardex 
-        (
-        idcomprobante,
-          idarticulo, 
-          transaccion, 
-          codigo, 
-          fecha, 
-          tipo_documento, 
-          numero_doc, 
-          cantidad, 
-          costo_1, 
-          unidad_medida, 
-          saldo_final, 
-          costo_2, 
-          valor_final, idempresa) 
-
-          values 
-
-          (
+          $sql_kardex = "INSERT into kardex ( idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, 
+          saldo_final, costo_2, valor_final, idempresa) 
+          values (
           '$idnotanew', 
           (select a.idarticulo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-            'NOTAD', 
-            (select a.codigo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-             '$fecha', 
-             '08', 
-             '$serie-$numero_nc', 
-             (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-             (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-             (select a.unidad_medida from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-             0, 0, 0, '$idempresa')";
+          'NOTAD', 
+          (select a.codigo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+          '$fecha', 
+          '08', 
+          '$serie-$numero_nc', 
+          (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
+          (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+          (select a.unidad_medida from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
+          0, 0, 0, '$idempresa')";
 
           //Guardar en el detalle de nota de crédito
-          $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-          values 
-          (
-          '$idnotanew', 
-          (select a.idarticulo 
-          from 
-          articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo,  nro_orden,  cantidad,  precio_venta, igv, valor_unitario, valor_venta ) 
+          values ( '$idnotanew', 
+          (select a.idarticulo from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
           (select dtf.numero_orden_item_33 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
           (select dtf.cantidad_item_12 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
           (select dtf.precio_venta_item_15_2 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
           (select dtf.afectacion_igv_item_16_2 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
           (select dtf.valor_uni_item_14 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
           (select dtf.valor_venta_item_21 from articulo a inner join detalle_fac_art dtf on a.idarticulo=dtf.idarticulo where a.idarticulo='$Ida[$i]' and dtf.idfactura = '$Idf[$i]')
-        )";
+          )";
         }
 
         ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
@@ -1407,12 +719,7 @@ class Notacd
     } else if ($tipodoc_mod == '04') { //Factura servicio
 
 
-      $query = "SELECT 
-    idfactura, 
-    idarticulo  
-    from 
-    detalle_fac_art_ser 
-    where idfactura = '$idcomprobante'";
+      $query = "SELECT idfactura, idarticulo from detalle_fac_art_ser where idfactura = '$idcomprobante'";
       $resultado = mysqli_query($connect, $query);
 
       $Idf = array();
@@ -1424,50 +731,24 @@ class Notacd
           $Ida[$i] = $fila["idarticulo"];
 
           //Guardar en el detalle de nota de crédito
-          $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-          values 
-          (
-          '$idnotanew', 
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo,  nro_orden,  cantidad,  precio_venta,  igv,  valor_unitario,  valor_venta ) 
+          values ( '$idnotanew', 
 
-          (select a.id 
-          from 
-          servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'), 
-
+          (select a.id from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
           '$i', 
-
           '1', 
-
           (select dtf.precio_venta_item_15_2 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
           (select dtf.afectacion_igv_item_16_2 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
           (select dtf.valor_uni_item_14 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i]' and dtf.idfactura = '$Idf[$i]'),
-
           (select dtf.valor_venta_item_21 from servicios_inmuebles a inner join detalle_fac_art_ser dtf on a.id=dtf.idarticulo where a.id='$Ida[$i]' and dtf.idfactura = '$Idf[$i]')
-        )";
+          )";
         }
         ejecutarConsulta($sql_det_notacd) or $sw = false;
       }
     } else if ($tipodoc_mod == '03') // Else SI ES BOLETA 
     {
 
-      $query = "SELECT 
-    idboleta, 
-    idarticulo  
-    from 
-    detalle_boleta_producto 
-    where idboleta = '$idcomprobante'";
+      $query = "SELECT idboleta, idarticulo from detalle_boleta_producto where idboleta = '$idcomprobante'";
       $resultado = mysqli_query($connect, $query);
 
       $Idb = array();
@@ -1478,70 +759,29 @@ class Notacd
           $Idb[$i] = $fila["idboleta"];
           $Ida[$i] = $fila["idarticulo"];
           //Guardar en Kardex
-          $sql_kardex = "insert into 
-        kardex 
-        (idcomprobante,
-          idarticulo, 
-          transaccion, 
-          codigo, 
-          fecha, 
-          tipo_documento, 
-          numero_doc, 
-          cantidad, 
-          costo_1, 
-          unidad_medida, 
-          saldo_final, 
-          costo_2, 
-          valor_final, idempresa) 
-
-          values 
-
+          $sql_kardex = "INSERT into kardex (idcomprobante, idarticulo,  transaccion,  codigo,  fecha,  tipo_documento,  numero_doc,  cantidad,  costo_1,  unidad_medida,  
+          saldo_final,  costo_2, valor_final, idempresa) values 
           ('$idnotanew', 
-          (select 
-            a.idarticulo 
-            from 
-            articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-
-            'NOTAD', 
-
-            (select a.codigo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-             '$fecha','08', '$serie-$numero_nc', 
-
-             (select dtb.cantidad_item_12 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-
-             (select dtb.valor_uni_item_31 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-             (select a.unidad_medida from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
-             0, 0, 0,'$idempresa')";
+          (select a.idarticulo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
+          'NOTAD', 
+          (select a.codigo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+          '$fecha','08', '$serie-$numero_nc', 
+          (select dtb.cantidad_item_12 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
+          (select dtb.valor_uni_item_31 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+          (select a.unidad_medida from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+          0, 0, 0,'$idempresa')";
 
           //Guardar en el detalle de nota de crédito
-          $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-          values 
-          (
-          '$idnotanew', 
-          (select a.idarticulo 
-          from 
-          articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo,  nro_orden,  cantidad,  precio_venta,  igv, valor_unitario, valor_venta ) 
+          values ( '$idnotanew', 
+          (select a.idarticulo from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
           '$i', 
           (select dtb.cantidad_item_12 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
           (select dtb.precio_uni_item_14_2 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
           (select dtb.afectacion_igv_item_monto_27_1 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
           (select dtb.valor_uni_item_31 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
           (select dtb.valor_venta_item_32 from articulo a inner join detalle_boleta_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]')
-        )";
+          )";
         }
 
         ejecutarConsulta($sql_kardex) or $sw = false; //Guarda KARDEX
@@ -1549,13 +789,7 @@ class Notacd
       }
     } else { //BOLETA DE SERVICIO
 
-
-      $query = "SELECT 
-    idboleta, 
-    idarticulo  
-    from 
-    detalle_boleta_producto_ser 
-    where idboleta = '$idcomprobante'";
+      $query = "SELECT idboleta, idarticulo  from detalle_boleta_producto_ser where idboleta = '$idcomprobante'";
       $resultado = mysqli_query($connect, $query);
 
       $Idb = array();
@@ -1567,140 +801,32 @@ class Notacd
           $Ida[$i] = $fila["idarticulo"];
           //Guardar en Kardex
           //Guardar en el detalle de nota de crédito
-          $sql_det_notacd = "insert into 
-        detalle_notacd_art 
-        (
-          idnotacd,
-          idarticulo, 
-          nro_orden, 
-          cantidad, 
-          precio_venta, 
-          igv, 
-          valor_unitario, 
-          valor_venta
-          ) 
-         values 
-          (
-          '$idnotanew', 
-
-          (select a.id 
-          from 
-          servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
-
-          '$i', 
-
-          '1', 
-
+          $sql_det_notacd = "INSERT into detalle_notacd_art ( idnotacd, idarticulo,  nro_orden,  cantidad,  precio_venta,  igv,  valor_unitario, valor_venta ) 
+          values  ( '$idnotanew', 
+          (select a.id from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'), 
+          '$i', '1', 
           (select dtb.precio_uni_item_14_2 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
           (select dtb.afectacion_igv_item_monto_27_1 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
           (select dtb.valor_uni_item_31 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
-
           (select dtb.valor_venta_item_32 from servicios_inmuebles a inner join detalle_boleta_producto_ser dtb on a.id=dtb.idarticulo where a.id='$Ida[$i]' and dtb.idboleta = '$Idb[$i]')
-        )";
+          )";
         }
       }
 
       ejecutarConsulta($sql_det_notacd) or $sw = false;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     //==============================================================================================
     //Guardar en el detalle de nota de crédito
-    // $sql_det_notacd="insert into 
-    //     detalle_notacd_art 
-    //     (
-    //       idnotacd,
-    //       idarticulo, 
-    //       nro_orden, 
-    //       cantidad, 
-    //       precio_venta, 
-    //       igv, 
-    //       valor_unitario, 
-    //       valor_venta
-    //       ) 
-    //       values 
-    //       (
-    //       '$idnotanew', 
-    //       (select idarticulo 
-    //       from 
-    //       articulo where codigo='1000ncdg'), 
-    //       '1', 
-    //       '1', 
-    //       '$total',
-    //       '$igv_',
-    //       '$subtotal',
-    //       '$subtotal'
-    //     )";
+    // $sql_det_notacd="INSERT into detalle_notacd_art ( idnotacd, idarticulo,  nro_orden,  cantidad,  precio_venta,  igv,  valor_unitario, valor_venta ) 
+    // values ('$idnotanew', (select idarticulo from articulo where codigo='1000ncdg'), '1', '1', '$total', '$igv_', '$subtotal', '$subtotal')";
+    // ejecutarConsulta($sql_det_notacd) or $sw=false; 
 
-    //       ejecutarConsulta($sql_det_notacd) or $sw=false; 
-
-    //   //Guardar registro en Kardex
-    //     $sql_kardex="insert into 
-    //     kardex 
-    //     (
-    //       idcomprobante,
-    //       idarticulo, 
-    //       transaccion, 
-    //       codigo, 
-    //       fecha, 
-    //       tipo_documento, 
-    //       numero_doc, 
-    //       cantidad, 
-    //       costo_1, 
-    //       unidad_medida, 
-    //       saldo_final, 
-    //       costo_2, 
-    //       valor_final, idempresa) 
-    //       values 
-    //       (
-    //       '$idnotanew', 
-    //       (select idarticulo 
-    //       from 
-    //       articulo where codigo='1000ncdg'), 
-    //       'NOTAD', 
-    //       '1000ncdg',
-    //       '$fecha_comprobante', 
-    //       '08', 
-    //       '$serie-$numero_nc', 
-    //          '1', 
-    //          '',
-    //          '',
-    //          '',
-    //          '',
-    //          '', '$idempresa'
-    //        )";
-    //   ejecutarConsulta($sql_kardex) or $sw=false; //Guarda KARDEX
+    // //Guardar registro en Kardex
+    // $sql_kardex="INSERT into kardex ( idcomprobante, idarticulo, transaccion, codigo, fecha, tipo_documento, numero_doc, cantidad, costo_1, unidad_medida, saldo_final, costo_2, valor_final, idempresa) 
+    // values ( '$idnotanew', (select idarticulo from articulo where codigo='1000ncdg'), 'NOTAD', '1000ncdg', '$fecha_comprobante', '08', '$serie-$numero_nc', '1', '','','','','', '$idempresa' )";
+    // ejecutarConsulta($sql_kardex) or $sw=false; //Guarda KARDEX
     //==============================================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //Para actualizar numeracion de las series de la factura
     $sql_update_numeracion = "update numeracion set numero='$numero_nc' where idnumeracion='$idserie'";
@@ -1732,135 +858,47 @@ class Notacd
     $rutadata = $Prutas->rutadata; // ruta de la carpeta DATA
     $rutadatalt = $Prutas->rutadatalt; // ruta de la carpeta DATA
 
-    $querynotacd = "SELECT
-       n.codigo_nota,
-       n.numeroserienota, 
-       date_format(n.fecha,'%Y-%m-%d') as fecha, 
-       date_format(n.fecha, '%H:%i:%s') as hora,
-       n.codtiponota, 
-       c.descripcion, 
-       n.tipo_doc_mod, 
-       n.serie_numero, 
-       n.tipo_doc_ide, 
-       n.razon_social, 
-       n.numero_doc_ide, 
-       n.tipo_moneda, 
-       n.sum_ot, 
-       n.total_val_venta_og, 
-       n.total_val_venta_oi, 
-       n.total_val_venta_oe, 
-       n.sum_igv, n.sum_isc, 
-       n.sum_ot, 
-       n.importe_total as total,
-       n.adicional
-      from
-      notacd n inner join catalogo10 c on n.codtiponota=c.codigo where n.idnota='$idnotanew' ";
+    $querynotacd = "SELECT n.codigo_nota, n.numeroserienota, date_format(n.fecha,'%Y-%m-%d') as fecha, date_format(n.fecha, '%H:%i:%s') as hora, n.codtiponota, 
+    c.descripcion, n.tipo_doc_mod, n.serie_numero, n.tipo_doc_ide, n.razon_social, n.numero_doc_ide, n.tipo_moneda, n.sum_ot, n.total_val_venta_og, n.total_val_venta_oi, 
+    n.total_val_venta_oe, n.sum_igv, n.sum_isc, n.sum_ot, n.importe_total as total, n.adicional 
+    from notacd n inner join catalogo10 c on n.codtiponota=c.codigo where n.idnota='$idnotanew' ";
 
-    $querydetfacncd =
-      "SELECT 
-      tipocomp,  
-      numerodoc, 
-      cantidad,
-      codigo, 
-      descripcion, 
-      vui, 
-      igvi, 
-      pvi, 
-      vvi, 
-      codigo_nota, 
-      numeroserienota, 
-      um, 
-      sum_igv 
-      from 
-      (
-      select 
-      f.tipo_documento_07 as tipocomp, 
-      f.numeracion_08 as numerodoc, 
-      dncd.cantidad, 
-      a.codigo, 
-      a.nombre as descripcion, 
-      format(dncd.valor_unitario,2) as vui, 
-      dncd.igv as igvi, 
-      dncd.precio_venta as pvi, 
-      dncd.valor_venta as vvi, 
-      ncd.codigo_nota, 
-      ncd.numeroserienota, 
-      a.unidad_medida as um, 
-      ncd.sum_igv
-      from
-      factura f inner join  notacd ncd on f.idfactura=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' and ncd.difComprobante='01'
+    $querydetfacncd = "SELECT tipocomp, numerodoc, cantidad,codigo, descripcion, vui, igvi, pvi, vvi, codigo_nota, numeroserienota, um, sum_igv 
+    from (
+      select f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, dncd.cantidad, a.codigo, a.nombre as descripcion, 
+      format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, 
+      a.unidad_medida as um, ncd.sum_igv
+      from factura f 
+      inner join  notacd ncd on f.idfactura=ncd.idcomprobante 
+      inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  
+      inner join articulo a on dncd.idarticulo=a.idarticulo 
+      where ncd.idnota='$idnotanew' and ncd.difComprobante='01'
+      union all      
+      select f.tipo_documento_07 as tipocomp, f.numeracion_08 as numerodoc, dncd.cantidad, a.codigo, a.descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, 
+      dncd.precio_venta as pvi, dncd.valor_venta as vvi,  ncd.codigo_nota, ncd.numeroserienota, a.codigo as um, ncd.sum_igv
+      from facturaservicio f 
+      inner join  notacd ncd on f.idfactura=ncd.idcomprobante 
+      inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd 
+      inner join servicios_inmuebles a on dncd.idarticulo=a.id 
+      where ncd.idnota='$idnotanew' and ncd.difComprobante='04') as tabla  order by numeroserienota";
+
+    $querydetbolncd = "SELECT tipocomp, numerodoc, cantidad, codigo, descripcion, vui, igvi, pvi, vvi, codigo_nota, numeroserienota, um, sum_igv   
+    from (
+      select b.tipo_documento_06 as tipocomp, b.numeracion_07 as numerodoc,  dncd.cantidad, a.codigo, a.nombre as descripcion, format(dncd.valor_unitario,2) as vui, 
+      dncd.igv as igvi, dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.unidad_medida as um, ncd.sum_igv   
+      from  boleta b 
+      inner join notacd ncd on b.idboleta=ncd.idcomprobante 
+      inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd 
+      inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' and ncd.difComprobante='03' 
       union all
-      
-      select 
-      f.tipo_documento_07 as tipocomp,  
-      f.numeracion_08 as numerodoc, 
-      dncd.cantidad, 
-      a.codigo, 
-      a.descripcion, 
-      format(dncd.valor_unitario,2) as vui, 
-      dncd.igv as igvi, 
-      dncd.precio_venta as pvi, 
-      dncd.valor_venta as vvi, 
-      ncd.codigo_nota, 
-      ncd.numeroserienota, 
-      a.codigo as um, 
-      ncd.sum_igv
-      from
-      facturaservicio f inner join  notacd ncd on f.idfactura=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join servicios_inmuebles a on dncd.idarticulo=a.id where ncd.idnota='$idnotanew' and ncd.difComprobante='04') as tabla
-       order by numeroserienota";
-
-
-    $querydetbolncd =
-      "SELECT 
-    tipocomp, 
-    numerodoc,  
-    cantidad, 
-    codigo, 
-    descripcion, 
-    vui, 
-    igvi, 
-    pvi, 
-    vvi, 
-    codigo_nota, 
-    numeroserienota, 
-    um, 
-    sum_igv   
-      from 
-      (
-    select 
-    b.tipo_documento_06 as tipocomp, 
-    b.numeracion_07 as numerodoc,  
-    dncd.cantidad, 
-    a.codigo, 
-    a.nombre as descripcion, 
-    format(dncd.valor_unitario,2) as vui, 
-    dncd.igv as igvi, 
-    dncd.precio_venta as pvi, 
-    dncd.valor_venta as vvi, 
-    ncd.codigo_nota, 
-    ncd.numeroserienota, 
-    a.unidad_medida as um, 
-    ncd.sum_igv   
-    from
-      boleta b inner join notacd ncd on b.idboleta=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join articulo a on dncd.idarticulo=a.idarticulo where ncd.idnota='$idnotanew' and ncd.difComprobante='03' 
-      union all
-      select 
-    b.tipo_documento_06 as tipocomp, 
-    b.numeracion_07 as numerodoc,  
-    dncd.cantidad, 
-    a.codigo, 
-    a.descripcion, 
-    format(dncd.valor_unitario,2) as vui, 
-    dncd.igv as igvi, 
-    dncd.precio_venta as pvi, 
-    dncd.valor_venta as vvi, 
-    ncd.codigo_nota, 
-    ncd.numeroserienota, 
-    a.codigo as um, 
-    ncd.sum_igv   
-    from
-      boletaservicio b inner join notacd ncd on b.idboleta=ncd.idcomprobante inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd  inner join servicios_inmuebles a on dncd.idarticulo=a.id where ncd.idnota='$idnotanew' and ncd.difComprobante='05') 
-      as tabla  order by numeroserienota";
+      select  b.tipo_documento_06 as tipocomp, b.numeracion_07 as numerodoc,  dncd.cantidad, a.codigo, a.descripcion, format(dncd.valor_unitario,2) as vui, dncd.igv as igvi, 
+      dncd.precio_venta as pvi, dncd.valor_venta as vvi, ncd.codigo_nota, ncd.numeroserienota, a.codigo as um, ncd.sum_igv 
+      from boletaservicio b 
+      inner join notacd ncd on b.idboleta=ncd.idcomprobante 
+      inner join detalle_notacd_art dncd on ncd.idnota=dncd.idnotacd 
+      inner join servicios_inmuebles a on dncd.idarticulo=a.id 
+      where ncd.idnota='$idnotanew' and ncd.difComprobante='05'
+    ) as tabla  order by numeroserienota";
 
     $resultnc = mysqli_query($connect, $querynotacd);
 
@@ -2425,56 +1463,21 @@ class Notacd
     return ejecutarConsulta($sql);
   }
 
-  public function cabecerancreditoBol($idnotac, $idempresa)
-  {
-    $sql = "
-         select
-         cliente, 
-         domicilio,
-         numero_documento, 
-         femision, 
-         nboleta, 
-         femisionbol, 
-         numerncd,
-         motivo,
-         observacion,
-         codigo_nota,
-         adicional,
-         subtotal,
-         igv,
-         total,
-         numero_ruc,
-         estado,
-         vendedorsitio,
-         serie, 
-         numeronota  
-         from 
-         (select 
-         p.razon_social as cliente, 
-         p.domicilio_fiscal as domicilio,
-         p.numero_documento, 
-         date_format(ncd.fecha, '%d-%m-%Y' ) as femision, 
-         b.numeracion_07 as nboleta, 
-         date_format(b.fecha_emision_01, '%d-%m-%Y') as femisionbol, 
-         ncd.numeroserienota as numerncd,
-         c9.descripcion as motivo,
-         ncd.desc_motivo as observacion,
-         ncd.codigo_nota,
-         ncd.adicional,
-         ncd.total_val_venta_og as subtotal,
-         ncd.sum_igv as igv,
-         ncd.importe_total as total,
-         e.numero_ruc,
-         ncd.estado,
-         ncd.vendedorsitio,
-         right(substring_index(ncd.numeroserienota,'-',1),4) as serie, 
-         right(substring_index(ncd.numeroserienota,'-',-1),10) as numeronota  
-         from 
-         notacd ncd inner join boleta b on ncd.idcomprobante=b.idboleta inner join persona p on b.idcliente=p.idpersona inner join catalogo9 c9 on ncd.codtiponota=c9.codigo inner join empresa e on b.idempresa=e.idempresa and ncd.difComprobante='03'
-         where 
-         ncd.idnota='$idnotac' and e.idempresa='$idempresa'
-         )
-         as tabla";
+  public function cabecerancreditoBol($idnotac, $idempresa) {
+    $sql = "SELECT cliente,  domicilio, numero_documento,  femision,  nboleta,  femisionbol,  numerncd, motivo, observacion, codigo_nota, adicional, subtotal, igv, total, 
+    numero_ruc, estado, vendedorsitio, serie,  numeronota  
+    from (
+      select p.razon_social as cliente, p.domicilio_fiscal as domicilio, p.numero_documento, date_format(ncd.fecha, '%d-%m-%Y' ) as femision, b.numeracion_07 as nboleta, 
+      date_format(b.fecha_emision_01, '%d-%m-%Y') as femisionbol, ncd.numeroserienota as numerncd, c9.descripcion as motivo, ncd.desc_motivo as observacion, 
+      ncd.codigo_nota, ncd.adicional, ncd.total_val_venta_og as subtotal, ncd.sum_igv as igv, ncd.importe_total as total, e.numero_ruc, ncd.estado, ncd.vendedorsitio,
+      right(substring_index(ncd.numeroserienota,'-',1),4) as serie, right(substring_index(ncd.numeroserienota,'-',-1),10) as numeronota  
+      from notacd ncd 
+      inner join boleta b on ncd.idcomprobante=b.idboleta 
+      inner join persona p on b.idcliente=p.idpersona 
+      inner join catalogo9 c9 on ncd.codtiponota=c9.codigo 
+      inner join empresa e on b.idempresa=e.idempresa and ncd.difComprobante='03'
+      where ncd.idnota='$idnotac' and e.idempresa='$idempresa' 
+    ) as tabla";
     return ejecutarConsulta($sql);
   }
 

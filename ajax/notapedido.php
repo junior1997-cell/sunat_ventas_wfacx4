@@ -439,43 +439,29 @@ switch ($_GET["op"]) {
       $urlT = '../reportes/exNotapedidoTicket.php?id=';
       $urlB = '../reportes/exNotapedido.php?id=';
       $urlC = '../reportes/exNotapedidocompleto.php?id=';
+      $urlA4 = '../reportes/A4_nota_pedido.php?id=';
 
       if ($reg->tipo_documento_06 == 'Ticket') {
         $url = '../reportes/exNotapedidoTicket.php?id=';
       } else {
         $url = '../reportes/exNotapedido.php?id=';
-      }
+      }     
 
       $stt = '';
-      if ($reg->estado == '5' || $reg->estado == '4') {
-        $stt = 'none';
-      } else {
-        $send = 'none';
-      }
-
-      if ($reg->estado == '3') {
-        $stt = 'none';
-      }
+      if ($reg->estado == '5' || $reg->estado == '4') { $stt = 'none'; } else { $send = 'none'; }
+      if ($reg->estado == '3') { $stt = 'none';   }
 
       $data[] = array(
-        "0" =>
-
-        '
-                   <div class="btn-group mb-1">
-            <div class="dropdown">
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Acciones
-                </button>
-                <div class="dropdown-menu" style="">
-                    
-                    <a  style="visible:' . $stt . ';" class="dropdown-item" onclick="baja(' . $reg->idboleta . ')"> Dar de baja</a>
-                    <a hidden class="dropdown-item" target="_blank" onclick="nota2Hojas(' . $reg->idboleta . ')"> Imprimir 2 Copias
-                    </a>
-                    <a class="dropdown-item"  onclick="preticket2(' . $reg->idboleta . ')"> Formato Ticket
-                    </a>
-                    
-                </div>
+        "0" => '<div class="btn-group mb-1">
+          <div class="dropdown">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Acciones</button>
+            <div class="dropdown-menu" style="">                    
+              <a  style="visible:' . $stt . ';" class="dropdown-item" onclick="baja(' . $reg->idboleta . ')"> Dar de baja</a>
+              <a hidden class="dropdown-item" target="_blank" onclick="nota2Hojas(' . $reg->idboleta . ')"> Imprimir 2 Copias</a>
+              <a class="dropdown-item"  onclick="preticket2(' . $reg->idboleta . ')">Imprimir Ticket</a>                    
+              <a class="dropdown-item" target="_blank" href="'.$urlA4.$reg->idboleta.'&idcliente='.$reg->idcliente.'"  >Imprimir A4</a>                    
             </div>
+          </div>
         </div>'
         // // '
         // <i  class="fa fa-level-down" onclick="baja('.$reg->idboleta.')" data-toggle="tooltip" title="Cancelar recibo" style="visible:'.$stt.'; color:red;"  ></i>'

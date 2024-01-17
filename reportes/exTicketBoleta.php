@@ -72,6 +72,7 @@ if (!isset($_SESSION["nombre"])) {
           <tr><td style="text-align: center;">--------------------------------------------------------</td></tr>
         </tbody>
       </table>
+
       <!-- Datos cliente -->
       <table border="0" align="center" width="230px">
         <tbody>
@@ -216,14 +217,14 @@ if (!isset($_SESSION["nombre"])) {
       
       <!-- Detalles de totales sunat -->
       <table border='0'  align="center" width='230px' style='font-size: 12px'>
-        <tr><td colspan='5'><strong>Descuento </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->tdescuento ?> </td></tr>
-        <tr><td colspan='5'><strong>Op. Gravada </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $nombretigv; ?> </td></tr>
-        <tr><td colspan='5'><strong>Op. Exonerado </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $nombretexo; ?> </td></tr>
+        <tr><td colspan='5'><strong>Descuento </strong></td>    <td>:</td> <td style="text-align: right;"> <?php echo $reg->tdescuento ?> </td></tr>
+        <tr><td colspan='5'><strong>Op. Gravada </strong></td>  <td>:</td> <td style="text-align: right;"> <?php echo $nombretigv; ?> </td></tr>
+        <tr><td colspan='5'><strong>Op. Exonerado </strong></td><td>:</td> <td style="text-align: right;"> <?php echo $nombretexo; ?> </td></tr>
         <tr><td colspan='5'><strong>Op. Inafecto </strong></td> <td>:</td> <td style="text-align: right;">0.00</td></tr>
-        <tr><td colspan='5'><strong>ICBPER</strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->icbper ?> </td></tr>
-        <tr><td colspan='5'><strong>I.G.V.</strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->igv ?> </td></tr>
-        <tr><td colspan='5'><strong>Imp. Pagado: </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->ipagado ?> </td></tr>
-        <tr><td colspan='5'><strong>Vuelto: </strong></td> <td>:</td> <td style="text-align: right;"> <?php echo $reg->saldo ?> </td></tr>
+        <tr><td colspan='5'><strong>ICBPER</strong></td>        <td>:</td> <td style="text-align: right;"> <?php echo $reg->icbper ?> </td></tr>
+        <tr><td colspan='5'><strong>I.G.V.</strong></td>        <td>:</td> <td style="text-align: right;"> <?php echo $reg->igv ?> </td></tr>
+        <tr><td colspan='5'><strong>Imp. Pagado</strong></td>   <td>:</td> <td style="text-align: right;"> <?php echo $reg->ipagado ?> </td></tr>
+        <tr><td colspan='5'><strong>Vuelto</strong></td>        <td>:</td> <td style="text-align: right;"> <?php echo $reg->saldo ?> </td></tr>
         <!--<tr><td colspan='5'><strong>I.G.V. 18.00 </strong></td><td >:</td><td><?php echo $reg->sumatoria_igv_18_1; ?></td></tr>-->
       </table>
 

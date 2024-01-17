@@ -798,15 +798,11 @@ switch ($_GET["op"]) {
     $mon = "";
     while ($reg = $rspta->fetch_object()) {
 
-
       if ($reg->moneda == "USD") {
         $mon = '<i style="color:green;" data-toggle="tooltip" title="Por T.C. ' . $reg->tcambio . ' = ' . $reg->valordolsol . ' PEN">$</i>';
       } else {
         $mon = "";
       }
-
-
-
 
       //=====================================================================================
       ///"0" =>
@@ -817,7 +813,7 @@ switch ($_GET["op"]) {
       //         </button>
       //         <div class="dropdown-menu" style="">
 
-      //             <a  class="dropdown-item"onclick="prea42copias2(' . $reg->idcomprobante . ', ' . $reg->tipo_documento_07 . ')"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir Ticket"> </i> Imprimir formato 2 copias</a>
+      //             
 
 
       //         </div>
@@ -831,64 +827,42 @@ switch ($_GET["op"]) {
         "2" => $reg->vendedorsitio,
         "3" => $reg->numeracion_08,
         "4" => $reg->importe_total_venta_27 . " " . $mon,
-
-
         //Actualizado ===============================================
         "5" => ($reg->estado == '1') ? '<img   src="../public/images/sambar.jpg" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' //si esta emitido
-          : (($reg->estado == '4') ? '<img   src="../public/images/srojo.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' //si esta firmado
-
-            : (($reg->estado == '3') ? '<img   src="../public/images/srojo.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' // si esta de baja
-
-              : (($reg->estado == '0') ? '<img   src="../public/images/srojo.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' //si esta firmado
-
-                : (($reg->estado == '5') ? '<img   src="../public/images/sverde.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' // Si esta aceptado por SUNAT
-
-                  : '<span style="color:#239B56;">' . $reg->DetalleSunat . '</span>')))),
-
+        : (($reg->estado == '4') ? '<img   src="../public/images/srojo.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' //si esta firmado
+        : (($reg->estado == '3') ? '<img   src="../public/images/srojo.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' // si esta de baja
+        : (($reg->estado == '0') ? '<img   src="../public/images/srojo.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' //si esta firmado
+        : (($reg->estado == '5') ? '<img   src="../public/images/sverde.png" data-toggle="tooltip" title="' . $reg->DetalleSunat . '" width="30px">' // Si esta aceptado por SUNAT
+        : '<span style="color:#239B56;">' . $reg->DetalleSunat . '</span>')))),
         //Opciones de envio
-        "6" =>
-
-        '<div class="btn-group mb-1">
-            <div class="dropdown">
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Opciones
-                </button>
-                <div class="dropdown-menu" style="">
-                    
-                    <a  class="dropdown-item" onclick="mostrarxml(' . $reg->idcomprobante . ', ' . $reg->tipo_documento_07 . ')"><i class="fa fa-check" style="color:orange;" data-toggle="tooltip" title="Mostrar XML"> </i> Mostrar XML</a>
-                    <a  class="dropdown-item" nclick="mostrarrpta(' . $reg->idcomprobante . ', ' . $reg->tipo_documento_07 . ')"><i class="fa fa-check" style="color:green; data-toggle="tooltip" title="Mostrar CDR"> </i> Mostrar CDR</a>
-                   
-                    
-                </div>
+        "6" =>'<div class="btn-group mb-1">
+          <div class="dropdown">
+            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Opciones</button>
+            <div class="dropdown-menu" style="">                    
+              <a  class="dropdown-item" onclick="mostrarxml(' . $reg->idcomprobante . ', ' . $reg->tipo_documento_07 . ')"><i class="fa fa-check" style="color:orange;" data-toggle="tooltip" title="Mostrar XML"> </i> Mostrar XML</a>
+              <a  class="dropdown-item" nclick="mostrarrpta(' . $reg->idcomprobante . ', ' . $reg->tipo_documento_07 . ')"><i class="fa fa-check" style="color:green; data-toggle="tooltip" title="Mostrar CDR"> </i> Mostrar CDR</a>                    
+              <a  class="dropdown-item"onclick="prea42copias2(' . $reg->idcomprobante . ', ' . $reg->tipo_documento_07 . ')"><i class="fa  fa-print"  data-toggle="tooltip" title="Imprimir Ticket"> </i> Ver detalle.</a>
             </div>
+          </div>
         </div>',
-
-        "7" => ($reg->tarjetadc == '1') ? '<img src="../files/articulos/tarjetadc.png" width="20px" 
-                data-toggle="tooltip" title="TARJETA ' . $reg->montotarjetadc . '">' : '',
-        "8
-                " => ($reg->transferencia == '1') ? '<img src="../files/articulos/transferencia.png" width="20px" data-toggle="tooltip" title="BANCO ' . $reg->montotransferencia . '">' : '',
+        "7" => ($reg->tarjetadc == '1') ? '<img src="../files/articulos/tarjetadc.png" width="20px" data-toggle="tooltip" title="TARJETA ' . $reg->montotarjetadc . '">' : '',
+        "8" => ($reg->transferencia == '1') ? '<img src="../files/articulos/transferencia.png" width="20px" data-toggle="tooltip" title="BANCO ' . $reg->montotransferencia . '">' : '',
       );
     } //Fin While
 
     $results = array(
-      "sEcho" => 1,
-      //Información para el datatables
-      "iTotalRecords" => count($data),
-      //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data),
-      //enviamos el total registros a visualizar
+      "sEcho" => 1,    //Información para el datatables
+      "iTotalRecords" => count($data),   //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data),   //enviamos el total registros a visualizar
       "aaData" => $data
     );
     echo json_encode($results);
-    break;
-
+  break;
 
   case 'avanzar':
     $rspta = $venta->avanzar($idnotificacion);
     echo $rspta ? "Actualizado" : "Error al actualizar";
-    break;
-
-
+  break;
 
   case 'notificaciones':
     $fecnot = $_GET["fechanoti"];
@@ -912,16 +886,10 @@ switch ($_GET["op"]) {
       "aaData" => $data
     );
     echo json_encode($results);
-    break;
-
-
-
-
+  break;
 
   case 'ComprobantesPendientes':
     $rspta = $venta->ComprobantesPendientesA();
-
-
 
     $data = array();
     while ($reg = $rspta->fetch_object()) {
@@ -939,11 +907,7 @@ switch ($_GET["op"]) {
       "aaData" => $data
     );
 
-    if ($data) {
-      $venta->enviarcorreopendientes();
-    }
+    if ($data) {  $venta->enviarcorreopendientes();  }
     echo json_encode($results);
-
-
-    break;
+  break;
 }

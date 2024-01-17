@@ -11,11 +11,20 @@ class Notacb
 
   function buscarComprobante($idempresa, $moneda)  {
 
-    $sql = "SELECT  b.idboleta, p.tipo_documento, p.numero_documento, p.razon_social, p.domicilio_fiscal as domicilio, b.tipo_documento_06 as tipocomp, 
+    $sql = "SELECT  b.idboleta, p.idpersona, p.tipo_documento, c6.descripcion as tip_doc, p.numero_documento, 
+    CASE  WHEN p.tipo_documento = '6' THEN p.razon_social  ELSE CONCAT(IFNULL(p.nombres,''), ' ' , IFNULL(p.apellidos,'')) END AS razon_social,
+    CASE p.tipo_documento WHEN '6' THEN 
+      CASE WHEN LENGTH(p.razon_social) >= 35 THEN CONCAT( SUBSTRING(p.razon_social, 1, 35) , '...' ) ELSE p.razon_social END 
+    ELSE 
+      CASE WHEN LENGTH( CONCAT(IFNULL(p.nombres,''), ' ' , IFNULL(p.apellidos,'')) ) >= 35 THEN CONCAT( SUBSTRING(CONCAT(IFNULL(p.nombres,''), ' ' , IFNULL(p.apellidos,'')), 1, 35) , '...' ) ELSE CONCAT(IFNULL(p.nombres,''), ' ' , IFNULL(p.apellidos,'')) END  
+    END AS ra_so, 
+    p.domicilio_fiscal as domicilio,
+    b.tipo_documento_06 as tipocomp, 
     b.numeracion_07 as numerodoc, b.monto_15_2 as subtotal, b.sumatoria_igv_18_1 as igv, b.importe_total_23 as total, b.tipo_moneda_24 as tmoneda, 
     date_format(b.fecha_emision_01, '%d-%m-%Y') as fecha1, date_format(b.fecha_emision_01, '%Y/%m/%d %h:%i %p') as fecha2 
     from boleta b 
     inner join persona p on b.idcliente= p.idpersona 
+    inner join catalogo6 c6 on c6.codigo=p.tipo_documento
     inner join empresa e on b.idempresa=e.idempresa 
     where p.tipo_persona='cliente' and b.estado='5' and e.idempresa='$idempresa' and b.tipo_moneda_24='$moneda' order by b.fecha_emision_01 desc";
     return ejecutarConsulta($sql);

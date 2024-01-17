@@ -18789,7 +18789,7 @@ code[class*=language-] {
 
 @media (min-width: 992px) {
 
-  .modal-lg,
+  /* .modal-lg, */
   .modal-xl {
     --bs-modal-width: 1300px;
   }
