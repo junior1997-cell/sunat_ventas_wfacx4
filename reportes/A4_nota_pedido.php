@@ -20,17 +20,50 @@
   $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/venta_romero/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
 
 
+  // CONSULTAR DATOS
+  require_once"../modelos/Notapedido.php"; 
+
+  $nota_venta= new Notapedido();
+  $numero_a_letra = new NumeroALetras();
+
+  $rspta        = $nota_venta->imprimirA4($_GET['id']);
+  $html_venta = ''; $cont = 1;
+  if (empty($rspta['data']['venta'])) {    echo "Comprobante no existe"; die();  }
+
+  foreach ($rspta['data']['detalles'] as $key => $reg) {
+    $html_venta .= '<tr>
+      <td class="px-1 celda-b-r-1px text-center" >'.$cont++.'</td>
+      <td class="px-1 celda-b-r-1px text-center" >'.$reg['codigo'].'</td>
+      <td class="px-1 celda-b-r-1px text-align">'.$reg['nombre'].'</td>
+      <td class="px-1 celda-b-r-1px text-center" >'.$reg['UM'].'</td>
+      <td class="px-1 celda-b-r-1px text-center" >'.$reg['cantidad'].'</td>
+      <td class="px-1 celda-b-r-1px text-right" >'.number_format($reg['p_unitario'], 2, '.',',').'</td>
+      <td class="px-1 celda-b-r-1px text-right" >'.number_format($reg['descuento'], 2, '.',',').'</td>
+      <td class="px-1 celda-b-r-1px text-right">'.number_format($reg['a_subtotal'], 2, '.',',').'</td>
+    </tr>';
+  }
+
   // Generar QR
-  $dataTxt = "RUC_CLIENTE|CODIGO_FUNAT_FACT|SERIE_FACT|NUMERO_FACT|IMPUESTO|MONTO_TOTAL|05/12/2023|CODIGO_SUNAT_DOC|RUC_CLIENTE|";
-  $filename = 'TK001-1' . '.png';
+  $dataTxt = "
+    Cliente: " . $rspta['data']['venta']['RazonSocial'] . "
+    Fecha Enisión: " . $rspta['data']['venta']['fecha_emision'] . "
+    Total a pagar: " . $rspta['data']['venta']['total_general'] . "
+    Contactanos: ".$rspta['data']['empresa']['telefono1']."
+  ";
+  $filename = $rspta['data']['venta']['numeracion_07'] . '.png';
   $qr_code = QrCode::create($dataTxt)->setEncoding(new Encoding('UTF-8'))->setErrorCorrectionLevel(ErrorCorrectionLevel::Low)->setSize(600)->setMargin(10)->setRoundBlockSizeMode(RoundBlockSizeMode::Margin)->setForegroundColor(new Color(0, 0, 0))->setBackgroundColor(new Color(255, 255, 255));
   
-  $label = Label::create( 'TK001-01')->setTextColor(new Color(255, 0, 0)); // Create generic label  
+  $label = Label::create( $rspta['data']['venta']['numeracion_07'])->setTextColor(new Color(255, 0, 0)); // Create generic label  
   $writer = new PngWriter(); // Create IMG
   $result = $writer->write($qr_code, label: $label); 
   $result->saveToFile(__DIR__.'/generador-qr/nota_venta/'.$filename); // Save it to a file  
   $dataUri = $result->getDataUri();// Generate a data URI
 
+
+  //NUMERO A LETRA
+  $numero = $rspta['data']['venta']['total_general'];
+  $numeroALetras = new NumeroALetras();
+  $texto = $numeroALetras->toWords($numero)
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +75,7 @@
   <meta charset="UTF-8">
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> TK001-1 - Nota de Venta </title>
+  <title> <?php echo $rspta['data']['venta']['numeracion_07']; ?> - Nota de Venta </title>
   <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
   <meta name="Author" content="Spruko Technologies Private Limited">
   <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
@@ -65,54 +98,59 @@
 <body onload="window.print();" style="background-color: white !important;">
 
   <!-- End Switcher -->
-  <div class="container-lg">
+  <div class="container-lg" >
     <div class="row justify-content-center">
-      <div class="row gy-3">
-        <div class="col-xl-12">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-xl-9">
           <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">     
-              <div class="d-flex flex-fill flex-wrap gap-3">
-                <div class="avatar avatar-xl avatar-rounded"><img src="../assets/images/brand-logos/logo-mia.png" alt=""></div>
+              <div class="d-flex flex-fill flex-wrap gap-4">
+                <div class="avatar avatar-xl avatar-rounded"><img src="../assets/images/brand-logos/<?php echo $rspta['data']['empresa']['logo']; ?>" alt="" style="width: 100px; height: auto;"></div>
                 <div>
-                  <h6 class="mb-1 fw-semibold">NEGOCIOS MIA </h6>                  
-                  <div class="fs-11 mb-0 "> Barrio San Jose - San Martin - Peru</div>
-                  <div class="fs-11 mb-0 text-muted contact-mail text-truncate">gerencia@negociosmia.jdl.pe</div>
-                  <div class="fs-11 mb-0 text-muted">968 675 460 - 968 675 460</div>
+                  <h6 class="mb-1 fw-semibold"><?php echo $rspta['data']['empresa']['nombre_razon_social']; ?></h6>                  
+                  <div class="fs-10 mb-0 "><?php echo $rspta['data']['empresa']['domicilio_fiscal']; ?></div>
+                  <div class="fs-10 mb-0 text-muted contact-mail text-truncate"><?php echo $rspta['data']['empresa']['correo']; ?></div>
+                  <div class="fs-10 mb-0 text-muted"><?php echo $rspta['data']['empresa']['telefono1']; ?> - <?php echo $rspta['data']['empresa']['telefono2']; ?></div>
                 </div>
               </div>              
             </div>
             <div class="text-center col-xl-4 col-lg-4 col-md-6 col-sm-6 ms-auto mt-sm-0 mt-3">
               <div class="border border-dark">
                 <div class="m-2">                  
-                  <h6 class="text-muted mb-2"> RUC: 10009580552 </h6>
-                  <h5>NOTA DE VENTA ELECTRONICA</h5>
-                  <h5>TK001-1</h5>
+                  <h6 class="text-muted mb-2"> RUC: <?php echo $rspta['data']['empresa']['numero_ruc']; ?> </h6>
+                  <h6>NOTA DE VENTA ELECTRONICA</h6>
+                  <h5><?php echo $rspta['data']['venta']['numeracion_07']; ?></h5>
                 </div>                
               </div>              
             </div>
           </div>
         </div>
-        <div class="col-xl-12">
+        <div class="col-xl-9">
           <table class="font-size-10px">
             <tr>
-              <th>Fecha de Emisión</th><td>: <?php echo  date('Y-m-d H:i:s'); ?></td>
+              <th style="font-size: 12px;">Fecha de Emisión</th>
+              <td style="font-size: 12px;">: <?php echo $rspta['data']['venta']['fecha_emision']; ?></td>
             </tr>
             <tr>
-              <th>Señor(es)</th><td>: SEVENS INGENIEROS S.A.C</td>
+              <th style="font-size: 12px;">Señor(a)</th>
+              <td style="font-size: 12px;">: <?php echo $rspta['data']['venta']['RazonSocial']; ?></td>
             </tr>
             <tr>
-              <th>RUC</th><td>: 20606456892</td>
+              <th style="font-size: 12px;">N° Documento</th>
+              <td style="font-size: 12px;">: <?php echo $rspta['data']['venta']['rucCliente']; ?></td>
             </tr>
             <tr>
-              <th>Dirección</th><td>: PJ. YUNGAY 151 P.J. SANTA ROSA LAMBAYEQUE-CHICLAYOCHICLAYO </td>
+              <th style="font-size: 12px;">Dirección</th>
+              <td style="font-size: 12px;">: <?php echo $rspta['data']['venta']['domicilio_fiscal']; ?></td>
             </tr>            
             <tr>
-              <th>Observación</th><td>: -</td>
+              <th style="font-size: 12px;">Observación</th>
+              <td style="font-size: 12px;">: -</td>
             </tr>
           </table>
         </div>
         
-        <div class="col-xl-12">
+        <div class="col-xl-9">
           <div class="table-responsive">
             <table class="text-nowrap border border-dark mt-1 w-100">
               <thead class="border border-dark">
@@ -128,43 +166,57 @@
                 </tr>
               </thead>
               <tbody >
-                <?php 
-                  for ($i=1; $i < 15; $i++) { 
-                    echo '<tr>
-                    <td class="px-1 celda-b-r-1px text-center">'.$i.'</td>
-                    <td class="px-1 celda-b-r-1px text-center">PR00043</td>
-                    <td class="px-1 celda-b-r-1px ">Branded hoodie ethnic style</td>
-                    <td class="px-1 celda-b-r-1px text-center">NIU</td>
-                    <td class="px-1 celda-b-r-1px text-center">3</td>
-                    <td class="px-1 celda-b-r-1px text-right">60.00</td>
-                    <td class="px-1 celda-b-r-1px text-right">0.00</td>
-                    <td class="px-1 celda-b-r-1px text-right">180.00</td>
-                  </tr>';
-                  }
-                ?>
-                
+              <?php echo $html_venta; ?>
                                        
               </tbody>
             </table>
           </div>
         </div>        
 
-        <div class="col-xl-12">             
+        <div class="col-xl-9">             
           
           <table  style="width: 100% !important;">            
             <tr>   
               <td class="font-size-12px">
-                <span class="">SON: <b>MILQUINIENTOS SETENTS Y CINCO 00/100</b>  </span><br>
-                <span class="text-muted">Representación impresa de la Boleta de Venta Electrónica puede ser consultada en jdl.pe </span>
+                <span class="">SON: <b><?php echo $texto; ?> 00/100</b>  </span><br>
+                <span class="text-muted">Representación impresa de la Nota de Venta Electrónica, puede ser consultada en <?php echo $rspta['data']['empresa']['nombre_razon_social']; ?></span>
               </td>  
               <td>
                 <table class="text-nowrap w-100 table-bordered font-size-10px">
                   <tbody>
                     <tr><th class="text-center" colspan="3">CUENTAS BANCARIAS</th></tr>
-                    <tr><td class="px-1">BCP</td> <td class="px-1">Cta: 543543566345654</td> <td class="px-1">CCI: 896869687</td></tr>            
-                    <tr><td class="px-1">BBVA</td> <td class="px-1">Cta: 543543566345654</td> <td class="px-1">CCI: 896869687</td></tr>            
-                    <tr><td class="px-1">NACION</td> <td class="px-1">Cta: 543543566345654</td> <td class="px-1">CCI: 896869687</td></tr>            
-                    
+                    <!-- filtramos los datos <<< SI la cuenta existe ENTONCES se muestran sus datos >>>> de lo contrario se ocultan :) ------>
+                    <?php if (!empty($rspta['data']['empresa']['cuenta1'])) : ?>
+                        <tr>
+                            <td class="px-1"><?php echo $rspta['data']['empresa']['banco1']; ?></td>
+                            <td class="px-1">Cta: <?php echo $rspta['data']['empresa']['cuenta1']; ?></td>
+                            <td class="px-1">CCI: <?php echo $rspta['data']['empresa']['cuentacci1']; ?></td>
+                        </tr>
+                    <?php endif; ?>
+
+                    <?php if (!empty($rspta['data']['empresa']['cuenta2'])) : ?>
+                        <tr>
+                            <td class="px-1"><?php echo $rspta['data']['empresa']['banco2']; ?></td>
+                            <td class="px-1">Cta: <?php echo $rspta['data']['empresa']['cuenta2']; ?></td>
+                            <td class="px-1">CCI: <?php echo $rspta['data']['empresa']['cuentacci2']; ?></td>
+                        </tr>
+                    <?php endif; ?>
+
+                    <?php if (!empty($rspta['data']['empresa']['cuenta3'])) : ?>
+                        <tr>
+                            <td class="px-1"><?php echo $rspta['data']['empresa']['banco3']; ?></td>
+                            <td class="px-1">Cta: <?php echo $rspta['data']['empresa']['cuenta3']; ?></td>
+                            <td class="px-1">CCI: <?php echo $rspta['data']['empresa']['cuentacci3']; ?></td>
+                        </tr>
+                    <?php endif; ?>
+
+                    <?php if (!empty($rspta['data']['empresa']['cuenta4'])) : ?>
+                        <tr>
+                            <td class="px-1"><?php echo $rspta['data']['empresa']['banco4']; ?></td>
+                            <td class="px-1">Cta: <?php echo $rspta['data']['empresa']['cuenta4']; ?></td>
+                            <td class="px-1">CCI: <?php echo $rspta['data']['empresa']['cuentacci4']; ?></td>
+                        </tr>
+                    <?php endif; ?>
                   </tbody>
                 </table>
               </td>                 
@@ -176,19 +228,19 @@
                       <tbody>
                         <tr>
                           <td scope="row"><p class="mb-0 font-size-12px">Sub Total</p></td> <th>:</th>
-                          <td align="right"><p class="mb-0 ">720.00</p></td>
+                          <td align="right"><p class="mb-0 "><?php echo $rspta['data']['venta']['n_subtotal']; ?></p></td>
                         </tr>            
                         <tr>
                           <td scope="row"><p class="mb-0 font-size-12px">Descuento </p></td><th>:</th>
-                          <td align="right"><p class="mb-0 ">0.00</p></td>
+                          <td align="right"><p class="mb-0 "><?php echo $rspta['data']['venta']['dest_total']; ?></p></td>
                         </tr>  
                         <tr>
                           <td scope="row"><p class="mb-0 font-size-12px">IGV <span class="text-danger">(0%)</span> </p></td> <th>:</th>
-                          <td align="right"><p class="mb-0 ">0.00</p></td>
+                          <td align="right"><p class="mb-0 "><?php echo $rspta['data']['venta']['IGV']; ?></p></td>
                         </tr>            
                         <tr>
                           <th scope="row"><p class="mb-0 fs-16">Total</p></th> <th>:</th>
-                          <td align="right"><p class="mb-0 fw-semibold fs-16">720.00</p></td>
+                          <td align="right"><p class="mb-0 fw-semibold fs-16"><?php echo $rspta['data']['venta']['total_general']; ?></p></td>
                         </tr>
                       </tbody>
                     </table>

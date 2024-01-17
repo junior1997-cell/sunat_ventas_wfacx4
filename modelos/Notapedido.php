@@ -1,5 +1,8 @@
 <?php
 //Incluímos inicialmente la conexión a la base de datos
+
+use Complex\Functions;
+
 require "../config/Conexion.php";
 
 
@@ -154,13 +157,13 @@ class Notapedido
              '01',
              (select numeracion_07 from boleta where idboleta='$Idb[$i]'),
 
-(select dtb.cantidad_item_12 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+  (select dtb.cantidad_item_12 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select dtb.valor_uni_item_31 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+  (select dtb.valor_uni_item_31 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select a.unidad_medida from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+  (select a.unidad_medida from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-0, 0, 0)";
+  0, 0, 0)";
 
         $sqlestado = "update
         notapedido
@@ -233,13 +236,13 @@ class Notapedido
              '50',
              (select numeracion_07 from notapedido where idboleta='$Idb[$i]'),
 
-(select dtb.cantidad_item_12 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+  (select dtb.cantidad_item_12 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select dtb.valor_uni_item_31 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+  (select dtb.valor_uni_item_31 from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select a.unidad_medida from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+  (select a.unidad_medida from articulo a inner join detalle_notapedido_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-0, 0, 0)";
+  0, 0, 0)";
       }
 
       ejecutarConsulta($sql_update_articulo) or $sw = false;
@@ -498,4 +501,41 @@ class Notapedido
     $sql = "SELECT np.idboleta, e.tipoimpresion from notapedido np inner join empresa e on np.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
     return ejecutarConsultaSimpleFila($sql);
   }
+
+  // ::::::::::::::::::::::::: NOTA DE VENTA A4 ::::::::::::::::::::::::::::::::::::::
+  public function imprimirA4($idboleta){
+
+    $sql_1="SELECT nombre_razon_social, domicilio_fiscal, numero_ruc, telefono1, telefono2, correo, logo,
+    banco1, banco2, banco3, banco4, cuenta1, cuenta2, cuenta3, cuenta4, cuentacci1, cuentacci2, cuentacci3, cuentacci4
+    FROM empresa
+    WHERE idempresa='1';";
+    $empresa = ejecutarConsultaSimpleFila2($sql_1); if ($empresa['status'] == false) { return  $empresa;}
+
+    $sql_2="SELECT np.idboleta, DATE_FORMAT(np.fecha_emision_01, '%d/%m/%Y %h:%i %p') as fecha_emision, np.RazonSocial, np.rucCliente, p.domicilio_fiscal,
+    np.monto_15_2 n_subtotal, np.tdescuento dest_total, np.sumatoria_igv_18_1 IGV, np.numeracion_07,
+    (np.monto_15_2 + np.tdescuento + np.sumatoria_igv_18_1) AS total_general
+    FROM notapedido as np, persona as p
+    WHERE np.idboleta ='$idboleta'
+    AND np.idcliente = p.idpersona;";
+    $venta = ejecutarConsultaSimpleFila2($sql_2); if ($venta['status'] == false) { return  $venta;}
+
+    $sql_3="SELECT dnp.iddetalle, a.codigo, a.nombre, dnp.umedida UM, dnp.cantidad_item_12 cantidad, dnp.precio_uni_item_14_2 p_unitario, dnp.dcto_item descuento, dnp.afectacion_igv_item_monto_27_1 a_subtotal
+    FROM detalle_notapedido_producto as dnp, notapedido as np, articulo as a
+    WHERE dnp.idboleta = '$idboleta'
+    AND dnp.idboleta = np.idboleta
+    AND dnp.idarticulo = a.idarticulo;";
+    $detalles = ejecutarConsultaArray2($sql_3); if ($detalles['status'] == false) {return $detalles;}
+
+    return $retorno=['status'=>true, 'message'=>'consulta ok', 
+    'data'=>[  
+      'empresa'   =>$empresa['data'],
+      'venta'     =>$venta['data'],
+      'detalles'  =>$detalles['data']
+    ]];
+
+  }
+
+
+
+
 }

@@ -27,6 +27,77 @@ if (!function_exists('ejecutarConsulta')) {
     return $data;
   }
 
+
+  function ejecutarConsultaArray2($sql) {
+    global $conexion;  //$data= Array();	$i = 0;
+
+    $query = $conexion->query($sql);
+
+    if ($conexion->error) {
+      try {
+        throw new Exception("MySQL error <b> $conexion->error </b> Query:<br> $query", $conexion->errno);
+      } catch (Exception $e) {
+        //echo "Error No: " . $e->getCode() . " - " . $e->getMessage() . "<br >"; echo nl2br($e->getTraceAsString());
+        return array( 
+          'status' => false, 
+          'code_error' => $e->getCode(), 
+          'message' => $e->getMessage(), 
+          'data' => '<br><b>Rutas de errores:</b> <br>'.nl2br($e->getTraceAsString()),
+        );          
+      }
+    } else {
+      for ($data = []; ($row = $query->fetch_assoc()); $data[] = $row);
+      return  array( 
+        'status' => true, 
+        'code_error' => $conexion->errno, 
+        'message' => 'Salió todo ok, en ejecutarConsultaArray2()', 
+        'data' => $data, 
+        'id_tabla' => '',
+        'affected_rows' => $conexion->affected_rows,
+        'sqlstate' => $conexion->sqlstate,
+        'field_count' => $conexion->field_count,
+        'warning_count' => $conexion->warning_count, 
+      );
+    }
+  }
+
+
+
+  function ejecutarConsultaSimpleFila2($sql) {
+    global $conexion;
+    $query = $conexion->query($sql);
+    if ($conexion->error) {
+      try {
+        throw new Exception("MySQL error <b> $conexion->error </b> Query:<br> $query", $conexion->errno);
+      } catch (Exception $e) {
+        //echo "Error No: " . $e->getCode() . " - " . $e->getMessage() . "<br >"; echo nl2br($e->getTraceAsString());
+        $data_errores = array( 
+          'status' => false, 
+          'code_error' => $e->getCode(), 
+          'message' => $e->getMessage(), 
+          'data' => '<br><b>Rutas de errores:</b> <br>'.nl2br($e->getTraceAsString()),
+        );
+        return $data_errores;
+      }
+
+    } else {
+      $row = $query->fetch_assoc();
+      return array( 
+        'status' => true, 
+        'code_error' => $conexion->errno, 
+        'message' => 'Salió todo ok, en ejecutarConsultaSimpleFila()', 
+        'data' => $row, 
+        'id_tabla' => '',
+        'affected_rows' => $conexion->affected_rows,
+        'sqlstate' => $conexion->sqlstate,
+        'field_count' => $conexion->field_count,
+        'warning_count' => $conexion->warning_count, 
+      );
+    }
+  }
+
+
+
   function ejecutarConsultaSimpleFila($sql) {
     $result = ejecutarConsulta($sql);
     $row = $result->fetch_assoc();

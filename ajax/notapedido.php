@@ -459,7 +459,7 @@ switch ($_GET["op"]) {
               <a  style="visible:' . $stt . ';" class="dropdown-item" onclick="baja(' . $reg->idboleta . ')"> Dar de baja</a>
               <a hidden class="dropdown-item" target="_blank" onclick="nota2Hojas(' . $reg->idboleta . ')"> Imprimir 2 Copias</a>
               <a class="dropdown-item"  onclick="preticket2(' . $reg->idboleta . ')">Imprimir Ticket</a>                    
-              <a class="dropdown-item" target="_blank" href="'.$urlA4.$reg->idboleta.'&idcliente='.$reg->idcliente.'"  >Imprimir A4</a>                    
+              <a class="dropdown-item" target="_blank" href="'.$urlA4.$reg->idboleta.'&idboleta='.$reg->idboleta.'"  >Imprimir A4</a>                    
             </div>
           </div>
         </div>'
