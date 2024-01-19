@@ -2,6 +2,16 @@
 require_once "global.php";
 // Conexión a la base de datos
 $conexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+$id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+$id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
+
+mysqli_query($conexion, 'SET NAMES "' . DB_ENCODE . '"');         # Para el tipo de datos, ejemlo: UTF8
+mysqli_query($conexion, "SET @id_usr_sesion ='$id_usr_sesion' "); # Para saber quien hizo el CRUD
+mysqli_query($conexion, "SET time_zone = '-05:00';");             # Cambia el horario local: America/Lima
+mysqli_query($conexion, "SET lc_time_names = 'es_ES';");          # Cambia el idioma a español en fechas
+
+
 // Verificar si hay errores en la conexión
 if ($conexion->connect_errno) {
   die("Falló la conexión a la base de datos: " . $conexion->connect_error);
@@ -11,8 +21,8 @@ $conexion->set_charset(DB_ENCODE);
 // Funciones para ejecutar consultas y limpiar cadenas
 if (!function_exists('ejecutarConsulta')) {
   
-  function ejecutarConsulta($sql)  {
-    global $conexion;
+  function ejecutarConsulta($sql, $crud = 'R')  {
+    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
     $query = $conexion->query($sql);
     if (!$query) {
       die("Error en la consulta: " . $conexion->error);
@@ -105,8 +115,8 @@ if (!function_exists('ejecutarConsulta')) {
     return $row;
   }
 
-  function ejecutarConsulta_retornarID($sql) {
-    global $conexion;
+  function ejecutarConsulta_retornarID($sql, $crud = 'R') {
+    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
     if (!$conexion->query($sql)) {
       die("Error en la consulta: " . $conexion->error);
     }

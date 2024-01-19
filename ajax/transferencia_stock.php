@@ -6,11 +6,12 @@ require_once "../modelos/Almacen.php";
 
 $almacen = new Almacen();
 
-$idalmacen 		= isset($_POST["idalmacen"]) ? limpiarCadena($_POST["idalmacen"]) : "";
-$nombrea			= isset($_POST["nombrea"]) ? limpiarCadena($_POST["nombrea"]) : "";
-$descripcion 	= isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
-$estado 			= isset($_POST["estado"]) ? limpiarCadena($_POST["estado"]) : "";
-$direccion 		= isset($_POST["direccion"]) ? limpiarCadena($_POST["direccion"]) : "";
+$idalmacen = isset($_POST["idalmacen"]) ? filter_var($_POST["idalmacen"], FILTER_SANITIZE_NUMBER_INT) : "";
+
+$nombrea = isset($_POST["nombrea"]) ? filter_var($_POST["nombrea"], FILTER_SANITIZE_STRING) : "";
+$descripcion = isset($_POST["descripcion"]) ? filter_var($_POST["descripcion"], FILTER_SANITIZE_STRING) : "";
+$estado = isset($_POST["estado"]) ? filter_var($_POST["estado"], FILTER_SANITIZE_STRING) : "";
+$direccion = isset($_POST["direccion"]) ? filter_var($_POST["direccion"], FILTER_SANITIZE_STRING) : "";
 
 
 switch ($_GET["op"]) {
