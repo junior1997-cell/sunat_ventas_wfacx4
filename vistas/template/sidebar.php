@@ -84,8 +84,8 @@
               </a>
               <ul class="slide-menu child1">
                 <li class="slide side-menu__label1"> <a href="javascript:void(0)">Artículos</a> </li>
-                <li class="slide"> <a href="transferencias.php" class="side-menu__item">Agregar transferencia</a> </li>
-                <li class="slide"> <a href="listatransferencias.php" class="side-menu__item">Lista transferencias</a> </li>                              
+                <li class="slide"> <a href="transferencia_stock.php" class="side-menu__item">Agregar transferencia</a> </li>
+                <li class="slide"> <a href="transferencia_lista.php" class="side-menu__item">Lista transferencias</a> </li>                              
               </ul>
             </li>
             <li class="slide">

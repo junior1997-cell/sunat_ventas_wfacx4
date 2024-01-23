@@ -2,7 +2,7 @@
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
 
-Class Almacen
+Class Transferencia_stock
 {
 	//Implementamos nuestro constructor
 	public $id_usr_sesion; public $id_empresa_sesion;
@@ -13,76 +13,46 @@ Class Almacen
 	}
 
   // CRUD - T
-
-	public function insertaralmacen($nombre, $direc, $idempresa) {
-		$sql="INSERT into almacen (nombre, direccion, idempresa, )	values ('$nombre', '$direc', '$this->id_empresa_sesion')";
-		return ejecutarConsulta($sql, 'C');
+	//LISTAR LOS ALMACENES
+	public function listar_almacen()	{
+		$sql="SELECT idalmacen, nombre FROM almacen WHERE estado=1 AND estado_delete=1;";
+		return ejecutarConsultaArray($sql);
 	}
 
-	//Implementamos un método para editar registros
-	public function editar($idalmacen,$nombre, $direccion) {
-		$sql="update almacen set nombre='$nombre', direccion='$direccion' where idalmacen='$idalmacen'";
-		return ejecutarConsulta($sql, 'U');
-	}
-
-	//Implementamos un método para desactivar almacens
-	public function desactivar($idalmacen)	{
-		$sql="update almacen SET estado='0' where idalmacen='$idalmacen'";
-		return ejecutarConsulta($sql, 'T');
-	}
-
-  //Implementamos un método para desactivar almacens
-	public function eliminar($idalmacen)	{
-		$sql="update almacen SET estado='0' where idalmacen='$idalmacen'";
-		return ejecutarConsulta($sql, 'D');
-	}
-
-	//Implementamos un método para activar categorías
-	public function activar($idalmacen)	{
-		$sql="update almacen SET estado='1' where idalmacen='$idalmacen'";
+	public function listar_tranferencia()	{
+		$sql="SELECT atr.idalmacen_transferencia, atr.fecha, al.nombre almacen, ar.nombre articulo, atr.cantidad,  atr.estado
+		FROM almacen_transferencia as atr, almacen as al, articulo as ar
+		WHERE atr.idalmacen = al.idalmacen
+		AND atr.idarticulo = ar.idarticulo
+		AND atr.estado=1 
+		AND atr.estado_delete=1;";
 		return ejecutarConsulta($sql);
 	}
 
-	//validar duplicado
-	public function validarAlmacen($nombre)	{
-		$sql="SELECT * from almacen where nombre='$nombre'";
-		return ejecutarConsultaSimpleFila($sql);
+
+	public function listar_articulo_x_almacen($idalmacen){
+		$sql="SELECT a.idarticulo, a.nombre, a.stock FROM articulo AS a, almacen AS al WHERE a.idalmacen = al.idalmacen AND a.idalmacen = '$idalmacen';";
+		$articulo = ejecutarConsultaArray2($sql); if($articulo['status'] == false){return $articulo;}
+		return $retorno = ['status' => true, 'message'=>'todo ok', 'data'=>['articulo'=>$articulo['data']]];
+	}
+
+	public function stock($idarticulo){
+		$sql="SELECT a.idarticulo,a.stock FROM articulo AS a, almacen AS al WHERE a.idalmacen = al.idalmacen AND a.idarticulo = '$idarticulo';";
+		$cantidad = ejecutarConsultaSimpleFila2($sql); if($cantidad['status'] == false){return $cantidad;}
+		return $retorno = ['status' => true, 'message'=>'todo ok', 'data'=>['cantidad'=>$cantidad['data']]];
+	}
+	public function insertar($almacen1, $articulos1, $cantidad1, $almacen2, $articulos2){
+		$sql="INSERT INTO almacen_transferencia (idalmacen, idarticulo, cantidad) values ('$almacen2', '$articulos2', '$cantidad1');";
+		$insertar = ejecutarConsulta($sql, 'C');
+
+        $sql_1 = "UPDATE articulo SET stock = stock - $cantidad1 WHERE idalmacen = '$almacen1' AND idarticulo = '$articulos1';";
+		$actualizar1 = ejecutarConsulta($sql_1, 'U');
+
+		$sql_2 = "UPDATE articulo SET stock = stock + $cantidad1 WHERE idalmacen = '$almacen2' AND idarticulo = '$articulos2';";
+		$actualizar2 = ejecutarConsulta($sql_2, 'U');
+		return $retorno = ['status'=>true, 'message'=>'todo okey'];
 	}
 	
-	//Implementar un método para mostrar los datos de un registro a modificar
-	public function mostrar($idalmacen)	{
-		$sql="SELECT * from almacen where idalmacen='$idalmacen'";
-		return ejecutarConsultaSimpleFila($sql);
-	}
-
-	//Implementar un método para listar los registros
-	public function listar()	{
-		$sql="SELECT * from almacen order by idalmacen";
-		return ejecutarConsulta($sql);
-	}
-	
-	//Implementar un método para listar los registros y mostrar en el select
-	// public function select()
-	// {
-	// 	$sql="SELECT * from almacen where estado=1 and not idalmacen='1'  order by idalmacen desc ";
-	// 	return ejecutarConsulta($sql);
-	// }
-
-	//Implementar un método para listar los registros y mostrar en el select
-	public function select(){
-		$sql="SELECT * from almacen a inner join empresa e on a.idempresa=e.idempresa  where  e.idempresa='$this->id_empresa_sesion' order by idalmacen desc";
-		return ejecutarConsulta($sql);
-	}
-
-	public function selectunidad() {
-		$sql="SELECT * from umedida order by case when idunidad = 58 then 0 else 1 end,	idunidad desc;";
-		return ejecutarConsulta($sql);
-	}
-
-	public function almacenlista() {
-		$sql="SELECT * from almacen where not idalmacen='1' order by idalmacen";
-		return ejecutarConsulta($sql);
-	}
 
 }
 
