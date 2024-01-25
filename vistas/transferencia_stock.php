@@ -22,90 +22,113 @@ if (!isset($_SESSION["nombre"])) {
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-            <form name="formulario" id="formulario" method="  ">
+            <form name="form-transferencia" id="form-transferencia" method="POST">
               <div class="row">
-                <div class="col-md-6 border p-3" >
+                <div class="col-md-6 border p-3">
                   <h5 class="card-title text-center">Origen</h5>
+                  <div class="col-md-12 border-top p-3">
+                    
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label for="almacenSelect" class="form-label" >Almacén</label>
+                            <select class="form-control mb-4 " name="almacen1" id="almacen1"> <!-- listar los almacenes disponibles --> </select>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <label for="articulosSelect" class="form-label" >Artículo</label>
+                          <select class="form-control mb-4" name="articulos1" id="articulos1">
+                            <!-- Opciones para los artículos -->
+                          </select>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <label for="cantidadInput" class="form-label">Cantidad</label>
+                          <input type="number" class="form-control mb-0" name="cantidad1" id="cantidad1">
+                        </div>
+
+                      </div>
+                      <!-- /.row -->
+                      <!-- <div class="row">
+                        <div class="col-md-3 mb-4 d-flex align-items-center">
+                          <label for="almacenSelect" style="margin-left: 0.5cm; font-size: 16px;">Almacén</label>
+                        </div>
+                        <div class="col-md-8 ">
+                          <select class="form-control mb-4 " name="almacen1" id="almacen1">
+                            
+                          </select>
+                        </div>
+                      </div> -->
+
+                      <!-- <div class="row">
+                        <div class="col-md-3 mb-4 d-flex align-items-center">
+                          <label for="articulosSelect" style="margin-left: 0.5cm; font-size: 16px;">Artículo</label>
+                        </div>
+                        <div class="col-md-8">
+                          <select class="form-control mb-4" name="articulos1" id="articulos1">
+                            
+                          </select>
+                        </div>
+                      </div> -->
+
+                      <!-- <div class="row">
+                        <div class="col-md-3 mb-4 d-flex align-items-center">
+                          <label for="cantidadInput" style="margin-left: 0.5cm; font-size: 16px;">Cantidad</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="number" class="form-control mb-0" name="cantidad1" id="cantidad1">
+                          <p>Stock Máximo: <span id="stock1"></span></p>
+
+                        </div>
+                      </div> -->
+
+                    
+                  </div>
+                </div>
+
+                <div class="col-md-6 border p-3">
+                  <h5 class="card-title text-center">Destino</h5>
                   <div class="col-md-12 border-top p-3">
                     <div class="form-group">
                       <div class="row">
-                          <div class="col-md-3 mb-4 d-flex align-items-center">
-                              <label for="almacenSelect" style="margin-left: 0.5cm; font-size: 16px;" >Almacén</label>
-                          </div>
-                          <div class="col-md-8 ">
-                              <select class="form-control mb-4 " name="almacen1" id="almacen1">
-                                  <!-- listar los almacenes disponibles -->
-                              </select>
-                          </div>
+                        <div class="col-md-3 mb-4 d-flex align-items-center">
+                          <label for="almacenSelect" style="margin-left: 0.5cm; font-size: 16px;">Almacén</label>
+                        </div>
+                        <div class="col-md-8 ">
+                          <select class="form-control mb-4" name="almacen2" id="almacen2">
+                            <!-- listar los almacenes disponibles -->
+                          </select>
+                        </div>
                       </div>
 
                       <div class="row">
-                          <div class="col-md-3 mb-4 d-flex align-items-center">
-                              <label for="articulosSelect" style="margin-left: 0.5cm; font-size: 16px;">Artículo</label>
-                          </div>
-                          <div class="col-md-8">
-                              <select class="form-control mb-4" name="articulos1" id="articulos1">
-                                  <!-- Opciones para los artículos -->
-                              </select>
-                          </div>
-                      </div>
-
-                      <div class="row">
-                          <div class="col-md-3 mb-4 d-flex align-items-center">
-                              <label for="cantidadInput" style="margin-left: 0.5cm; font-size: 16px;">Cantidad</label>
-                          </div>
-                          <div class="col-md-8">
-                              <input type="number" class="form-control mb-0" name="cantidad1" id="cantidad1">
-                              <p>Stock Máximo: <span id="stock1"></span></p>
-                              
-                          </div>
-                      </div>
-                    </div>
-                  </div> 
-                </div>
-
-                <div class="col-md-6 border p-3" >
-                    <h5 class="card-title text-center">Destino</h5>
-                    <div class="col-md-12 border-top p-3">
-                    <div class="form-group">
-                      <div class="row">
-                          <div class="col-md-3 mb-4 d-flex align-items-center">
-                              <label for="almacenSelect" style="margin-left: 0.5cm; font-size: 16px;" >Almacén</label>
-                          </div>
-                          <div class="col-md-8 ">
-                              <select class="form-control mb-4" name="almacen2" id="almacen2">
-                                  <!-- listar los almacenes disponibles -->
-                              </select>
-                          </div>
-                      </div>
-
-                      <div class="row">
-                          <div class="col-md-3 mb-4 d-flex align-items-center">
-                              <label for="articulosSelect" style="margin-left: 0.5cm; font-size: 16px;">Artículo</label>
-                          </div>
-                          <div class="col-md-8">
-                              <select class="form-control mb-4" name="articulos2" id="articulos2">
-                                  <!-- Opciones para los artículos -->
-                              </select>
-                          </div>
+                        <div class="col-md-3 mb-4 d-flex align-items-center">
+                          <label for="articulosSelect" style="margin-left: 0.5cm; font-size: 16px;">Artículo</label>
+                        </div>
+                        <div class="col-md-8">
+                          <select class="form-control mb-4" name="articulos2" id="articulos2">
+                            <!-- Opciones para los artículos -->
+                          </select>
+                        </div>
                       </div>
 
                     </div>
                     <!-- Contenido del destino -->
+                  </div>
                 </div>
-              </div>
             </form>
 
           </div>
         </div>
         <div class="row">
           <div class="col-md-12 mb-4 d-flex justify-content-end">
-              <button class="btn btn-danger btn-sm" style="margin-right: 0.5cm; font-size: 14px;" onclick="limpiar();" id="Limpiar" >Limpiar</button>
-              <button class="btn btn-success btn-sm" style="margin-right: 0.5cm; font-size: 14px;" onclick="guardar_y_editar_stock();" id="btnguargar" >Guardar</button>
+            <button class="btn btn-danger btn-sm" style="margin-right: 0.5cm; font-size: 14px;" onclick="limpiar();" id="Limpiar">Limpiar</button>
+            <button class="btn btn-success btn-sm" style="margin-right: 0.5cm; font-size: 14px;" id="btnguargar">Guardar</button>
           </div>
         </div>
       </div>
-      
+
     </div><!-- /.row -->
 
 
@@ -117,7 +140,7 @@ if (!isset($_SESSION["nombre"])) {
   require 'footer.php';
   ?>
   <script type="text/javascript" src="scripts/transferencia_stock.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
 
 
 <?php
