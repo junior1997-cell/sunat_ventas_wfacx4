@@ -24,11 +24,11 @@ if (!isset($_SESSION["nombre"])) {
                 <table id="tbllistado" class="table text-nowrap table-striped table-hover" style="width: 100% !important;">
                   <thead>
                     <tr>
-                      <th scope="col">Acciones</th>
+                      <th scope="col">#</th>
                       <th scope="col">Fecha</th>
-                      <th scope="col">Almacem</th>
+                      <th scope="col">Almacén</th>
                       <th scope="col">Artícilo</th>
-                      <th scope="col" style="background-color: #A7FF64;">Unidades Tranferidas</th>
+                      <th scope="col" style="background-color: #A7FF64;">Unidades Transferidas</th>
                       <th>Estado</th>
                     </tr>
                   </thead>
