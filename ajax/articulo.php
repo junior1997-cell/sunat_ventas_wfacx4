@@ -163,7 +163,7 @@
 			if (empty($idarticulo)) {
 				$rspta = $articulo->insertar(	$idalmacennarticulo, '', $codigonarticulonarticulo,	html_entity_decode($nombrenarticulo, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
 					$idfamilianarticulo, $umedidanp, '', $stocknarticulo, '', $stocknarticulo, '', $stocknarticulo, '',	'', '', '', $precioventanarticulo, '', 
-					'', '', $precioventanarticulo, $precioventanarticulo,	'', '', '', '', '', '', '', '', '', '', '', '', '', '', '',	'', '', '', '', '', '', 
+					'', '', $precioventanarticulo, $precioventanarticulo,	'', '', '', '', '', '', '', '', '', '1', '', '', '', '', '', '', '', '', '', '', '', 
 					'0', $tipoitemnarticulo, $umedidanp, '1', $descripcionnarticulo
 				);
 			}
