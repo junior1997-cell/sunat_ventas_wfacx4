@@ -31,22 +31,26 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="col-md-12 border-top p-3">
 
                       <div class="row">
-                        <div class="col-lg-12">
+                        <div class="mb-3 col-lg-12">
                           <div class="form-group">
                             <label for="recipient-name" class="form-label" >Almacén (*)</label>
-                            <select class="form-control mb-4" name="idalmacen1" id="idalmacen1" onchange="selectAlmacen2();"> </select>
+                            <select class="form-control" name="idalmacen1" id="idalmacen1" onchange="selectAlmacen2();"> </select>
                           </div>
                         </div>
 
-                        <div class="col-lg-12">
-                          <label for="articulosSelect" class="form-label" >Artículo (*)</label>
-                          <select class="form-control mb-4" name="idarticulos1" id="idarticulos1" onchange="verStock();"></select>
+                        <div class="mb-3 col-lg-12">
+                          <div class="form-group"> 
+                            <label for="articulosSelect" class="form-label" >Artículo (*)</label>
+                            <select class="form-control" name="idarticulos1" id="idarticulos1" onchange="verStock();"></select>
+                          </div>
                         </div>
 
-                        <div class="col-lg-12">
-                          <label for="cantidadInput" class="form-label">Cantidad (*)</label>
-                          <input type="number" class="form-control mb-0" name="cantidad" id="cantidad">
-                          <p>Stock Máximo: <span id="stock"></span></p>
+                        <div class="mb-3 col-lg-12">
+                          <div class="form-group">
+                            <label for="cantidadInput" class="form-label">Cantidad (*)</label>
+                            <input type="number" class="form-control" name="cantidad" id="cantidad">
+                            <p>Stock Máximo: <span id="stock" name="stock" ></span></p>
+                          </div>
                         </div>
 
                       </div>                    
@@ -57,16 +61,18 @@ if (!isset($_SESSION["nombre"])) {
                   <h5 class="card-title text-center">Destino</h5>
                   <div class="col-md-12 border-top p-3">
                     <div class="row">
-                      <div class="col-lg-12">
+                      <div class="mb-3 col-lg-12">
                         <div class="form-group">
                           <label for="almacenSelect" class="form-label" >Almacén (*)</label>
-                          <select class="form-control mb-4 " name="idalmacen2" id="idalmacen2" onchange="selectArticulos2();"> <!-- listar los almacenes disponibles --> </select>
+                          <select class="form-control" name="idalmacen2" id="idalmacen2" onchange="selectArticulos2();"> <!-- listar los almacenes disponibles --> </select>
                         </div>
                       </div>
 
-                      <div class="col-lg-12">
-                        <label for="articulosSelect" class="form-label" >Artículo (*)</label>
-                        <select class="form-control mb-4" name="idarticulos2" id="idarticulos2"></select>
+                      <div class="mb-3 col-lg-12">
+                        <div class="form-group">
+                          <label for="articulosSelect" class="form-label" >Artículo (*)</label>
+                          <select class="form-control" name="idarticulos2" id="idarticulos2"></select>
+                        </div>
                       </div>
                     </div> 
                   </div>

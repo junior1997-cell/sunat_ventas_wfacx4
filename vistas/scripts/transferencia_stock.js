@@ -5,6 +5,7 @@ var tabla_transferencia;
 function init() {
   listar_transferencia();
   $idempresa = $("#idempresa").val(); 
+  $stock_max = $("#stock").val();
   $.post("../ajax/transferencia_stock.php?op=selectAlmacen1&idempresa=" + $idempresa, function (r) { $("#idalmacen1").html(r); });
 
 }
@@ -164,15 +165,22 @@ $(function () {
       idalmacen2:    { required: true, },
       idarticulos1:  { required: true, },
       idarticulos2:  { required: true, },
-      cantidad:   { required: true, min:2, max:100 },
+      cantidad:   {
+          required: true,
+          min: 2,
+          max: function() {
+            var stock = parseInt($('#stock').text(), 10);
+            return isNaN(stock) ? 100 : stock;;
+          }
+      },
       
     },
     messages: {
-      idalmacen1:    { required: "", },
-      idalmacen2:    { required: "", },
-      idarticulos1:  { required: "", },
-      idarticulos2:  { required: "", },
-      cantidad:   { required: "", minlength:"Minimo {0} caracteres", maxlength:"Maximo {0} caracteres" },
+      idalmacen1:    { required: "Campo requerido", },
+      idalmacen2:    { required: "Campo requerido", },
+      idarticulos1:  { required: "Campo requerido", },
+      idarticulos2:  { required: "Campo requerido", },
+      cantidad:   { required: "Campo requerido", minlength:"Minimo {0} caracteres", maxlength: "Máximo {0} caracteres" },
       
     },
         
@@ -190,6 +198,7 @@ $(function () {
     unhighlight: function (element, errorClass, validClass) {
       $(element).removeClass("is-invalid").addClass("is-valid");   
     },
+
     submitHandler: function (form) {
         // Cuando el formulario es válido, ejecutar la función guardar_transferencia
         guardar_transferencia();
