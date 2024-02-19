@@ -16,9 +16,9 @@ Class Familia
 	//Implementamos un método para insertar registros
 	public function insertarCategoria($nombre)
 	{
-		$sql="insert into familia (descripcion, user_created)
-		values ('$nombre', '$this->id_usr_sesion')";
-		return ejecutarConsulta($sql);
+		$sql="INSERT INTO familia (descripcion, user_created)
+		VALUES ('$nombre', '$this->id_usr_sesion');";
+		return ejecutarConsulta_retornarID2($sql, 'C');
 	}
 
 	public function insertaralmacen($nombre, $direc, $idempresa)
@@ -38,8 +38,8 @@ Class Familia
 	//Implementamos un método para editar registros
 	public function editar($idfamilia,$nombre)
 	{
-		$sql="update familia set descripcion='$nombre' where idfamilia='$idfamilia'";
-		return ejecutarConsulta($sql);
+		$sql="UPDATE familia set descripcion='$nombre' where idfamilia='$idfamilia'";
+		return ejecutarConsulta2($sql);
 	}
 	
 
@@ -64,15 +64,15 @@ Class Familia
 	}
 
 	//validar duplicado
-	public function validarCategoria($nombre)	{
-		$sql="SELECT * from familia where descripcion='$nombre'";
-		return ejecutarConsultaSimpleFila($sql);
+	public function validarCategoria($nombrec) {
+		$sql="SELECT * FROM familia WHERE descripcion = '$nombrec';";
+		return ejecutarConsultaArray2($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar_tabla_familia()	{
-		$sql="SELECT * from familia";
-		return ejecutarConsulta($sql);
+		$sql="SELECT * from familia where estado_delete = '1';";
+		return ejecutarConsulta2($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
 	public function select2_familia()	{

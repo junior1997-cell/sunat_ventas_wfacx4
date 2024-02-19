@@ -37,6 +37,77 @@ if (!function_exists('ejecutarConsulta')) {
     return $data;
   }
 
+  function ejecutarConsultaSimpleFila($sql) {
+    $result = ejecutarConsulta($sql);
+    $row = $result->fetch_assoc();
+    $result->free();
+    return $row;
+  }
+
+  function ejecutarConsulta_retornarID($sql, $crud = 'R') {
+    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
+    if (!$conexion->query($sql)) {
+      die("Error en la consulta: " . $conexion->error);
+    }
+    return $conexion->insert_id;
+  }
+  
+  function limpiarCadena($str) {
+    global $conexion;
+    $str = mysqli_real_escape_string($conexion, trim($str));
+    return htmlspecialchars($str);
+  }
+
+  function encodeCadenaHtml($str) {
+    // htmlspecialchars($str);
+    global $conexion;
+    $encod = "UTF-8";
+    $str = mysqli_real_escape_string($conexion, trim($str));
+    return htmlspecialchars($str, ENT_QUOTES);
+  }
+
+  function decodeCadenaHtml($str) {
+    $encod = "UTF-8";
+    return htmlspecialchars_decode($str, ENT_QUOTES);
+  }
+
+
+
+  // ======================== =========== =========================
+  // ======================== =========== =========================
+  // ======================== CONEXION V2 =========================
+  // ======================== =========== =========================
+  // ======================== =========== =========================
+
+  function ejecutarConsulta2($sql, $crud = 'R') {
+    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
+    $query = $conexion->query($sql);
+    if ($conexion->error) {
+      try {
+        throw new Exception("MySQL error <b> $conexion->error </b> Query:<br> $query", $conexion->errno);
+      } catch (Exception $e) {
+        //echo "Error No: " . $e->getCode() . " - " . $e->getMessage() . "<br >"; echo nl2br($e->getTraceAsString());
+        return array( 
+          'status' => false, 
+          'code_error' => $e->getCode(), 
+          'message' => $e->getMessage(), 
+          'data' => '<br><b>Rutas de errores:</b> <br>'.nl2br($e->getTraceAsString()),
+        );          
+      }
+    } else {
+      return array( 
+        'status' => true, 
+        'code_error' => $conexion->errno, 
+        'message' => 'Salió todo ok, en ejecutarConsulta()', 
+        'data' => $query, 
+        'id_tabla' => $conexion->insert_id,
+        'affected_rows' => $conexion->affected_rows,
+        'sqlstate' => $conexion->sqlstate,
+        'field_count' => $conexion->field_count,
+        'warning_count' => $conexion->warning_count, 
+      );
+    }
+  }
 
   function ejecutarConsultaArray2($sql) {
     global $conexion;  //$data= Array();	$i = 0;
@@ -71,7 +142,35 @@ if (!function_exists('ejecutarConsulta')) {
     }
   }
 
-
+  function ejecutarConsulta_retornarID2($sql, $crud = 'R') {
+    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
+    $query = $conexion->query($sql);
+    if ($conexion->error) {
+      try {
+        throw new Exception("MySQL error <b> $conexion->error </b> Query:<br> $query", $conexion->errno);
+      } catch (Exception $e) {
+        //echo "Error No: " . $e->getCode() . " - " . $e->getMessage() . "<br >"; echo nl2br($e->getTraceAsString());
+        return array( 
+          'status' => false, 
+          'code_error' => $e->getCode(), 
+          'message' => $e->getMessage(), 
+          'data' => '<br><b>Rutas de errores:</b> <br>'.nl2br($e->getTraceAsString()),
+        );          
+      }
+    } else {
+      return  array( 
+        'status' => true, 
+        'code_error' => $conexion->errno, 
+        'message' => 'Salió todo ok, en ejecutarConsulta_retornarID2()', 
+        'data' => $conexion->insert_id, 
+        'id_tabla' => $conexion->insert_id,
+        'affected_rows' => $conexion->affected_rows,
+        'sqlstate' => $conexion->sqlstate,
+        'field_count' => $conexion->field_count,
+        'warning_count' => $conexion->warning_count, 
+      );
+    }
+  }
 
   function ejecutarConsultaSimpleFila2($sql) {
     global $conexion;
@@ -95,7 +194,7 @@ if (!function_exists('ejecutarConsulta')) {
       return array( 
         'status' => true, 
         'code_error' => $conexion->errno, 
-        'message' => 'Salió todo ok, en ejecutarConsultaSimpleFila()', 
+        'message' => 'Salió todo ok, en ejecutarConsultaSimpleFila2()', 
         'data' => $row, 
         'id_tabla' => '',
         'affected_rows' => $conexion->affected_rows,
@@ -106,38 +205,4 @@ if (!function_exists('ejecutarConsulta')) {
     }
   }
 
-
-
-  function ejecutarConsultaSimpleFila($sql) {
-    $result = ejecutarConsulta($sql);
-    $row = $result->fetch_assoc();
-    $result->free();
-    return $row;
-  }
-
-  function ejecutarConsulta_retornarID($sql, $crud = 'R') {
-    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
-    if (!$conexion->query($sql)) {
-      die("Error en la consulta: " . $conexion->error);
-    }
-    return $conexion->insert_id;
-  }
-  function limpiarCadena($str) {
-    global $conexion;
-    $str = mysqli_real_escape_string($conexion, trim($str));
-    return htmlspecialchars($str);
-  }
-
-  function encodeCadenaHtml($str) {
-    // htmlspecialchars($str);
-    global $conexion;
-    $encod = "UTF-8";
-    $str = mysqli_real_escape_string($conexion, trim($str));
-    return htmlspecialchars($str, ENT_QUOTES);
-  }
-
-  function decodeCadenaHtml($str) {
-    $encod = "UTF-8";
-    return htmlspecialchars_decode($str, ENT_QUOTES);
-  }
 }

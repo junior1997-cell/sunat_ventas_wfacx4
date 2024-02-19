@@ -35,9 +35,6 @@ if (!isset($_SESSION["nombre"])) {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-
-                  </tr>
                 </tbody>
               </table>
 
@@ -55,37 +52,43 @@ if (!isset($_SESSION["nombre"])) {
     <div class="modal fade text-left" id="agregarsucursal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
+
           <div class="modal-header">
             <h5 class="modal-title" id="myModalLabel1">Añade nuevo almacen</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
 
+          <div class="modal-body">
             <form name="formulario" id="formulario" method="POST">
               <div class="row">
+                <input type="hidden" name="idalmacen" id="idalmacen">
                 <div class="mb-3 col-lg-6">
-                  <label for="recipient-name" class="col-form-label">Nombre:</label>
-                  <input type="hidden" name="idalmacen" id="idalmacen">
-                  <input type="text" class="form-control" name="nombrea" id="nombrea" placeholder="Nombre" required onkeyup="mayus(this);">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Nombre:</label>
+                    <input type="text" class="form-control" name="nombrea" id="nombrea" placeholder="Nombre" required onkeyup="mayus(this);">
+                  </div>
                 </div>
                 <div class="mb-3 col-lg-6">
-                  <label for="message-text" class="col-form-label">Dirección:</label>
-                  <input type="text" class="form-control" name="direccion" id="direccion" placeholder="Dirección" required onkeyup="mayus(this);">
+                  <div class="for-group">
+                    <label for="message-text" class="col-form-label">Dirección:</label>
+                    <input type="text" class="form-control" name="direccion" id="direccion" placeholder="Dirección" required onkeyup="mayus(this);">
+                  </div>
                 </div>
               </div>
-
+              <button type="submit" style="display: none;" id="submit-form-almacen">Submit</button>
+            </form>
           </div>
+
           <div class="modal-footer">
             <button onclick="cancelarform()" type="button" class="btn btn-danger" data-bs-dismiss="modal">
               <i class="bx bx-x d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Cancelar</span>
             </button>
-            <button id="btnGuardar" type="submit" class="btn btn-primary ml-1">
+            <button id="btnGuardar" type="button" class="btn btn-primary ml-1">
               <i class="bx bx-check d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Agregar</span>
             </button>
           </div>
-          </form>
 
         </div>
       </div>
