@@ -309,8 +309,8 @@
                         <div class="col-sm-6 mb-2">
                           <!-- <input type="text" class="form-control" disabled id="d_numero" placeholder="Número"> -->
 
-                          <label for="numero_boleta" class="label-data">Número:</label>
-                          <input type="text" name="numero_boleta" id="numero_boleta" class="form-control" required="true" readonly>
+                          <label for="numero_baucher" class="label-data">Número:</label>
+                          <input type="text" name="numero_baucher" id="numero_baucher" class="form-control" required="true" readonly>
                           <input hidden type="text" name="numero_factura" id="numero_factura" class="form-control" required="true" readonly>
                         </div>
 

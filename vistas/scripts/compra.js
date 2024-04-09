@@ -133,8 +133,6 @@ function cancelarform() {
   }
 }
 
-$idempresa=$("#idempresa").val();
-//Función Listar
 function listar() {
   tabla_compra = $('#tbllistado').dataTable( {
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
@@ -149,7 +147,7 @@ function listar() {
       { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     "ajax": {
-      url: '../ajax/compra.php?op=listar&idempresa='+$idempresa,
+      url: '../ajax/compra.php?op=listar',
       type : "get",
       dataType : "json",
       error: function(e){  console.log(e.responseText);  }
@@ -171,7 +169,7 @@ function listarArticulos() {
     buttons: [
       { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i> ', className: "btn bg-gradient-info m-r-5px", action: function ( e, dt, node, config ) { if (tabla_articulo) { tabla_articulo.ajax.reload(null, false); } } },
     ],
-    "ajax": {
+    ajax: {
       url: '../ajax/compra.php?op=listarArticulos&subarti='+subarticulo,
       type : "get",
       dataType : "json",
@@ -220,10 +218,13 @@ function guardaryeditar(e) {
           data: formData,
           contentType: false,
           processData: false,
-          success: function(datos) {
-            sw_success('Excelente', 'Los compra han sido guardados correctamente.' );                    
-            mostrarform(false);
-            listar();
+          success: function(e) {
+            e = JSON.parse(e);
+            if(e.status == true) {
+              sw_success('Excelente', 'Los compra han sido guardados correctamente.' );                    
+              mostrarform(false);
+              listar();
+            }else{ver_errores(e);}
           }
         });
         limpiar();
@@ -271,8 +272,10 @@ function eliminarcompra(idcompra) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/compra.php?op=eliminarcompra", { idcompra: idcompra }, function (e) {        
-        sw_success("Eliminado", e);
+        
+        sw_success("Eliminado", "Compra eliminada", 3000);
         tabla_compra.ajax.reload();
+        
       }).fail(function () {
         toastr_error("Error", "No se pudo eliminar la compra");        
       });
@@ -366,11 +369,11 @@ function agregarDetalle(idarticulo,familia,codigo_proveedor,codigo,nombre, preci
 
       '<td><input type="hidden" name="codigo_proveedor[]" id="codigo_proveedor[]">'+
       '<input type="text" class="" name="codigo[]" id="codigo[]" value="'+codigo+'" style="display:none;">'+
-      '<input type="text" class="" name="unidad_medida[]" id="unidad_medida[]" value="'+umedidacompra+'" readonly></td>'+
+      '<input type="text" class="" name="unidad_medida[]" id="unidad_medida[]" value="'+nombreum+'" readonly></td>'+
 
       '<td><input type="text" required="true" class="" name="cantidad[]" id="cantidad[]" onBlur="modificarSubototales()" size="5" onkeypress="return NumCheck(event, this)" style="background-color: #D5FFC9; font-weight:bold; " value="1"></td>'+
 
-      '<td><input type="text" required="true" class="" name="valor_unitario[]" id="valor_unitario[]" onBlur="modificarSubototales()" size="5" onkeypress="return NumCheck(event, this)" style="background-color: #D5FFC9;font-weight:bold; "></td>'+
+      '<td><input type="text" required="true" class="" name="valor_unitario[]" id="valor_unitario[]" onBlur="modificarSubototales()" size="5" onkeypress="return NumCheck(event, this)" style="background-color: #D5FFC9;font-weight:bold;" value="'+valor_unitario+'"></td>'+
 
       '<td><span name="subtotal" id="subtotal'+cont+'" >'+ subtotal.toFixed(2)+'</span>'+
       '<input type="hidden" name="subtotalBD[]" id="subtotalBD[]" value="'+subtotal.toFixed(2)+'">'+

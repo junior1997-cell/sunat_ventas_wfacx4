@@ -12,14 +12,10 @@ if (!isset($_SESSION["nombre"])) {
   if ($_SESSION['Logistica'] == 1) {
 
 ?>
-
-
     <div class="content-header">
       <h1>Almacenes <button class="btn btn-primary btn-sm" onclick="mostrarform(true)" data-bs-toggle="modal" data-bs-target="#agregarsucursal"> Agregar</button></h1>
     </div>
-
     <div class="row">
-
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
@@ -42,22 +38,15 @@ if (!isset($_SESSION["nombre"])) {
           </div>
         </div>
       </div>
-
-
-
     </div><!-- /.row -->
-
-
 
     <div class="modal fade text-left" id="agregarsucursal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
-
           <div class="modal-header">
             <h5 class="modal-title" id="myModalLabel1">Añade nuevo almacen</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-
           <div class="modal-body">
             <form name="formulario" id="formulario" method="POST">
               <div class="row">
@@ -78,7 +67,6 @@ if (!isset($_SESSION["nombre"])) {
               <button type="submit" style="display: none;" id="submit-form-almacen">Submit</button>
             </form>
           </div>
-
           <div class="modal-footer">
             <button onclick="cancelarform()" type="button" class="btn btn-danger" data-bs-dismiss="modal">
               <i class="bx bx-x d-block d-sm-none"></i>
@@ -89,16 +77,13 @@ if (!isset($_SESSION["nombre"])) {
               <span class="d-none d-sm-block">Agregar</span>
             </button>
           </div>
-
         </div>
       </div>
     </div>
 
-
   <?php
-  } else {
-    require 'noacceso.php';
-  }
+  
+  } else { require 'noacceso.php'; }
 
   require 'footer.php';
   ?>

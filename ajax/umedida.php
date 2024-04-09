@@ -12,72 +12,91 @@ $abre=isset($_POST["abre"])? limpiarCadena($_POST["abre"]):"";
 $equivalencia=isset($_POST["equivalencia"])? limpiarCadena($_POST["equivalencia"]):"";
 
 switch ($_GET["op"]){
+
 	case 'guardaryeditar':
 		$validarUnidadMedida = $umedida->validarUnidadMedida($nombre);
-		if($validarUnidadMedida){
-			echo "Unidad de medida ya registrado";
-		}else{
+		if(empty($validarUnidadMedida["data"])){
+
 			if (empty($idunidadme)){
 				$rspta=$umedida->insertar($nombre, $abre, $equivalencia);
-				echo $rspta ? "Unidad de medida registrada" : "Unidad de medida no se pudo registrar";
+        echo json_encode(['status' => 'registrado', 'data' => $rspta]);
 			}	else {
 				$rspta=$umedida->editar($idunidadme, $nombre, $abre, $equivalencia);
-				echo $rspta ? "Unidad de medida actualizada" : "Unidad de medida no se pudo actualizar";
+        echo json_encode(['status' => 'modificado', 'data' => $rspta]);
 			}
-		}
+
+		}else{
+      $info_repetida = '';
+
+      foreach ($validarUnidadMedida["data"] as $key => $value) {
+        $info_repetida .= '
+				<div class="row">
+          <div class="col-md-12 text-left">
+            <span class="font-size-15px text-danger"><b>Unidad de Medida: </b>' . $value['nombreum'] .  '</span>
+            ' . ($value['estado'] == 1 ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado').'</span><br>
+          </div>
+          <div class="col-md-12 text-left">
+            <b>Papelera: </b>' . ($value['estado'] == 0 ? '<i class="fas fa-check text-success"></i> SI' : '<i class="fas fa-times text-danger"></i> NO') . ' <b>|</b>
+            <b>Eliminado: </b>' . ($value['estado_delete'] == 0 ? '<i class="fas fa-check text-success"></i> SI' : '<i class="fas fa-times text-danger"></i> NO') . '<br>
+            
+          </div>
+        </div>';
+      }
+      echo json_encode(['status' => 'duplicado', 'message' => 'duplicado', 'data' => '<ul>' . $info_repetida . '</ul>', 'id_tabla' => '']);
+    }
 	break;
 
 	case 'desactivar':
 		$rspta=$umedida->desactivar($idunidadme);
- 		echo $rspta ? "Unidad de medida Desactivada" : "Unidad de medida no se puede desactivar";
+ 		echo json_encode($rspta,  true);
  		
 	break;
 
 	case 'activar':
 		$rspta=$umedida->activar($idunidadme);
- 		echo $rspta ? "Unidad de medida activada" : "Unidad de medida no se puede activar";
- 		
+    echo json_encode($rspta,  true); 		
 	break;
 
 	case 'eliminar':
 		$rspta=$umedida->eliminar($idunidadme);
- 		echo $rspta ? "Unidad de medida eliminada" : "Unidad de medida no se puede eliminar"; 		
+    echo json_encode($rspta,  true); 		
 	break;
 
 	case 'mostrar':
-		//$idum=$_GET['idumedida'];
 		$rspta=$umedida->mostrar($idunidadme);
- 		//Codificar el resultado utilizando json
- 		echo json_encode($rspta); 		
+ 		echo json_encode($rspta, true); 		
 	break;
 
 	case 'listar':
 		$rspta=$umedida->listar();
- 		//Vamos a declarar un array
- 		$data= Array();
+ 		$data= [];
 
- 		while ($reg=$rspta->fetch_object()){
- 			$data[]=array(
- 				"0"=>($reg->estado)?'<button class="btn btn-warning btn-sm" onclick="mostrar('.$reg->idunidad.')"><i class="fa fa-pencil"></i></button>'.
- 					' <button class="btn btn-danger btn-sm" onclick="desactivar('.$reg->idunidad.')"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning btn-sm" onclick="mostrar('.$reg->idunidad.')"><i class="fa fa-pencil"></i></button>'.
- 					'<button class="btn btn-primary btn-sm" onclick="activar('.$reg->idunidad.')"><i class="fa fa-check"></i></button>',
- 				"1"=>$reg->nombreum,
- 				"2"=>$reg->abre,
- 				"3"=>"$reg->equivalencia",
- 				"4"=>($reg->estado)?'<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>':
- 				'<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado</span>',
- 				"5"=>'<button class="btn btn-icon btn-danger btn-wave waves-effect waves-light"> <i class="ri-archive-line"></i> </button>'
- 				);
- 		}
- 		$results = array(
- 			"sEcho"=>1, //Información para el datatables
- 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
- 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
- 			"aaData"=>$data);
- 		echo json_encode($results);
+		if ($rspta['status']) {
+      foreach ($rspta['data'] as $key => $value){
+        $data[]=[
+          "0"=>($value['estado'])?'<button class="btn btn-warning btn-sm" onclick="mostrar('.($value['idunidad']).')"><i class="fa fa-pencil"></i></button>'.
+            ' <button class="btn btn-danger btn-sm" onclick="desactivar('.($value['idunidad']).')"><i class="fa fa-close"></i></button>':
+            '<button class="btn btn-warning btn-sm" onclick="mostrar('.($value['idunidad']).')"><i class="fa fa-pencil"></i></button>'.
+            '<button class="btn btn-primary btn-sm" onclick="activar('.($value['idunidad']).')"><i class="fa fa-check"></i></button>',
+          "1"=>($value['nombreum']),
+          "2"=>($value['abre']),
+          "3"=>($value['equivalencia']),
+          "4"=>($value['estado'])?'<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>':
+          '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado</span>',
+          "5"=>'<button class="btn btn-icon btn-danger btn-wave waves-effect waves-light" onclick="eliminar('.($value['idunidad']).')"> <i class="ri-archive-line"></i> </button>'
+        ];
+      }
+      $results = [
+        "sEcho"=>1,
+        "iTotalRecords"=>count($data),
+        "iTotalDisplayRecords"=>1,
+        "aaData"=>$data
+      ];
+      echo json_encode($results, true);
+    } else {
+      echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
+      }
 
 	break;
 }
-//onclick="eliminar('.$reg->idunidad.')"
 ?>

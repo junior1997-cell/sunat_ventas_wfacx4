@@ -206,7 +206,7 @@ class Articulo
     inner join  empresa e on al.idempresa=e.idempresa  
     inner join umedida um on a.umedidacompra=um.idunidad
     where a.estado='1' and not a.nombre ='1000ncdg' and e.idempresa='$idempresa' and al.estado='1'";
-    return ejecutarConsulta($sql);
+    return ejecutarConsulta2($sql);
   }
 
   public function listarActivosumventa($ida) {

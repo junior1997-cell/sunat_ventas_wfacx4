@@ -17,37 +17,36 @@ $cantidad 			    = isset($_POST["cantidad"]) ? limpiarCadena($_POST["cantidad"])
 switch ($_GET["op"]) {
 
   case 'mostrar_tranferencia':
-		$rspta = $transferencias->listar_tranferencia();
-		$data = array();
+		$rspta = $transferencias->listar();
+		$data = [];
     $count = 1;
 
-    while ($reg = $rspta->fetch_object()) {
-        $data[] = array(
+    if($rspta['status']){
+      foreach($rspta['data'] as $key => $value){
+        $data[]=[
           "0" => $count++,
-          "1" => $reg->fecha,
-          "2" => $reg->almacen,
-          "3" => $reg->articulo,
-          "4" => $reg->cantidad,
-          "5" => ($reg->estado == '1') ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Registrado</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Invalido</span>'
-        );
+          "1" => ($value['fecha']),
+          "2" => ($value['almacen']),
+          "3" => ($value['articulo']),
+          "4" => ($value['cantidad']),
+          "5" => ($value['estado'] == '1') ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Registrado</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Invalido</span>'
+        ];
       }
-  
-      $results = array(
-        "sEcho" => 1,                           //Información para el datatables
-        "iTotalRecords" => count($data),        //enviamos el total registros al datatable
-        "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
-        "aaData" => $data
-      );
-      echo json_encode($results, true);
+    }
+    $results = array(
+      "sEcho" => 1,                           //Información para el datatables
+      "iTotalRecords" => count($data),        //enviamos el total registros al datatable
+      "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
+      "aaData" => $data
+    );
+    echo json_encode($results, true);
 	break;
 
 	case "selectAlmacen1":		
-			
     $rspta = $transferencias->select1();
-    
     echo '<option value="">Seleccione almacén de origen</option>'; // opción predeterminada al principio
-    while ($reg = $rspta->fetch_object()) {
-      echo '<option value=' . $reg->idalmacen . '>' . $reg->nombre . '</option>';
+    foreach ($rspta['data'] as $key => $value){
+      echo '<option value=' . ($value['idalmacen']) . '>' . ($value['nombre']). '</option>';
     }
   break;
 
@@ -57,8 +56,8 @@ switch ($_GET["op"]) {
     $rspta = $transferencias->select2($idalmacen1);
 
     echo '<option value="">Seleccione almacén de destino</option>'; // opción predeterminada al principio
-    while ($reg = $rspta->fetch_object()) {
-        echo '<option value=' . $reg->idalmacen . '>' . $reg->nombre . '</option>';
+    foreach ($rspta['data'] as $key => $value){
+        echo '<option value=' . ($value['idalmacen']) . '>' . ($value['nombre']). '</option>';
     }
   break;
 
@@ -68,8 +67,8 @@ switch ($_GET["op"]) {
     $rspta = $transferencias->selectArt1($idalmacen1);
     echo '<option value="">Seleccione un atículo </option>'; // opción predeterminada al principio
 
-    while ($reg = $rspta->fetch_object()) {
-        echo '<option value=' . $reg->idarticulo . '>' . $reg->articulo . '</option>';
+    foreach ($rspta['data'] as $key => $value){
+        echo '<option value=' . ($value['idarticulo']) . '>' . ($value['articulo']) . '</option>';
     }
   break;
 
@@ -79,20 +78,20 @@ switch ($_GET["op"]) {
     $rspta = $transferencias->selectArt2($idalmacen2);
     echo '<option value="">Seleccione un atículo </option>'; // opción predeterminada al principio
 
-    while ($reg = $rspta->fetch_object()) {
-        echo '<option value=' . $reg->idarticulo . '>' . $reg->articulo . '</option>';
+    foreach ($rspta['data'] as $key => $value){
+        echo '<option value=' . ($value['idarticulo']) . '>' . ($value['articulo']) . '</option>';
     }
   break;
 
   case "verStock":
     $idarticulo1 = $_POST['idarticulo1'];
     $respta = $transferencias->verStock($idarticulo1);
-    echo json_encode($respta);
+    echo json_encode($respta, true);
   break;
 
   case "guardar_transferencia":		
     $rspta = $transferencias->insertar($idalmacen1, $idalmacen2, $idarticulos1, $idarticulos2, $cantidad);
-    echo json_encode($rspta);
+    echo json_encode($rspta, true);
   break;
 
 

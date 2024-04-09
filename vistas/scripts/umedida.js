@@ -5,9 +5,7 @@ function init() {
 	mostrarform(false);
 	listar();
 
-	$("#formulario").on("submit", function (e) {
-		guardaryeditar(e);
-	})
+	$("#formulario").on("submit", function (e) { guardaryeditar(e); })
 }
 
 //Función limpiar
@@ -25,8 +23,6 @@ function stopRKey(evt) {
 	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 	if ((evt.keyCode == 13) && (node.type == "text")) { return false; }
 }
-
-
 
 //BLOQUEA ENTER
 document.onkeypress = stopRKey;
@@ -100,34 +96,40 @@ function guardaryeditar(e) {
 		data: formData,
 		contentType: false,
 		processData: false,
-		success: function (datos) {
-			Swal.fire({
-				title: 'Guardado',
-				text: datos,
-				icon: 'success',
-				showConfirmButton: true,
-				
-			});
-			mostrarform(false);
-			tabla.ajax.reload();
-		}
+		success: function (e) {
+			try{
+        e = JSON.parse(e);
 
+        if(e.status == 'registrado'){
+          sw_success( "Correcto!", "Unidad de Medida Registrada correctamente", 3000);
+          listar(); $("#agregarunidademedida").modal('hide');
+        }
+
+        else if(e.status == 'modificado'){
+          sw_success( "Correcto!", "Unidad de Medida Actualizado correctamente", 3000);
+          listar(); $("#agregarunidademedida").modal('hide');
+        }
+        else{ ver_errores(e); }
+
+			} catch (err) { console.log('Error: ', err.message); toastr_error("Error temporal!!",'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>', 700); }      
+		}
 	});
-	limpiar();
 }
 
 function mostrar(idunidadm) {
-	$.post("../ajax/umedida.php?op=mostrar", { idunidadm: idunidadm }, function (data, status) {
-		data = JSON.parse(data);
-		mostrarform(true);
-
-		$("#idunidadm").val(data.idunidad);
-		$("#nombre").val(data.nombreum);
-		$("#abre").val(data.abre);
-		$("#equivalencia").val(data.equivalencia);
-		$('#agregarunidademedida').modal('show');
-		document.getElementById("btnGuardar").innerHTML = "Actualizar";
-
+  limpiar();
+  $("#agregarunidademedida").modal('show');
+	$.post("../ajax/umedida.php?op=mostrar", { idunidadm: idunidadm }, function (e, status) {
+		e = JSON.parse(e);
+    if(e.status == true){
+      mostrarform(true);
+      $("#idunidadm").val(e.data.idunidad);
+      $("#nombre").val(e.data.nombreum);
+      $("#abre").val(e.data.abre);
+      $("#equivalencia").val(e.data.equivalencia);
+      $('#agregarunidademedida').modal('show');
+      document.getElementById("btnGuardar").innerHTML = "Actualizar";
+    } else {ver_errores(e);}
 	})
 }
 
@@ -154,14 +156,11 @@ function desactivar(idunidadm) {
 			$.post("../ajax/umedida.php?op=desactivar", {
 				idunidadm: idunidadm
 			}, function (e) {
-				Swal.fire({
-					title: '¡Desactivado!',
-					text: e,
-					icon: 'success',
-					showConfirmButton: false,
-					timer: 1500
-				});
-				tabla.ajax.reload();
+				e = JSON.parse(e);
+        if (e.status == true){
+          sw_success("Desactivado", "Almacen desactivado", 3000);
+				  tabla.ajax.reload();
+        } else {ver_errores(e);}
 			});
 		}
 	})
@@ -182,14 +181,11 @@ function activar(idunidadm) {
 			$.post("../ajax/umedida.php?op=activar", {
 				idunidadm: idunidadm
 			}, function (e) {
-				Swal.fire({
-					title: '¡Activado!',
-					text: e,
-					icon: 'success',
-					showConfirmButton: false,
-					timer: 1500
-				});
-				tabla.ajax.reload();
+				e = JSON.parse(e);
+				if(e.status == true){
+					sw_success("Activado", "La unidad de Medida Activa", 3000);
+					tabla.ajax.reload();
+				}else{ ver_errores(e); }
 			});
 		}
 	})
@@ -218,23 +214,18 @@ function eliminar(idunidadm) {
 			$.post("../ajax/umedida.php?op=eliminar", {
 				idunidadm: idunidadm
 			}, function (e) {
-				Swal.fire({
-					title: '¡Eliminado!',
-					text: e,
-					icon: 'success',
-					showConfirmButton: false,
-					timer: 1500
-				});
-				tabla.ajax.reload();
+        e = JSON.parse(e);
+        if(e.status == true){
+          sw_success("Eliminado!", "Almacen elininado exitosamente", 3000)
+          tabla.ajax.reload();
+        } else {ver_errores(e);}
 			});
 		}
 	})
 }
 
-
 function mayus(e) {
 	e.value = e.value.toUpperCase();
 }
-
 
 init();

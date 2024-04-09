@@ -1685,7 +1685,7 @@ function obtenerSerie() {
         $idempresa,
         function (r) {
           var n2 = pad(r, 0);
-          $("#numero_boleta").val(n2);
+          $("#numero_baucher").val(n2);
           var SerieReal = $("#serie option:selected").text();
           $("#SerieReal").val(SerieReal);
 
@@ -1710,7 +1710,7 @@ function obtenerSerie() {
         $idempresa,
         function (r) {
           var n2 = pad(r, 0);
-          $("#numero_boleta").val(n2);
+          $("#numero_baucher").val(n2);
           var SerieReal = $("#serie option:selected").text();
           $("#SerieReal").val(SerieReal);
 
@@ -1735,7 +1735,7 @@ function obtenerSerie() {
         "../ajax/notapedido.php?op=autonumeracion&ser=" + opt,
         function (r) {
           var n2 = pad(r, 0);
-          $("#numero_boleta").val(n2);
+          $("#numero_baucher").val(n2);
 
           var SerieReal = $("#serie option:selected").text();
           $("#SerieReal").val(SerieReal);
@@ -1748,7 +1748,7 @@ function obtenerSerie() {
   } else {
 
     $("#serie").html('');
-    $("#numero_boleta").val('');
+    $("#numero_baucher").val('');
     $("#SerieReal").val('');
   }
 
@@ -1768,7 +1768,7 @@ function incremetarNum() {
     $idempresa,
     function (r) {
       var n2 = pad(r, 0);
-      $("#numero_boleta").val(n2);
+      $("#numero_baucher").val(n2);
       var SerieReal = $("#serie option:selected").text();
       $("#SerieReal").val(SerieReal);
     }
@@ -2369,8 +2369,8 @@ $('#btn_realizarpago').click(function () {
     $("#fecha_emision").val(fecha_emision_01);
     //estyo en pos tmb  no va yas a presioanr ocntrol z
 
-    var numero_boleta = $("#numero_boleta").val();
-    $("#numero_factura").val(numero_boleta);
+    var numero_baucher = $("#numero_baucher").val();
+    $("#numero_factura").val(numero_baucher);
 
     // var idcliente = $("#idcliente").val();
     // $("#idpersona").val(idcliente);
@@ -2402,9 +2402,9 @@ $('#btn_realizarpago').click(function () {
 
   } else if (select_tipocomp == 2) {
     // $("#idcliente").val("N");
-    $("#tipo_documento_06").val(50);
+    $("#tipo_documento_06").val('50');
     // Si es Nota de Pedido
-    url_pago = "../ajax/notapedido.php?op=guardaryeditarBoleta";
+    url_pago = "../ajax/notapedido.php?op=guardaryeditarNotaPedido";
 
   }
 
@@ -2431,7 +2431,7 @@ $('#btn_realizarpago').click(function () {
         // formData.append("idnumeracion", $('#idnumeracion').val());
         // formData.append("SerieReal", $('input[name="SerieReal"]').val());
 
-        // formData.append("numero_factura", $('input[name="numero_boleta"]').val());
+        // formData.append("numero_factura", $('input[name="numero_baucher"]').val());
 
         // formData.append("tipofactura", $('#tipoboleta').val());
 

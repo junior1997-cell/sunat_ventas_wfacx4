@@ -20,15 +20,15 @@ class Compra
     guia,  subtotal,  igv,  total,  subtotal_$,  igv_$,   total_$,   tcambio,  moneda,   idempresa  ) 
     values ( '$idusuario', '$idproveedor', '$fecha_emision $hora', '$tipo_comprobante', '$serie_comprobante', '$num_comprobante', 
     '$guia', '$subtotal_compra', '$total_igv', '$total_compra', '0',  '0', '0',  '$tcambio', '$moneda',  '$idempresa' )";    
-    $idcompranew = ejecutarConsulta_retornarID($sql);
+    $idcompranew = ejecutarConsulta_retornarID2($sql);
 
     $ii = 0;
     $sw = true;
     while ($ii < count($idarticulo)) {
       if ($moneda == "USD") {  $valor_unitario[$ii] = $valor_unitario[$ii] * $tcambio;  }
 
-      $sql_detalle = "INSERT into detalle_compra_producto ( idcompra, idarticulo, valor_unitario, cantidad, 
-      subtotal, valor_unitario_$, subtotal_$) 
+      $sql_detalle = "INSERT into detalle_compra_producto ( idcompra, idarticulo, valor_unitario, cantidad, subtotal, 
+      valor_unitario_$, subtotal_$) 
       values ('$idcompranew', '$idarticulo[$ii]', '$valor_unitario[$ii]', '$cantidad[$ii]', 
       valor_unitario * '$cantidad[$ii]', '0',  '0')";     
 
@@ -54,9 +54,9 @@ class Compra
       stock=stock + $cantidad[$ii]
       where idarticulo='$idarticulo[$ii]'";      
 
-      ejecutarConsulta($sql_detalle) or $sw = false;
-      ejecutarConsulta($sql_kardex) or $sw = false;
-      ejecutarConsulta($sql_update_articulo) or $sw = false;
+      ejecutarConsulta2($sql_detalle) or $sw = false;
+      ejecutarConsulta2($sql_kardex) or $sw = false;
+      ejecutarConsulta2($sql_update_articulo) or $sw = false;
       $ii = $ii + 1;
     }
 
@@ -264,7 +264,7 @@ class Compra
     inner join catalogo1 ct1 on c.tipo_documento=ct1.codigo 
     inner join  empresa e on c.idempresa=e.idempresa 
     where e.idempresa='$idempresa'  order by c.idcompra desc ";
-    return ejecutarConsulta($sql);
+    return ejecutarConsulta2($sql);
   }
 
   public function regcompra($año, $mes, $moneda, $idempresa) {
@@ -336,16 +336,16 @@ class Compra
     $sw = true;    
 
     $query = "SELECT dc.idcompra, a.idarticulo, dc.cantidad,  dc.valor_unitario, a.codigo, a.unidad_medida  from detalle_compra_producto dc inner join articulo a on dc.idarticulo=a.idarticulo where idcompra = '$idcompra'";
-    $resultado = ejecutarConsultaArray( $query);
+    $resultado = ejecutarConsultaArray2( $query);
 
-    $Idc = array();
-    $Ida = array();
-    $Ct = array();
-    $Cod = array();
-    $Vu = array();
-    $Um = array();
+    $Idc = [];
+    $Ida = [];
+    $Ct = [];
+    $Cod = [];
+    $Vu = [];
+    $Um = [];
     $sw = true;
-    foreach ($resultado as $key => $fila) {
+    foreach ($resultado['data'] as $key => $fila) {
       
       $Idc = $fila["idcompra"];
       $Ida = $fila["idarticulo"];
@@ -369,12 +369,12 @@ class Compra
       $sql_kardex = "UPDATE kardex set transaccion='COMPRA ANULADA' where idcomprobante='$idcompra' and transaccion='COMPRA'";
       
       //Fin de FOR
-      ejecutarConsulta($sql_update_articulo) or $sw = false;
-      ejecutarConsulta($sql_update_articulo_2) or $sw = false;
-      ejecutarConsulta($sql_kardex) or $sw = false;
+      ejecutarConsulta2($sql_update_articulo) or $sw = false;
+      ejecutarConsulta2($sql_update_articulo_2) or $sw = false;
+      ejecutarConsulta2($sql_kardex) or $sw = false;
 
       $sqlestado = "update compra set estado='3' where idcompra='$idcompra'";
-      ejecutarConsulta($sqlestado) or $sw = false;
+      ejecutarConsulta2($sqlestado) or $sw = false;
     }
     //Fin de WHILE
     return $sw;

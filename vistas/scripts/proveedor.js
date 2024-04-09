@@ -84,41 +84,49 @@ function listar() {
       { extend: 'pdfHtml5', exportOptions: { columns: [1,2,3,4,5], }, title: 'Lista de proveedores', text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger m-r-5px", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `<i class="fas fa-outdent"></i>`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
-    "ajax":  {
+    ajax:  {
       url: '../ajax/persona.php?op=listarp',
       type: "get",
       dataType: "json",
       error: function (e) {
-        console.log(e.responseText);
+        console.log(e.responseText); ver_errores(e);
       }
+    },
+    createdRow: function (row, data, ixdex) {
+      // columna: #
+      if (data[6] != '') { $("td", row).eq(6).addClass("text-center"); }
     },
     "bDestroy": true,
     "iDisplayLength": 10,//Paginación
     "order": [[0, "desc"]]//Ordenar (columna,orden)
   }).DataTable();
 }
-//Función para guardar o editar
+
+
 
 function guardar_y_editar_proveedor(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
 
   var formData = new FormData($("#form-proveedor")[0]);
-  var data_duplicada = $("#nombres").val() ? `${$("#apellidos").val()} ${$("#apellidos").val()}` : `${$("#razon_social").val()}`;
   $.ajax({
     url: "../ajax/persona.php?op=guardaryeditar",
     type: "POST",
     data: formData,
     contentType: false,
     processData: false,
-    success: function (datos) {
-      if (datos == 'duplicado') {
-        sw_error('Error', `Estos datos ya existen:<br> <b>${$('#tipo_documento option:selected').text()}:</b> ${$("#numero_documento").val()} <br> <b>Nombres:</b>${data_duplicada} `);
-      } else {
-        sw_success('Guardado!!', datos);         
+    success: function (e) {
+      e = JSON.parse(e);
+      if(e.status == 'registrado'){
+        sw_success("Correcto!!", "Proveedor Registrado Exitosamente", 3000);
         tabla_proveedor.ajax.reload();      
         limpiar_form_proveedor();
         $('#modal-agregar-proveedor').modal('hide');
-      }      
+      } else if(e.status == 'modificado'){
+        sw_success("Correcto!!", "Proveedor Actualizado Exitosamente", 3000);
+        tabla_proveedor.ajax.reload();      
+        limpiar_form_proveedor();
+        $('#modal-agregar-proveedor').modal('hide');
+      } else{ver_errores(e);}    
     },
     error: function () {
       toastr_error('Error', 'No se pudo guardar los datos');      
@@ -133,31 +141,31 @@ function mostrar(idpersona) {
   limpiar_form_proveedor();
   $("#guardar_registro_proveedor").html('Actualizar');
 
-  $.post("../ajax/persona.php?op=mostrar", { idpersona: idpersona }, function (data, status) {
-    data = JSON.parse(data);   
+  $.post("../ajax/persona.php?op=mostrar", { idpersona: idpersona }, function (e, status) {
+    e = JSON.parse(e);   
 
-    $("#idpersona").val(data.idpersona);
+    if(e.status == true){
+      $("#idpersona").val(e.data.idpersona);
 
-    $("#nombres").val(data.nombres);
-    $("#apellidos").val(data.apellidos);
-    $("#tipo_documento").val(data.tipo_documento).trigger("change");    
-    $("#numero_documento").val(data.numero_documento)
-    $("#razon_social").val(data.razon_social);
-    $("#nombre_comercial").val(data.nombre_comercial);
-    $("#domicilio_fiscal").val(data.domicilio_fiscal);
+      $("#nombres").val(e.data.nombres);
+      $("#apellidos").val(e.data.apellidos);
+      $("#tipo_documento").val(e.data.tipo_documento).trigger("change");    
+      $("#numero_documento").val(e.data.numero_documento)
+      $("#razon_social").val(e.data.razon_social);
+      $("#nombre_comercial").val(e.data.nombre_comercial);
+      $("#domicilio_fiscal").val(e.data.domicilio_fiscal);
 
-    $("#iddepartamento").val(data.iddepartamento);    
-    $("#idciudad").val(data.ciudad);
-    $("#iddistrito").val(data.distrito).trigger("change");
+      $("#iddepartamento").val(e.data.iddepartamento);    
+      $("#idciudad").val(e.data.ciudad);
+      $("#iddistrito").val(e.data.distrito).trigger("change");
 
-    $("#telefono1").val(data.telefono1);
-    $("#telefono2").val(data.telefono2);
-    $("#email").val(data.email);    
-       
+      $("#telefono1").val(e.data.telefono1);
+      $("#telefono2").val(e.data.telefono2);
+      $("#email").val(e.data.email);    
+    }else{ver_errores(e);}  
   });
 }
 
-//Función para desactivar registros
 //Función para desactivar registros
 function desactivar(idpersona) {
   Swal.fire({
@@ -173,8 +181,11 @@ function desactivar(idpersona) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/persona.php?op=desactivar", { idpersona: idpersona }, function (e) {
-        sw_success('Desactivado!!', 'Proveedor desactivado con exito');        
-        tabla_proveedor.ajax.reload();        
+        e = JSON.parse(e);
+        if(e.status == true) {
+        sw_success('Desactivado!!', 'Proveedor desactivado con exito', 3000);        
+        tabla_proveedor.ajax.reload();  
+        }else{ver_errores(e);}      
       });
     }
   });
@@ -195,11 +206,38 @@ function activar(idpersona) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("../ajax/persona.php?op=activar", { idpersona: idpersona }, function (e) {
-        sw_success('Activado!!', 'Proveedor activado con exito');        
-        tabla_proveedor.ajax.reload();        
+        e = JSON.parse(e);
+        if(e.status == true){
+        sw_success('Activado!!', 'Proveedor activado con exito', 3000);        
+        tabla_proveedor.ajax.reload();
+        }else{ver_errores(e);}      
       });
     }
   });
+}
+
+//Función para eliminar registros
+function eliminar(idpersona) {
+	Swal.fire({
+		title: '¿Está seguro de eliminar este proveedor?',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Sí, eliminar',
+		cancelButtonText: 'Cancelar'
+	}).then((result) => {
+		if (result.isConfirmed) {
+			$.post("../ajax/persona.php?op=eliminar", { idpersona: idpersona }, 
+      function (e) {
+        e = JSON.parse(e);
+        if(e.status == true){
+          sw_success("Eliminado!", "Proveedor elininado exitosamente", 3000)
+          tabla_proveedor.ajax.reload();
+        } else {ver_errores(e);}
+			});
+		}
+	})
 }
 
 
@@ -211,9 +249,9 @@ function mayus(e) {  e.value = e.value.toUpperCase(); }
 function validarProveedor() {
 
   var ndocumento = $("#numero_documento").val();
-  $.post(`../ajax/persona.php?op=ValidarProveedor&ndocumento=${ndocumento}&tipo_persona=PROVEEDOR`, function (data, status) {
-    data = JSON.parse(data);
-    if (data) {
+  $.post(`../ajax/persona.php?op=ValidarProveedor&ndocumento=${ndocumento}&tipo_persona=PROVEEDOR`, function (e, status) {
+    e = JSON.parse(e);
+    if (e) {
       $("#numero_documento").attr("style", "background-color: #FF94A0");
       
     } else {

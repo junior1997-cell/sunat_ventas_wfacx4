@@ -5,10 +5,7 @@ function init(){
 	mostrarform(false);
 	listar();
 
-	$("#formulario").on("submit",function(e)
-	{
-		guardar(e);	
-	})
+	$("#formulario").on("submit",function(e){ guardar(e);})
 }
 
 //Función limpiar
@@ -97,16 +94,13 @@ function guardar(e) {
 		data: formData,
 		contentType: false,
 		processData: false,
-		success: function(datos) {
-			swal.fire({
-				title: 'Éxito',
-				text: datos,
-				icon: 'success',
-				showConfirmButton: false,
-  				timer: 1500
-			});
-			mostrarform(false);
-			tabla.ajax.reload();
+		success: function(e) {
+			e = JSON.parse(e);
+			if(e.status == true){
+				sw_success("Excelente!", "Registro guardado exitosamente", 3000);
+				mostrarform(false);
+				tabla.ajax.reload();
+			}else{ver_errore(e);}
 		}
 	});
 	limpiar();
@@ -115,30 +109,31 @@ function guardar(e) {
 function mostrar(idregistro)
 {
 
-	$.post("../ajax/registroinventario.php?op=mostrar",{idregistro : idregistro}, function(data, status)
+	$.post("../ajax/registroinventario.php?op=mostrar",{idregistro : idregistro}, function(e, status)
 	{
-		data = JSON.parse(data);		
+		e = JSON.parse(e);
+		if(e.status == true){		
 		mostrarform(true);
-		$("#idregistro").val(data.idregistro);
-		$("#ano").val(data.ano);
-		$("#codigo").val(data.codigo);
-		$("#denominacion").val(data.denominacion);
-		$("#costoinicial").val(data.costoinicial);
-		$("#saldoinicial").val(data.saldoinicial);
-		$("#valorinicial").val(data.valorinicial);
-		$("#compras").val(data.compras);
-		$("#ventas").val(data.ventas);
-		$("#saldofinal").val(data.saldofinal);
-		$("#costo").val(data.costo);
-		$("#valorfinal").val(data.valorfinal);
+		$("#idregistro").val(e.data.idregistro);
+		$("#ano").val(e.data.ano);
+		$("#codigo").val(e.data.codigo);
+		$("#denominacion").val(e.data.denominacion);
+		$("#costoinicial").val(e.data.costoinicial);
+		$("#saldoinicial").val(e.data.saldoinicial);
+		$("#valorinicial").val(e.data.valorinicial);
+		$("#compras").val(e.data.compras);
+		$("#ventas").val(e.data.ventas);
+		$("#saldofinal").val(e.data.saldofinal);
+		$("#costo").val(e.data.costo);
+		$("#valorfinal").val(e.data.valorfinal);
 		$('#agregarinventario').modal('show');
 		document.getElementById("btnGuardar").innerHTML = "Actualizar";
+		}else{ver_errores(e);}
  	})
 }
 
 
-function eliminar(idregistro)
-{
+function eliminar(idregistro){
 	swal.fire({
 	  title: "¿Está seguro?",
 	  text: "¿Desea eliminar este registro?",
@@ -151,21 +146,15 @@ function eliminar(idregistro)
 	}).then((result) => {
 	  if (result.isConfirmed) {
 	    $.post("../ajax/registroinventario.php?op=eliminar", {idregistro : idregistro}, function(e){
-		  swal.fire({
-		    title: "Eliminado",
-		    text: e,
-		    icon: "success",
-			showConfirmButton: false,
-  			timer: 1500
-		  });
-	      tabla.ajax.reload();
+				e = JSON.parse(e);
+				if(e.status == true){
+		  		sw_success("Excelente", "Registro eliminado correctamente", 3000);
+	      	tabla.ajax.reload();
+				}else{ver_errores(e);}
 	    });
 	  }
 	});
 }
-
-
-
 
 function refrescartabla()
 {

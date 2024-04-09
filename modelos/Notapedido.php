@@ -159,7 +159,8 @@ class Notapedido
     $sw = true;
 
     while ($fila = mysqli_fetch_assoc($resultado)) {
-      for ($i = 0; $i < count($resultado); $i++) {
+      $num_filas = mysqli_num_rows($resultado);
+      for ($i = 0; $i < $num_filas; $i++) {
         $Idb[$i] = $fila["idboleta"];
         $Ida[$i] = $fila["idarticulo"];
 
@@ -241,7 +242,8 @@ class Notapedido
     $Idb = array();
     $Ida = array();
     while ($fila = mysqli_fetch_assoc($resultado)) {
-      for ($i = 0; $i < count($resultado); $i++) {
+      $num_filas = mysqli_num_rows($resultado);
+      for ($i = 0; $i < $num_filas; $i++) {
         $Idb[$i] = $fila["idboleta"];
         $Ida[$i] = $fila["idarticulo"];
 

@@ -62,7 +62,7 @@ $tadc              = isset($_POST["tadc"]) ? limpiarCadena($_POST["tadc"]) : "";
 $transferencia     = isset($_POST["trans"]) ? limpiarCadena($_POST["trans"]) : "";
 $idserie           = isset($_POST["serie"]) ? limpiarCadena($_POST["serie"]) : "";
 $SerieReal         = isset($_POST["SerieReal"]) ? limpiarCadena($_POST["SerieReal"]) : "";
-$numero_notapedido = isset($_POST["numero_notapedido"]) ? limpiarCadena($_POST["numero_notapedido"]) : "";
+$numero_notapedido = isset($_POST["numero_baucher"]) ? limpiarCadena($_POST["numero_baucher"]) : "";
 $idnumeracion      = isset($_POST["idnumeracion"]) ? limpiarCadena($_POST["idnumeracion"]) : "";
 
 $codigo_precio = isset($_POST["codigo_precio"]) ? limpiarCadena($_POST["codigo_precio"]) : "";
@@ -91,7 +91,7 @@ switch ($_GET["op"]) {
     $Ser = $_GET['ser'];
     $rspta = $numeracion->llenarNumeroNpedido($Ser);
     while ($reg = $rspta->fetch_object()) {
-      echo $reg->Nnumero;
+      echo $reg->NnumSerieActual;
     }
   break;
 

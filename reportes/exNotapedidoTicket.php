@@ -139,7 +139,7 @@ if (!isset($_SESSION["nombre"])) {
       </table>
 
       <?php 
-        $montoAMostrar = ($reg->adelanto > 0) ? $reg->adelanto : $reg->subtotal;
+        $montoAMostrar = ($reg->adelanto > 0) ? $reg->adelanto : $reg->itotal;
         $num_total = $numero_a_letra->toInvoice( $montoAMostrar, 2, " SOLES" );
       ?>
 
@@ -150,7 +150,7 @@ if (!isset($_SESSION["nombre"])) {
 
       <!-- Mostramos los totales de la venta en el documento HTML -->
       <table border='0' width='220px' style='font-size: 12px; margin-top: 10px;' align="center">
-        <tr><td align='right'><strong>TOTAL: <?php echo $reg->subtotal ?></strong></td></tr>
+        <tr><td align='right'><strong>TOTAL: <?php echo $reg->itotal ?></strong></td></tr>
         <tr><td colspan="5">&nbsp;</td></tr>
 
         <?php

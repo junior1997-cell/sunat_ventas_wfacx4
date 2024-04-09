@@ -40,19 +40,37 @@ switch ($_GET["op"]) {
 
 	case 'guardaryeditar':
 		$validando = $persona->validarProveedor($numero_documento, $tipo_persona);
-		
-			if (empty($idpersona)) {
-				if (empty($validando)) {
+
+      if (empty($idpersona)) {
+
+        if(empty($validando["data"])){
 					$rspta = $persona->insertar($tipo_persona, htmlspecialchars_decode($nombres), htmlspecialchars_decode($apellidos), $tipo_documento, $numero_documento, htmlspecialchars_decode($razon_social), htmlspecialchars_decode($nombre_comercial), htmlspecialchars_decode($domicilio_fiscal), $departamento, $ciudad, $distrito, $telefono1, $telefono2, htmlspecialchars_decode($email));
-					echo $rspta ? "Registro correcto" : "No se pudo registrar";
-				} else {
-					echo "duplicado" ;
-				}		
+					echo json_encode(['status' => 'registrado', 'data' => $rspta]);
+        } else{
+          $info_repetida = '';
+          foreach ($validando["data"] as $key => $value) {
+            $info_repetida .= '
+            <div class="row">
+              <div class="col-md-12 text-left">
+              <span class="font-size-15px text-danger"><b>Proveedor: </b>' . 
+                ($value['nombres'] . ' ' . $value['apellidos'] !== '' ? 
+                  $value['nombres'] . ' ' . $value['apellidos'] : 
+                  $value['razon_social']) . 
+              '</span>
+              ' . ($value['estado'] == 1 ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado').'</span><br>
+              </div>
+              
+            </div>';
+          }
+          echo json_encode(['status' => 'duplicado', 'message' => 'duplicado', 'data' => '<ul>' . $info_repetida . '</ul>', 'id_tabla' => '']);
+        }
+
 			} else {
 				$rspta = $persona->editar($idpersona, $tipo_persona, $nombres, $apellidos, $tipo_documento, $numero_documento, $razon_social, $nombre_comercial, $domicilio_fiscal, $departamento, $ciudad, $distrito, $telefono1, $telefono2, $email);
-				echo $rspta ? "Registro actualizado" : "No se pudo actualizar";
+        echo json_encode(['status' => 'modificado', 'data' => $rspta]);
 			}
-		
+
+    
 	break;
 
 	case 'guardaryeditarnproveedor':
@@ -82,13 +100,13 @@ switch ($_GET["op"]) {
 
 	case 'eliminar':
 		$rspta = $persona->eliminar($idpersona);
-		echo $rspta ? "Persona desactivada" : "Persona no se puede activar";
+		echo json_encode($rspta, true);
 	break;
 
 	case 'mostrar':
 		$rspta = $persona->mostrar($idpersona);
 		//Codificar el resultado utilizando json
-		echo json_encode($rspta);
+		echo json_encode($rspta, true);
 	break;
 
 	//quitar id persona por validacion
@@ -100,40 +118,42 @@ switch ($_GET["op"]) {
 
 	case 'desactivar':
 		$rspta = $persona->desactivar($idpersona);
-		echo $rspta ? "Persona Desactivado" : "Persona no se puede desactivar";
+		echo json_encode($rspta, true);
 	break;
 
 	case 'activar':
 		$rspta = $persona->activar($idpersona);
-		echo $rspta ? "Persona activado" : "Persona no se puede activar";
+		echo json_encode($rspta, true);
 	break;
 
 	case 'listarp':
 		$rspta = $persona->listarp();
-		//Vamos a declarar un array
-		$data = array();
+		$data = [];
 
-		while ($reg = $rspta->fetch_object()) {
-			$data[] = array(
-				"0" => '<button class="btn btn-icon btn-sm btn-warning" onclick="mostrar(' . $reg->idpersona . ')"><i class="ri-edit-line"></i></button>'.
-					($reg->estado ? ' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar(' . $reg->idpersona . ')"><i class="ri-delete-bin-line"></i></button>' :
-					' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . $reg->idpersona . ')"><i class="ri-check-double-line"></i></button>'),
+    if($rspta['status']){
+      foreach ($rspta['data'] as $key => $value){
+        $data[]=[
+          "0" => '<button class="btn btn-icon btn-sm btn-warning" onclick="mostrar(' . ($value['idpersona']) . ')"><i class="ri-edit-line"></i></button>'.
+            (($value['estado']) ? ' <button class="btn btn-icon btn-sm btn-danger" onclick="desactivar(' . ($value['idpersona']) . ')"><i class="fa fa-close"></i></button>' :
+            ' <button class="btn btn-icon btn-sm btn-success" onclick="activar(' . ($value['idpersona']) . ')"><i class="ri-check-double-line"></i></button>'),
 
-				"1" =>  ($reg->tipo_doc == 'RUC' ? $reg->razon_social : $reg->nombres . ' '. $reg->apellidos ),
-				"2" => '<b>' . $reg->tipo_doc .'</b>: '. $reg->numero_documento,
-				"3" => $reg->telefono1,
-				"4" => $reg->email,
-				"5" => ($reg->estado) ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado</span>'
-			);
-		}
-		$results = array(
-			"sEcho" => 1, //Información para el datatables
-			"iTotalRecords" => count($data), //enviamos el total registros al datatable
-			"iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
-			"aaData" => $data
-		);
-		echo json_encode($results);
-	break;
+          "1" =>  (($value['tipo_doc']) == 'RUC' ? ($value['razon_social']) : ($value['nombres']). ' '. ($value['apellidos']) ),
+          "2" => '<b>' . ($value['tipo_doc']) .'</b>: '. ($value['numero_documento']),
+          "3" => ($value['telefono1']),
+          "4" => ($value['email']),
+          "5" => ($value['estado']) ? '<span class="badge bg-success-transparent"><i class="ri-check-fill align-middle me-1"></i>Activo</span>' : '<span class="badge bg-danger-transparent"><i class="ri-close-fill align-middle me-1"></i>Inhabilitado</span>',
+          "6" => '<button class="btn btn-icon btn-danger btn-wave waves-effect waves-light" onclick="eliminar('.($value['idpersona']).')"> <i class="ri-delete-bin-line"></i> </button>'
+        ];
+      }
+      $results = [
+        "sEcho" => 1, //Información para el datatables
+        "iTotalRecords" => count($data), //enviamos el total registros al datatable
+        "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
+        "aaData" => $data
+      ];
+      echo json_encode($results, true);
+    } else { echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data']; }
+  break;
 
 	case 'listarc':
 		$rspta = $persona->listarc();
@@ -191,7 +211,7 @@ switch ($_GET["op"]) {
 	case 'ValidarProveedor':
 		$ndocumento = $_GET['ndocumento'];
 		$rspta = $persona->validarProveedor($ndocumento, $_GET['tipo_persona']);
-		echo json_encode($rspta); // ? "Cliente ya existe": "Documento valido";
+		echo json_encode($rspta, true);
 	break;
 
 	case 'selectCliente':

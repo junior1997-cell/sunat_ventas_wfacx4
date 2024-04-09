@@ -114,21 +114,19 @@ function selectArticulos2() {
 
 
 function verStock() {
-    var idarticulo1 = $('#idarticulos1').val();
-
-    $.ajax({
-        type: 'POST',
-        url: '../ajax/transferencia_stock.php?op=verStock',
-        data: { idarticulo1: idarticulo1 },
-        dataType: 'json',
-        success: function(response) {
-            $("#stock").html(response.stock);
-        },
-        error: function(xhr, status, error) {
-            // Manejar errores si es necesario
-            console.error(xhr.responseText);
-        }
-    });
+  var idarticulo1 = $('#idarticulos1').val();
+  $.ajax({
+    type: 'POST',
+    url: '../ajax/transferencia_stock.php?op=verStock',
+    data: { idarticulo1: idarticulo1 },
+    dataType: 'json',
+    success: function(e) {
+        $("#stock").html(e.data.stock);
+    },
+    error: function(xhr, status, error) {
+      console.error(xhr.responseText);
+    }
+  });
 }
 
 
@@ -138,17 +136,17 @@ function guardar_transferencia(){
     type: 'POST',
     url: '../ajax/transferencia_stock.php?op=guardar_transferencia',
     data: formData,
-    dataType: 'json',
     contentType: false,
     processData: false,
-    success: function (response) {
-        Swal.fire({  icon: 'success',  title: 'Guardado exitoso',   html: 'El registro se guardo correctamente.', });
-        console.log(response);
+    success: function (e) {
+      e = JSON.parse(e);
+      if(e.status == true){
+        sw_success("Guardado Exitoso", "El registro se guardo correctamente.", 3500);
         limpiar();
+      } else{ver_errores(e);}
     },
     error: function (xhr, status, error) {
-        // Manejar errores si es necesario
-        console.error(xhr.responseText);
+      console.error(xhr.responseText);
     }
 });
 }

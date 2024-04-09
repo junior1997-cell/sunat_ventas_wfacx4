@@ -177,7 +177,15 @@ class Numeracion
   //Función para incrementar numero de boleta.
   public function llenarNumeroNpedido($serie)
   {
-    $sql = "SELECT (n.numero+1) as Nnumero from numeracion n inner join detalle_usuario_numeracion dn on n.idnumeracion=dn.idnumeracion inner join usuario u on dn.idusuario=u.idusuario where n.tipo_documento='50' and n.idnumeracion='$serie' limit 1";
+    $sql = "SELECT (n.numero+1) as Nnumero,
+      MAX(CAST(SUBSTRING_INDEX(np.numeracion_07, '-', -1) AS UNSIGNED)) + 1 as NnumSerieActual
+      FROM numeracion n 
+      INNER JOIN detalle_usuario_numeracion dn ON n.idnumeracion = dn.idnumeracion 
+      INNER JOIN usuario u ON dn.idusuario = u.idusuario 
+      INNER JOIN notapedido np ON np.idusuario = u.idusuario 
+      WHERE n.tipo_documento = '50' 
+      AND n.idnumeracion = '$serie'
+      LIMIT 1;";
     return ejecutarConsulta($sql);  // Las series van deacuerdo a las asginaciones que e le de en los permisos de usuario     
   }
 

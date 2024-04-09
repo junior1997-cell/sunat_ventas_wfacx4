@@ -58,7 +58,7 @@ function incremetarNum() {
   var serie = $("#serie option:selected").val();
   $.post("../ajax/notapedido.php?op=autonumeracion&ser=" + serie, function (r) {
     var n2 = pad(r, 0);
-    $("#numero_notapedido").val(n2);
+    $("#numero_baucher").val(n2);
 
     var SerieReal = $("#serie option:selected").text();
     $("#SerieReal").val(SerieReal);
@@ -72,7 +72,7 @@ function limpiar() {
  $("#numero_guia").val("");
  $("#cliente").val("");
  $("#ipagado_input").val("");
- $("#numero_notapedido").val("");
+ $("#numero_baucher").val("");
  $("#impuesto").val("0");
  $("#total_notapedido").val("");
  $("#subtotal_notapedido").val("");
@@ -200,7 +200,7 @@ function mostrarform(flag) {
        var opt = serieL.value;
        $.post( "../ajax/notapedido.php?op=autonumeracion&ser=" + opt + "&idempresa=" +  $idempresa, function (r) {
          var n2 = pad(r, 0);
-         $("#numero_notapedido").val(n2);
+         $("#numero_baucher").val(n2);
          var SerieReal = $("#serie option:selected").text();
          $("#SerieReal").val(SerieReal);
          $(".charge-numero").html(``);
@@ -439,7 +439,7 @@ function guardaryeditarNotaPedido(e) {
    var inpC = cant[i];
    var inpP = prec[i];
    var inStk = stk[i];
-   if (  inpP.value == 0.0 || inpP.value == "" || inpC.value == 0 || inStk.value == 0 ||  $("#numero_notapedido").val() == ""  ) {
+   if (  inpP.value == 0.0 || inpP.value == "" || inpC.value == 0 || inStk.value == 0 ||  $("#numero_baucher").val() == ""  ) {
      sw = sw + 1;
    }
  }
@@ -2348,7 +2348,7 @@ function montotransferencia(idboleta) {
 }
 
 function refrescartabla() {
-  tablaArti.ajax.reload();
+  // tablaArti.ajax.reload();
   tabla.ajax.reload();
 }
 
@@ -3069,7 +3069,7 @@ function pad(n, length) {
 
 // Función para - Actualizar Núnero de Nota Venta
 function actualizarNum(e) {
- var numero = $("#numero_notapedido").val();
+ var numero = $("#numero_baucher").val();
  var idnumeracion = $("#serie option:selected").val();
  $.post("../ajax/notapedido.php?op=actualizarNumero&Num=" + numero + "&Idnumeracion=" + idnumeracion, function (r) {});
 }

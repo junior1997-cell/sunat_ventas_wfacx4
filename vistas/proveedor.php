@@ -33,6 +33,7 @@ if (!isset($_SESSION["nombre"])) {
                   <th>Teléfono</th>
                   <th>Correo</th>
                   <th>Estado</th>
+                  <th>Eliminar</th>
                 </thead>
                 <tbody>
                 </tbody>

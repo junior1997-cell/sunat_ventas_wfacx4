@@ -15,62 +15,39 @@ class Registroinv
 		$sql = "insert into reginventariosanos (ano, codigo, denominacion, costoinicial, saldoinicial, valorinicial, compras, ventas, saldofinal, costo, valorfinal) 
 		values
 		 ('$ano', '$codigo', '$denominacion', '$costoinicial', '$saldoinicial', '$valorinicial', '$compras', '$ventas',  '$saldofinal', '$costo', '$valorfinal')";
-		return ejecutarConsulta($sql);
+		return ejecutarConsulta_retornarID2($sql, 'C');
 	}
 
 	//Implementamos un método para editar registros
 	public function editar($idregistro, $ano, $codigo, $denominacion, $costoinicial, $saldoinicial, $valorinicial, $compras, $ventas, $saldofinal, $costo, $valorfinal)
 	{
-		$sql = "update reginventariosanos set 
-		codigo='$codigo', 
-		denominacion='$denominacion', 
-		costoinicial='$costoinicial', 
-		saldoinicial='$saldoinicial', 
-		valorinicial='$valorinicial', 
-		compras='$compras',
-		ventas='$ventas', 
-		saldofinal='$saldofinal',
-		costo='$costo', 
-		valorfinal='$valorfinal', 
-		ano='$ano'  
-		where idregistro='$idregistro'";
-		return ejecutarConsulta($sql);
+		$sql = "UPDATE reginventariosanos SET 
+		codigo='$codigo', denominacion='$denominacion', costoinicial='$costoinicial', saldoinicial='$saldoinicial', 
+		valorinicial='$valorinicial', compras='$compras',ventas='$ventas', saldofinal='$saldofinal', costo='$costo', 
+		valorfinal='$valorfinal', ano='$ano'  
+		WHERE idregistro='$idregistro'";
+		return ejecutarConsulta2($sql, 'U');
 	}
 
 
 
 	//Implementar un método para mostrar los datos de un registro a modificar
-	public function mostrar($idarticulo)
-	{
-		$sql = "SELECT 
-		ri.idregistro,
-		ri.codigo, 
-		ri.denominacion, 
-		ri.costoinicial, 
-		ri.saldoinicial, 
-		ri.valorinicial, 
-		ri.compras, 
-		ri.ventas, 
-		ri.saldofinal, 
-		ri.costo, 
-		ri.valorfinal, 
-		ri.ano 
-		from 
-		reginventariosanos ri  where ri.idregistro='$idarticulo'";
-		return ejecutarConsultaSimpleFila($sql);
+	public function mostrar($idarticulo){
+		$sql = "SELECT idregistro, codigo, denominacion, costoinicial, saldoinicial, 
+		valorinicial, compras, ventas, saldofinal, costo, valorfinal, ano 
+		FROM reginventariosanos WHERE idregistro='$idarticulo'";
+		return ejecutarConsultaSimpleFila2($sql);
 	}
 
 	//Implementar un método para listar los registros
-	public function listar()
-	{
-		$sql = "SELECT *  from reginventariosanos order by codigo, ano";
-		return ejecutarConsulta($sql);
+	public function listar(){
+		$sql = "SELECT *  from reginventariosanos ORDER BY codigo, ano";
+		return ejecutarConsulta2($sql);
 	}
 
 
-	public function eliminar($idregistro)
-	{
-		$sql = "delete from reginventariosanos where idregistro='$idregistro'";
-		return ejecutarConsulta($sql);
+	public function eliminar($idregistro){
+		$sql = "DELETE FROM reginventariosanos WHERE idregistro='$idregistro'";
+		return ejecutarConsulta2($sql);
 	}
 }

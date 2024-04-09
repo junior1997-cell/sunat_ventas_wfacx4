@@ -16,9 +16,9 @@ class Persona
 	//Implementamos un método para insertar registros
 	public function insertar($tipo_persona, $nombres, $apellidos, $tipo_documento, $numero_documento, $razon_social, $nombre_comercial, $domicilio_fiscal, $departamento, $ciudad, $distrito, $telefono1, $telefono2, $email)
 	{
-		$sql = "INSERT into persona (tipo_persona, nombres,apellidos, tipo_documento, numero_documento,razon_social,nombre_comercial, domicilio_fiscal,departamento,ciudad,distrito, telefono1,telefono2, email)
+		$sql = "INSERT INTO persona (tipo_persona, nombres,apellidos, tipo_documento, numero_documento,razon_social,nombre_comercial, domicilio_fiscal,departamento,ciudad,distrito, telefono1,telefono2, email)
 		values ('$tipo_persona','$nombres','$apellidos', '$tipo_documento', '$numero_documento','$razon_social','$nombre_comercial','$domicilio_fiscal','$departamento','$ciudad','$distrito', '$telefono1','$telefono2','$email')";
-		return ejecutarConsulta($sql);
+		return ejecutarConsulta_retornarID2($sql, 'C');
 	}
 
 	public function insertarnproveedor($tipo_persona, $numero_documento, $razon_social)	{
@@ -46,22 +46,21 @@ class Persona
 	public function editar($idpersona, $tipo_persona, $nombres, $apellidos, $tipo_documento, $numero_documento, $razon_social, $nombre_comercial, $domicilio_fiscal, $departamento, $ciudad, $distrito, $telefono1, $telefono2, $email)
 	{
 		$sql = "update persona SET tipo_persona='$tipo_persona',nombres='$nombres',apellidos='$apellidos', tipo_documento='$tipo_documento', numero_documento='$numero_documento',razon_social='$razon_social',nombre_comercial='$nombre_comercial', domicilio_fiscal='$domicilio_fiscal', departamento='$departamento', ciudad='$ciudad', distrito='$distrito', telefono1='$telefono1', telefono2='$telefono2', email='$email' where idpersona='$idpersona'";
-		return ejecutarConsulta($sql);
+		return ejecutarConsulta2($sql, 'U');
 	}
 
 	//Implementamos un método para eliminar persnoa
 	public function eliminar($idpersona)	{
 		$sql = "DELETE from persona where idpersona='$idpersona'";
-		return ejecutarConsulta($sql);
+		return ejecutarConsulta2($sql);
 	}
-
 
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idpersona) {
 		$sql = "SELECT idpersona, nombres, apellidos, tipo_documento, numero_documento, razon_social, nombre_comercial, domicilio_fiscal, 
 		departamento, provincia,  distrito , ciudad, telefono1, telefono2, email 
 		from persona where idpersona='$idpersona' ";
-		return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsultaSimpleFila2($sql);
 	}
 
 	public function mostrarId()	{
@@ -88,7 +87,7 @@ class Persona
 		from persona p 
 		inner join catalogo6 ct6 on p.tipo_documento=ct6.codigo 
 		where p.tipo_persona='PROVEEDOR' order by nombres, razon_social asc";
-		return ejecutarConsulta($sql);
+		return ejecutarConsulta2($sql);
 	}
 
 	public function listarc()	{
@@ -123,18 +122,18 @@ class Persona
 	//Implementamos un método para desactivar registros
 	public function desactivar($idpersona) {
 		$sql = "UPDATE persona SET estado='0' where idpersona='$idpersona'";
-		return ejecutarConsulta($sql);
+		return ejecutarConsulta2($sql);
 	}
 
 	//Implementamos un método para activar registros
 	public function activar($idpersona)	{
 		$sql = "UPDATE persona SET estado='1' where idpersona='$idpersona'";
-		return ejecutarConsulta($sql);
+		return ejecutarConsulta2($sql);
 	}
 
 	public function listarCliVenta()	{
 		$sql = "SELECT idpersona, razon_social, numero_documento, domicilio_fiscal, tipo_documento 
-    from persona where tipo_persona='CLIENTE' and tipo_documento='6'";
+    	from persona where tipo_persona='CLIENTE' and tipo_documento='6'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -146,8 +145,8 @@ class Persona
 
 	//Busca por numero de cliente el documento 
 	public function validarProveedor($numdocumento, $tipo_persona)	{
-		$sql = "SELECT numero_documento from persona where tipo_persona='$tipo_persona' and numero_documento='$numdocumento'";
-		return ejecutarConsultaSimpleFila($sql);
+		$sql = "SELECT * from persona where tipo_persona='$tipo_persona' and numero_documento='$numdocumento'";
+		return ejecutarConsultaArray2($sql);
 	}
 
 	public function buscarClientexDocFactura($doc) {

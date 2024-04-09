@@ -81,8 +81,8 @@ if (!isset($_SESSION["nombre"])) {
                           <input type="hidden" name="SerieReal" id="SerieReal">
                         </div>
                         <div class="mb-3 col-lg-6">
-                          <label for="numero_notapedido" class="col-form-label">Número: <span class="charge-numero text-danger"><i class="fas fa-spinner fa-pulse"></i></span></label>
-                          <input type="text" name="numero_notapedido" id="numero_notapedido" class="form-control" required="true" readonly>
+                          <label for="numero_baucher" class="col-form-label">Número: <span class="charge-numero text-danger"><i class="fas fa-spinner fa-pulse"></i></span></label>
+                          <input type="number" name="numero_baucher" id="numero_baucher" class="form-control" required="true" readonly>
                         </div>                          
                         <!--Campos para guardar comprobante Factura-->
                         <input type="hidden" name="idboleta" id="idboleta"> 
