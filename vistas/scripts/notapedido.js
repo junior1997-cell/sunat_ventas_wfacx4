@@ -146,8 +146,7 @@ function limpiar() {
 
 //Función Listar
 function listar() {
- tabla = $("#tbllistado")
-   .dataTable({
+ tabla = $("#tbllistado").dataTable({
      aProcessing: true, //Activamos el procesamiento del datatables
      aServerSide: true, //Paginación y filtrado realizados por el servidor
      dom: "Bfrtip", //Definimos los elementos del control de tabla
@@ -169,6 +168,11 @@ function listar() {
      bDestroy: true,
      iDisplayLength: 15, //Paginación
      order: [[0, "desc"]], //Ordenar (columna,orden)
+    columnDefs: [
+      // { targets: [9,10,11,12,13,14,15,16], visible: false, searchable: false, }, 
+      { targets: [1], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
+      { targets: [5,6,7], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },      
+    ],
    })
    .DataTable();
 }

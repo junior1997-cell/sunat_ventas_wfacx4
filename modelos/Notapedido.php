@@ -353,7 +353,7 @@ class Notapedido
   {
     $sql = "SELECT
         b.idboleta,
-        date_format(b.fecha_emision_01,'%d/%m/%y') as fecha,
+        date_format(b.fecha_emision_01,'%d/%m/%Y') as fecha_format, date_format(b.fecha_emision_01,'%Y-%m-%d') as fecha,
         b.idcliente,
         left(p.razon_social,20) as cliente,
         b.vendedorsitio,

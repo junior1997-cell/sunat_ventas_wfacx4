@@ -44,6 +44,9 @@ $datose = $datos->fetch_object();
 <!-- select2 -->
 <script src="../assets/libs/select2/js/select2.full.min.js"></script>
 
+<!-- moment -->
+<script src="../assets/libs/moment/moment.min.js"></script>
+<script src="../assets/libs/moment/locale/es-mx.js"></script>
 
 <script src="../public/js/jquery.PrintArea.js"></script>
 <script src="../public/js/toastr.js"></script>
@@ -63,6 +66,7 @@ $datose = $datos->fetch_object();
 <script src="../public/datatables/jszip.min.js"></script>
 <script src="../public/datatables/pdfmake.min.js"></script>
 <script src="../public/datatables/vfs_fonts.js"></script>
+<script src="../public/datatables/datetime.js"></script>
 
 <!-- sweet alert -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

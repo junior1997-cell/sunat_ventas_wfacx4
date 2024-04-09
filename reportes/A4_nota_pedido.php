@@ -37,9 +37,9 @@
       <td class="px-1 celda-b-r-1px text-align">'.$reg['nombre'].'</td>
       <td class="px-1 celda-b-r-1px text-center" >'.$reg['UM'].'</td>
       <td class="px-1 celda-b-r-1px text-center" >'.$reg['cantidad'].'</td>
-      <td class="px-1 celda-b-r-1px text-right" >'.number_format($reg['p_unitario'], 2, '.',',').'</td>
-      <td class="px-1 celda-b-r-1px text-right" >'.number_format($reg['descuento'], 2, '.',',').'</td>
-      <td class="px-1 celda-b-r-1px text-right">'.number_format($reg['a_subtotal'], 2, '.',',').'</td>
+      <td class="px-1 celda-b-r-1px text-right" >'.number_format( floatval($reg['p_unitario']) , 2, '.',',').'</td>
+      <td class="px-1 celda-b-r-1px text-right" >'.number_format(floatval($reg['descuento']) , 2, '.',',').'</td>
+      <td class="px-1 celda-b-r-1px text-right">'.number_format( floatval($reg['a_subtotal']) , 2, '.',',').'</td>
     </tr>';
   }
 
