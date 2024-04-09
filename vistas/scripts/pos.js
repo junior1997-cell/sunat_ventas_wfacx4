@@ -371,7 +371,7 @@ $(document).on('click', '.product-card', function (e) {
   // $(`#img-${id}`).hide();
   // document.getElementById(`img-${id}`).style.visibility = 'hidden';
 
-  sub_total = parseFloat($('#subtotal_boleta').val());
+  sub_total = parseFloat($('#subtotal_venta').val());
 
   var productImage = $(this).find('img').attr('src');
   var productName = $(`#p_nombre_${id}`).text();
@@ -423,7 +423,7 @@ function eventoProductoxCodigo(e) {
 
         // var data = data.ListaProductos[0];
         console.log('data', data);
-        sub_total = parseFloat($('#subtotal_boleta').val());
+        sub_total = parseFloat($('#subtotal_venta').val());
 
         if (data != null) {
 
@@ -898,7 +898,7 @@ function updateTotals() {
     console.log('total_igv', total_igv);
   });
 
-  $("#subtotal_boleta").val(redondeo(sub_total, 2));
+  $("#subtotal_venta").val(redondeo(sub_total, 2));
   // $("#subtotalflotante").val(redondeo(sub_total, 2));
   $("#total_igv").val(redondeo(total_igv, 2));
   // $("#igvflotante").val(redondeo(total_igv, 2));
@@ -2393,8 +2393,8 @@ $('#btn_realizarpago').click(function () {
     var descripcion_leyenda_26_2 = $("#descripcion_leyenda_26_2").val();
     $("#descripcion_leyenda_2").val(descripcion_leyenda_26_2);
 
-    var subtotal_boleta = $("#subtotal_boleta").val();
-    $("#subtotal_factura").val(subtotal_boleta);
+    var subtotal_venta = $("#subtotal_venta").val();
+    $("#subtotal_factura").val(subtotal_venta);
 
 
     // Si es Factura
@@ -2534,7 +2534,7 @@ $('#btn_realizarpago').click(function () {
         // formData.append("descdet[]", 'DELICADO');
 
 
-        // formData.append("subtotal_factura", $('input[name="subtotal_boleta"]').val());
+        // formData.append("subtotal_factura", $('input[name="subtotal_venta"]').val());
 
         // formData.append("total_igv", $('input[name="total_igv"]').val());
         // formData.append("ipagado", $('input[name="ipagado"]').val());

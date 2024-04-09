@@ -363,7 +363,7 @@ if (!isset($_SESSION["nombre"])) {
                                     <div style="display:flex;">
                                       <label for="">SubT. : </label>
                                       <!-- <h6 hidden style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px;" id="subtotal"> 0.00</h6> -->
-                                      <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none;width: 95px;" name="subtotal_notapedido" id="subtotal_notapedido">
+                                      <input placeholder="0.00" readonly style="font-weight: bold; margin: 0 auto; top: 10px; margin-top: 4px; margin-right: 0px; text-align: right; border:none;width: 95px;" name="subtotal_venta" id="subtotal_venta">
                                     </div>
                                     <div style="display:flex;">
                                       <label for="">IGV : </label>
@@ -393,7 +393,7 @@ if (!isset($_SESSION["nombre"])) {
                                     </div>
                                     <input type="hidden" name="total_final" id="total_final">
                                     <input type="hidden" name="pre_v_u" id="pre_v_u">
-                                    <!-- <input type="hidden" name="subtotal_notapedido" id="subtotal_notapedido"> -->
+                                    <!-- <input type="hidden" name="subtotal_venta" id="subtotal_venta"> -->
                                     <!-- <input type="hidden" name="total_igv" id="total_igv"> -->
                                     <input type="hidden" name="total_icbper" id="total_icbper">
                                     <input type="hidden" name="total_dcto" id="total_dcto">

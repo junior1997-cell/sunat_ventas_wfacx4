@@ -508,7 +508,7 @@
                           <div class="row mb-2">
                             <small class="col-5 fw-500 text-black col-form-label d-flex justify-content-between p-0 ps-2">
                               Sub Total <span class="fw-bold fs-6">S/ </span></small>
-                            <input type="text" class="col fw-bold fs-6 form-control-plaintext text-end p-0 pe-2" readonly name="subtotal_boleta" id="subtotal_boleta" value="0.00">
+                            <input type="text" class="col fw-bold fs-6 form-control-plaintext text-end p-0 pe-2" readonly name="subtotal_venta" id="subtotal_venta" value="0.00">
                             <input hidden type="text" name="subtotal_factura" id="subtotal_factura" value="0.00">
 
                           </div>

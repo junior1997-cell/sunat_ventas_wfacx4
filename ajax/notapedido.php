@@ -23,7 +23,7 @@ $tipo_documento_06   = isset($_POST["tipo_documento_06"]) ? limpiarCadena($_POST
 $numeracion_07       = isset($_POST["numeracion_07"]) ? limpiarCadena($_POST["numeracion_07"]) : "";
 $idcliente           = isset($_POST["idcliente"]) ? limpiarCadena($_POST["idcliente"]) : "";
 $codigo_tipo_15_1    = isset($_POST["codigo_tipo_15_1"]) ? limpiarCadena($_POST["codigo_tipo_15_1"]) : "";
-$monto_15_2          = isset($_POST["subtotal_notapedido"]) ? limpiarCadena($_POST["subtotal_notapedido"]) : "";
+$monto_15_2          = isset($_POST["subtotal_venta"]) ? limpiarCadena($_POST["subtotal_venta"]) : "";
 
 $sumatoria_igv_18_1  = isset($_POST["total_igv"]) ? limpiarCadena($_POST["total_igv"]) : "";
 $sumatoria_igv_18_2  = isset($_POST["total_igv"]) ? limpiarCadena($_POST["total_igv"]) : "";
