@@ -66,13 +66,9 @@ ob_start(); //Activamos el almacenamiento del Buffer
       if (!file_exists($_FILES['imagen']['tmp_name']) || !is_uploaded_file($_FILES['imagen']['tmp_name'])) {
         $imagen = $_POST["imagenactual"];
       } else {
-        $ext = explode(".", $_FILES["imagen"]["name"]);
-        if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png" || $_FILES['imagen']['type'] == "image/gif") {
-          $imagen = $date_now .'__'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext);
-          move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutalogo . $imagen);
-          move_uploaded_file($_FILES["imagen"]["tmp_name"], '../files/logo/' . $imagen);
-          copy($rutalogo . $imagen, '../files/logo/' . $imagen);
-        }
+        $ext = explode(".", $_FILES["imagen"]["name"]);        
+				$imagen = $date_now . '__' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext);        
+				move_uploaded_file($_FILES["imagen"]["tmp_name"], '../files/logo/' . $imagen);         
       }
 
       if (empty($idempresa)) {

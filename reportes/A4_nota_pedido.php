@@ -105,7 +105,7 @@
           <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">     
               <div class="d-flex flex-fill flex-wrap gap-4">
-                <div class="avatar avatar-xl avatar-rounded"><img src="../assets/images/brand-logos/<?php echo $rspta['data']['empresa']['logo']; ?>" alt="" style="width: 100px; height: auto;"></div>
+                <div class="avatar avatar-xl avatar-rounded"><img src="../files/logo/<?php echo $rspta['data']['empresa']['logo']; ?>" alt="" style="width: 100px; height: auto;"></div>
                 <div>
                   <h6 class="mb-1 fw-semibold"><?php echo $rspta['data']['empresa']['nombre_razon_social']; ?></h6>                  
                   <div class="fs-10 mb-0 "><?php echo $rspta['data']['empresa']['domicilio_fiscal']; ?></div>
